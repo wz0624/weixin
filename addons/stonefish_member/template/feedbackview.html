@@ -1,0 +1,29 @@
+<form method="post" action="{php echo url('site/entry/feedback',array('m' => 'stonefish_member','id' => $id,'op' => 'feedbackhuifu'))}" id="form1">
+	<input type="hidden" name="fid" value="{$_GPC['fid']}">
+	<input type="hidden" name="page" value="{$_GPC['page']}">
+    <div class="table-responsive" style="height:330px;overflow-Y: auto; overflow-X:hidden;">
+		<table class="table" style="min-width:568px;">
+				<tr>
+				    <td style="border-top:none;vertical-align:middle;"><strong>用户ID</strong> {$data['uid']}</td>
+				    <td style="border-top:none;vertical-align:middle;"><strong>姓名</strong> {if $data['realname']} {$data['realname']} {else} 未完善 {/if}</td>
+				    <td style="border-top:none;vertical-align:middle"><strong>手机</strong> {if $data['mobile']} {$data['mobile']} {else} 未完善 {/if}</td>
+				</tr>
+		</table>
+		<table class="table" style="min-width:568px;">
+			<tbody>				
+				<tr>
+					<td style="width:100px;">留言内容</td>
+					<td>{$feedback['content']}</td>
+				</tr>
+				<tr>
+					<td>回复内容</td>
+					<td><textarea style="height:150px;width:400px;" name="contents" class="form-control" cols="70">{$feedback['contents']}</textarea></td>
+				</tr>
+				<tr>
+		            <td style="border-top:none;vertical-align:middle;" colspan="2"><button class="btn btn-primary"><i class="fa fa-file-text-o"></i> 保存回复内容</button></td>
+	            </tr>
+			</tbody>
+		</table>
+	</div>
+	<input name="token" type="hidden" value="{$_W['token']}"/>
+</form>

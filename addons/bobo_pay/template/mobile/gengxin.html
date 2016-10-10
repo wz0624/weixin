@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>通知公告</title>
+		<link rel="stylesheet" href="{RES}css/cool.css">
+		<style type="text/css">
+
+#gengxin{
+	width: 90%;
+	margin: 10px auto;
+	
+}
+#gengxin p{
+	font-size: 20px;
+}
+</style>
+<script type="text/javascript">
+function zhuye(){
+	window.location.href="{php echo $this->createMobileUrl('index',array())}"
+}
+function shuaxin(){
+	window.location.reload();
+}
+</script>
+	</head>
+	<body class="c-wh">
+	<div class="w10 umh3 c-gra" id="header">
+			<div class="box_content w95 area_auto pstnr h30e t-wh">
+				<p class="ovd tx-c umh3">
+					<span class="w8 area_auto pdt05 pdb05 umh2 ovd t-wh">
+						<span class="sl w5" onClick="zhuye()">
+							<span class=" c-gra uc-tl uc-bl umh2 tx-c uba ub-wh">主页</span>
+						</span>
+						<span class="sl w5" onClick="shuaxin()">
+							<span class="c-bla uc-tr uc-br umh2 tx-c ubt ubb ubr ub-wh">刷新</span>
+						</span>
+					</span>
+					
+				</p>
+			</div>
+	</div>
+	<div id="gengxin" style="margin-top: 14%">
+		{loop $list $item}
+
+			<p style="font-size: 14px; line-height: 26px;">{$item['id']}.&nbsp;&nbsp;&nbsp;{$item['gonggaocontent']}</p>
+			<p style="font-size: 12px; line-height: 20px; text-align: right;">-----{php echo date("Y-m-d H:i",$item['create_at']);}</p>
+			<hr>
+
+		{/loop}
+	</div>
+	</body>
+</html>

@@ -1,0 +1,248 @@
+{template 'common/header'}
+{template 'common'}
+<style type="text/css">
+.red {float:left;color:red}
+.white{float:left;color:#fff}
+.tooltipbox {
+	background:#fef8dd;border:1px solid #c40808; position:absolute; left:0;top:0; text-align:center;height:20px;
+	color:#c40808;padding:2px 5px 1px 5px; border-radius:3px;z-index:1000;
+}
+.red { float:left;color:red}
+</style>
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+		<div class="panel panel-default">
+			<div class="panel-heading">模板消息配置</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">学校通知</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="msg" class="form-control" value="{$settings['msg']}" />
+						行业：教育 - 院校；名称：学校通知；编号OPENTM204845041
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">班级通知</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="msg1" class="form-control" value="{$settings['msg1']}" />
+						模板编号：OPENTM204533457；行业：教育 ；名称： 班级通知
+					</div>
+				</div>
+				<!--<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">作业发布</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="msg2" class="form-control" value="{$settings['msg2']}" />
+						模板编号：OPENTM200799669；行业：教育 - 培训；名称：作业提醒
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">作业，考试，进步，弱项等更新</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="msg3" class="form-control" value="{$settings['msg3']}" />
+						模板编号：OPENTM207419039；行业：IT科技 - 互联网|电子商务；名称：状态更新提醒
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">通知给老师</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="msg4" class="form-control" value="{$settings['msg4']}" />
+						模板编号：OPENTM207379528；行业：教育 - 培训；名称：教师通知
+					</div>
+				</div>-->
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">微赞版本</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type='radio' value='6' name='version' {if $settings['version']==6} checked {/if}> 微赞0.6版&nbsp;&nbsp;
+						<input type='radio' value='7' name='version' {if $settings['version']==7} checked {/if}> 微赞0.7版
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">学校微官网地址</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="school_url" class="form-control" value="{$settings['school_url'][$_SESSION['school_id']]}" />
+					</div>
+				</div>
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">短信接口配置</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="sms_set" class="form-control" value="{if $settings['sms_set'][$_SESSION['school_id']] }{$settings['sms_set'][$_SESSION['school_id']]}
+                        {else}http://api.smsbao.com/sms?u=USERNAME&p=PASSWORD&m=PHONE&c=CONTENT{/if}"  />
+                        配置时，只需把相应的帐密填写上，PHONE和CONTENT，不需要动，其他类似接口也请在相应值上设置为这两个关键字<br>
+					    <a href='http://www.cocsms.com/openapi/' target='_blank'>使用说明</a>
+                    </div>
+				</div>
+                
+			</div>
+		</div>
+		<!--<div class="panel panel-default">
+			<div class="panel-heading">教师中心滚动广告配置</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">广告1</label>
+					<div class="col-sm-9 col-xs-12">				
+					文字： <input type="text" name="ad[0][text]" class="form-control" value="{$settings['ad'][$_SESSION['school_id']][0]['text']}" />	
+					图片：{php echo tpl_form_field_image('ad[0][img]',$settings['ad'][$_SESSION['school_id']][0]['img']);}
+					url： <input type="text" name="ad[0][url]" class="form-control" value="{$settings['ad'][$_SESSION['school_id']][0]['url']}" />	
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">广告2</label>
+						<div class="col-sm-9 col-xs-12">				
+						文字： <input type="text" name="ad[1][text]" class="form-control" value="{$settings['ad'][$_SESSION['school_id']][1]['text']}" />	
+						图片：{php echo tpl_form_field_image('ad[1][img]',$settings['ad'][$_SESSION['school_id']][1]['img']);}
+						url： <input type="text" name="ad[1][url]" class="form-control" value="{$settings['ad'][$_SESSION['school_id']][1]['url']}" />	
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">广告3</label>
+						<div class="col-sm-9 col-xs-12">				
+						文字： <input type="text" name="ad[2][text]" class="form-control" value="{$settings['ad'][$_SESSION['school_id']][2]['text']}" />	
+						图片：{php echo tpl_form_field_image('ad[2][img]',$settings['ad'][$_SESSION['school_id']][2]['img']);}
+						url： <input type="text" name="ad[2][url]" class="form-control" value="{$settings['ad'][$_SESSION['school_id']][2]['url']}" />	
+					</div>
+				</div>
+
+			</div>
+		</div>-->
+
+		<div class="panel panel-default">
+			<div class="panel-heading">学校基本设置</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">在校时间（学校配置用）</label>
+					<div class="col-sm-9 col-xs-12">
+                        
+						<input type='text' value='{$settings['on_school'][$_SESSION['school_id']]}' name='on_school' placeholder="5"> 天制&nbsp;&nbsp;
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">周几课程开始（给培训学校用：周一开始上课的学校可以不填写。）</label>
+					<div class="col-sm-9 col-xs-12">
+						周<input type='text' value='{$settings['begin_course'][$_SESSION['school_id']]}' name='begin_course' placeholder="6"> 开始上课&nbsp;&nbsp;
+					</div>
+				</div>
+                                
+                
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否开启熊孩子（开发中）</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type='radio' value='0' name='mylovekid' {if $settings['mylovekid']==0} checked {/if}> 不开启&nbsp;&nbsp;
+						<input type='radio' value='1' name='mylovekid' {if $settings['mylovekid']==1} checked {/if}> 开启
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">上下午课时配置（学校用，配置后请勿随便修改）</label>
+					<div class="col-sm-9 col-xs-12">
+						上午：<input type="text" name="am_much" class="form-control" value="{$settings['am_much'][$_SESSION['school_id']]}" />
+						下午：<input type="text" name="pm_much" class="form-control" value="{$settings['pm_much'][$_SESSION['school_id']]}" />
+						晚上：<input type="text" name="ye_much" class="form-control" value="{$settings['ye_much'][$_SESSION['school_id']]}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">班级圈类别</label>
+					<div class="col-sm-9 col-xs-12">
+						每个不同的类别以||分开
+						<textarea name='line_type' class='form-control'>{if $settings['line_type'][$_SESSION['school_id']]}{$settings['line_type'][$_SESSION['school_id']]}{else}班级活动||班级公告||日常点滴||重要事务{/if}</textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">预约类别</label>
+					<div class="col-sm-9 col-xs-12">
+						每个不同的类别以||分开
+						<textarea name='appointment' class='form-control'>{if $settings['appointment'][$_SESSION['school_id']]}{$settings['appointment'][$_SESSION['school_id']]}{else}课程预约||兴趣小组||集体活动{/if}</textarea>
+					</div>
+				</div>
+ 				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">家长绑定配置</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="radio" name="family_set"  value="much_school" {if $settings['family_set'] !='alone_school' }  checked {/if} />系统编号模式（多校平台建议）&nbsp;&nbsp;
+						<input type="radio" name="family_set"  value="alone_school"  {if $settings['family_set'] =='alone_school' }  checked {/if}  />学生学号模式
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">回复关键词</label>
+					<div class="col-sm-9 col-xs-12">
+							work_record => 作业记录&nbsp;&nbsp;
+							lianhu_test => 考试记录&nbsp;&nbsp;
+							error_record => 错题记录&nbsp;&nbsp;
+							lianhu_weak => 弱项记录&nbsp;&nbsp;
+							lianhu_jinbu => 进步记录&nbsp;&nbsp;
+							'xiangxi'=>查看资料&nbsp;&nbsp;
+							'teacher_telphone'=>教师最新联系方式&nbsp;&nbsp;
+					</div>
+				</div>
+			</div>
+		</div>
+<div class="panel panel-default">
+			<div class="panel-heading">七牛云（非多校）(用于及时沟通处理沟通中可能出现的图片和语音，暂时不处理其他业务)</div>
+			<div class="panel-body">
+ 				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否开启七牛</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type='radio' value='0' name='qiniu' {if $settings['qiniu']==0} checked {/if}> 不开启&nbsp;&nbsp;
+						<input type='radio' value='1' name='qiniu' {if $settings['qiniu']==1} checked {/if}> 开启
+					</div>
+				</div>
+                               
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">域名前缀：</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type='text' value='{$settings[qiniu_url]}' name='qiniu_url'  class='form-control' > 					
+					</div>
+				</div>
+ 				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">AccessKey:</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type='text' value='{$settings[qiniu_AccessKey]}' name='qiniu_AccessKey'  class='form-control'> 					
+					</div>
+				</div>
+  				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">SecretKey:</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type='password' value='{$settings[qiniu_SecretKey]}' name='qiniu_SecretKey'  class='form-control'> 					
+					</div>
+				</div>                              
+        	<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">空间名:</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type='text' value='{$settings[qiniu_bucket]}' name='qiniu_bucket'  class='form-control'> 					
+					</div>
+			</div>
+                <a href="https://portal.qiniu.com/signup?code=3lnr1p5ypmtzm">去注册七牛</a>           
+            </div>
+</div>   
+
+<div class="panel panel-default">
+			<div class="panel-heading">支付配置（非多校）</div>
+			<div class="panel-body">
+ 				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否开启其他账号支付</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type='radio' value='0' name='pay_do' {if $settings['pay_do']==0} checked {/if}> 不开启&nbsp;&nbsp;
+						<input type='radio' value='1' name='pay_do' {if $settings['pay_do']==1} checked {/if}> 开启
+					</div>
+				</div>
+                               
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">选择公众号</label>
+					<div class="col-sm-9 col-xs-12">
+                       <select name='pay_uniacid'>
+                           {loop $uniacid_list $row}
+                            <option value="{$row['uniacid']}" {if $settings['pay_uniacid']==$row['uniacid']} selected {/if}>{$row['name']}</option>
+                           {/loop}
+                       </select>
+					</div>
+				</div>
+            </div>
+</div>         
+      
+      
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+
+{template 'common/footer'}

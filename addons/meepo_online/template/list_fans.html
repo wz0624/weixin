@@ -1,0 +1,175 @@
+{template 'common/header'}
+{template 'nav'}
+{template 'list_nav'}
+<script src="{MODULE_URL}template/mobile/js/jquery-1.7.2.min.js"></script>
+<script>
+	function selectall(obj, name){
+		$('input[name="'+name+'[]"]:checkbox').each(function() {
+			$(this).attr("checked", $(obj).attr('checked') ? true : false);
+		});
+	}
+</script>
+<div class="panel panel-default">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body">
+		<form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+			<input type="hidden" name="c" value="site" />
+			<input type="hidden" name="a" value="entry" />
+			<input type="hidden" name="m" value="meepo_online" />
+			<input type="hidden" name="do" value="list_fans" />
+            
+            <input type="hidden" name="listid" value="{$listid}" />
+           
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">粉丝昵称</label>
+				<div class="col-xs-12 col-sm-8 col-lg-8">
+					<input class="form-control" name="nickname" id="" type="text" value="{$_GPC['nickname']}" placeholder="请输入粉丝昵称">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input class="btn btn-primary" id="" type="submit" value="搜索">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		粉丝管理
+	</div>
+	<form action="" method="post">
+	<div class="panel-body">
+		<table  class="table table-striped">
+		
+			<thead>
+				<tr>
+					<th style="width:15%;">选择</th>
+					<th style="width:40%;">粉丝信息</th>
+					<th style="width:40%;">分销上级</th>
+					<th style="width:20%;">评论数</th>
+					<th style="width:40%;">打赏统计</th>
+					<th style="width:40%;">送礼统计</th>
+					<th style="width:30%;">真实姓名</th>
+					<th style="width:40%;">手机号码</th>
+					<th style="width:40%;">家庭住址</th>
+					<th style="width:50%;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{loop $fans $row}
+				<tr>
+					<td><input type="checkbox" name="select[]" value="{$row['id']}" /></td>
+					<td>
+					<div>
+						<img src="{$row['avatar']}" width=60px height=60px />
+						<div>
+						{$row['nickname']}
+						</div>
+					</div>
+					</td>
+					<td>
+					
+					<div>
+						{if !empty($row['father_id'])}
+						<img src="{$row['f_avatar']}" width=60px height=60px />
+						<div>
+						{$row['f_nickname']}
+						</div>
+						{else}
+						 无上级
+						{/if}
+					</div>
+					
+					</td>
+					<td>
+						<div>{$row['say_nums']}</div>
+					</td>
+					<td>
+						<div>
+						<div>打赏次数:{$row['dashang_times']}次</div>
+						<div>打赏金额:{php echo round($row['dashang_money'],2)}元</div>
+						</div>
+					</td>
+					<td>
+						<div>
+						<div>送礼次数:{$row['gift_times']}次</div>
+						<div>送礼金额:{php echo round($row['gift_money'],2)}元</div>
+						</div>
+					</td>
+					<td>
+						{if $row['realname']}{$row['realname']}{else}未填写{/if}
+					</td>
+					<td>
+						{if $row['mobile']}{$row['mobile']}{else}未填写{/if}
+					</td>
+					<td>
+						{if $row['address']}{$row['address']}{else}未填写{/if}
+					</td>
+					<td>
+						
+						<a class="btn {if $row['cansay']=='0'}btn-danger{else}btn-success{/if}" title="{if $row['cansay']=='0'}禁言{else}解禁{/if}" href="{php echo $this->createWebUrl('list_fans',array('op'=>'cansay','id'=>$row['id'],'listid'=>$listid,'cansay'=>$row['cansay']))}">
+							{if $row['cansay']=='0'}禁言{else}解禁{/if}
+						</a>
+						<a class="btn btn-danger" title="删除" onclick="return confirm('删除将无法恢复，确认吗？');return false;"
+						href="{php echo $this->createWebUrl('list_fans',array('op'=>'del','id'=>$row['id'],'listid'=>$listid))}">
+							删除
+						</a><br>
+						{if $live['need_pay']==3}
+							<a class="btn btn-success" style="margin-top:20px" onclick="displayUrl('show',{$row['id']});">
+								资料
+							</a>
+							<a class="btn btn-danger" style="margin-top:20px" onclick="displayUrl('del',{$row['id']});">
+								清空
+							</a>
+						{/if}
+					</td>
+				</tr>
+			{/loop}
+			<tr>
+			<td style="width:50px;" class="row-first"><input type="checkbox" onclick="selectall(this, 'select');" /></td>
+			<td colspan="4">
+								
+				<input type="submit" name="down" value="导出" class="btn btn-success" />
+				<input type="submit" name="downall" value="导出全部" class="btn btn-success" />				<input type="submit" name="del_some" value="删除" class="btn btn-danger" />			
+				<input type="hidden" name="token" value="{$_W['token']}" />
+								
+			</td>
+			</tr>
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+	</form>
+</div>
+<script>
+            function displayUrl(type,fanid) {
+                require(['jquery', 'util'], function($, u) {
+				  var url = "{php echo $this->createWebUrl('list_fans',array('op'=>'ajax','listid'=>$listid))}&id="+fanid+"&type="+type;
+				  
+				  var content = '';
+					$.post(url, function(data){
+						if(type=='show'){
+							content += data;
+							var footer =
+                            '<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>';
+                            var diaobj = u.dialog('观看直播填写的数据', content, footer);
+							diaobj.find('.btn-default').click(function() {
+								diaobj.modal('hide');
+							});
+							diaobj.modal('show');
+						}else{
+						  if(data=='success'){
+							window.location.reload();
+						  }
+						}
+					});
+                    
+                });
+            }
+			
+           
+        </script>
+{template 'common/footer'}

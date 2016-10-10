@@ -1,0 +1,1168 @@
+<html class="ui-mobile">
+<head>
+    <base href="http://dianhuaben.chaoyuanwuxian.com/webapp/index.html?token=gh_8934a4b3c0d5&amp;openid=o-_D0shrYFjaUzf-wz3SjRwznhTQ">
+    <meta charset="utf-8">
+    <title>禹州电话本</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.3.css">
+    <link rel="stylesheet" href="css/lichao.css">
+    <link rel="stylesheet" href="css/styles.css" type="text/css">
+    <script src="js/lichao.js"></script>
+</head>
+
+<body class="ui-mobile-viewport ui-overlay-a">
+
+<div data-role="page" id="index" data-url="index" tabindex="0" class="ui-page ui-page-theme-a ui-page-footer-fixed ui-page-active" style="padding-bottom: 40px;">
+    <div class="ad" id="syad">
+        <div class="slider"
+             style="width: 1024px; height: 380px; position: relative; overflow: hidden; margin: 0px auto;">
+            <ul style="position: absolute; left: -793.099682815044px; width: 2048px;">
+                <li style="float: left; display: inline; width: 1024px; height: 380px;">
+                    <a href="weixin://profile/gh_8934a4b3c0d5" class="ui-link">
+                    <img width="100%" height="120px"  src="http://dianhuaben.chaoyuanwuxian.com/Uploads/Picture/2015-04-30/55410c92d99e1.jpg"
+                                                                                     style="width: 100%; height: 100%;">
+                    </a>
+                </li>
+                <li style="float: left; display: inline; width: 1024px; height: 380px;">
+                    <img width="100%" height="120px" src="http://dianhuaben.chaoyuanwuxian.com/Uploads/Picture/2015-05-05/55481d0b7824c.jpg" style="width: 100%; height: 100%;">
+                </li>
+            </ul>
+            <div class="focus"
+                 style="max-height: 20px; position: absolute; bottom: 0px; width: 1024px; height: 57px; z-index: 2; background: rgba(0, 0, 0, 0);">
+                <div style="width: 0px; position: absolute; right: 10px; top: 50%; margin-top: 0px;"><span
+                        class="current" style="display: block; float: left; cursor: pointer;"></span><span class=""
+                                                                                                           style="display: block; float: left; cursor: pointer;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="lichao" style="margin-top:25px;">
+        <div role="main" class="ui-content" id="type" style="margin-bottom:-10px;padding-left:10px;padding-right:10px;margin-top:-20px;background-color: #EEEEEE">
+
+            <div class="ui-block" id="type1"
+                 style="background-color: #FFFFFF;border: 1px solid #DDDDDD;height: 30px;font-size: 18px;padding-top:8px;padding-left:10px">
+                <span><font color="#FF3300 ">● 上门</font></span>
+            </div>
+
+            <a data-no="13" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+                <div class="ui-block-b" style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                    <font color="#555555">散工</font></div>
+            </a>
+
+            <a data-no="14" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+                <div class="ui-block-b"
+                     style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                    <font color="#555555">开锁</font>
+                </div>
+            </a>
+
+            <a data-no="15" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+                <div class="ui-block-b"
+                     style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                    <font color="#555555">家电维修</font></div>
+            </a>
+            <a data-no="16" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+                <div class="ui-block-b"
+                     style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                    <font color="#555555">搬家</font></div>
+            </a>
+
+            <a data-no="17" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+                <div class="ui-block-b"
+                     style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                    <font color="#555555">家政</font></div>
+            </a>
+            <a data-no="18" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+                   class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">送餐</font></div>
+            </a>
+            <a data-no="19" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">送水</font></div>
+            </a>
+            <a data-no="20" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+                   class="ui-link">
+                <div class="ui-block-b"
+                     style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                    <font color="#555555">送气</font></div>
+            </a>
+            <a data-no="21" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">送酒</font></div>
+            </a>
+            <a data-no="22" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">送花</font></div>
+            </a>
+            <a data-no="23" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">快递</font></div>
+            </a>
+            <a data-no="24" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">叫车</font></div>
+            </a>
+            <a data-no="25" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">跑腿</font></div>
+            </a>
+            <a data-no="26" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;" class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">其他</font></div>
+            </a>
+
+        </div>
+
+
+
+        <div role="main" class="ui-content" id="type" style="margin-bottom:-10px;padding-left:10px;padding-right:10px;margin-top:-20px;background-color: #EEEEEE">
+            <div class="ui-block" id="type1"
+                 style="background-color: #FFFFFF;border: 1px solid #DDDDDD;height: 30px;font-size: 18px;padding-top:8px;padding-left:10px">
+                <span><font color="#FF3300 ">● 美食</font></span>
+            </div>
+
+            <a data-no="27" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+                <div class="ui-block-b"
+                     style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                    <font color="#555555">火锅</font></div>
+            </a><a data-no="28" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+                   class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">西餐</font></div>
+        </a><a data-no="29" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">烧烤</font></div>
+        </a><a data-no="184" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">大盘鸡</font></div>
+        </a><a data-no="30" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">特色菜</font></div>
+        </a><a data-no="31" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">粥屋</font></div>
+        </a><a data-no="32" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">小吃</font></div>
+        </a><a data-no="33" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">酱卤</font></div>
+        </a><a data-no="34" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">清真</font></div>
+        </a><a data-no="35" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">瓜果</font></div>
+        </a><a data-no="36" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">蛋糕甜点</font></div>
+        </a><a data-no="37" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">酒水</font></div>
+        </a><a data-no="38" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">茶叶</font></div>
+        </a><a data-no="39" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">其他</font></div>
+        </a></div>
+        <div role="main" class="ui-content" id="type"
+             style="margin-bottom:-10px;padding-left:10px;padding-right:10px;margin-top:-20px;background-color: #EEEEEE">
+            <div class="ui-block" id="type1"
+                 style="background-color: #FFFFFF;border: 1px solid #DDDDDD;height: 30px;font-size: 18px;padding-top:8px;padding-left:10px">
+                <span><font color="#FF3300 ">● 休闲</font></span></div>
+            <a data-no="187" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+                <div class="ui-block-b"
+                     style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                    <font color="#555555">手工坊</font></div>
+            </a><a data-no="40" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+                   class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">洗浴</font></div>
+        </a><a data-no="41" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">KTV</font></div>
+        </a><a data-no="42" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">酒吧</font></div>
+        </a><a data-no="43" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">足疗</font></div>
+        </a><a data-no="45" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">电影</font></div>
+        </a><a data-no="46" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">茶楼</font></div>
+        </a><a data-no="47" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">网吧</font></div>
+        </a><a data-no="186" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">俱乐部</font></div>
+        </a><a data-no="48" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">健身</font></div>
+        </a><a data-no="49" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">钟点房</font></div>
+        </a><a data-no="50" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">其他</font></div>
+        </a></div>
+        <div role="main" class="ui-content" id="type"
+             style="margin-bottom:-10px;padding-left:10px;padding-right:10px;margin-top:-20px;background-color: #EEEEEE">
+            <div class="ui-block" id="type1"
+                 style="background-color: #FFFFFF;border: 1px solid #DDDDDD;height: 30px;font-size: 18px;padding-top:8px;padding-left:10px">
+                <span><font color="#FF3300 ">● 旅行</font></span></div>
+            <a data-no="51" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+                <div class="ui-block-b"
+                     style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                    <font color="#555555">周边游</font></div>
+            </a><a data-no="52" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+                   class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">交通票务</font></div>
+        </a><a data-no="53" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">旅行社</font></div>
+        </a><a data-no="54" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">驴友</font></div>
+        </a><a data-no="55" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">酒店</font></div>
+        </a><a data-no="56" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">宾馆</font></div>
+        </a><a data-no="57" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">特产</font></div>
+        </a><a data-no="58" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">其他</font></div>
+        </a></div>
+        <div role="main" class="ui-content" id="type"
+             style="margin-bottom:-10px;padding-left:10px;padding-right:10px;margin-top:-20px;background-color: #EEEEEE">
+            <div class="ui-block" id="type1"
+                 style="background-color: #FFFFFF;border: 1px solid #DDDDDD;height: 30px;font-size: 18px;padding-top:8px;padding-left:10px">
+                <span><font color="#FF3300 ">● 生活</font></span></div>
+            <a data-no="59" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+                <div class="ui-block-b"
+                     style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                    <font color="#555555">文印</font></div>
+            </a><a data-no="60" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+                   class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">摄影</font></div>
+        </a><a data-no="61" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">洗衣</font></div>
+        </a><a data-no="62" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">母婴</font></div>
+        </a><a data-no="63" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">婚庆</font></div>
+        </a><a data-no="64" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">宠物</font></div>
+        </a><a data-no="66" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">回收</font></div>
+        </a><a data-no="67" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">中介</font></div>
+        </a><a data-no="68" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">品牌售后</font></div>
+        </a><a data-no="69" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">殡葬</font></div>
+        </a><a data-no="70" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">水电气</font></div>
+        </a><a data-no="71" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">邮政</font></div>
+        </a><a data-no="183" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">通讯</font></div>
+        </a><a data-no="72" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">其他</font></div>
+        </a></div>
+        <div role="main" class="ui-content" id="type"
+             style="margin-bottom:-10px;padding-left:10px;padding-right:10px;margin-top:-20px;background-color: #EEEEEE">
+            <div class="ui-block" id="type1"
+                 style="background-color: #FFFFFF;border: 1px solid #DDDDDD;height: 30px;font-size: 18px;padding-top:8px;padding-left:10px">
+                <span><font color="#FF3300 ">● 丽人</font></span></div>
+            <a data-no="73" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+                <div class="ui-block-b"
+                     style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                    <font color="#555555">美妆</font></div>
+            </a><a data-no="74" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+                   class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">美容</font></div>
+        </a><a data-no="75" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">美体spa</font></div>
+        </a><a data-no="76" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">美甲</font></div>
+        </a><a data-no="77" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">美发</font></div>
+        </a><a data-no="78" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">舞蹈瑜伽</font></div>
+        </a><a data-no="79" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">其他</font></div>
+        </a></div>
+        <div role="main" class="ui-content" id="type"
+             style="margin-bottom:-10px;padding-left:10px;padding-right:10px;margin-top:-20px;background-color: #EEEEEE">
+            <div class="ui-block" id="type1"
+                 style="background-color: #FFFFFF;border: 1px solid #DDDDDD;height: 30px;font-size: 18px;padding-top:8px;padding-left:10px">
+                <span><font color="#FF3300 ">● 购物</font></span></div>
+            <a data-no="80" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+                <div class="ui-block-b"
+                     style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                    <font color="#555555">日杂</font></div>
+            </a><a data-no="81" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+                   class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">商超</font></div>
+        </a><a data-no="82" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">手机</font></div>
+        </a><a data-no="83" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">电脑</font></div>
+        </a><a data-no="84" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">家电</font></div>
+        </a><a data-no="85" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">服装</font></div>
+        </a><a data-no="86" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">鞋帽箱包</font></div>
+        </a><a data-no="185" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">电动车</font></div>
+        </a><a data-no="88" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">五交化</font></div>
+        </a><a data-no="90" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">副食</font></div>
+        </a><a data-no="91" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">文具</font></div>
+        </a><a data-no="92" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">珠宝名表</font></div>
+        </a><a data-no="188" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">家纺</font></div>
+        </a><a data-no="93" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">其他</font></div>
+        </a></div>
+        <div role="main" class="ui-content" id="type"
+             style="margin-bottom:-10px;padding-left:10px;padding-right:10px;margin-top:-20px;background-color: #EEEEEE">
+            <div class="ui-block" id="type1"
+                 style="background-color: #FFFFFF;border: 1px solid #DDDDDD;height: 30px;font-size: 18px;padding-top:8px;padding-left:10px">
+                <span><font color="#FF3300 ">● 健康</font></span></div>
+            <a data-no="94" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+                <div class="ui-block-b"
+                     style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                    <font color="#555555">医院</font></div>
+            </a><a data-no="95" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+                   class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">中医药</font></div>
+        </a><a data-no="96" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">特色专科</font></div>
+        </a><a data-no="97" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">保健</font></div>
+        </a><a data-no="98" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">配镜</font></div>
+        </a><a data-no="99" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">口腔</font></div>
+        </a><a data-no="100" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">诊所</font></div>
+        </a><a data-no="101" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">药房</font></div>
+        </a></div>
+        <div role="main" class="ui-content" id="type"
+             style="margin-bottom:-10px;padding-left:10px;padding-right:10px;margin-top:-20px;background-color: #EEEEEE">
+            <div class="ui-block" id="type1"
+                 style="background-color: #FFFFFF;border: 1px solid #DDDDDD;height: 30px;font-size: 18px;padding-top:8px;padding-left:10px">
+                <span><font color="#FF3300 ">● 教育</font></span></div>
+            <a data-no="103" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+                <div class="ui-block-b"
+                     style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                    <font color="#555555">阅读</font></div>
+            </a><a data-no="104" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+                   class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">学校</font></div>
+        </a><a data-no="105" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">学前</font></div>
+        </a><a data-no="106" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">才艺特长</font></div>
+        </a><a data-no="107" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">职业教育</font></div>
+        </a><a data-no="108" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">驾校</font></div>
+        </a><a data-no="109" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">午托</font></div>
+        </a><a data-no="110" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">辅导</font></div>
+        </a></div>
+        <div role="main" class="ui-content" id="type"
+             style="margin-bottom:-10px;padding-left:10px;padding-right:10px;margin-top:-20px;background-color: #EEEEEE">
+            <div class="ui-block" id="type1"
+                 style="background-color: #FFFFFF;border: 1px solid #DDDDDD;height: 30px;font-size: 18px;padding-top:8px;padding-left:10px">
+                <span><font color="#FF3300 ">● 家居</font></span></div>
+            <a data-no="112" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+                <div class="ui-block-b"
+                     style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                    <font color="#555555">装修</font></div>
+            </a><a data-no="113" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+                   class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">家装材料</font></div>
+        </a><a data-no="114" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">焊切加工</font></div>
+        </a><a data-no="115" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">厨卫</font></div>
+        </a><a data-no="117" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">灯具</font></div>
+        </a><a data-no="118" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">家具</font></div>
+        </a><a data-no="119" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">窗帘饰品</font></div>
+        </a><a data-no="120" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">其他</font></div>
+        </a></div>
+        <div role="main" class="ui-content" id="type"
+             style="margin-bottom:-10px;padding-left:10px;padding-right:10px;margin-top:-20px;background-color: #EEEEEE">
+            <div class="ui-block" id="type1"
+                 style="background-color: #FFFFFF;border: 1px solid #DDDDDD;height: 30px;font-size: 18px;padding-top:8px;padding-left:10px">
+                <span><font color="#FF3300 ">● 房产</font></span></div>
+            <a data-no="121" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+                <div class="ui-block-b"
+                     style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                    <font color="#555555">楼盘</font></div>
+            </a><a data-no="122" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+                   class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">公司</font></div>
+        </a><a data-no="123" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">物业管理</font></div>
+        </a><a data-no="124" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">建材</font></div>
+        </a><a data-no="125" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">施工租赁</font></div>
+        </a><a data-no="126" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">其他</font></div>
+        </a></div>
+        <div role="main" class="ui-content" id="type"
+             style="margin-bottom:-10px;padding-left:10px;padding-right:10px;margin-top:-20px;background-color: #EEEEEE">
+            <div class="ui-block" id="type1"
+                 style="background-color: #FFFFFF;border: 1px solid #DDDDDD;height: 30px;font-size: 18px;padding-top:8px;padding-left:10px">
+                <span><font color="#FF3300 ">● 汽车</font></span></div>
+            <a data-no="127" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+                <div class="ui-block-b"
+                     style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                    <font color="#555555">4S店</font></div>
+            </a><a data-no="128" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+                   class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">汽配维修</font></div>
+        </a><a data-no="129" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">洗车美容</font></div>
+        </a><a data-no="130" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">加油站</font></div>
+        </a><a data-no="131" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">过户验车</font></div>
+        </a><a data-no="190" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">租车代驾</font></div>
+        </a><a data-no="189" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">其他</font></div>
+        </a></div>
+        <div role="main" class="ui-content" id="type"
+             style="margin-bottom:-10px;padding-left:10px;padding-right:10px;margin-top:-20px;background-color: #EEEEEE">
+            <div class="ui-block" id="type1"
+                 style="background-color: #FFFFFF;border: 1px solid #DDDDDD;height: 30px;font-size: 18px;padding-top:8px;padding-left:10px">
+                <span><font color="#FF3300 ">● 商务</font></span></div>
+            <a data-no="132" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+                <div class="ui-block-b"
+                     style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                    <font color="#555555">广告</font></div>
+            </a><a data-no="133" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+                   class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">办公耗材</font></div>
+        </a><a data-no="134" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">财会法律</font></div>
+        </a><a data-no="135" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">网络</font></div>
+        </a><a data-no="182" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">金融保险</font></div>
+        </a><a data-no="137" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">物流</font></div>
+        </a><a data-no="138" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">送货</font></div>
+        </a><a data-no="139" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">批发</font></div>
+        </a></div>
+        <div role="main" class="ui-content" id="type"
+             style="margin-bottom:-10px;padding-left:10px;padding-right:10px;margin-top:-20px;background-color: #EEEEEE">
+            <div class="ui-block" id="type1"
+                 style="background-color: #FFFFFF;border: 1px solid #DDDDDD;height: 30px;font-size: 18px;padding-top:8px;padding-left:10px">
+                <span><font color="#FF3300 ">● 企业</font></span></div>
+            <a data-no="141" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+                <div class="ui-block-b"
+                     style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                    <font color="#555555">钧瓷</font></div>
+            </a><a data-no="142" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+                   class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">农产</font></div>
+        </a><a data-no="143" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">煤炭</font></div>
+        </a><a data-no="144" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">档发</font></div>
+        </a><a data-no="145" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">织布</font></div>
+        </a><a data-no="146" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">铸造</font></div>
+        </a><a data-no="147" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">戏装</font></div>
+        </a><a data-no="148" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">药材</font></div>
+        </a></div>
+        <div role="main" class="ui-content" id="type"
+             style="margin-bottom:-10px;padding-left:10px;padding-right:10px;margin-top:-20px;background-color: #EEEEEE">
+            <div class="ui-block" id="type1"
+                 style="background-color: #FFFFFF;border: 1px solid #DDDDDD;height: 30px;font-size: 18px;padding-top:8px;padding-left:10px">
+                <span><font color="#FF3300 ">● 行政</font></span></div>
+            <a data-no="150" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+                <div class="ui-block-b"
+                     style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                    <font color="#555555">党政</font></div>
+            </a><a data-no="151" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+                   class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">街道办</font></div>
+        </a><a data-no="152" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">协会</font></div>
+        </a><a data-no="153" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">传媒</font></div>
+        </a><a data-no="154" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">应急</font></div>
+        </a><a data-no="155" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">其他</font></div>
+        </a></div>
+        <div role="main" class="ui-content" id="type" style="margin-bottom:-10px;padding-left:10px;padding-right:10px;margin-top:-20px;background-color: #EEEEEE">
+
+            <div class="ui-block" id="type1"
+                 style="background-color: #FFFFFF;border: 1px solid #DDDDDD;height: 30px;font-size: 18px;padding-top:8px;padding-left:10px">
+                <span><font color="#FF3300 ">● 乡镇</font></span></div>
+            <a data-no="160" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+                <div class="ui-block-b"
+                     style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                    <font color="#555555">花石</font></div>
+            </a><a data-no="161" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+                   class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">郭连</font></div>
+        </a><a data-no="162" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">山货</font></div>
+        </a><a data-no="163" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">张得</font></div>
+        </a><a data-no="164" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">朱阁</font></div>
+        </a><a data-no="165" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">浅井</font></div>
+        </a><a data-no="166" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">文殊</font></div>
+        </a><a data-no="167" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">古城</font></div>
+        </a><a data-no="168" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">小吕</font></div>
+        </a><a data-no="169" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">鸿畅</font></div>
+        </a><a data-no="170" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">无梁</font></div>
+        </a><a data-no="171" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">方岗</font></div>
+        </a><a data-no="172" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">方山</font></div>
+        </a><a data-no="173" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">神垕</font></div>
+        </a><a data-no="174" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">鸠山</font></div>
+        </a><a data-no="175" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">磨街</font></div>
+        </a><a data-no="176" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">范坡</font></div>
+        </a><a data-no="177" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">苌庄</font></div>
+        </a><a data-no="178" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">褚河</font></div>
+        </a><a data-no="179" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">火龙</font></div>
+        </a><a data-no="180" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">顺店</font></div>
+        </a><a data-no="181" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"
+               class="ui-link">
+            <div class="ui-block-b"
+                 style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;">
+                <font color="#555555">梁北</font></div>
+        </a></div>
+        <br><br><br>
+    </div>
+
+    <div data-role="footer" data-position="fixed" class="ui-bar ui-footer ui-bar-inherit ui-footer-fixed slideup"
+         style="padding:0px 5px 0px 8px;" id="indexfooter" role="contentinfo">
+        <div data-role="fieldcontain" style="padding:0px 0px 0px 0px;margin:-2px 0px -12px 0px;"
+             class="ui-field-contain">
+            <div style="width:75%;float:left">
+                <div class="ui-input-search ui-body-inherit ui-corner-all ui-shadow-inset ui-input-has-clear"><input
+                        type="text" data-type="search" name="keyword" id="keyword" placeholder="搜索..."><a href="#"
+                                                                                                          class="ui-input-clear ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all ui-input-clear-hidden"
+                                                                                                          title="Clear text">Clear
+                    text</a></div>
+            </div>
+            <div><a id="searchbut" href="#search" data-transition="none" style="width:10%;margin:9px 5px 0px 5px;"
+                    data-role="button" onclick="getSearch()" class="ui-link ui-btn ui-shadow ui-corner-all"
+                    role="button">搜索</a></div>
+        </div>
+    </div>
+</div>
+
+<div data-role="page" id="search" data-url="search">
+    <div class="ad" id="ssad"><a href="http://www.baidu.com">
+        <img width="100%" height="120px" src="http://dianhuaben.chaoyuanwuxian.com/Uploads/Picture/2015-05-05/55481d0b7824c.jpg"></a>
+    </div>
+    <div id="searchinput" style="margin:18px 0px 0px 0px;">
+        <div data-role="fieldcontain" style="padding:0px 5px 0px 5px;margin:-8px 0px -20px 0px;"
+             class="ui-field-contain">
+            <div style="width:80%;float:left;margin:-8px 5px -12px 5px;">
+                <div class="ui-input-search ui-body-inherit ui-corner-all ui-shadow-inset ui-input-has-clear"><input
+                        type="text" data-type="search" name="keyword" id="keyword1" placeholder="搜索..."><a href="#"
+                                                                                                           class="ui-input-clear ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all ui-input-clear-hidden"
+                                                                                                           title="Clear text">Clear
+                    text</a></div>
+            </div>
+            <div><a id="searchbut" data-transition="none"
+                    style="width:10%;margin:7px 5px 0px 5px;height:14px;padding:5px 7px 15px 7px;" data-role="button"
+                    onclick="getSearch()" class="ui-link ui-btn ui-shadow ui-corner-all" role="button"><font
+                    size="2.8px">搜索</font></a>
+            </div>
+        </div>
+    </div>
+    <div role="main" class="ui-content">
+        <ul data-role="listview" data-inset="true" id="searchlist">
+
+        </ul>
+    </div>
+
+    <div data-role="footer" data-position="fixed" id="searchfooter"><h5>潮源无线</h5></div>
+</div>
+
+
+
+<div data-role="page" id="listview" data-url="listview">
+    <div class="ad" id="lbad"></div>
+    <div role="main" class="ui-content" style="padding:0px 10px 0px 10px;margin:5px 0px 0px 0px;">
+        <ul data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="搜索..." id="list">
+        </ul>
+        <div id="loadmore"></div>
+    </div>
+    <div data-role="footer" data-position="fixed" id="listfooter"><h5>潮源无线</h5></div>
+</div>
+<div data-role="page" id="detail" data-url="detail">
+    <div role="main" class="ui-content" id="telDetail">
+    </div>
+    <div data-role="footer" data-position="fixed" id="detailfooter"><h5>潮源无线</h5></div>
+</div>
+
+<script src="js/jquery-1.11.1.js"></script>
+<script src="js/jquery.mobile-1.4.3.js"></script>
+<script type="text/javascript" src="js/yxMobileSlider.js"></script>
+<script>
+    $(document).ready(function () {
+        var token = getQueryString("token");
+        var cookieopenid = getCookie(token);
+        var from = getQueryString("from");
+        if (cookieopenid) {
+            var url = document.URL.indexOf("#");
+            if (url > 0) {
+                window.location.href = "http://dianhuaben.chaoyuanwuxian.com/webapp/index.html?token=" + token;
+            }
+        } else {
+            document.title = "首次访问，请耐心等待...";
+            if (from) {
+                window.location.href = "http://dianhuaben.chaoyuanwuxian.com/index.php?s=/Home/App/getuserinfo/token/" + token;
+            } else {
+                var openid = getQueryString("openid");
+                if (openid) {
+                    setCookie(token, openid);
+                } else {
+                    window.location.href = "http://dianhuaben.chaoyuanwuxian.com/index.php?s=/Home/App/getuserinfo/token/" + token;
+                }
+
+            }
+        }
+        if (token) {
+            $(document).bind("mobileinit", function () {
+                $.extend($.mobile, {
+                    defaultPageTransition: 'none',
+                    //defaultPageTransition:'none'
+                });
+            });
+//获取模板编号
+            var _data3 = {};
+            _data3.token = token;
+            $.get(_url + "getMoban", _data3,
+                    function (data) {
+                        //moban=data;
+                        setCookie(token + 'moban', data)
+                    });
+            var _data = {};
+            _data.token = token;
+            _data.openid = getCookie(token);
+            $.get(_url + "getType", _data,
+                    function (data) {
+                        $("#lichao").html("");
+                        var jsonData = eval(data);
+                        var _arr = [];
+                        var moban = getCookie(token + 'moban');
+                        if (moban == 0) {
+
+                            $.each(jsonData, function (i, item) {
+                                _arr.push('<div role="main" class="ui-content" id="type" style="margin-bottom:-20px;"><div class="ui-block-a" id="type1" ><img width="80px"  src="' + item.img + '"/><br /><span><font size="4px" color="#FFBB00">' + item.title + '</font></span></div>');
+                                $.each(item.type2, function (j, item2) {
+                                    _arr.push('<a data-no="' + item2.id + '" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"><div  class="ui-block-b"><img width="45px" src="' + item2.img + '"/><br /><font size="1px">' + item2.title + '</font></div></a>');
+                                });
+                                _arr.push('</div><hr width="90%" color="#DDDDDD" size="1px"/>');
+                            });
+                        } else if (moban == 1) {
+                            $.each(jsonData, function (i, item) {
+                                _arr.push('<div role="main" class="ui-content" id="type" style="margin-bottom:-10px;padding-left:10px;padding-right:10px;margin-top:-20px;background-color: #EEEEEE"><div class="ui-block" id="type1" style="background-color: #FFFFFF;border: 1px solid #DDDDDD;height: 30px;font-size: 18px;padding-top:8px;padding-left:10px"><span><font color="#FF3300 ">● ' + item.title + '</font></span></div>');
+                                $.each(item.type2, function (j, item2) {
+                                    _arr.push('<a data-no="' + item2.id + '" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"><div  class="ui-block-b" style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;"><font  color="#555555">' + item2.title + '</font></div></a>');
+                                });
+                                _arr.push('</div>');
+                            });
+                        }
+                        _arr.push('<br /><br /><br />');
+                        if (_arr.length > 0) {
+                            $("#lichao").html(_arr.join(""));
+                            $("#lichao").trigger("create");
+                            $("#lichao").on("click", "a", getInfo);
+                            var _arrfooter = [];
+                            _arrfooter.push('<div data-role="fieldcontain" style="padding:0px 0px 0px 0px;margin:-2px 0px -12px 0px;"><div style="width:75%;float:left"> <input type="search" name="keyword" id="keyword"  placeholder="搜索..."/></div> <div ><a id="searchbut" href="#search" data-transition="none" style="width:10%;margin:9px 5px 0px 5px;" data-role="button" onclick="getSearch()">搜索</a></div> </div> ');
+                            $("#indexfooter").html(_arrfooter.join(""));
+                            $("#indexfooter").trigger("create");
+                            var _arrinput = [];
+                            _arrinput.push('<div data-role="fieldcontain" style="padding:0px 5px 0px 5px;margin:-8px 0px -20px 0px;"><div style="width:80%;float:left;margin:-8px 5px -12px 5px;"> <input type="search"  name="keyword" id="keyword1"  placeholder="搜索..."/></div> <div ><a id="searchbut" data-transition="none" style="width:10%;margin:7px 5px 0px 5px;height:14px;padding:5px 7px 15px 7px;" data-role="button" onclick="getSearch()"><font size="2.8px" >搜索</font></a></div></div> ');
+                            $("#searchinput").html(_arrinput.join(""));
+                            $("#searchinput").trigger("create");
+                            var footer = [];
+                            footer.push('<h5>潮源无线</h5>');
+                            $("#searchfooter").html(footer.join(""));
+                            $("#listfooter").html(footer.join(""));
+                            $("#detailfooter").html(footer.join(""));
+                        }
+                        getAdimg("搜索页顶部广告", "ssad");
+                        gettitle();
+                        $("#index").trigger("create");
+                    });
+        } else {
+            alert('缺少参数！');
+        }
+
+        $("#list").on("click", "a", getDetail);
+        $("#searchlist").on("click", "a", getSearchDetail);
+
+        //幻灯片
+        var _data1 = {};
+        _data1.type = "首页顶部广告";
+        _data1.typeid = 'syad';
+        _data1.token = token;
+        $.get(_url + "getAdimg2", _data1,
+                function (data) {
+                    setCookie(token + 'syad', data)
+                });
+        if (getCookie(token + 'syad')) {
+            document.getElementById('syad').innerHTML = '<div class="slider">' + getCookie(token + 'syad') + '</div>';
+            $(".slider").yxMobileSlider({width: 1024, height: 380, during: 3000});
+        } else {
+            getAdimg("首页顶部广告", "syad");
+        }
+    });
+</script>
+
+<div class="ui-loader ui-corner-all ui-body-a ui-loader-default"><span class="ui-icon-loading"></span>
+
+    <h1>loading</h1></div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li><a href="{php echo $this->createWebUrl('list')}">管理活动</a></li>
+	<li><a href="{php echo $this->createWebUrl('robot_list')}">管理机器人</a></li>
+	<li class="active" ><a href="{php echo $this->createWebUrl('robot_add')}">添加机器人</a></li>
+</ul>
+
+<form id="the_form" class="form-horizontal form" action="{php echo $this->createWebUrl('robot_add')}" method="post" enctype="multipart/form-data">
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			机器人信息
+		</div>
+		<div class="panel-body">
+
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">头像</label>
+				<div class="col-sm-9 col-xs-12">
+					 {php echo tpl_form_field_image('avatar','','',array('width'=>50,'height'=>50,'thumb'=>true))}
+					 <div class="help-block">为减少占用空间，请头像图片控制在50x50像素</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">昵称</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="text" name="nickname" class="form-control" value="" />
+					<div class="help-block"></div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">性别</label>
+				<div class="col-sm-9 col-xs-12">
+					<div class="col-sm-9 col-xs-12">
+						<label class="radio-inline">
+							<input type="radio" value="1" name="gender" checked/> 男
+						</label>
+						<label class="radio-inline">
+							<input type="radio" value="2" name="gender"/> 女
+						</label>
+					</div>
+					<div class="help-block"></div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-sm-12">
+			<input type="hidden" name="submit" value="add" />
+			<input id="btn-submit" type="submit" value="提交" class="btn btn-primary col-lg-1" data-loading-text="正在提交..."/>
+		</div>
+	</div>
+
+</form>
+
+<script type="text/javascript">
+	require(['jquery','util'], function($, util){
+		$('#the_form').submit(function() {
+			$('#btn-submit').button('loading');
+			//tinyMCE.triggerSave();
+			$.post($(this).attr('action'),$(this).serialize(),function(resp) {
+				//resp=eval('('+resp+')');
+				if(resp.status==0){
+					$('#btn-submit').button('reset');
+					util.message(resp.info);
+				}else{
+					util.message(resp.info,resp.data);
+					//location.href=resp.data;
+				}
+			});
+			return false;
+        });
+	});
+</script>
+
+{template 'common/footer'}

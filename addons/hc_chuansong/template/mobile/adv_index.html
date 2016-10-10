@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$item['page_title']}</title>
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+<link href="../addons/hc_chuansong/css/WeChat_wap_style.css?v54" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="top_imgs">
+	<img src="{php echo toimage($item['thumb'])}" width="100%"/>
+	<div class="jagged"></div>
+</div>
+<div class="datenumber"><span>{$item['str1']}</span></div>
+<div class="box_padding1" style="background-color:{$item['regist_color']}">
+<h1>{$item['title']}</h1>
+<section class="main">
+	<form  action="{php echo $this->createMobileUrl('show',array('pid'=>$_GPC['pid'],'t'=>$_GPC['t']))}" method="post" class="form-1">
+
+		<p class="field">
+			<input type="text" name="b" placeholder="姓名" value="{$user['realname']}">
+		</p>
+		<p class="field">
+			<input type="number" name="x" placeholder="手机号" value="{$user['mobile']}">
+			<input type="hidden" name="code" value="{$item['code']}">
+		</p>
+		<div class="text">{$item['desc']}</div>
+		<p class="submit">
+			<input type="hidden" name="pid" value="{$item['id']}">
+			<button type="submit" name="submit">下一步</button>
+		</p>
+	</form>
+	<div class="text2">两步完成报名，请继续。</div>
+</section>
+<script src="http://apps.bdimg.com/libs/jquery/1.8.3/jquery.min.js"></script>	
+<script>
+$(function(){
+	$("form").submit(function(){
+		var name = $('input[name="b"]').val();
+		var tel = $('input[name="x"]').val();
+		if(name == ''){
+			alert('请填写姓名');
+			return false;
+		}
+		var re = /^[\u4e00-\u9fa5]{2,4}$/;
+		if(!re.test(name)){
+			alert('请填写中文姓名');
+			return false;
+		}
+		if(tel == ''){
+			alert('请填写手机号');
+			return false;
+		}
+		re = /^1[35678]\d{9}$/;
+		if(tel.length == 11 && re.test(tel)){
+			$('input[name="x"]').val(tel);
+		}else{
+			alert('请填写正确的手机号');
+			return false;
+		}
+		return true;
+	})
+})
+</script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+{php $signPackage=$_W['account'][jssdkconfig];}	
+<script>
+	wx.config({
+		debug: false,
+		appId: '<?php echo $signPackage["appId"];?>',
+		timestamp: <?php echo intval($signPackage["timestamp"]);?>,
+		nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+		signature: '<?php echo $signPackage["signature"];?>',
+		jsApiList: ['checkJsApi','onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ','onMenuShareWeibo','onMenuShareQZone','hideOptionMenu','showOptionMenu'] 
+	});
+	wx.ready(function(){
+		wx.hideOptionMenu();
+	});
+</script>
+</div>
+
+</body>
+</html>

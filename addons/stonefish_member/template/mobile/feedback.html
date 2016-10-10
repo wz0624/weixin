@@ -1,0 +1,220 @@
+{template 'header'}
+<link href="../addons/stonefish_member/template/css/feedback.css?20150321" rel="stylesheet" type="text/css">
+<style>
+	body{background:{$feedback['pagecolor']}; padding-bottom:40px; font-family:Helvetica, Arial, sans-serif;color:{$config['membercolor']};}
+	.topnav{position:fixed; top:0; left: 0;width: 100%; height: 40px; background: #FFF;border-bottom:1px solid #d5d5d5;box-shadow:0 1px 9px #d5d5d5; line-height:40px; z-index:99;}
+	.topnav .leftdiv{float:left;padding-left:10px;}
+	.topnav .rightdiv{ float:right;padding-right:10px;font-size:13px;}
+	.topnav .rightdiv a{color:#999;text-decoration:none;}
+	.topnavdiv{color:#FFFFFF;height:40px;width:100%;background:#FFFFFF;}
+</style>
+<div class="topnav">
+<span class="leftdiv">{$_W['page']['title']}</span>
+<span class="rightdiv"><a href="{php echo $this->createMobileUrl('member')}"><i class="fa fa-arrow-left"></i> 返回</a></span>
+</div>
+<div class="topnavdiv">隐藏我</div>
+
+<div class="qiandaobanner">
+    <img src="{$topimgurl}" >
+</div>
+<div class="cardexplain">
+<div class="window" id="windowcenter">
+    <div id="title" class="wtitle">操作提示<span class="close" id="alertclose"></span></div>
+    <div class="content">
+        <div id="txt"></div>
+    </div>
+</div>
+<div class="history">
+    <div class="history-date">
+        <ul>
+            <a ><h2 class="first first1" style="position: relative;">请点击{$_W['page']['title']}</h2></a>
+            {if $ischeck==1}
+            <li class="nob  mb"><div class="beizhu">{$_W['page']['title']}审核通过后才会显示在{$_W['page']['title']}墙上！</div></li>
+            {/if}
+            <li  class="green bounceInDown nob ly1" style="display:none" >
+                <dl>
+                    <dt><textarea name="info" class="pxtextarea" style=" height:60px;"  id="info1"  placeholder="请输入{$_W['page']['title']}"></textarea></dt>
+                    <dt><a id="showcard1"  class="submit" href="javascript:;">提交{$_W['page']['title']}</a></dt>
+                </dl>
+            </li>
+            {loop $list $item}
+            <li class="green bounceInDown">
+                <h3><img src="{if (strpos($item['headimgurl'], 'http') === false)}{$_W['attachurl']}{$item['headimgurl']}{else}{$item['headimgurl']}{/if}" onerror="this.src='../addons/stonefish_member/template/images/default-headimg.jpg'">{$item['username']}<span>{php echo date('Y-m-d H:i', $item['createtime'])}</span>
+                    <div class="clr"></div>
+                </h3>
+                <dl>
+                    <dt class="hfinfo" date="">{$item['content']}</dt>
+                </dl>
+				{if $feedback['feedtype']==0}
+                <dl class="huifu">
+                    <dt>
+                        <span>
+                            <a class="hhbt czan" date="{$item['id']}" href="javascript:;">回复</a>
+                            <p style="display:none;" class="hhly{$item['id']}">
+                                <textarea name="info" class="pxtextarea hly{$item['id']}"></textarea>
+                                <a class="hhsubmit submit" date="{$item['id']}" href="javascript:;">确定</a>
+                            </p>
+                        </span>
+                    </dt>
+                </dl>
+				{/if}
+                {if $item['contentstatus']}
+                <dl class="huifu">
+                    <dt><span>管理回复：{$item['contents']}</span></dt>
+                </dl>
+                {/if}
+				{loop $children[$item['id']] $row}
+                {if $feedback['feedtype']==0}
+				<dl class="huifu">
+                    <dt><span>{$row['username']}回复：{$row['content']}</span></dt>
+                </dl>
+				{/if}
+                {/loop}
+            </li>
+            {/loop}
+            <li class="bounceInDown">
+                <!--页码开始-->
+                {$pager}
+                <!--页码结束-->
+            </li>
+            <li  class="green bounceInDown nob ly2" style="display:none" >
+                <dl>
+                    <dt><textarea name="info" class="pxtextarea" style=" height:60px;" id="info2"  placeholder="请输入{$_W['page']['title']}内容"></textarea></dt>
+                    <dt><a id="showcard2"  class="submit" href="javascript:;">提交{$_W['page']['title']}</a> </dt>
+                </dl>
+            </li>
+            <a><h2 class="first first2" style="position: relative;">请点击{$_W['page']['title']}</h2></a>
+        </ul>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var ActionUrl = "{php echo $this->createMobileUrl('feedback', array('op'=>'sendreply','fid'=>$fid), true);}";
+        $("#showcard1").bind('click',function () {
+            var btn = $(this);
+            btn.unbind('click');
+            
+            var info = $("#info1").val();
+            if (info == '') {
+                alert("请输入{$_W['page']['title']}内容");
+                return
+            }
+            var submitData = {
+                content: info,
+                type: "feedback"
+            };
+            $.post(ActionUrl, submitData,function(data) {
+                if (data.status == 1) {
+                    alert(data.message);
+                    setTimeout(function () {
+					    location.reload();
+				    },4000);
+                    return;
+                } else {
+                    alert(data.message);
+                }
+            },"json")
+        });
+
+
+        $("#showcard2").bind('click',function(){
+            var btn = $(this);
+            var info = $("#info2").val();
+            if (info == '') {
+                alert("请输入{$_W['page']['title']}内容");
+                return
+            }
+            var submitData = {
+                content: info,
+                type: "feedback"
+            };
+            $.post(ActionUrl, submitData,function(data) {
+                if (data.status == 1) {
+                    alert(data.message);
+                    setTimeout(function () {
+					    location.reload();
+				    },4000);
+                    return;
+                } else {
+                    alert(data.message);
+                }
+            },"json")
+        });
+
+        $(".hhsubmit").bind('click',function(){
+            $(this).unbind('click');
+            var objid = $(this).attr("date");
+            var info = $(".hly"+objid).val();
+            if (info == '') {
+                alert("请输入内容");
+                return
+            }
+            var submitData = {
+                parentid:objid,
+                content: info,
+                type: "reply"
+            };
+
+            $.post(ActionUrl, submitData,function(data) {
+                //alert(data.message);
+                if (data.status == 1) {
+                    alert(data.message);
+                    setTimeout(function () {
+					    location.reload();
+				    },4000);
+                    return;
+                } else {
+                    alert(data.message);
+                }
+            },"json")
+        });
+
+        $(".hfinfo").click(function(){
+            var objid = $(this).attr("date");
+            $(".hhly"+objid).slideToggle();
+        });
+        $(".hhbt").click(function(){
+            var objid = $(this).attr("date");
+            $(".hhly"+objid).slideToggle();
+        });
+
+        var ipage = parseInt($('.ipage').text());
+        var cpage = parseInt($('.cpage').text());
+        if(ipage>=cpage && cpage <=1){
+            $('.right').attr('class','right disabled');
+            $('.left').attr('class','left disabled');
+            $('.right a').attr('href','###');
+            $('.left a').attr('href','###');
+        }else if(ipage<=1 && cpage>1){
+            $('.left').attr('class','left disabled');
+            $('.left a').attr('href','###');
+        }else if(ipage ==cpage && cpage >1){
+            $('.right').attr('class','right disabled');
+            $('.right a').attr('href','###');
+        }
+    });
+    $("#windowclosebutton").click(function(){
+        $("#windowcenter").slideUp(500);
+    });
+    $("#alertclose").click(function(){
+        $("#windowcenter").slideUp(500);
+    });
+
+    function alert(title){
+        $("#windowcenter").slideToggle("slow");
+        $("#txt").html(title);
+        setTimeout('$("#windowcenter").slideUp(500)',4000);
+    }
+    $(document).ready(function(){
+        $(".first1").click(function(){
+            $(".ly1").slideToggle();
+        });
+    });
+    $(document).ready(function(){
+        $(".first2").click(function(){
+            $(".ly2").slideToggle();
+        });
+    });
+</script>
+{template 'footer'}

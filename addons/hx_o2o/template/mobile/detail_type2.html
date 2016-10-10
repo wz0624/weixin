@@ -1,0 +1,109 @@
+{template 'header'}
+    <style>.back{position:fixed;top:5px;left:5px;z-index:2000;opacity:.9}.top{width:100%;height:auto;text-align:center;position:relative}.top .price{width:100%;height:80px;padding-top:40px;text-align:left;background:url(./style/images/detail_price_bg.png) no-repeat;background-size:cover;position:absolute;left:0;bottom:0}.top .price .selling_price{color:#f45e4e;font-size:20px;margin-left:.75rem} .sum_price{color:#26a69a;font-size:20px;margin-left:.75rem}.top .price .product_price{margin-left:10px;color:#b9a093}.top .price .product_price del{color:#999;margin-left:5px}.details_name .product_name{font-weight:700;color:#632714}.details_name .service_hours{height:24px;line-height:24px;color:#b9a093;text-align:left}.details_name .service_hours i{color:#ff8376}.card_product{padding:0 15px 0 15px}.content{padding:10px}.address a{display:block;width:100%;height:auto;padding:1.5rem .75rem;color:#a88979;position:relative}.address a i{position:absolute;top:50%;right:.75rem;margin-top:-15px}.address a h6{color:#632714;margin-top:0}.product_steps .title{margin-bottom:5px;padding:4px 0;border-bottom:1px solid #dbc5ba}.product_steps .title .s7{color:#632714}.product_steps .title .s5{color:#b9a093;font-size:13px;text-align:right}.detail_intro{padding-top:.75rem}.detail_intro h6{font-weight:700;color:#632714}.detail_intro p{color:#b9a093}.buy{width:100%;margin-bottom:0;position:fixed;bottom:0;left:0;z-index:10}.buy .col{padding:0}.buy .col .btn{width:100%;border-radius:0;height:48px;line-height:48px}.buy .col .cart{padding:0;position:relative}.buy .col .cart i{color:#888;font-size:2em;color:#51ccc9}.buy .col .cart span{display:block;width:20px;height:20px;line-height:20px;font-size:12px;text-align:center;color:#fff;background:red;border-radius:10px;position:absolute;top:2px;left:50%;margin-left:-5px;z-index:11;opacity:.7;font-weight:500}.address_bottom a{display:block;width:100%;height:auto;color:#a88979;position:relative}.address_bottom a i{position:absolute;top:50%;right:.75rem;margin-top:-15px}.address_bottom a h6{color:#632714;margin-top:0}</style>
+    
+    <a href="{php echo $this->createMobileUrl('list',array('catid'=>$item['catid']))}" class="btn-floating waves-effect waves-light teal back"> <i class="fa fa-angle-left"></i>
+    </a>
+    <div class="top">
+        <img class="responsive-img" src="{php echo tomedia($item['thumb'])}">
+        <div class="price">
+            <span class="selling_price">￥{$item['price']}</span>
+            <span class="product_price">
+                市场价 <del>￥{$item['marketprice']}</del>
+            </span>
+        </div>
+    </div>
+
+    <section class="details_name detail_intro">
+        <div class="row">
+            <div class="col s12">
+                <h6 class="product_name">{$item['name']}</h6>
+                <p>{$item['description']}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 service_hours"> <i class="fa fa-clock-o fa-lg"></i>
+                每次服务时长 {$item['timeneed']} 分钟
+            </div>
+        </div>
+    </section>
+    <div class="split_line"></div>
+
+    <section class="product_steps detail_intro">
+        <div class="row">
+            <div class="col s12">
+                <h6>享用以下组合护理疗程项目 x {$item['times']} 次</h6>
+            </div>
+        </div>
+        {php $pics = iunserializer($item['pics'])}
+        {loop $pics $pic}
+        <div class="row card_product">
+            <div class="col s3">
+                <img src="{php echo tomedia($pic['thumb'])}" class="circle responsive-img"></div>
+            <div class="col s9 address">
+                <a href="javascript:void(0)" class="waves-effect waves-teal">
+                    <h6>{$pic['name']}</h6>
+                    <!-- <i class="fa fa-angle-right fa-2x"></i>
+                -->
+                </a>
+            </div>
+        </div>
+        {/loop}
+    </section>
+    <div class="split_line"></div>
+
+<section class="detail_intro" id="staggered">
+<div class="row">
+    <div class="col s12">
+        {$item['content']}
+    </div>
+</div>
+</section>
+<div class="split_line"></div>
+
+<!-- <section class="details_name detail_intro">
+<div class="row">
+<div class="col s12 address_bottom">
+    <a href="" class="waves-effect waves-teal">
+        <h6>购买须知</h6>
+        <i class="fa fa-angle-right fa-2x"></i>
+    </a>
+</div>
+</div>
+</section>
+<div class="split_line"></div>
+-->
+<div class="row product_steps detail_intro">
+<div class="col s7">
+<h6>
+    总金额：
+    <span class="sum_price">￥{$item['price']}</span>
+</h6>
+</div>
+<div class="col s5">
+<a id="checkout-product" class="right waves-effect waves-light btn teal lighten-2">
+    <i class="fa fa-chevron-circle-right"></i>
+    立即购买
+</a>
+</div>
+</div>
+<div class="split_line"></div>
+<script type="text/javascript">
+    $('#checkout-product').click(function()
+    {
+        {if empty($_W['openid'])}
+        alert_modal('小主, 要授权登录后才能下单哦!', function()
+        {
+            window.location.href = '{php echo $this->createMobileUrl('my')}';
+        })
+        return;
+        {/if}
+        ajax('{php echo $this->createMobileUrl('mycart',array('op'=>'checkout','from'=>'product','type'=>2))}', {"products": [{"product_id": {$item['id']}, "quantity": 1}]}, function(result)
+        {
+            if (result.status == 1 && result.orderid > 0)
+                window.location.href = '{php echo $this->createMobileUrl('appointment')}&orderid=' + result.orderid;
+            else
+                alert_modal('检出购物车商品失败');
+        });
+    })
+</script>
+{template 'footer'}

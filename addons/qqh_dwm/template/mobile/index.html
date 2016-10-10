@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="yes" name="apple-touch-fullscreen" />
+<meta name="robots" content="none" />
+<meta name="viewport" id="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<title>谁是{$nickname}的知己？- 情感大考验</title>
+{php echo register_jssdk();} 
+
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}public/css/style.css?v1.01">
+
+<script src="{MODULE_URL}public/js/jquery-1.8.3.min.js"></script>
+</head>
+<body>
+	<div class="wrap rel">
+	<img src="{$avatar}" style="left:-3000px;position: absolute;">
+
+
+<div class="title mcenter">
+	<img src="{$md_config[logo]}" />
+</div>
+<div class="user">
+	<div class="avatar_wrap mcenter rel">
+		<img class="avatar abscenter" src="{$avatar}" />
+    </div>
+    <p class="nick">我是{$nickname}</p>
+</div>
+<div class="gamedec mcenter">
+	<p class="gamedec_exp">快来选题吧，看看他们对你有多了解～</p>
+	<a class="gamedec_btn" href="{php echo $this->createMobileUrl('question', array('op'=>'question'), true);}">开始选题</a>
+</div>
+	</div>
+	<script>
+wx.ready(function () {
+
+  var shareData = {
+    title: '谁是{$nickname}的知己？- 情感大考验',
+    desc: '敢玩吗？看看你有多了解我',
+    link: "{$_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&topic={$_GPC['topic']}&op=topic&do=user_question&m=qqh_dwm",
+    imgUrl: '{$avatar}'
+  };
+  wx.onMenuShareAppMessage(shareData);
+  wx.onMenuShareTimeline(shareData);
+});
+
+</script>
+<p class="coop_info">{$md_config['name']}</p>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="yes" name="apple-touch-fullscreen" />
+<meta name="robots" content="none" />
+<meta name="viewport" id="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<title>99%的人都不知道，{$result['nickname']}的知己竟然是ta</title>
+{php echo register_jssdk();} 
+
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}public/css/style.css?v1.01">
+
+<script src="{MODULE_URL}public/js/jquery-1.8.3.min.js"></script>
+</head>
+<body>
+	<div class="wrap rel">
+	<img src="{$result['avatar']}" style="left:-3000px;position: absolute;">
+    
+
+<div class="progress_warp mcenter rel">
+	<div class="progress_line_bg abscenter">
+		<div class="progress"></div>
+	</div>
+	<div class="progress_label rel dbox">
+		<span><em class="on">1</em></span>
+		<span><em>2</em></span>
+		<span><em>3</em></span>
+		<span><em>4</em></span>
+		<span><em>5</em></span>
+		<span><em>6</em></span>
+		<span><em>7</em></span>
+		<span><em>8</em></span>
+		<span><em>9</em></span>
+		<span><em>10</em></span>
+	</div>
+</div>
+<div class="question_wrap mcenter rel">
+<div class="question_pic">
+		<img />
+	</div>
+	<p class="question"></p>
+</div>
+<div class="answer mcenter"><ul></ul></div>
+<div style="display:none">
+	<form id="submitForm" name="submitForm" action="{php echo $this->createMobileUrl('user_question' , array('op'=>'paper','topic'=>$_GPC['topic'])) }" method="post">
+	<input type="hidden" name="type" value="answer"/>
+	<input type="hidden" id="qa_content" name="qa_content">
+		</form></div>
+	
+<script type="text/javascript">
+  var questions = {$qjson};
+                 
+  $(function() {	//入口函数开始
+    var dNum = 0 , userAnswers = [];
+    
+    function getOrderQuestion () {	//获取顺序题目开始
+    	return questions[dNum];
+    }	//获取顺序题目结束
+    
+    function genarateQuestionHtml (currentQuestion) {	//产生相应内容开始
+      $('.question_pic img').attr('src','{$_W['attachurl']}'+currentQuestion.image);
+      $('.question').html(currentQuestion.title);
+      
+      var answersHtml = '';
+        $.each(currentQuestion.answers, function(id, answer) {
+        	answersHtml += '<li data-qid="'+currentQuestion.id+'" data-aid="'+id+'" data-qacontent="'+currentQuestion.qa_content+'">'+answer+'</li>';
+        });
+        $('.answer ul').html(answersHtml);
+        $('.answer li').bind('click', function() {
+        nextFn(this);
+      });
+    }	//产生相应内容结束
+    
+    function nextFn (_this) {
+      var qid = parseInt($(_this).attr('data-qid'));
+      var aid = parseInt($(_this).attr('data-aid'));
+      var trueQaContent = $(_this).attr('data-qacontent');
+      var qaContent = qid + '_' + aid;
+      userAnswers.push(qaContent);
+      
+      if (trueQaContent == qaContent) {
+    	  $(_this).removeClass('error');
+    	  $(_this).addClass('on right');
+      } else {
+    	  $(_this).removeClass('on right');
+    	  $(_this).addClass('error');
+      }
+      
+      dNum ++;
+      var myWidth = 11 * dNum;
+      if (dNum >= parseInt(questions.length)) {
+      	$(_this).removeClass('on');
+      	$('.answer li').unbind();
+      	
+      	//submit userAnswers
+      	$("#qa_content").val(userAnswers.join("|"));
+        $("#submitForm").submit();
+      } else {
+    
+        $('.wrap').fadeOut(300);
+      	var timer=null;
+      	clearTimeout(timer);
+        timer=setTimeout(function(){
+          $('.progress_label em').eq(dNum).addClass('on');
+  		  $('.progress').css('width',myWidth+'%');
+		
+          var currentQuestion = getOrderQuestion();
+          genarateQuestionHtml(currentQuestion)
+        }, 300);
+        
+        $('.wrap').fadeIn(300);
+      }
+    }
+    
+    $('.answer li').click(function(){
+  	  nextFn(this);
+    });
+  
+    //init question
+  	var currentQuestion = getOrderQuestion();
+  	genarateQuestionHtml(currentQuestion);
+});
+</script>
+	<script>
+wx.ready(function () {
+
+  var shareData = {
+    title: '谁是{$result['nickname']}的知己？- 情感大考验',
+    desc: '敢玩吗？看看你有多了解我',
+    link: "{$_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&topic={$_GPC['topic']}&op=topic&do=user_question&m=qqh_dwm",
+    imgUrl: '{$result['avatar']}'
+  };
+  wx.onMenuShareAppMessage(shareData);
+  wx.onMenuShareTimeline(shareData);
+});
+
+</script>
+	</div>
+	<p class="coop_info">{$md_config['name']}</p>
+</body>
+</html>

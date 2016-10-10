@@ -1,0 +1,100 @@
+
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<meta name="format-detection" content="telephone=no"/>
+
+<link href="{DZ}mobile/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{DZ}mobile/css/lift.css" />
+
+
+<script src="{DZ}mobile/js/jquery.min.js"></script>
+<script src="{DZ}mobile/js/bootstrap.min.js"></script>
+
+
+<title>生命计算器</title>
+</head>
+<body class="l_index">
+
+    <div class="l_title text-center">
+        <h1>生逢何时</h1>
+    </div> <!-- E l_title -->
+
+
+    <div class="container">
+            <form action="{php echo $this->createMobileUrl('view')}" class="form-horizontal"method="post" >
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input type="number" id="date_time" name="date_time" placeholder="出生日期，如19890121" class="form-control input-lg">
+                                                <span style="color:#b92c3b;font-weight:bold;display:none;text-align:center;margin:0 auto" id="date_time_error">请按正确的格式填写，如19890121, 1-9月/日请用01-09表示.</span>
+                                            </div>
+
+                    <div class="col-sm-12 text-center">
+                        <input  type="submit" id="calculation" value="开始计算" class="btn btn-default btn-lg"/>
+                        
+                    </div>
+                </div>
+            </form>
+    </div> <!-- E container -->
+
+    <div class="music"> </div>
+
+<script>
+function CheckDateTime(str){
+    if(!parseInt(str)) return false;
+    return true;
+}
+
+$("#calculation").on('click', function() {
+    var date_time = $("#date_time").val();
+   
+    if(date_time) {
+        if(CheckDateTime(date_time))
+          return true;
+        else
+            $("#date_time_error").show();
+            return false;
+    } else {
+        $("#date_time_error").show();
+        return false;
+    }
+});
+
+
+</script>
+{php echo register_jssdk(false);}
+<script type="text/javascript">
+ wx.ready(function () {
+        url = 
+        sharedata = {
+            title: "这是一次关于生命计算，赶紧试试!",
+            desc: "你已经存在这个世界多久？未来你会有多少的光阴？一次简单的计算，让我们更懂珍惜。",
+            link: "{$_W['siteurl']}",
+            imgUrl: "{$_W['siteroot']}addons/dzduocai_life/icon.jpg",
+            success: function(){
+                
+                
+
+            },
+            cancel: function(){
+                alert("分享失败，可能是网络问题，一会儿再试试？");
+            }
+        };
+        wx.onMenuShareAppMessage(sharedata);
+        wx.onMenuShareTimeline(sharedata);
+    });
+
+
+
+
+</script>
+<style type="text/css">
+audio{text-index:-999999em;overflow:hidden;}
+</style>
+
+
+
+</body>
+</html>

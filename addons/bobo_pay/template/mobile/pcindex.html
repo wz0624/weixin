@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>{$_SESSION['sitetitle']}</title>
+    <link href="{RES}bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="{RES}js/jquery-2.0.0.min.js"></script>
+    <script src="{RES}bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{RES}js/pccalculate.js"></script>
+    <style type="text/css">
+#imglist{
+	width: 500px;margin: 0 auto;text-align: center;
+}
+#imglist img{
+	width:180px;
+	border:1px solid gray;
+	margin-top: 8px;
+	cursor: pointer;
+}
+#imglist img:HOVER {
+	border:2px solid black;
+}
+.modalstyle{
+	margin-top: 10%;
+}
+.modalbodystyle{
+	height: 400px;
+}
+#tablecss{
+	
+	width: 60%;
+	border-right:1px solid #e4e4e4;border-bottom:1px solid #e4e4e4;
+	float: left;
+}
+#tablecss1{
+	
+	width: 40%;
+	border-right:1px solid #e4e4e4;border-bottom:1px solid #e4e4e4;
+	float: right;
+}
+.tablecsstd {
+	width: 25%;
+	text-align: center;
+	border-left:1px solid #e4e4e4;border-top:1px solid #e4e4e4;
+	height: 50px;
+	padding: 0px;
+	cursor: pointer;
+}
+.tablecsstd2 {
+	width: 25%;
+	text-align: center;
+	border-left:1px solid #e4e4e4;border-top:1px solid #e4e4e4;
+	height: 50px;
+	padding: 0px;
+	cursor: pointer;
+}
+.tablecsstd1{
+	width: 25%;
+	text-align: center;
+	border-left:1px solid #e4e4e4;border-top:1px solid #e4e4e4;
+	height: 100px;
+	padding: 0px;
+	cursor: pointer;
+}
+.tablecsstd3{
+	width: 25%;
+	text-align: center;
+	border-left:1px solid #e4e4e4;border-top:1px solid #e4e4e4;
+	height: 100px;
+	padding: 0px;
+	cursor: pointer;
+}
+.tablecsstd:HOVER{
+color: white;
+	background: gray;
+}
+.tablecsstd1:HOVER{
+color: white;
+	background: gray;
+}
+.tablecsstd3:HOVER{
+color: white;
+	background: gray;
+}
+#money{
+	width: 99%;
+	margin: 10px auto;
+	height: 50px;
+	font-size: 20px;
+	border: none;
+}
+#money1{
+	width: 99%;
+	margin: 10px auto;
+	height: 50px;
+	font-size: 20px;
+	border: none;
+}
+#money2{
+	width: 99%;
+	margin: 10px auto;
+	height: 50px;
+	font-size: 20px;
+	border: none;
+}
+#money3{
+	width: 99%;
+	margin: 10px auto;
+	height: 50px;
+	font-size: 20px;
+	border: none;
+}
+#money4{
+	width: 99%;
+	margin: 10px auto;
+	height: 50px;
+	font-size: 20px;
+	border: none;
+}
+#fukuanma1{
+	width: 99%;
+	margin: 10px auto;
+	height: 50px;
+	font-size: 20px;
+	border: none;
+}
+#fukuanma3{
+	width: 99%;
+	margin: 10px auto;
+	height: 50px;
+	font-size: 20px;
+	border: none;
+}
+.tablecsstd5{
+	width: 100%;
+	height: 80px;
+	border-left:1px solid #e4e4e4;border-top:1px solid #e4e4e4;
+	text-align: center;
+	cursor: pointer;
+}
+.tablecsstd6{
+	width: 100%;
+	height: 260px;
+	border-left:1px solid #e4e4e4;border-top:1px solid #e4e4e4;
+	text-align: center;
+	cursor: pointer;
+}
+</style>
+<script type="text/javascript">
+var utype="{$_SESSION['bobo_pay_userlogin']['utype']}";
+function wxshuaka(){
+	if(utype=='2'){
+		alert("无权操作");return false;
+	}
+	$('#money1').val('');
+	$('#fukuanma1').val('');
+	$('#jieguoimg1').attr('src','{RES}img/wxshuaka.png');
+	$('#myModal').modal('show');
+}
+function wxsaoma(){
+	if(utype=='2'){
+		alert("无权操作");return false;
+	}
+	$('#money2').val('');
+	$('#jieguoimg2').attr('src','{RES}img/wxsaoma.png');
+	$('#myModal1').modal('show');
+}
+function alishuaka(){
+	if(utype=='3'){
+		alert("无权操作");return false;
+	}
+	$('#money3').val('');
+	$('#fukuanma3').val('');
+	$('#jieguoimg3').attr('src','{RES}img/alishuaka.png');
+	$('#myModal2').modal('show');
+}
+function alisaoma(){
+	if(utype=='3'){
+		alert("无权操作");return false;
+	}
+	$('#money4').val('');
+	$('#jieguoimg4').attr('src','{RES}img/alisaoma.png');
+	$('#myModal3').modal('show');
+}
+function qingkong(){
+	$('#money1').val('');
+	$('#fukuanma1').val('');
+	$('#jieguoimg1').attr('src','{RES}img/wxshuaka.png');
+}
+function qingkong1(){
+	$('#money2').val('');
+	$('#jieguoimg2').attr('src','{RES}img/wxsaoma.png');
+}
+function qingkong2(){
+	$('#money3').val('');
+	$('#fukuanma3').val('');
+	$('#jieguoimg3').attr('src','{RES}img/alishuaka.png');
+}
+function qingkong3(){
+	$('#money4').val('');
+	$('#jieguoimg4').attr('src','{RES}img/alisaoma.png');
+}
+function wxshuakashoukuan(){
+	var money=$('#money1').val();
+	if(money=='' || money=='0' || money=='0.0' || money=='0.00'){
+		alert('收款金额不能为空或0');return false;
+	}
+	var m=money.substr(money.length-1,1);
+	if(m=='.'){
+		alert('收款金额格式错误');return false;
+	}
+	var fukuanma=$('#fukuanma1').val();
+	if(fukuanma==''){
+		alert('付款码不能为空');return false;
+	}else{
+		if(!/^\d{18}$/.test(fukuanma)){
+			alert('付款码格式不对,应为长度为18位数字,请检查');return false;
+		}
+	}
+	$.ajax({
+        url: '{php echo $this->createMobileUrl('dowxpaytiaoma', array())}',
+        type: 'POST',
+        dataType: 'json',
+        data: {money: money,fukuanma:fukuanma,randomshu:Math.random()},
+        success: function (result) {
+        	if(result.status==1){
+        		$('#jieguoimg1').attr('src','{RES}img/dengdai.gif');
+        		$('#qingkong').hide();
+        		dingshi1=setTimeout("wxquery('"+result.out_trade_no+"')",5000);
+        	}else{
+        		alert(result.msg);
+        		window.location.reload();
+        	}
+        }
+    });
+}
+function wxsaomashoukuan(){
+	var money=$('#money2').val();
+	if(money=='' || money=='0' || money=='0.0' || money=='0.00'){
+		alert('收款金额不能为空或0');return false;
+	}
+	var m=money.substr(money.length-1,1);
+	if(m=='.'){
+		alert('收款金额格式错误');return false;
+	}
+	$.ajax({
+        url: '{php echo $this->createMobileUrl('dowxpayerweima', array())}',
+        type: 'POST',
+        dataType: 'json',
+        data: {money: money,randomshu:Math.random()},
+        success: function (result) {
+        	if(result.status==1){
+        		$('#jieguoimg2').attr('src',result.imgurl);
+        		$('#qingkong1').hide();
+        		dingshi1=setTimeout("wxquery1('"+result.out_trade_no+"')",8000);
+        	}else{
+        		alert(result.msg);
+        	}
+        }
+    });
+}
+function wxquery(out_trade_no){
+	var order_id=out_trade_no;
+	$.ajax({
+        url: '{php echo $this->createMobileUrl('dowxpayquery', array())}',
+        type: 'POST',
+        dataType: 'json',
+        data: {out_trade_no: out_trade_no,randomshu:Math.random()},
+        success: function (result) {
+        	if(result.status==1){
+        		$('#jieguoimg1').attr('src','{RES}img/chenggong.gif');
+        		$('#qingkong').show();
+        		return false;
+        	}else{
+        		dingshi2=setTimeout("wxquery('"+order_id+"')",5000);
+        	}
+        }
+    });
+}
+function wxquery1(out_trade_no){
+	var order_id=out_trade_no;
+	$.ajax({
+        url: '{php echo $this->createMobileUrl('dowxpayquery', array())}',
+        type: 'POST',
+        dataType: 'json',
+        data: {out_trade_no: out_trade_no,randomshu:Math.random()},
+        success: function (result) {
+        	if(result.status==1){
+        		$('#jieguoimg2').attr('src','{RES}img/chenggong.gif');
+        		$('#qingkong1').show();
+        		return false;
+        	}else{
+        		dingshi2=setTimeout("wxquery1('"+order_id+"')",5000);
+        	}
+        }
+    });
+}
+function alishuakashoukuan(){
+	var money=$('#money3').val();
+	if(money=='' || money=='0' || money=='0.0' || money=='0.00'){
+		alert('收款金额不能为空或0');return false;
+	}
+	var m=money.substr(money.length-1,1);
+	if(m=='.'){
+		alert('收款金额格式错误');return false;
+	}
+	var fukuanma=$('#fukuanma3').val();
+	if(fukuanma==''){
+		alert('付款码不能为空');return false;
+	}else{
+		if(!/^\d{18}$/.test(fukuanma)){
+			alert('付款码格式不对,应为长度为18位数字,请检查');return false;
+		}
+	}
+	$.ajax({
+        url: '{php echo $this->createMobileUrl('doalipaytiaoma', array())}',
+        type: 'POST',
+        dataType: 'json',
+        data: {money: money,fukuanma:fukuanma,randomshu:Math.random()},
+        success: function (result) {
+        	if(result.status==1){
+        		$('#jieguoimg3').attr('src','{RES}img/chenggong.gif');
+            	return false;
+        	}else if(result.status==3){
+        		$('#jieguoimg3').attr('src','{RES}img/dengdai.gif');
+            	$('#qingkong2').hide();
+        		dingshi1=setTimeout("aliquery('"+result.out_trade_no+"')",5000);
+        	}else{
+        		alert(result.msg);
+        	}
+        }
+    });
+}
+function alisaomashoukuan(){
+	var money=$('#money4').val();
+	if(money=='' || money=='0' || money=='0.0' || money=='0.00'){
+		alert('收款金额不能为空或0');return false;
+	}
+	var m=money.substr(money.length-1,1);
+	if(m=='.'){
+		alert('收款金额格式错误');return false;
+	}
+	$.ajax({
+        url: '{php echo $this->createMobileUrl('doalipayerweima', array())}',
+        type: 'POST',
+        dataType: 'json',
+        data: {money: money,randomshu:Math.random()},
+        success: function (result) {
+        	if(result.status==1){
+        		$('#jieguoimg4').attr('src',result.imgurl);
+            	$('#qingkong3').hide();
+        		dingshi1=setTimeout("aliquery1('"+result.out_trade_no+"')",8000);
+        	}else{
+        		alert(result.msg);
+        		window.location.reload();
+        	}
+        }
+    });
+}
+
+
+function aliquery(out_trade_no){
+	var order_id=out_trade_no;
+	$.ajax({
+        url: '{php echo $this->createMobileUrl('doalipayquery', array())}',
+        type: 'POST',
+        dataType: 'json',
+        data: {out_trade_no: out_trade_no,randomshu:Math.random()},
+        success: function (result) {
+        	if(result.status==1){
+        		$('#jieguoimg3').attr('src','{RES}img/chenggong.gif');
+        		$('#qingkong2').show();
+        		return false;
+        	}else{
+        		dingshi2=setTimeout("aliquery('"+order_id+"')",5000);
+        	}
+        }
+    });
+}
+function aliquery1(out_trade_no){
+	var order_id=out_trade_no;
+	$.ajax({
+        url: '{php echo $this->createMobileUrl('doalipayquery', array())}',
+        type: 'POST',
+        dataType: 'json',
+        data: {out_trade_no: out_trade_no,randomshu:Math.random()},
+        success: function (result) {
+        	if(result.status==1){
+        		$('#jieguoimg4').attr('src','{RES}img/chenggong.gif');
+        		$('#qingkong3').show();
+        		return false;
+        	}else{
+        		dingshi2=setTimeout("aliquery1('"+order_id+"')",5000);
+        	}
+        }
+    });
+}
+
+
+
+</script>
+  </head>
+  <body>
+  <p style="width: 800px; margin: 0 auto; border:1px solid; margin-top: 110px; border-bottom: 0px; line-height: 40px;">
+  <span onClick="location.href='{php echo $this->createMobileUrl('pcindex', array())}'" style="width: 100px; text-align: center;display: inline-block; background: width; cursor: pointer;">收款页</span>
+  <span onClick="location.href='{php echo $this->createMobileUrl('pcjilu', array())}'" style="width: 100px; text-align: center;display: inline-block; background: gray; color: white; cursor: pointer;border-right: 1px solid;">记录页</span>
+  <span onClick="location.href='{php echo $this->createMobileUrl('pcloginout', array())}'" style="width: 100px; text-align: center;display: inline-block; cursor: pointer;background: gray; color: white;border-right: 1px solid;margin: 0; padding: 0px;">退出登录</span>
+  </p>
+  <div style="width: 800px; height:500px;margin: 0 auto;border: 1px solid; ">
+	 <div class="main">
+		<h1 style="text-align: center;">蜜思肤微收银台</h1>
+		<hr style="width: 70%;margin: 5px auto;  color: gray;">
+		<div id="imglist" >
+		<img onClick="wxshuaka()" src="{RES}img/wxshuaka.png"  />
+		<img onClick="wxsaoma()" src="{RES}img/wxsaoma.png"  />
+		<img onClick="alishuaka()" src="{RES}img/alishuaka.png"  />
+		<img onClick="alisaoma()" src="{RES}img/alisaoma.png"  />
+		</div>
+	</div>
+</div>
+<!-- 微信刷卡 -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modalstyle" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="myModalLabel">微信刷卡</h3>
+      </div>
+      <div class="modal-body modalbodystyle" >
+      <table id="tablecss"  border="0"  cellspacing="0" cellpadding="0">
+		<tr><td class="tablecsstd2" colspan='4'><input type="text" id="money1" value="" placeholder="请输入金额,格式9999.99" disabled="disabled"/></td></tr>
+		<tr><td class="tablecsstd2" colspan='4'>
+		<input type="text" id="fukuanma1" value="" placeholder="请扫描客户付款条码" />
+		</td>
+		</tr>
+		<tr>
+		<td class="tablecsstd"  onclick="inputEvent(1,'money1')">1</td>
+		<td class="tablecsstd"  onclick="inputEvent(2,'money1')">2</td>
+		<td class="tablecsstd"  onclick="inputEvent(3,'money1')">3</td>
+		<td class="tablecsstd1" rowspan='2' onClick="del('money1')"><img src="{RES}img/shanchu.png" style="width: 40%;" /></td>
+		</tr>
+		<tr>
+		<td class="tablecsstd"  onclick="inputEvent(4,'money1')">4</td>
+		<td class="tablecsstd"  onclick="inputEvent(5,'money1')">5</td>
+		<td class="tablecsstd"  onclick="inputEvent(6,'money1')">6</td>
+		</tr>
+		<tr>
+		<td class="tablecsstd"  onclick="inputEvent(7,'money1')">7</td>
+		<td class="tablecsstd"  onclick="inputEvent(9,'money1')">8</td>
+		<td class="tablecsstd"  onclick="inputEvent(9,'money1')">9</td>
+		<td class="tablecsstd3" rowspan='2'  onclick="wxshuakashoukuan()">收<br>款</td>
+		</tr>
+		<tr>
+		<td class="tablecsstd" onClick="dot('money1')">.</td>
+		<td class="tablecsstd" onClick="inputEvent(0,'money1')">0</td>
+		<td class="tablecsstd" onClick="inputEvent('00','money1')">00</td>
+		</tr>
+		</table>
+		<table id="tablecss1"  border="0"  cellspacing="0" cellpadding="0">
+		<tr>
+		<td class="tablecsstd5" >
+			<span style='font-size: 20px;'>结果区域</span>
+		</td></tr>
+		<tr>
+		<td class="tablecsstd6"  >
+		<img id="jieguoimg1" src="{RES}img/wxshuaka.png" style="width: 100%;" />
+		</td>
+		</tr>
+		</table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button id="qingkong" type="button" class="btn btn-primary" onClick="qingkong()">清空</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 微信扫码-->
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modalstyle" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="myModalLabel">微信扫码付</h3>
+      </div>
+      <div class="modal-body modalbodystyle" >
+      <table id="tablecss"  border="0"  cellspacing="0" cellpadding="0" >
+		<tr><td class="tablecsstd2" colspan='4'><input type="text" id="money2" value="" placeholder="请输入金额,格式9999.99" disabled="disabled"/></td></tr>
+		<tr>
+		<td class="tablecsstd"  onclick="inputEvent(1,'money2')">1</td>
+		<td class="tablecsstd"  onclick="inputEvent(2,'money2')">2</td>
+		<td class="tablecsstd"  onclick="inputEvent(3,'money2')">3</td>
+		<td class="tablecsstd1" rowspan='2' onClick="del('money2')"><img src="{RES}img/shanchu.png" style="width: 40%;" /></td>
+		</tr>
+		<tr>
+		<td class="tablecsstd"  onclick="inputEvent(4,'money2')">4</td>
+		<td class="tablecsstd"  onclick="inputEvent(5,'money2')">5</td>
+		<td class="tablecsstd"  onclick="inputEvent(6,'money2')">6</td>
+		</tr>
+		<tr>
+		<td class="tablecsstd"  onclick="inputEvent(7,'money2')">7</td>
+		<td class="tablecsstd"  onclick="inputEvent(9,'money2')">8</td>
+		<td class="tablecsstd"  onclick="inputEvent(9,'money2')">9</td>
+		<td class="tablecsstd3" rowspan='2'  onclick="wxsaomashoukuan()">收<br>款</td>
+		</tr>
+		<tr>
+		<td class="tablecsstd" onClick="dot('money2')">.</td>
+		<td class="tablecsstd" onClick="inputEvent(0,'money2')">0</td>
+		<td class="tablecsstd" onClick="inputEvent('00','money2')">00</td>
+		</tr>
+		</table>
+		<table id="tablecss1"  border="0"  cellspacing="0" cellpadding="0">
+		<tr>
+		<td class="tablecsstd5" >
+			<span style='font-size: 20px;'>结果区域</span>
+		</td></tr>
+		<tr>
+		<td class="tablecsstd6"  >
+		<img id="jieguoimg2" src="{RES}img/wxsaoma.png" style="width: 100%;" />
+		</td>
+		</tr>
+		</table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button id="qingkong1" type="button" class="btn btn-primary" onClick="qingkong1()">清空</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 支付宝刷卡 -->
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modalstyle" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="myModalLabel">支付宝刷卡</h3>
+      </div>
+      <div class="modal-body modalbodystyle" >
+      <table id="tablecss"  border="0"  cellspacing="0" cellpadding="0">
+		<tr><td class="tablecsstd2" colspan='4'><input type="text" id="money3" value="" placeholder="请输入金额,格式9999.99" disabled="disabled"/></td></tr>
+		<tr><td class="tablecsstd2" colspan='4'>
+		<input type="text" id="fukuanma3" value="" placeholder="请扫描客户付款条码" />
+		</td>
+		</tr>
+		<tr>
+		<td class="tablecsstd"  onclick="inputEvent(1,'money3')">1</td>
+		<td class="tablecsstd"  onclick="inputEvent(2,'money3')">2</td>
+		<td class="tablecsstd"  onclick="inputEvent(3,'money3')">3</td>
+		<td class="tablecsstd1" rowspan='2' onClick="del('money3')"><img src="{RES}img/shanchu.png" style="width: 40%;" /></td>
+		</tr>
+		<tr>
+		<td class="tablecsstd"  onclick="inputEvent(4,'money3')">4</td>
+		<td class="tablecsstd"  onclick="inputEvent(5,'money3')">5</td>
+		<td class="tablecsstd"  onclick="inputEvent(6,'money3')">6</td>
+		</tr>
+		<tr>
+		<td class="tablecsstd"  onclick="inputEvent(7,'money3')">7</td>
+		<td class="tablecsstd"  onclick="inputEvent(9,'money3')">8</td>
+		<td class="tablecsstd"  onclick="inputEvent(9,'money3')">9</td>
+		<td class="tablecsstd3" rowspan='2'  onclick="alishuakashoukuan()">收<br>款</td>
+		</tr>
+		<tr>
+		<td class="tablecsstd" onClick="dot('money3')">.</td>
+		<td class="tablecsstd" onClick="inputEvent(0,'money3')">0</td>
+		<td class="tablecsstd" onClick="inputEvent('00','money3')">00</td>
+		</tr>
+		</table>
+		<table id="tablecss1"  border="0"  cellspacing="0" cellpadding="0">
+		<tr>
+		<td class="tablecsstd5" >
+			<span style='font-size: 20px;'>结果区域</span>
+		</td></tr>
+		<tr>
+		<td class="tablecsstd6"  >
+		<img id="jieguoimg3" src="{RES}img/alishuaka.png" style="width: 100%;" />
+		</td>
+		</tr>
+		</table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button id="qingkong2" type="button" class="btn btn-primary" onClick="qingkong2()">清空</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 支付宝扫码-->
+<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modalstyle" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="myModalLabel">支付宝扫码付</h3>
+      </div>
+      <div class="modal-body modalbodystyle" >
+      <table id="tablecss"  border="0"  cellspacing="0" cellpadding="0" >
+		<tr><td class="tablecsstd2" colspan='4'><input type="text" id="money4" value="" placeholder="请输入金额,格式9999.99" disabled="disabled"/></td></tr>
+		<tr>
+		<td class="tablecsstd"  onclick="inputEvent(1,'money4')">1</td>
+		<td class="tablecsstd"  onclick="inputEvent(2,'money4')">2</td>
+		<td class="tablecsstd"  onclick="inputEvent(3,'money4')">3</td>
+		<td class="tablecsstd1" rowspan='2' onClick="del('money4')"><img src="{RES}img/shanchu.png" style="width: 40%;" /></td>
+		</tr>
+		<tr>
+		<td class="tablecsstd"  onclick="inputEvent(4,'money4')">4</td>
+		<td class="tablecsstd"  onclick="inputEvent(5,'money4')">5</td>
+		<td class="tablecsstd"  onclick="inputEvent(6,'money4')">6</td>
+		</tr>
+		<tr>
+		<td class="tablecsstd"  onclick="inputEvent(7,'money4')">7</td>
+		<td class="tablecsstd"  onclick="inputEvent(9,'money4')">8</td>
+		<td class="tablecsstd"  onclick="inputEvent(9,'money4')">9</td>
+		<td class="tablecsstd3" rowspan='2'  onclick="alisaomashoukuan()">收<br>款</td>
+		</tr>
+		<tr>
+		<td class="tablecsstd" onClick="dot('money4')">.</td>
+		<td class="tablecsstd" onClick="inputEvent(0,'money4')">0</td>
+		<td class="tablecsstd" onClick="inputEvent('00','money4')">00</td>
+		</tr>
+		</table>
+		<table id="tablecss1"  border="0"  cellspacing="0" cellpadding="0">
+		<tr>
+		<td class="tablecsstd5" >
+			<span style='font-size: 20px;'>结果区域</span>
+		</td></tr>
+		<tr>
+		<td class="tablecsstd6"  >
+		<img id="jieguoimg4" src="{RES}img/alisaoma.png" style="width: 100%;" />
+		</td>
+		</tr>
+		</table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button id="qingkong3" type="button" class="btn btn-primary" onClick="qingkong3()">清空</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </body>
+</html>

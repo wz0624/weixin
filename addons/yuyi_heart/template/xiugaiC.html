@@ -1,0 +1,31 @@
+{template 'common/header'}
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">修改用户评论</h3>
+  </div>
+  <div class="panel-body">
+   <form role="form" action="" method="post" id="setting-form">
+  <div class="form-group">
+    <label for="name">评论</label>
+    <textarea class="form-control" rows="3" id="content" name="content">{$data['content']}</textarea>
+  </div>
+  	<input class="btn btn-default" type="submit" value="提交" name="submit"/>
+      <input type="hidden" name="token" value="{$_W['token']}"/>
+</form>
+  </div>
+</div>
+<script>
+require(['jquery', 'util'], function($, util){
+  $(function(){
+    $('#setting-form').submit(function(){
+      var result = true;
+      if($('#content').val() == ''){
+        result = false;
+        util.message('未填写评论.');
+      }
+      return result;
+    });
+  });
+});
+</script>
+{template 'common/footer'}

@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>{$item['share_title']}</title>
+<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<!DOCTYPE html>
+<html>
+ <head> 
+
+<script type="text/css">
+.button2 {
+	font-size: 16px;
+	padding: 8px 0;
+	border: 1px solid #adadab;
+	color: #000000;
+	background-color: #e8e8e8;
+	background-image: linear-gradient(to top, #dbdbdb, #f4f4f4);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.45), inset 0 1px 1px #efefef;
+	text-shadow: 0.5px 0.5px 1px #fff;
+	text-align: center;
+	border-radius: 3px;
+	width: 100%;
+}
+#share_1 {
+float: left;
+width: 49%;
+display: block;
+}
+
+
+</script>
+<style type="text/css">
+.content {
+	padding:5px
+}
+.content img {
+  width: 95%;
+  max-width: 95%;
+  text-align:center;
+  
+}
+</style>
+
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="format-detection" content="telephone=no" />
+	   
+  <title>{$reply['jiesaoTitle']}</title> 
+  
+  <link rel="stylesheet" type="text/css" href="../addons/hc_chuansong/css/article.css" />
+  	<link href="../addons/hc_chuansong/css/activity-style.css" rel="stylesheet" type="text/css">
+ </head> 
+ <body id="activity-detail" class="zh_CN " style="z-index:888"> 
+				 <div id="mcover" onclick="document.getElementById('mcover').style.display='none';"  style="display:none;position:absolute;width:100%;height:100%"><img src="../addons/hc_fxdaren/images/sharePic.png" style="height: 99%;z-index: 99999;display:absolute;" alt="" id="foot"/></div>
+
+	 
+  <div class="rich_media"> 
+   <div class="rich_media_inner"> 
+
+<div style=" text-align:center" class="content">
+{$item['share_detail']}
+</div>
+
+	
+	
+	
+
+
+
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+{php $signPackage=$_W['account'][jssdkconfig];}	           
+<script type="text/javascript">
+  /*
+   * 注意：
+   * 1. 所有的JS接口只能在公众号绑定的域名下调用，公众号开发者需要先登录微信公众平台进入“公众号设置”的“功能设置”里填写“JS接口安全域名”。
+   * 2. 如果发现在 Android 不能分享自定义内容，请到官网下载最新的包覆盖安装，Android 自定义分享接口需升级至 6.0.2.58 版本及以上。
+   * 3. 完整 JS-SDK 文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
+   *
+   * 如有问题请通过以下渠道反馈：
+   * 邮箱地址：weixin-open@qq.com
+   * 邮件主题：【微信JS-SDK反馈】具体问题
+   * 邮件内容说明：用简明的语言描述问题所在，并交代清楚遇到该问题的场景，可附上截屏图片，微信团队会尽快处理你的反馈。
+   */
+  wx.config({
+    debug: false,
+    appId: '<?php echo $signPackage["appId"];?>',
+    timestamp: <?php echo $signPackage["timestamp"];?>,
+    nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+    signature: '<?php echo $signPackage["signature"];?>',
+    jsApiList: [
+      'onMenuShareAppMessage',
+	  'onMenuShareTimeline',
+	  'onMenuShareQQ',	  
+    ]
+  });
+  wx.ready(function () {
+    wx.onMenuShareAppMessage({
+      title: "{$reply[jiesaoTitle]}",
+      desc: "{$reply[description2]}",
+      link: "{$staturl}",
+      imgUrl: "{$imgurl}",
+      trigger: function (res) {
+        //alert('用户点击发送给朋友');
+      },
+      success: function (res) {
+        //window.location.href =adurl;//分享成功回调
+      },
+      cancel: function (res) {
+       //window.location.href =adurl;//取消回调
+      },
+      fail: function (res) {
+        alert(JSON.stringify(res));//失败回调
+      }
+    });
+	wx.onMenuShareTimeline({
+      title: "{$reply[jiesaoTitle]}",
+      desc: "{$reply[description2]}",
+      link: "{$staturl}",
+      imgUrl: "{$imgurl}",
+      trigger: function (res) {
+        //alert('用户点击发送给朋友');
+      },
+      success: function (res) {
+        //window.location.href =adurl;//分享成功回调
+      },
+      cancel: function (res) {
+       //window.location.href =adurl;//取消回调
+      },
+      fail: function (res) {
+        alert(JSON.stringify(res));//失败回调
+      }
+    });
+	wx.onMenuShareQQ({
+      title: "{$reply[jiesaoTitle]}",
+      desc: "{$reply[description2]}",
+      link: "{$staturl}",
+      imgUrl: "{$imgurl}",
+      trigger: function (res) {
+        //alert('用户点击发送给朋友');
+      },
+      success: function (res) {
+        //window.location.href =adurl;//分享成功回调
+      },
+      cancel: function (res) {
+       //window.location.href =adurl;//取消回调
+      },
+      fail: function (res) {
+        alert(JSON.stringify(res));//失败回调
+      }
+    });
+	
+	
+	
+	
+  });
+</script>
+</body>
+</html>

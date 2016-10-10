@@ -1,0 +1,43 @@
+.contents{width:auto;background-color: #e2e2e2;padding: 10px 5px;}
+
+.head{text-align: left;padding-left: 50px;padding-top: 0px;height: 50px;line-height: 50px;background-image: none;}
+.head a.job-back{width: 40px;height: 50px;background: url("../images/icon_job_back.png") center center no-repeat;background-size: 11px 18px;}
+
+.job{background-color: #fff;margin-bottom: 15px;position: relative;padding: 12px 10px;}
+.job,.job p{line-height: 20px;margin-bottom: 5px;color: #919192;font-size:13px;}
+.job.last{margin-bottom: 0px;padding-bottom: 0px;}
+.job>h2{color: #302f2b;font-size: 16px;font-weight: bold;border-left:5px solid #688fd0; padding-left: 10px;margin-bottom: 10px;}
+.job .position{padding-bottom: 5px;}
+.job .position h2{color: #688fd0;font-size: 17px;margin-bottom: 5px;}
+.position p{line-height: 20px;color: #302f2b;font-size:14px;}
+.position .money{color: #688fd0;}
+.jop-position p span{font-size: 14px;}
+.jop-position p span.title{width: 30%;color: #302f2b;text-align: left;letter-spacing: 1px;}
+.jop-position p span.value{width: 65%;color: #919192;letter-spacing: 1px;}
+
+.vip{position: absolute;right: 10px;top:0px;width:36px ;height:37px ;background-size: 36px 37px;}
+.company-name img{width: 70px;border:1px solid #688fd0;margin-right: 8px;height: 70px;}
+.company-name .name-txt{width: 70%;}
+.company-name p{color: #302f2b;font-size: 16px;margin-bottom: 10px;}
+.company-name p.long-name{margin-bottom: 0px;color: #919192;padding-right: 28px;}
+
+.job .environment-pic img{width: 100%;}
+
+.send-collect{width: 100%;height:47px;background-color: #f8f8f8; }
+.send-collect a,.send-collect a:hover{display: block;text-align: center;text-decoration: none;font-size: 16px;float: left;width: 50%;height: 47px;color: #000;line-height: 47px;overflow: hidden;letter-spacing: 3px;}
+.send-collect a.resume-collect{text-shadow:1px 1px #ece9e9,2px 2px #ece9e9,3px 3px #ece9e9,4px 4px #ece9e9,5px 5px #ece9e9,6px 6px #ece9e9,7px 7px #ece9e9,8px 8px #ece9e9,9px 9px #ece9e9,10px 10px #ece9e9,11px 11px #ece9e9,12px 12px #ece9e9,13px 13px #ece9e9,14px 14px #ece9e9,15px 15px #ece9e9,16px 16px #ece9e9,17px 17px #ece9e9,18px 18px #ece9e9,19px 19px #ece9e9,20px 20px #ece9e9,21px 21px #ece9e9,22px 22px #ece9e9,23px 23px #ece9e9,24px 24px #ece9e9,25px 25px #ece9e9,26px 26px #ece9e9,27px 27px #ece9e9,28px 28px #ece9e9,29px 29px #ece9e9;}
+.send-collect a.send-resume{background: url("../images/send_resume.png") center center no-repeat;background-size: 100% 100%;color: #fff;overflow: hidden;letter-spacing: 1px;}
+.send-collect a.send-resume{text-shadow:1px 1px #688fd0,2px 2px #688fd0,3px 3px #688fd0,4px 4px #688fd0,5px 5px #688fd0,6px 6px #688fd0,7px 7px #688fd0,8px 8px #688fd0,9px 9px #688fd0,10px 10px #688fd0,11px 11px #688fd0,12px 12px #688fd0,13px 13px #688fd0,14px 14px #688fd0,15px 15px #688fd0,16px 16px #688fd0,17px 17px #688fd0,18px 18px #688fd0,19px 19px #688fd0,20px 20px #688fd0,21px 21px #688fd0,22px 22px #688fd0,23px 23px #688fd0,24px 24px #688fd0,25px 25px #688fd0,26px 26px #688fd0,27px 27px #688fd0,28px 28px #688fd0,29px 29px #688fd0;}
+.job .describe-txt ol,.job .require-txt ol{list-style:decimal inside;}
+.job .describe-txt ul,.job .require-txt ul{list-style:disc inside; }
+.job-lists{padding: 5px 5px 20px;}
+.job-lists-tit{height: 30px;border-bottom: 2px solid #e3b5b5;line-height: 30px;}
+.job-lists-tit>span{color: #e80000;font-size: 18px;border-bottom: 2px solid #e80000;font-weight: bold;padding-right: 10px;padding-left: 5px;letter-spacing: 3px;}
+.job-item{padding-bottom: 5px;}
+.job-item li{line-height: 20px;margin: 5px 0px;background:#fff url("../images/job_item_inner.png") 98% center no-repeat;background-size: 8px 14px;border: 1px solid #F1EEEE;}
+.job-item li a{display: block;padding: 9px 0px 1px 1px;}
+.job-item li a p{width: 70%;font-size: 15px;}
+.job-item li a p.job-item-tit{color: #302f2b;padding-left: 8px;}
+.job-item li a p.job-item-intro{color: #919192;font-size: 13px;margin-top: 10px;line-height: 16px;padding-bottom: 5px;}
+p.job-item-intro span{padding: 0px 8px;border-right: 1px solid #919192;}
+p.job-item-intro span.last{border-right: 0px;}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>支付成功</title>
+	<meta name="format-detection" content="telephone=no, address=no">
+	<meta name="apple-mobile-web-app-capable" content="yes" /> <!-- apple devices fullscreen -->
+	<meta name="apple-touch-fullscreen" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="keywords" content="支付成功" />
+	<meta name="description" content="" />
+	{php echo register_jssdk(false);}
+	<link href="//cdn.bootcss.com/weui/0.4.0/style/weui.min.css" rel="stylesheet">
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	<script>
+	var dashang_flower = {$list['dashang_flower']};//打赏提示
+	var gift_flower = {$list['gift_flower']};//送礼提示
+	</script>
+</head>
+<body>
+<div class="msg">
+<div class="weui_msg">
+    <div class="weui_icon_area"><i class="weui_icon_success weui_icon_msg"></i></div>
+    <div class="weui_text_area">
+        <h2 class="weui_msg_title">支付成功</h2>
+        <p class="weui_msg_desc">点击以下按钮”返回“，或”关闭“。</p>
+    </div>
+    <div class="weui_opr_area">
+        <p class="weui_btn_area">
+            <a href="{php echo $this->createMobileUrl('detail', array('listid' => $listid))}" class="weui_btn weui_btn_primary">返回直播</a>
+            <a href="javascript:wx.closeWindow();" class="weui_btn weui_btn_default">关闭</a>
+        </p>
+    </div>
+   
+</div>
+</div>
+<script>
+var fans_info = {
+		'nickname':"{$user['nickname']}",
+		'avatar':"{$user['avatar']}",
+		'openid':"{$user['openid']}"
+};	
+   
+var SOCKET = new io('ws://online.meepo.com.cn/');
+{if !empty($pinglun)}
+SOCKET.on('connect', function () {
+  SOCKET.emit('join', fans_info);
+});
+var type = "{$pinglun['type']}";
+if(type=='redpack'){
+  SOCKET.emit('dashang',{'type':'redpack','gift_number':1,'money':"{$pinglun['money']}",'openid':"{$pinglun['openid']}"});
+}else{
+  SOCKET.emit('gift',{'type':type,'gift_number':"{$pinglun['num']}",'money':"{$pinglun['money']}",'openid':"{$pinglun['openid']}",'content':"{$pinglun['content']}"});	
+
+}
+{/if}
+    
+</script>
+</body>
+</html>

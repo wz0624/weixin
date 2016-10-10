@@ -1,0 +1,152 @@
+{template 'header'}
+<style>
+html{overflow:hidden;}
+body{background:#F3D556; width:100%; height:100%;}
+.client_img{ text-align:center; margin:10px auto;}
+.result_btn_box{ margin:0 15px 15px 15px; background:#d05d44; border:2px solid #f39800; border-radius:8px;color:#FFF;display:-webkit-box;}
+.result_btn_box div{-webkit-box-flex:4;text-align:center;font-size:14px;font-weight:bold;}
+.result_btn_box div span{padding:5px 0;display:block;border-radius:7px;}
+.actvice span{ background:#FFF;color:#d05d44;}
+.result_btn_til{margin:0 auto 5px auto; background:#FFF;border-radius:8px;color:#999;display:table; width:90%;}
+ul.list,ul.list li{margin:0;padding:0;list-style:none;}
+ul.list{margin:0 15px 5px 15px;}
+ul.list li{background:#fff799;border-radius:8px;color:#666;display:table;width:100%;margin:0 0 5px 0;}
+.j_row{display:table-row;}
+.j_row div{text-align:center;font-size:14px;padding:8px 0;width:30%}
+.j_cell3{width:30%;display:table-cell;}
+.j_cell4{width:40%;display:table-cell;}
+.game_btns{ background:#d05d44; border-radius:5px; display:inline-block; padding:5px 20px;color:#FFF; font-size:16px;}
+a:visited{color:#FFF}
+.red{color:#C03}
+.footermenu{ position:fixed;height:40px; border-top:1px solid #DDD; background:#F3D556; bottom:0; left:0;right:0;z-index:3}
+</style>
+<div class="client_img"><img src="{$_W['attachurl']}{$item['qrcode']}" onerror="this.src='../addons/j_shakelucky/template/image/logo.jpg'" style="max-height:100px;" /></div>
+<div class="result_btn_box">
+  <div class="actvice" onclick="changeDv(0)"><span>奖品池</span></div>
+  <div onclick="changeDv(1)"><span>中奖名单</span></div>
+  <div onclick="changeDv(2)"><span>我的记录</span></div>
+</div>
+<div class="showbox">
+  <div class="result_btn_til">
+    <div class="j_row">
+      <div class="j_cell4"><span>奖品名称</span></div>
+      <div class="j_cell3"><span>总数量</span></div>
+      <div class="j_cell3"><span>剩余数量</span></div>
+    </div>
+  </div>
+  <ul class="list">
+    {loop $list_prize $row}
+    <li>
+      <div class="j_row">
+        <div class="j_cell4">{$row['title']}</div>
+        <div class="j_cell3">{$row['remain']}</div>
+        <div class="j_cell3">{php echo $row['total']+intval($row['othernum'])}</div>
+      </div>
+    </li>
+    {/loop}
+    <li style="padding:10px;">
+    <div style=" padding-bottom:5px; margin:0 0 10px 0; border-bottom:#F3D556 1px solid" class="red"><strong>奖项说明</strong></div>
+    {$item['gamecontent']}</li>
+  </ul>
+</div>
+<div class="showbox hide">
+  <div class="result_btn_til">
+    <div class="j_row">
+      <div class="j_cell4"><span>得奖者</span></div>
+      <div class="j_cell3"><span>奖品名称</span></div>
+      <div class="j_cell3"><span>摇奖时间</span></div>
+    </div>
+  </div>
+  <ul class="list">
+  	<li style="padding:5px;text-align:center;">仅显示最新中奖10名朋友</li>
+    {loop $list_isprize $row}
+    <li>
+      <div class="j_row">
+        <div class="j_cell4">{$row['nickname']}</div>
+        <div class="j_cell3">{php echo $prizeAry[$row['prizeid']]}</div>
+        <div  class="j_cell3" style="font-size:12px">{php echo date('m-d G:i',$row['createtime'])}</div>
+      </div>
+    </li>
+    {/loop}
+  </ul>
+</div>
+<div class="showbox hide">
+  <div class="result_btn_til">
+    <div class="j_row">
+      <div class="j_cell3"><span>奖品名称</span></div>
+      <div class="j_cell4"><span>提供商家</span></div>
+      <div class="j_cell3"><span>摇奖时间</span></div>
+    </div>
+  </div>
+  <ul class="list">
+  	{loop $list_record $row}
+    <li>
+      <div class="j_row">
+        <div class="j_cell3 red">{php echo $prizeAry[$row['prizeid']]}</div>
+        <div class="j_cell4">{php echo $prizeSonAry[$row['prizeid']]}</div>
+        <div  class="j_cell3" style="font-size:12px">{php echo date('m-d G:i',$row['createtime'])}</div>
+      </div>
+    </li>
+    {/loop}
+    {if empty($list_record)}
+    <li style="padding:10px;text-align:center;">大奖还没出现，朋友仍需努力！</li>
+    {else}
+    <li style="padding:10px;">
+    <div style=" padding-bottom:5px; margin:0 0 10px 0; border-bottom:#F3D556 1px solid" class="red"><strong>领奖说明</strong></div>
+    {$item['content']}</li>
+    <li style="padding:10px;font-size:14px">
+    	<div style="padding-bottom:5px; margin:0 0 10px 0; border-bottom:#F3D556 1px solid" class="red"><strong>兑奖二维码</strong></div>
+    	<div class="text-center">请将下面的二维码出示给店铺店员</div>
+        <img src="{php echo $codeurl}" style="width:100%"/>
+    </li>
+    {/if}
+  </ul>
+</div>
+{template 'footer'}
+<div style="height:40px;">&nbsp;</div>
+<div class="footermenu text-center" style="padding:5px 0; height:auto;">
+{if $item['status']==1}
+<a href="{php echo $this->createMobileUrl('enter',array('id'=>$id))}" class="game_btns">回去摇奖</a>&nbsp;&nbsp;&nbsp;&nbsp;
+{/if}
+<a href="javascript:share_mo(1);" class="game_btns">炫耀战绩</a></div>
+<!--分享-->
+<div class="hide">
+  <div class="result_share" onclick="share_mo(0)"><img src="../addons/j_shakelucky/template/image/share.gif" style="width:100%;"/><div style="padding:10px; text-align:center"><a href="javascript:share_mo(0)" class="game_btns">关闭</a></div></div>
+</div>
+
+<script language="javascript">
+function changeDv(n){
+	if($(".result_btn_box div").eq(n).hasClass("actvice"))return;
+	$(".result_btn_box div").removeClass("actvice").eq(n).addClass("actvice")
+	$(".showbox").not('hide').addClass("hide").eq(n).removeClass('hide');
+}
+function share_mo(obj){
+	var temp=obj ? true:false;
+	$('j').Jetsum.modal({target:".result_share",do:temp});
+}
+wx.ready(function () {
+	sharedata = {
+		title: "{$item['title']}",
+		desc: "{$item['description']}",
+		link: "{php echo str_replace('&wxref=mp.weixin.qq.com','',$_W['siteurl'])}&fid={$_W['openid']}",
+		imgUrl:"{$_W['attachurl']}{$item['clientpic']}",
+		success: function(){
+			//location.href="./index.php?c=home&i={$_W['uniacid']}";
+		}
+	};
+	wx.onMenuShareAppMessage(sharedata);
+	var menulistoption=['menuItem:share:qq','menuItem:openWithQQBrowser','menuItem:copyUrl','menuItem:openWithSafari','menuItem:originPage','menuItem:share:QZone','menuItem:share:weiboApp'];
+	wx.hideMenuItems({
+		menuList: menulistoption
+    });
+	
+	wx.onMenuShareTimeline({
+      title: sharedata.title,
+      link: sharedata.link,
+      imgUrl: sharedata.imgUrl,
+      success: function (res) {
+      	//location.href="./index.php?c=home&i={$_W['uniacid']}";
+      }
+    });
+});
+</script>

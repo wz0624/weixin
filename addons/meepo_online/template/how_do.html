@@ -1,0 +1,40 @@
+{template 'common/header'}
+{template 'nav'}
+{template 'list_nav'}
+<div class="panel panel-warning">
+	<div class="panel-heading">
+		如何操作:<br><br>
+		1 . 添加图文消息 设置相应的关键词 图文来源链接通过点击下面的链接 复制粘贴过去！<br><br>
+		2 . <font color=red>非认证服务号</font>、必须借用认证服务号才能使用二维码触发 功能选项->借用oauth<br><br>
+		3 . <font color=red>未开通微信支付的认证类号</font>、如果需要支持打赏和送礼、请借用开通了微信支付的认证服号、<strong>非认证订阅号和认证服务号请别开启打赏和送礼功能</strong>
+	</div>
+</div>
+
+<div class="account">
+		<div class="panel panel-default row">
+			<div class="panel-body">
+				<div class="clearfix">
+					<div class="col-sm-10">
+						<p>
+							<strong>当前直播触发方式</strong>
+						</p>
+						<p><strong>直播链接地址： </strong> <a href="javascript:;" style="color:#66667C;">{$qr_url}</a></p>
+						<br>
+						二维码：
+						<img src="http://qr.liantu.com/api.php?text={php echo urlencode($qr_url)}" class="img-responsive img-thumbnail" width="150" onerror="this.src='resource/images/gw-wx.gif'">
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+<script>
+	  $(function(){
+		$('.account p a').each(function(){
+			util.clip(this, $(this).text());
+		});
+	});
+	
+
+</script>
+
+{template 'common/footer'}

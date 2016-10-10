@@ -1,0 +1,19 @@
+<form method="post" action="{php echo url('site/entry/smsaddnum',array('m' => 'stonefish_member','save' => 'yes'))}" id="form1">
+	<input type="hidden" name="uid" value="{$data['id']}">
+	<div class="table-responsive" style="height:200px;overflow-Y: auto; overflow-X:hidden;">
+	<table class="table" style="min-width:568px;">
+	<tr>
+		<td style="border-top:none;vertical-align:middle;width:180px;"><strong>购买短信条数</strong></td>
+		<td style="border-top:none;vertical-align:middle"><input type="text" id="title" class="form-control" name="smstotal" value="1000"></td>
+	</tr>
+	<tr>
+		<td style="border-top:none;vertical-align:middle;width:180px;"><strong>备注说明</strong></td>
+		<td style="border-top:none;vertical-align:middle"><input type="text" id="title" class="form-control" name="smsinfo" value=""></td>
+	</tr>
+	<tr>
+		<td style="border-top:none;vertical-align:middle;" colspan="2"><button class="btn btn-primary"><i class="fa fa-file-text-o"></i> 保存购买短信条数</button></td>
+	</tr>
+	<input name="token" type="hidden" value="{$_W['token']}"/>
+	</table>
+	</div>
+</form>

@@ -1,0 +1,91 @@
+{template 'common/header'}
+<div class="container">
+	<div class="row" style="height:40px;line-height:40px;background-color:rgb(245,245,245);border-bottom:1px dashed grey;">
+		<h5><strong>最新科目一题库2015</strong><small>-科目一模拟考试 <span class="label label-success">100</span> 题</small></h5>
+	</div>
+	<div class="row">
+		<input type="button" class="form-control btn btn-default" id="handpager" onclick="KaoShi.handpaper();" data-toggle="modal" data-target="#myModal"  value="交卷">
+	</div>
+</div>
+<div class="container">
+	<div class="navbar">
+		<div class="row" id="title" style="font-size:14px;">
+		</div>
+		<div class="row" id="pic">
+		</div>
+	</div>
+	<div class="row">
+			<span class="label label-success" id="t_sort"></span>
+			<span class="label label-info" id="t_type"></span>
+		</div>
+	<div class="row" id="items">
+	模拟考试
+	</div>
+	<div class="row" id="alert">
+	45分钟，100题，90分及格
+	</div>
+	<div class="row" id="start_kaoshi">
+		<input type="button" class="btn btn-warning form-control" value="开始考试">
+	</div>
+	<div class="row" id="p_n_control" style="display:none">
+		<input type="hidden" value="" id="t_id_hidden">
+		<input class="col-md-6 col-xs-6 btn btn-primary btn-lg" type="button" id="prev" value="上一题">
+		<input class="col-md-6 col-xs-6 btn btn-primary btn-lg" type="button" id="next" value="下一题">
+	</div>
+</div>
+<!--modal-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">考试成绩</h4>
+      </div>
+      <div class="modal-body">
+      	<dl class="dl-horizontal">
+      		<dt>考分</dt>
+      		<dd id="kaoshi_result_num"></dd>
+      	</dl>
+      	<dl class="dl-horizontal">
+      		<dt>结果</dt>
+      		<dd id="kaoshi_result"></dd>
+      	</dl>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="KaoShi.see_ct()">查看我的错题</button>
+      </div>
+    </div>
+  </div>
+</div>
+<input type="hidden" id="t_id_arr" value="{$t_id_arr}">
+<script type="text/javascript" src="{$_W['siteroot']}addons/jiakao_system/js/KaoShi.js"></script>
+<script>
+$(function(){
+	//页面初次加载完成，那么需要获取第一个题目
+	KaoShi.web_root = "{$_W['siteroot']}";
+	var id_arr = $("#t_id_arr").val();
+	
+	//向下翻页
+	$("#next").click(function(){
+		KaoShi.next();
+	})
+	//向上翻页
+	$("#prev").click(function(){
+		KaoShi.prev();
+	})
+	//确认跳转
+	$("#t_id_change_confrim").click(function(){
+		var t_id = $("#t_id_change").val();
+		KaoShi.changeitem(t_id);
+	})
+	//时间倒计时45分钟
+	//点击开始答题
+	$("#start_kaoshi").click(function(){
+		$(this).css("display","none");
+		$("#p_n_control").css("display","block");
+		KaoShi.init(id_arr,"mn_",100);
+	})
+})
+</script>
+{template 'common/footer'}

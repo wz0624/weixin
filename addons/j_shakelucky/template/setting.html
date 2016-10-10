@@ -1,0 +1,61 @@
+{template 'common/header'}
+<script>
+require(['bootstrap.switch', 'util'], function($, u){
+	$(function(){
+		$('.make-switch').bootstrapSwitch();
+	});
+});
+</script>
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+		<div class="panel panel-default">
+			<div class="panel-heading">参数设置</div>
+			<div class="panel-body">
+            	<div class="form-group">
+                  <label class="col-xs-12 col-sm-3 col-md-2 control-label">资料收集</label>
+                  <div class="col-sm-9">
+                     <label class="radio-inline">
+                      <input type="radio" name="need_info" value="0" {if $settings['need_info'] == 0 || empty($settings['need_info'])} checked{/if} />
+                      关闭</label>
+                    <label class="radio-inline">
+                      <input type="radio" name="need_info" value="1" {if $settings['need_info'] == 1} checked{/if} />
+                      开启</label>
+                    <div class="help-block">是否需要填写姓名和电话等资料后，才能领奖</div>
+                  </div>
+                </div>
+			</div>
+            <div class="panel-heading">助力设置</div>
+			<div class="panel-body">
+            	<div class="form-group">
+                  <label class="col-xs-12 col-sm-3 col-md-2 control-label">助力开关</label>
+                  <div class="col-sm-9">
+                     <label class="radio-inline">
+                      <input type="radio" name="is_sharehelp" value="0" {if $settings['is_sharehelp'] == 0} checked{/if} />
+                      关闭</label>
+                    <label class="radio-inline">
+                      <input type="radio" name="is_sharehelp" value="1" {if $settings['is_sharehelp'] == 1} checked{/if} />
+                      开启</label>
+                    <div class="help-block">是否需要填写姓名和电话等资料后，才能领奖</div>
+                  </div>
+                </div>
+            	<div class="form-group">
+                  <label class="col-xs-12 col-sm-3 col-md-2 control-label">Appid</label>
+                  <div class="col-sm-9">
+                     <input type="text" name="auto_appid" class="form-control" value="{$settings['auto_appid']}"/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-xs-12 col-sm-3 col-md-2 control-label">AppSecret</label>
+                  <div class="col-sm-9">
+                     <input type="text" name="auto_appsecret" class="form-control" value="{$settings['auto_appsecret']}"/>
+                  </div>
+                </div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+{template 'common/footer'}

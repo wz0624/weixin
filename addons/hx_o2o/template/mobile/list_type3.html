@@ -1,0 +1,65 @@
+{template 'header'}
+<style type="text/css">.s12{width: 100% !important;}</style>
+    <header>
+        <a href="{php echo $this->createMobileUrl('main')}" class="waves-effect waves-teal btn-flat go_back"> <i class="fa fa-angle-left"></i>
+        </a>
+        <span>{$category['name']}</span>
+    </header>
+    <section id="article-list">
+        {loop $list $row}
+        <div class="row">
+            <div class="col s12 m7">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="{php echo tomedia($row['thumb'])}"></div>
+                    <div class="card-content">
+                        <p>{$row['name']}</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="{php echo $this->createMobileUrl('detail',array('id'=>$row['id']))}">{$row['description']}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {/loop}
+    </section>
+    <section>
+    <div class="mr_bottom"></div>
+    <div class="row load_mare">
+        <div class="col s12 center-align">
+            <a href="javascript:void(0)" class="waves-effect waves-light btn teal lighten-2" id="load-more">
+                <i class="fa fa-refresh"></i> 加载更多
+            </a>
+        </div>
+    </div>
+</section>
+    <div class="split_line"></div>
+    <script type="text/javascript">
+    var page = 3;
+    $(function()
+    {
+        $('#load-more').click(function()
+        {
+            ajax('{php echo $this->createMobileUrl('list',array('catid'=>$catid))}', {"page": page}, function(result)
+            {
+                if (result.status == 1)
+                {
+                    var data = result.data,
+                        str  = '';
+                    $.each(data, function(k)
+                    {
+                        str += '<div class="row"><div class="col s12 m7"><div class="card"><div class="card-image"><img src="' + (data[k].thumb) + '"></div><div class="card-content"><p>' + (data[k].name) + '</p></div><div class="card-action"><a href="' + (data[k].url) + '">' + (data[k].description) + '</a></div></div></div></div>';
+                    })
+                    $('#article-list').append(str);
+                    ++page;
+                }
+                else
+                {
+                    tips(result.message);
+                    $('#load-more').fadeOut();
+                }
+            }, 'GET');
+        })
+    });
+</script>
+{template 'footer'}

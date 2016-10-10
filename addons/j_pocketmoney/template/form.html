@@ -1,0 +1,450 @@
+
+<input type="hidden" name="reply_id" value="{$reply['id']}" />
+<style>
+div[class^='module_']{ display:none;}
+</style>
+<div class="panel panel-default">
+  <div class="panel-heading"> 回复设置 </div>
+  <div class="panel-body">
+  {if $reply['id']}
+  	<div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">&nbsp;</label>
+      <div class="col-sm-9">
+         {$_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&do=index&m=j_pocketmoney&r_id={php echo $rid}
+        <div class="help-block">如果是【现场红包】,请复制上面的链接到【摇一摇周边】设备中</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">管理</label>
+      <div class="col-sm-9">
+         <a href="{php echo $this->createWebUrl('user',array('id'=>$rid));}" target="_blank" class="btn btn-default">会员管理</a>&nbsp;&nbsp;
+         <a href="{php echo $this->createWebUrl('record',array('id'=>$rid));}" target="_blank" class="btn btn-default">发放记录</a>
+      </div>
+    </div>
+    {/if}
+  	<div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">游戏模式</label>
+      <div class="col-sm-9">
+         <label class="radio-inline">
+          <input type="radio" name="gametype" value="0" onClick="showTag(0)"{if $reply['gametype'] == 0 } checked{/if} />
+          非现场红包</label>
+        <label class="radio-inline">
+          <input type="radio" name="gametype" value="1" onClick="showTag(1)" {if $reply['gametype'] == 1} checked{/if} />
+          现场红包</label>
+        <div class="help-block">非现场红包，可用分享增加抽奖机会；现场红包，通过【摇一摇周边】设备派送的活动，分享将不能增加次数；【有客户参与后，请勿修改！】；积分抽取，使用微赞积分抽取，属于【非现场红包】</div>
+      </div>
+    </div>
+  	<div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">标题</label>
+      <div class="col-sm-9">
+        <input type="text" value="{$reply['title']}" class="form-control"  name="title">
+          <div class="help-block">用户发送关键词返回的图文主题。</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">封面</label>
+      <div class="col-sm-9">
+        {php echo tpl_form_field_image('cover', $reply['cover'])}
+        <div class="help-block">建议尺寸：450*250px【现场红包下，无需填写】</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">转发小图</label>
+      <div class="col-sm-9">
+        {php echo tpl_form_field_image('shareimg', $reply['shareimg'])}
+        <div class="help-block">建议尺寸：120*120px【现场红包下，无需填写】</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">手机端图片</label>
+      <div class="col-sm-9">
+        {php echo tpl_form_field_image('pageback', $reply['pageback'])}
+        <div class="help-block">建议尺寸：600*354px</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">描述</label>
+      <div class="col-sm-9">
+        <textarea style="height:150px;" name="description" class="form-control" cols="60">{$reply['description']}</textarea>
+          <div class="help-block">用于图文显示的简介【现场红包下，无需填写】</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">游戏说明</label>
+      <div class="col-sm-9">
+        <textarea style="height:150px;" name="info" class="form-control" cols="60">{$reply['info']}</textarea>
+          <div class="help-block">游戏的详细介绍</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">活动时间</label>
+      <div class="col-sm-9 form-inline">
+        {php echo tpl_form_field_date('starttime', date('Y-m-d H:m:s',empty($reply['starttime'])?time():$reply['starttime']), true)} ~ 
+          {php echo tpl_form_field_date('endtime', date('Y-m-d H:m:s',empty($reply['endtime'])?time()+3600*240:$reply['endtime']), true)}
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">首次红包区间</label>
+      <div class="col-sm-9 form-inline">
+      <div class="input-group">
+          <span class="input-group-addon">￥</span>
+          <input type="text" value="{php echo intval($reply['firstmin'])}" class="form-control" name="firstmin">
+          <span class="input-group-addon">分</span>
+        </div>
+        ~
+        <div class="input-group">
+          <span class="input-group-addon">￥</span>
+          <input type="text" value="{php echo intval($reply['firstmax'])}" class="form-control" name="firstmax">
+          <span class="input-group-addon">分</span>
+        </div>
+          <div class="help-block">第一个红包随机多少钱,单位分(活动开始后调小可以降温)</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">派发总金额</label>
+      <div class="col-sm-9 form-inline">
+        <div class="input-group">
+          <span class="input-group-addon">总金额 ￥</span>
+          <input type="text" value="{php echo intval($reply['totalfee'])}" class="form-control" name="totalfee">
+          <span class="input-group-addon">分</span>
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon">剩余金额 ￥</span>
+          <input type="text" value="{php echo intval($reply['remainfee'])}" class="form-control" name="remainfee">
+          <span class="input-group-addon">分</span>
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon">显示金额 ￥</span>
+          <input type="text" value="{php echo intval($reply['showfee'])}" class="form-control" name="showfee">
+          <span class="input-group-addon">分</span>
+        </div>
+        <div class="help-block">总金额，剩余为0时，自动停止;剩余金额，还剩余多少金额；显示金额，前台显示金额数是【总金额】+【显示金额】；</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">可抽总次数</label>
+      <div class="col-sm-9 form-inline">
+          <div class="input-group">
+          <span class="input-group-addon">可抽总次数</span>
+          <input type="text" value="{php echo intval($reply['maxnums']) ? intval($reply['maxnums']):1}" class="form-control" name="maxnums">
+          <span class="input-group-addon">次</span>
+          </div>
+          <div class="help-block">总次数：一共可以玩多少次</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">红包发送备注</label>
+      <div class="col-sm-9 ">
+        <input type="text" value="{$reply['packremark']}" class="form-control" name="packremark">
+          <div class="help-block">客户收到红包后的备注信息，如“关注我们，好事早知道”</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">说明详情页</label>
+      <div class="col-sm-9">
+        <input type="text" value="{$reply['smurl']}" class="form-control" name="smurl">
+          <div class="help-block">建议填写一条游戏说明的微信图文消息</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">关注引导页</label>
+      <div class="col-sm-9">
+        <input type="text" value="{$reply['gzurl']}" class="form-control" name="gzurl">
+          <div class="help-block">建议填写一条游戏说明的微信图文消息</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="panel-heading module_0">非现场版设置</div>
+  <div class="panel-body module_0">
+  	<div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">邀请人数</label>
+      <div class="col-sm-9 form-inline">
+      <div class="input-group">
+      	<span class="input-group-addon">邀请</span>
+          <input type="text" value="{php echo intval($reply['neednums'])}" class="form-control" name="neednums">
+          <span class="input-group-addon">人增加红包抽取次数</span>
+          </div>
+          <div class="help-block">邀请人数：邀请N个朋友后，可获得多一次抽取机会；(活动开始后请不要更改)【现场红包下，无需填写】</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">二次抽取区间</label>
+      <div class="col-sm-9 form-inline">          
+          <div class="input-group">
+          <span class="input-group-addon">￥</span>
+          <input type="text" value="{php echo intval($reply['secondmin'])}" class="form-control" name="secondmin">
+          <span class="input-group-addon">分</span>
+        </div>
+        ~
+        <div class="input-group">
+          <span class="input-group-addon">￥</span>
+          <input type="text" value="{php echo intval($reply['secondmax'])}" class="form-control" name="secondmax">
+          <span class="input-group-addon">分</span>
+        </div>
+          <div class="help-block">第二个红包随机多少钱,单位分(客户在第二次分享后获得随机金额，建议比首次高)【现场红包下，无需填写】</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">限制参与区域</label>
+      <div class="col-sm-9 col-xs-12 form-inline">
+        <div class="input-group">
+            <input type="text" value="{$reply['arealimit']}" style="width:300px" class="form-control" name="arealimit" >
+            <span class="input-group-btn"><button type="button" class="btn btn-default " data-toggle="modal" data-target="#myModal">选择坐标</button></span> 
+        </div>
+        <div class="help-block">目前最高到达到区；也就是支持2个“;”；【现场红包下，无需填写】</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="panel-heading module_0"> 分享设置【仅对非现场版】</div>
+  <div class="panel-body module_0">
+  	<div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">分享设置</label>
+      <div class="col-sm-9">
+        <label class="radio-inline">
+          <input type="checkbox" name="sharetofriend" value="1" {if $reply['sharetofriend']} checked{/if} />
+          关闭分享给朋友</label>
+          
+          <label class="radio-inline">
+          <input type="checkbox" name="sharetotimeline" value="1" {if $reply['sharetotimeline']} checked{/if} />
+          关闭分享到朋友圈</label>
+      </div>
+    </div>
+  </div>
+  <div class="panel-heading module_2">积分/等级设置</div>
+  <div class="panel-body module_2">
+  	<div class="form-group ">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">积分设置</label>
+      <div class="col-sm-9 form-inline">
+        <div class="input-group">
+        
+        <select name="credittype" class="form-control">
+        	<option value="0">选择积分类型</option>
+            {loop $creditary $row}
+            <option value="{$row['name']}" {if $row['name']==$reply['groupid']}selected{/if}>{$row['title']}</option>
+            {/loop}
+        </select>
+          <span class="input-group-addon">每次消耗</span>
+          <input type="text" value="{php echo intval($reply['credit'])}" class="form-control" name="credit">
+          <span class="input-group-addon">分</span>
+        </div>
+        <div class="help-block"></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">会员分组</label>
+      <div class="col-sm-9 form-inline">
+        <select name="groupid" class="form-control">
+        	<option value="0">请会员分组</option>
+            {loop $groupslist $row}
+            <option value="{$row['groupid']}" {if $row['groupid']==$reply['groupid']} selected{/if}>{$row['title']}</option>
+            {/loop}
+        </select>
+      </div>
+    </div>
+  </div>
+  
+  <div class="panel-heading module_0">高级功能：兼容其他模块【如由捷讯活动平台报名成功后跳转到本模块】</div>
+  <div class="panel-body module_0">
+  	<div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">模块标识/连接</label>
+      <div class="col-sm-9">
+        <input type="text" value="{$reply['comefrom']}" class="form-control" name="comefrom">
+        <div class="help-block">1、由其他连接进入，使用完整的连接的话，必须要保证该粉丝已关注；2、从其他模块加链接跳转到本链接时，方能参与抽奖；使用时，请将【分享关闭】；同时，将【分享增加次数】设置为0；模块名称请在【系统】-【模块】-【已安装的模块】中查找。如【红包来了】的模块标识为【j_pocketmoney】</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="panel-heading"> 广告选择</div>
+  <div class="panel-body">
+  	<div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">广告选择</label>
+      <div class="col-sm-9">
+      	{loop $list $row}
+        <label class="radio-inline">
+          <input type="checkbox" name="adlist[]" value="{$row['id']}" {if in_array($row['id'],$adlist)}checked{/if} />
+          <A class="tips" data-toggle="tooltip" data-placement="bottom" title="{$row['title']}"><img src="{$_W['attachurl']}{$row['thumb']}" width="48" height="48"></A></label>
+        {/loop}
+      </div>
+    </div>
+  </div>
+  
+  <div class="panel-heading"> 借用设置<b style="color:red">*</b>即使自身没有借用，也必须填写！ </div>
+  <div class="panel-body">
+  	<div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">appid</label>
+      <div class="col-sm-9">
+        <input type="text" value="{$reply['appid']}" class="form-control" name="appid">
+      </div>
+    </div>
+  	<div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">secret</label>
+      <div class="col-sm-9">
+        <input type="text" value="{$reply['secret']}" class="form-control" name="secret">
+      </div>
+    </div>
+  	<div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">商户号</label>
+      <div class="col-sm-9">
+        <input type="text" value="{$reply['mchid']}" class="form-control" name="mchid">
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">商户密钥</label>
+      <div class="col-sm-9">
+        <input type="text" value="{$reply['signkey']}" class="form-control" name="signkey">
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">IP</label>
+      <div class="col-sm-9">
+        <input type="text" value="{$reply['ip']}" class="form-control" name="ip">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">商户证书</label>
+      <div class="col-sm-9">
+      <button type="button" class="btn btn-default" onClick="$('#rootca').click()">{if $reply['rootca']}重新上传{else}上传{/if}</button> 
+      请上传rootca.pem
+        <input type="file" name="rootca" id="rootca" style="display:none;">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">商户证书</label>
+      <div class="col-sm-9">
+      <button type="button" class="btn btn-default" onClick="$('#apiclient_cert').click()">{if $reply['apiclient_cert']}重新上传{else}上传{/if}</button>
+      请上传apiclient_cert.pem
+        <input type="file" name="apiclient_cert" id="apiclient_cert" style="display:none;">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">商户证书</label>
+      <div class="col-sm-9">
+      <button type="button" class="btn btn-default" onClick="$('#apiclient_key').click()">{if $reply['apiclient_key']}重新上传{else}上传{/if}</button>
+      请上传apiclient_key.pem
+        <input type="file" name="apiclient_key" id="apiclient_key" style="display:none;">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--腾讯地图坐标-->
+<div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">请选择地点</h4>
+      </div>
+      <div class="modal-body">
+      <div class="input-group" style="margin-bottom:10px">
+        <input type="text" id="address" class="form-control" placeholder="请输入地址来直接查找相关位置">
+        <span class="input-group-btn">
+          <button class="btn btn-default" onclick="codeAddress()" type="button">&nbsp;&nbsp;搜索&nbsp;&nbsp;</button>
+        </span>
+      </div>
+      <div style="width:100%;height:400px" id="container"></div>
+      </div>
+      <div class="modal-footer">
+      	<input type="hidden" id="map_lng" class="form-control" />
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" onclick="chooseMap()">确认</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp"></script>
+<script language="javascript">
+var curid=parseInt("{$reply['gametype']}");
+function showTag(n){
+	if(n==0){
+		$(".module_0").show();
+		$(".module_1,.module_2").hide();
+	}else if(n==1){
+		$(".module_1").show();
+		$(".module_0,.module_2").hide();
+	}else if(n==2){
+		$(".module_2").show();
+		$(".module_1,.module_0").hide();
+	}
+}
+require(['jquery','util'], function($, util){
+	$('.tips').hover(function(){
+		$(this).tooltip('show');
+	},function(){
+		$(this).tooltip('hide');
+	});
+});
+
+$(document).ready(function(e) {
+    init();
+	showTag(curid);
+});
+var geocoder,map,marker = null;
+var init = function() {
+	var mapbegin_lat=$("input[name='latitude']").val() ? parseFloat($("input[name='latitude']").val()) : 39.916527;
+	var mapbegin_lng=$("input[name='longitude']").val() ? parseFloat($("input[name='longitude']").val()) : 116.397128;
+    var center = new qq.maps.LatLng(mapbegin_lat,mapbegin_lng);
+    map = new qq.maps.Map(document.getElementById('container'),{
+        center: center,
+        zoom: 15,
+    });
+	var marker = new qq.maps.Marker({
+        position: center,
+        draggable: true,
+        map: map
+    });
+	qq.maps.event.addListener(map, 'click', function(event) {
+		marker.setMap(null);
+        marker=new qq.maps.Marker({
+          position:event.latLng, 
+		  draggable: true,
+          map:map
+        });
+		$("#map_lng").val(event.latLng);
+		//getLocation(event.latLng);
+    });
+	qq.maps.event.addListener(marker, 'mouseup', function(event) {
+		marker.setMap(null);
+        marker=new qq.maps.Marker({
+          position:event.latLng,
+		  draggable: true, 
+          map:map
+        });
+		$("#map_lng").val(event.latLng);
+		//getLocation(event.latLng);
+    });
+    geocoder = new qq.maps.Geocoder({
+        complete : function(result){
+            map.setCenter(result.detail.location);
+			marker.setMap(null);
+            marker = new qq.maps.Marker({
+                map:map,
+				draggable: true,
+                position: result.detail.location
+            });
+			$("#map_lng").val(result.detail.location)
+        }
+    });
+}
+function codeAddress() {
+    var address = document.getElementById("address").value;
+    geocoder.getLocation(address);
+}
+function chooseMap(){
+	if($("#map_lng").val().length>2){
+		_latlng=$("#map_lng").val().replace(" ","");
+		$.getJSON("{php echo $this->createWebUrl('ajax',array('op'=>'getlocation'))}",{latLng:_latlng},function(data){
+			if(data.success){
+				$("input[name='arealimit']").val(data.item.p+";"+data.item.c+";"+data.item.d)
+			}else{
+				alert(data.msg)
+			}
+			$('#myModal').modal('hide');
+		});
+	}
+}
+</script>

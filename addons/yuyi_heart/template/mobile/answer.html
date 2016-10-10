@@ -1,0 +1,54 @@
+{template 'common/header'}
+<div class="container">
+	<div class="panel panel-default">
+  <div class="panel-body">
+    您选择的问题
+  </div>
+  <div class="panel-footer">{php echo html_entity_decode($data['question']);}</div>
+
+</div>
+<form action="" method="post" id="setting-form">
+  <div class="form-group">
+    <label for="exampleInputEmail1">请输入你的答案</label>
+    <br/>
+   <textarea class="form-control" rows="5" name="textarea"  id="textarea"></textarea>
+  </div>
+ <input type="submit" name="submit" class="btn btn-primary btn-lg" style="width:100%" value="提交"/>
+      <input name="token" value="{$_W['token']}" type="hidden"/>
+      <input name="id" type="hidden" value="{$data['id']}">
+</form>
+<br>
+
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">其他用户的评论</div>
+
+  <!-- Table -->
+  <table class="table">
+    <tbody>
+    {loop $res $key $item}
+      <tr>
+        <th>{php echo ++$key;}</th>
+        <th>{php echo html_entity_decode($item['content']);}</th>
+      </tr>
+      {/loop}
+  </tbody>
+</table>
+</div>
+{$page}
+</div>
+<script>
+require(['jquery', 'util'], function($, util){
+  $(function(){
+    $('#setting-form').submit(function(){
+      var result = true;
+      if($('#textarea').val() == ''){
+        result = false;
+        util.message('未填答案.');
+      }
+      return result;
+    });
+  });
+});
+</script>
+{template 'common/footer'}

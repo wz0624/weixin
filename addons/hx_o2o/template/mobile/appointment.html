@@ -1,0 +1,259 @@
+{template 'header'}
+<style>.address{width:100%;height:auto}.address a{display:block;width:100%;height:auto;padding:1.5rem .75rem;color:#a88979;position:relative}.address a i{position:absolute;top:50%;right:.75rem;margin-top:-15px}.address a h6{color:#632714;margin-top:0}.address a h6 span{color:#53c7c6;margin-left:.75rem}.choose_date{margin:10px 0}.choose_date .row{margin-bottom:0}.choose_date .s3{height:42px;text-align:center;display:table}.choose_date .s3 a{display:table-cell;vertical-align:middle}.choose_date .s3 i{color:#4db6ac;font-size:1.5rem}.choose_date .disabled i{color:#999}.choose_date .s6{text-align:center;position:relative}.choose_date .show_date{display:block;width:140px;height:32px;line-height:32px;background:#4db6ac;color:#FFF;border-radius:12px;margin:5px auto}.choose_date select{position:absolute;top:0;left:0;opacity:0}.choose_time table td{background:#fcf7f4;color:#ddcdc7;border:1px solid #dbc5ba;padding:10px;cursor:default}.choose_time table td.enable{background:#fff;color:#632714;cursor:pointer}.choose_time table td.choosed{background:#53c7c6;color:#fff}.remark_tip{padding-left:.75rem;color:#b9a093}.empty_address{text-align:center}.empty_address p{color:#b9a093}</style>
+<header>
+    <a href="javascript:history.back();" class="waves-effect waves-teal btn-flat go_back"> <i class="fa fa-angle-left"></i></a>
+    <span>预约时间</span>
+</header>
+{if empty($address)}
+<section class="address">
+    <a href="{php echo $this->createMobileUrl('address',array('op'=>'post','from_url'=>$from_url))}" class="waves-effect waves-teal"><span>新增服务地址</span><i class="fa fa-angle-right fa-2x"></i></a>
+</section>
+<div class="split_line"></div>
+<section class="empty_address">
+    <img src="{IMG_PATH}success.png" class="responsive-img">
+    <p>小主, 需要填写服务地址后才能预约时间哦!</p>
+</section>
+{else}
+<section class="address">
+<input type="hidden" name="addressid" value="{$address['id']}">
+    <a href="{php echo $this->createMobileUrl('address',array('op'=>'choose','from_url'=>$from_url))}" class="waves-effect waves-teal">
+        <h6>{$address['consignee']}<span class="mobile">{$address['mobile']}</span></h6>
+        <span>{$address['city']}{$address['address']}{$address['room']}</span> <i class="fa fa-angle-right fa-2x"></i>
+    </a>
+</section>
+<div class="split_line"></div>
+{php $weekarray=array("日","一","二","三","四","五","六");}
+    <section class="choose_date">
+        <div class="row">
+            <div class="col s3 disabled" id="prev-date">
+                <a href="javascript:void(0)">
+                    <i class="fa fa-chevron-left"></i>
+                </a>
+            </div>
+            <div class="col s6">
+                <span class="show_date" id="show-date">
+                    今天【周{php echo $weekarray[date("w")]}】
+                    <i class="fa fa-caret-down"></i>
+                </span>
+                <select class="browser-default" id="choose-date">
+                    <option value="{php echo date('Ymd')}">今天【周{php echo $weekarray[date("w")]}】</option>
+                    <option value="{php echo date('Ymd',time()+86400)}">明天【周{php echo $weekarray[date("w",time()+86400)]}】</option>
+                    <option value="{php echo date('Ymd',time()+86400*2)}">后天【周{php echo $weekarray[date("w",time()+86400*2)]}】</option>
+                    <option value="{php echo date('Ymd',time()+86400*3)}">{php echo date('m.d',time()+86400*3)}【周{php echo $weekarray[date("w",time()+86400*3)]}】</option>
+                    <option value="{php echo date('Ymd',time()+86400*4)}">{php echo date('m.d',time()+86400*4)}【周{php echo $weekarray[date("w",time()+86400*4)]}】</option>
+                    <option value="{php echo date('Ymd',time()+86400*5)}">{php echo date('m.d',time()+86400*5)}【周{php echo $weekarray[date("w",time()+86400*5)]}】</option>
+                    <option value="{php echo date('Ymd',time()+86400*6)}">{php echo date('m.d',time()+86400*6)}【周{php echo $weekarray[date("w",time()+86400*6)]}】</option>
+                    <option value="{php echo date('Ymd',time()+86400*7)}">{php echo date('m.d',time()+86400*7)}【周{php echo $weekarray[date("w",time()+86400*7)]}】</option>
+                    <option value="{php echo date('Ymd',time()+86400*8)}">{php echo date('m.d',time()+86400*8)}【周{php echo $weekarray[date("w",time()+86400*8)]}】</option>
+                    <option value="{php echo date('Ymd',time()+86400*9)}">{php echo date('m.d',time()+86400*9)}【周{php echo $weekarray[date("w",time()+86400*9)]}】</option>
+                    <option value="{php echo date('Ymd',time()+86400*10)}">{php echo date('m.d',time()+86400*10)}【周{php echo $weekarray[date("w",time()+86400*10)]}】</option>
+                    <option value="{php echo date('Ymd',time()+86400*11)}">{php echo date('m.d',time()+86400*11)}【周{php echo $weekarray[date("w",time()+86400*11)]}】</option>
+                    <option value="{php echo date('Ymd',time()+86400*12)}">{php echo date('m.d',time()+86400*12)}【周{php echo $weekarray[date("w",time()+86400*12)]}】</option>
+                    <option value="{php echo date('Ymd',time()+86400*13)}">{php echo date('m.d',time()+86400*13)}【周{php echo $weekarray[date("w",time()+86400*13)]}】</option>
+                </select>
+            </div>
+            <div class="col s3" id="next-date">
+                <a href="javascript:void(0)">
+                    <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="choose_time">
+        <div class="row">
+            <div class="col s12">
+                <table class="centered">
+                    <thead>
+                        <tr>
+                            <th colspan="5">选择时间</th>
+                        </tr>
+                    </thead>
+                    <tbody id="schedule">
+                        <tr>
+                            <td {if time() < strtotime(date('Y-m-d ') . '9:00')}class="enable"{/if}>10:00</td>
+                            <td {if time() < strtotime(date('Y-m-d ') . '9:30')}class="enable"{/if}>10:30</td>
+                            <td {if time() < strtotime(date('Y-m-d ') . '10:00')}class="enable"{/if}>11:00</td>
+                            <td {if time() < strtotime(date('Y-m-d ') . '10:30')}class="enable"{/if}>11:30</td>
+                            <td {if time() < strtotime(date('Y-m-d ') . '11:00')}class="enable"{/if}>12:00</td>
+                        </tr>
+                        <tr>
+                            <td {if time() < strtotime(date('Y-m-d ') . '11:30')}class="enable"{/if}>12:30</td>
+                            <td {if time() < strtotime(date('Y-m-d ') . '12:00')}class="enable"{/if}>13:00</td>
+                            <td {if time() < strtotime(date('Y-m-d ') . '12:30')}class="enable"{/if}>13:30</td>
+                            <td {if time() < strtotime(date('Y-m-d ') . '13:00')}class="enable"{/if}>14:00</td>
+                            <td {if time() < strtotime(date('Y-m-d ') . '13:30')}class="enable"{/if}>14:30</td>
+                        </tr>
+                        <tr>
+                            <td {if time() < strtotime(date('Y-m-d ') . '14:00')}class="enable"{/if}>15:00</td>
+                            <td {if time() < strtotime(date('Y-m-d ') . '14:30')}class="enable"{/if}>15:30</td>
+                            <td {if time() < strtotime(date('Y-m-d ') . '15:00')}class="enable"{/if}>16:00</td>
+                            <td {if time() < strtotime(date('Y-m-d ') . '15:30')}class="enable"{/if}>16:30</td>
+                            <td {if time() < strtotime(date('Y-m-d ') . '16:00')}class="enable"{/if}>17:00</td>
+                        </tr>
+                        <tr>
+                            <td {if time() < strtotime(date('Y-m-d ') . '16:30')}class="enable"{/if}>17:30</td>
+                            <td {if time() < strtotime(date('Y-m-d ') . '17:00')}class="enable"{/if}>18:00</td>
+                            <td {if time() < strtotime(date('Y-m-d ') . '17:30')}class="enable"{/if}>18:30</td>
+                            <td {if time() < strtotime(date('Y-m-d ') . '18:00')}class="enable"{/if}>19:00</td>
+                            <td {if time() < strtotime(date('Y-m-d ') . '18:30')}class="enable"{/if}>19:30</td>
+                        </tr>
+                        <tr>
+                            <td {if time() < strtotime(date('Y-m-d ') . '19:00')}class="enable"{/if}>20:00</td>
+                            <td {if time() < strtotime(date('Y-m-d ') . '19:30')}class="enable"{/if}>20:30</td>
+                            <td {if time() < strtotime(date('Y-m-d ') . '20:00')}class="enable"{/if}>21:00</td>
+                            <td {if time() < strtotime(date('Y-m-d ') . '20:30')}class="enable"{/if}>21:30</td>
+                            <td {if time() < strtotime(date('Y-m-d ') . '21:00')}class="enable"{/if}>22:00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <p class="remark_tip">&middot;灰色表示该时间段不可预约</p>
+
+    <div class="mr_bottom"></div>
+    <div class="row fixed_bottom_next">
+        <div class="col s12">
+            <input type="hidden" name="date" value="{php echo date('Ymd')}" />
+            <input type="hidden" name="time" value="" />
+            <a href="javascript:void(0)" class="waves-effect waves-light btn teal lighten-2" id="checkout-appointment">
+                <i class="fa fa-building-o"></i>
+                选择门店
+            </a>
+        </div>
+    </div>
+{/if}
+    <script>
+    $('#prev-date').click(function()
+    {
+        if ($(this).hasClass('disabled'))
+            return;
+
+        $('#next-date').removeClass('disabled');
+
+        var o = $('#choose-date'),
+            index = o.find('option:selected').index();
+
+        if (index == 1)
+            $(this).addClass('disabled');
+
+        $('#choose-date').val(o.find('option').eq(index - 1).val());
+        $('#show-date').html($('#choose-date').find('option:selected').html() + ' <i class="fa fa-caret-down"></i>');
+        change_date(o.val());
+    })
+
+    $('#next-date').click(function()
+    {
+        if ($(this).hasClass('disabled'))
+            return;
+
+        $('#prev-date').removeClass('disabled');
+
+        var o = $('#choose-date'),
+            index = o.find('option:selected').index();
+
+        if (index == 12)
+            $(this).addClass('disabled');
+
+        $('#choose-date').val(o.find('option').eq(index + 1).val());
+        $('#show-date').html($('#choose-date').find('option:selected').html() + ' <i class="fa fa-caret-down"></i>');
+        change_date(o.val());
+    })
+
+    $('#choose-date').change(function()
+    {
+        var index = $(this).find('option:selected').index();
+
+        if (index == 0)
+            $('#prev-date').addClass('disabled');
+        else
+            $('#prev-date').removeClass('disabled');
+
+        if (index == 13)
+            $('#next-date').addClass('disabled');
+        else
+            $('#next-date').removeClass('disabled');
+
+        $('#show-date').html($(this).find('option:selected').html() + ' <i class="fa fa-caret-down"></i>');
+        change_date($(this).val());
+    });
+
+    $(document).on('click', '#schedule .enable', function()
+    {
+        $('#schedule').find('.choosed').removeClass('choosed');
+        $(this).addClass('choosed');
+        $('input[name=time]').val($(this).html());
+    });
+
+    $('#checkout-appointment').click(function()
+    {
+        var date = $('input[name=date]').val(),
+            time = $('input[name=time]').val();
+        var addressid = $('input[name=addressid]').val();
+
+        if (addressid == '')
+        {
+            alert_modal('请选择您的地址');
+            return;
+        }
+
+        if (time == '')
+        {
+            alert_modal('请选择预约时间');
+            return;
+        }
+
+        ajax('{php echo $this->createMobileUrl('appointment',array('op'=>'checktime','orderid'=>$orderid))}', {"date": date, "time": time, "addressid" : addressid}, function(result)
+        {
+            if (result.status)
+                window.location.href = '{php echo $this->createMobileUrl('appointment',array('op'=>'chooseshop','orderid'=>$orderid))}';
+            else
+            {
+                alert_confirm(result.message);
+            }
+        })
+    })
+
+    function change_date(date)
+    {
+        $('input[name=date]').val(date);
+
+        ajax('{php echo $this->createMobileUrl('appointment',array('op'=>'date'))}', {"date": date}, function(result)
+        //{"status":1,"schedule":[{"time":"10:00","enable":"1"},{"time":"10:30","enable":"1"},{"time":"11:00","enable":"1"},{"time":"11:30","enable":"1"},{"time":"12:00","enable":"1"},{"time":"12:30","enable":"1"},{"time":"13:00","enable":"1"},{"time":"13:30","enable":"1"},{"time":"14:00","enable":"1"},{"time":"14:30","enable":"1"},{"time":"15:00","enable":"1"},{"time":"15:30","enable":"1"},{"time":"16:00","enable":"1"},{"time":"16:30","enable":"1"},{"time":"17:00","enable":"1"},{"time":"17:30","enable":"1"},{"time":"18:00","enable":"1"},{"time":"18:30","enable":"1"},{"time":"19:00","enable":"1"},{"time":"19:30","enable":"1"},{"time":"20:00","enable":"1"},{"time":"20:30","enable":"1"},{"time":"21:00","enable":"1"},{"time":"21:30","enable":"1"},{"time":"22:00","enable":"1"}]}
+        {
+            if (result.status)
+            {
+                var str = '',
+                    s = 0;
+
+                $.each(result.schedule, function(i, k)
+                {
+                    if (i % 5 == 0)
+                    {
+                        str += '<tr>';
+                        s = 0;
+                    }
+                    str += '<td' + (k.enable == 1 ? ' class="enable"' : "") + '>' + k.time + '</td>';
+                    if (s == 4)
+                    {
+                        str += '</tr>';
+                    }
+                    ++s;
+                });
+
+                $('#schedule').empty().append(str);
+                $('input[name=time]').val('');
+            }
+            else
+            {
+                alert_confirm(result.message, function()
+                {
+                    window.location.reload();
+                });
+            }
+        }, 'GET');
+    }
+</script>
+</body>
+</html>

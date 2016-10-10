@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no"/>
+<title>候选名单公示</title>
+<style>
+html, body, div, img, ol, ul, li, th, td, tr, iframe {
+	margin: 0;padding: 0;border: 0;vertical-align: baseline;text-decoration: none;list-style: none;
+	font-family: "helvetica", "Hiragino Sans GB", "sans-serif";font-weight: lighter;
+}
+a, a:active, a:hover {outline: none;cursor: hand;}
+body {font-size: 100%;}
+.list_Box {width: 100%;margin: 0 auto;}
+.list_Box .list_head_pic {width: 100%;}
+.list_Box ul {float: left;width: 100%;margin: 10px 0;}
+.list_Box ul li {box-sizing: border-box;position:relative;float: left;padding-left: 40px; margin: 5px 0 ;height: 56px;line-height: 56px;border-bottom: 1px solid #ccc; width: 50%; font-size: 1em; font-weight: lighter; color: #666; overflow:hidden;}
+.list_Box ul li .index{position:absolute; left:0; font-size:0.8em;}
+.list_Box ul li .user_head_pic {height: 48px;width: 48px;}
+.list_Box ul li .user_name {position:absolute; left:95px;line-height: 48px;height: 48px;overflow:hidden;}
+.clear {clear: both}
+.nextprev{padding:10px 0; margin:4px 0; widht:100%; background-color:#e9e9e9; text-align:center;}
+.nextprev a{color:#666; text-decoration:none;}
+.total{width:100%; margin:15px 0; text-align:center; color:#999;}
+.pagination-centered li{
+	display: inline-block;
+}
+.pagination-centered a{
+	text-decoration:none;
+	color:#000;
+}
+.pagination-centered li{
+	border: 1px solid #e6e6e6;
+    border-radius: 0.25em;
+	padding: .6em .8em;
+    font-size: 0.8rem;
+}
+.pagination-centered .active{
+ 	padding: .6em .8em;
+	color:#fff;
+}
+</style>
+</head>
+<body>
+<div class="list_Box">
+ 	<div class="list_head_pic">
+		<img id="img" src="{php echo toimage($item['houxuan_thumb'])}" width="100%" />
+	</div>
+ 	<ul>
+		{loop $list $row}
+		<li><span class="index">{$row['award_no']}.</span><span class="user_head_pic">
+					<img src="{$row['headimgurl']}" width="48" height="48" />
+			</span><span class="user_name">{$row['nickname']}</span></li>
+		{/loop}
+	</ul>
+	<div class="clear"></div>
+</div>
+<div class="nextprev">
+{$pager}
+</div>
+<div class="total">本期共有{$total}人报名，第{$pindex}页 </div>
+<div style="width:100%; margin:0 auto;text-align:center;font-size: 0.7rem;">技术支持:{$_W['account']['name']} </div>
+
+</body>
+</html>

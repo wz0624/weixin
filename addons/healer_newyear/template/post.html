@@ -1,0 +1,16 @@
+<input name="token" type="hidden" value="{$_W['token']}"/>
+<input name="id" type="hidden" value="{$newyear['id']}"/>
+<div role="tabpanel" class="tab-pane">
+  <div class="panel panel-default">
+    <div class="panel-heading">新年签</div>
+    <div class="panel-body">
+      <div class="form-group">
+        <label class="col-sm-2 col-md-2 control-label">新年签</label>
+        <div class="col-sm-4 col-md-10">
+          <textarea class="form-control" name="sortition" rows="10">{$newyear["sortition"]}</textarea>
+          <div class="text-warning">每一个签换一行，系统会随机抽取其中一行。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

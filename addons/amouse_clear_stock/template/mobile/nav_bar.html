@@ -1,0 +1,11 @@
+<div class="nav-bar">
+    <ul class="row">
+        <li class="small-6 medium-6 columns">
+            <a class="top-nav {if $GLOBALS['do']=='product'}active{/if}"  href="{php echo $this->createMobileUrl('product',array('pid'=>0),true)}">货源中心</a>
+        </li>
+        <li class="small-6 medium-6 columns">
+            <a class="top-nav {if $GLOBALS['do']=='myproduct'||$GLOBALS['do']=='view'}active{/if}"
+               href="{php echo $this->createMobileUrl('myproduct',array(),true)}">我的货源</a>
+        </li>
+    </ul>
+</div>

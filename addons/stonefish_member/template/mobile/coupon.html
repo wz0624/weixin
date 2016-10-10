@@ -1,0 +1,270 @@
+{template 'header'}
+<style>
+	ul,li {padding:0; margin:0; border:0;}
+	body{background:{$config['memberbgcolor']}; padding-bottom:0px;}
+	.btn-group-top-box{padding:10px 0; font-family:Helvetica, Arial, sans-serif; text-align:center; width:100%;}
+	.btn-group-top{overflow:hidden;}
+	.btn-group-top .btn{ -webkit-box-shadow:none; box-shadow:none; border-color:{$config['memberiocncolor']}; color:{$config['memberiocncolor']}; padding:6px;width:100px;}
+	.btn-group-top .btn:hover{color:{$config['memberiocncolor']}; background:#F2F2F2;}
+	.btn-group-top .btn.active{color:#FFF; background:{$config['memberiocncolor']};}
+	.btn.use{background:{$config['memberbntcolor']}; color:{$config['memberbnttcolor']}; border:0; border-radius:5px;}
+	
+	/*折扣券*/
+	.coupon-main{overflow:hidden;}
+	.coupon-main .list-coupon{margin:10px; overflow:hidden; padding:0px; background:#FFFFFF;border-radius: 5px;}
+	.coupon-main .list-coupon li{margin-bottom:15px; overflow:hidden;}
+	.coupon-main .list-coupon li .list-coupon-hd{padding:0 10px 0 15px; height:35px; line-height:35px; overflow:hidden;}
+	.coupon-main .list-coupon li .list-coupon-hd .pull-left,.coupon-main .list-coupon li .list-coupon-hd .pull-right{font-size:14px;}
+	.coupon-main .list-coupon li .list-coupon-content{width:96%; height:130px; margin:0 2% 5px 2%; overflow:hidden; background:{$config['memberbntcolor']}; position:relative;}
+	.coupon-main .list-coupon li .list-coupon-content a{text-decoration:none; font-size:14px; color:#FFF; display:block; width:100%;}
+	.coupon-main .list-coupon li .list-coupon-content img{width:70%;height:130px; margin:0 auto; }
+	.coupon-main .list-coupon li .list-coupon-content span{display:inline-block; text-align:center; float:right; width:28%;padding-top:63px;}
+	.coupon-main .list-coupon li .list-coupon-content i{position:absolute; right:30%; top:45%; font-size:18px; color:{$config['memberbntcolor']};}
+	.coupon-main .list-coupon li .list-coupon-ft{border-top:1px #DDD dashed; padding:0 15px;}
+	.coupon-main .list-coupon li .list-coupon-ft > span{display:block; font-size:14px; font-weight:bold; padding:10px 0;}
+	.coupon-main .list-coupon li .list-coupon-ft > div{display:none; padding:10px 0; border-top:1px #DDD solid;}
+	.coupon-main .list-coupon li .list-coupon-ft-bg{width:270px; background:url('resource/images/coupon-ft-bg.png') repeat-x center bottom; -webkit-background-size:100% auto; height:4px; position:absolute;}
+	.coupon-main .list-coupon li.used .list-coupon-content{background:#BBB;}
+	.coupon-main .list-coupon li.used .list-coupon-content i{color:#BBB;}
+	
+	.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus{background-color:{$config['memberbntcolor']}; border-color:{$config['memberbntcolor']};}
+	.pagination>li>a, .pagination>li>span{color:{$config['memberbntcolor']}; border:1px solid {$config['memberbntcolor']};}
+	.topnav{position:fixed; top:0; left: 0;width: 100%; height: 90px; background: #FFF;border-bottom:1px solid #d5d5d5;box-shadow:0 1px 9px #d5d5d5; line-height:40px; z-index:99;}
+	.topnav .leftdiv{float:left;padding-left:10px;}
+	.topnav .rightdiv{ float:right;padding-right:10px;font-size:13px;}
+	.topnav .rightdiv a{color:#999;text-decoration:none;}
+	.topnavdiv{color:#FFFFFF;height:90px;width:100%;background:#FFFFFF;}
+</style>
+{if $op == 'display'}
+<style media="all" type="text/css">
+	.scroll-container .list-group {list-style:none; padding:0; margin:10px; text-align:left;}
+	.scroll-container .list-group .list-group-item{border:none;}
+	.scroll-container .list-group .list-group-item .con{ margin:0 auto;}
+	.scroll-container .list-group .list-group-item .list-hd{padding:0px;}
+	.scroll-container .list-group .list-group-item .list-hd h5{font-weight:bold; margin-bottom:2px; font-size:16px; color:#444444;}
+	.scroll-container .list-group .list-group-item .list-hd p{color:#b8b8b9;}
+	.scroll-container .list-group .list-group-item .list-con img{display:block; width:100%; margin:0 auto;}
+	.scroll-container .list-group .list-group-item .list-con .derpn{padding:10px 10px 0 10px; border-top:1px dotted rgb(204, 204, 204); margin-top:10px;display:none;}
+	.scroll-container .list-group .list-group-item .list-ft{background:{$config['memberbntcolor']}; height: 44px; line-height: 44px; overflow: hidden; position:relative; padding:0 0 0 15px;color:{$config['memberbnttcolor']}; margin-bottom:5px;}
+	.scroll-container .list-group .list-group-item .list-ft b{color: {$config['memberbnttcolor']}; font-size: 30px;}
+	.scroll-container .list-group .list-group-item .list-ft .btns{width:105px; text-align:center; font-size:18px; color:{$config['memberbnttcolor']}; line-height:44px;}
+	.scroll-container .list-group .list-group-item .list-ft .btns a{color:{$config['memberbnttcolor']};}
+	.scroll-container .load-more{padding:10px;text-align:center;font-size:1em;}
+</style>
+<div class="topnav">
+<span class="leftdiv">拆扣券</span>
+<span class="rightdiv"><a href="{php echo $this->createMobileUrl('member')}"><i class="fa fa-arrow-left"></i> 返回</a></span>
+<div class="btn-group-top-box" style="margin-top:30px;">
+	<div class="btn-group btn-group-top">
+		<a href="{php echo $this->createMobileUrl('coupon',array('op'=>'display'))}" class="btn btn-default {if $do == 'coupon'}active{/if}">折扣券</a>
+		<a href="{php echo $this->createMobileUrl('token',array('op'=>'display'))}" class="btn btn-default {if $do == 'token'}active{/if}">代金券</a>
+		<a href="{php echo $this->createMobileUrl('goods',array('op'=>'display'))}" class="btn btn-default {if $do == 'goods'}active{/if}">实物类</a>
+	</div>
+</div>
+</div>
+<div class="topnavdiv">隐藏我</div>
+<div class="scroll-container">
+	<div class="wrapper">
+		{loop $lists $list}
+		<ul class="list-group" >
+				<li class="list-group-item">
+					<div class="con">
+						<div class="list-hd">
+							<h5>{$list['title']}</h5>
+							<p>有效期至{php echo date('Y年m月d日', $list['endtime']);}</p>
+						</div>
+						<div class="list-con">
+							<img src="{php echo tomedia($list['thumb'])}">
+							<div class="derpn">
+								{php echo htmlspecialchars_decode($list['description'])}
+							</div>
+						</div>
+						<div class="list-ft">
+							<div class="pull-left"><b>{$list['credit']}</b> 个{$creditnames[$list['credittype']]}</div>
+							<div class="pull-right btns"><a href="{php echo $this->createMobileUrl('coupon',array('op'=>'post','id' => $list['couponid']))}">立即兑换</a></div>
+						</div>
+					</div>
+				</li>			
+		</ul>
+		{/loop}
+		<div class="btn-group-top-box">
+			<div class="btn-group btn-group-top">
+				{$pager}
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	require(['jquery'], function($){
+		$('.con').click(function(){
+			var description = $(this).find('.derpn').text();
+			if (description.indexOf('<') >= 0) {
+				$(this).find('.derpn').html(description);
+			}
+			$(this).find('.derpn').slideToggle(500);
+		});
+	});
+</script>
+{elseif $op == 'mine'} 
+<script>
+	require(['jquery'],function($){
+		$(".list-coupon").delegate("li","click",function(){
+			$(this).find(".list-coupon-ft > div").slideToggle();
+		});
+	});
+</script>
+<div class="topnav">
+<span class="leftdiv">我{if ($_GPC['type'] == 'used')}已使用{else}未使用{/if}的拆扣券</span>
+<span class="rightdiv"><a href="{php echo $this->createMobileUrl('coupon')}"><i class="fa fa-arrow-left"></i> 兑换商城</a></span>
+    <div class="btn-group-top-box" style="margin-top:30px;">
+		<div class="btn-group btn-group-top">
+			<a href="{php echo $this->createMobileUrl('coupon',array('op'=>'mine'))}" class="btn btn-default {if ($_GPC['type'] != 'used')}active{/if}">未使用</a>
+			<a href="{php echo $this->createMobileUrl('coupon',array('op'=>'mine','type' => 'used'))}" class="btn btn-default {if ($_GPC['type'] == 'used')}active{/if}">已使用</a>
+		</div>
+	</div>
+</div>
+<div class="topnavdiv">隐藏我</div>
+<div class="coupon-main">
+	<div class="coupon-box">
+		{loop $data $row}
+		<ul class="list-coupon">
+				{if $row['endtime'] > TIMESTAMP}
+					{if $row['status'] == 1}
+						<li>
+							<div class="list-coupon-hd">
+								<span class="pull-left">{$row['title']}【折扣券】</span>
+								<span class="pull-right">剩余{$row['cototal']}张 </span>
+							</div>
+							<div class="list-coupon-content">
+								<a href="{php echo $this->createMobileUrl('coupon',array('op'=>'use','id' => $row['couponid'], 'page' => $_GPC['page']))}">
+									<img src="{$row['thumb']}">
+									<span>马上使用</span>
+								</a>
+								<i class="fa fa-caret-left"></i>
+							</div>
+							<div class="list-coupon-ft">
+								<span>有效期至{php echo date('Y年m月d日', $row['endtime'])}</span>
+								<div>
+									{$row['description']}
+								</div>
+							</div>
+							<div class="list-coupon-ft-bg"></div>
+						</li>
+					{else}
+						<li class="used">
+							<div class="list-coupon-hd">
+								<span class="pull-left">{$row['title']}【折扣券】</span>
+								<span class="pull-right">已使用{$row['cototal']}张 </span>
+							</div>
+							<div class="list-coupon-content">
+								<a>
+									<img src="{$row['thumb']}">
+									<span>已经使用</span>
+								</a>
+								<i class="fa fa-caret-left"></i>
+							</div>
+							<div class="list-coupon-ft">
+								<span>有效期至{php echo date('Y年m月d日', $row['endtime'])}</span>
+								<div>
+									{$row['description']}
+								</div>
+							</div>
+							<div class="list-coupon-ft-bg"></div>
+						</li>
+					{/if}
+				{else}
+					<li class="used">
+						<div class="list-coupon-hd">
+							<span class="pull-left">{$row['title']}【折扣券】</span>
+						</div>
+						<div class="list-coupon-content">
+							<a href="javascript:;" onclick="alert('该折扣券已过期')">
+								<img src="{$row['thumb']}">
+								<span>已过期</span>
+							</a>
+							<i class="fa fa-caret-left"></i>
+						</div>
+						<div class="list-coupon-ft">
+							<span>有效期至{php echo date('Y年m月d日', $row['endtime'])}</span>
+							<div>
+								{$row['description']}
+							</div>
+						</div>
+						<div class="list-coupon-ft-bg"></div>
+					</li>
+				{/if}			
+		</ul>
+		{/loop}
+		<div class="btn-group-top-box">
+			<div class="btn-group btn-group-top">
+				{$pager}
+			</div>
+		</div>
+	</div>
+</div>
+{elseif $op == 'use'}
+<style media="all" type="text/css">
+	body{background:{$config['memberbgcolor']}; padding-bottom:30px;}
+	.read-coupon{padding:10px;}
+	.read-coupon .coupon-title{font-size:16px; color:#444; padding:10px; margin:0;background:#FFFFFF;border-radius: 5px;text-align:center;line-height:24px;}
+	.read-coupon .coupon-content{min-height:100px;}
+	.read-coupon .coupon-content > img{width:100%; max-width:595px; max-height:320px; display:block; margin:0 auto; border:8px solid transparent; border-width:10px 0 0 0;}
+	.read-coupon .coupon-sn{height:55px; padding:8px 15px; -webkit-box-sizing:border-box; background:{$config['memberbntcolor']}; color:{$config['memberbnttcolor']}; line-height:20px; font-size:14px; vertical-align:middle;}
+	.read-coupon .coupon-sn p:first-of-type{font-size:14px;}
+	.read-coupon .coupon-sn p:first-of-type span{font-size:18px;}
+	.coupon-form{padding:10px 0px 0 0px;}
+	.coupon-form .form-group{margin:10px 0;}
+	.coupon-form .form-group .btn{border-radius:5px;}
+	.coupon-form .form-group:first-child .btn{background:{$config['memberbntcolor']}; border-color:{$config['memberbntcolor']}; color:{$config['memberbnttcolor']};}
+</style>
+<div class="topnav">
+<span class="leftdiv">我{if ($_GPC['type'] == 'used')}已使用{else}未使用{/if}的拆扣券</span>
+<span class="rightdiv"><a href="{php echo $this->createMobileUrl('coupon')}"><i class="fa fa-arrow-left"></i> 兑换商城</a></span>
+    <div class="btn-group-top-box" style="margin-top:30px;">
+		<div class="btn-group btn-group-top">
+			<a href="{php echo $this->createMobileUrl('coupon',array('op'=>'mine'))}" class="btn btn-default {if ($_GPC['type'] != 'used')}active{/if}">未使用</a>
+			<a href="{php echo $this->createMobileUrl('coupon',array('op'=>'mine','type' => 'used'))}" class="btn btn-default {if ($_GPC['type'] == 'used')}active{/if}">已使用</a>
+		</div>
+	</div>
+</div>
+<div class="topnavdiv">隐藏我</div>
+	<div class="read-coupon">
+		<h4 class="coupon-title">{$data['title']}</h4>
+		<div class="coupon-content">
+			{if !empty($data['thumb'])}
+			<img src="{php echo tomedia($data['thumb']);}">
+			{else}
+			<img src="resource/images/coupon.jpg">
+			{/if}
+		</div>
+  		<div class="coupon-sn">
+			<p>序列号：<span>{$data['couponsn']}</span><br>请提供序列号给工作人员或在当前页面消费</p>
+		</div>
+		<div class="coupon-form">
+			<form role="form" action="" method="post" class="form-horizontal" >
+			<input type="hidden" name="id" value="{$id}">
+				{if ($data['endtime'] > time()) && ($data['status'] == 1)}
+					<div class="form-group">
+						<input class="form-control" type="password" name="password" placeholder="请让店员输入消费密码（由店员确认）" />
+					</div>
+					<div class="form-group">
+						<input type="submit" name="submit" class="btn btn-default btn-block use" value="确定使用" />
+						<input name="token" value="{$_W['token']}" type="hidden" />
+					</div>
+				{elseif $data['status'] == 2}
+					<a class="btn btn-default btn-block use">该优惠券已使用</a>
+				{else}
+					<a class="btn btn-default btn-block use">该优惠券已过期</a>
+				{/if}
+			</form>
+			<div class="form-group">
+				{if ($_GPC['type'] == 'used')}
+					<a href="{php echo $this->createMobileUrl('coupon',array('op'=>'mine','type' => 'used'))}" class="btn btn-default btn-block">返回</a>
+				{else}
+					<a href="{php echo $this->createMobileUrl('coupon',array('op'=>'mine'))}" class="btn btn-default btn-block">返回</a>
+				{/if}
+			</div>
+		</div>
+	</div>
+{/if}
+{template 'footer'}

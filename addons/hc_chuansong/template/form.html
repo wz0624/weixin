@@ -1,0 +1,96 @@
+<input type="hidden" name="reply_id" value="{$reply['id']}" />
+<div class="alert alert-block alert-new">
+	
+</div> 
+
+
+
+<div class="panel panel-default">
+<a class="close" data-dismiss="alert">×</a>
+    <div class="panel-heading">
+        客栈老板娘设置
+    </div>
+
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">回复类型</label>
+			<div class="col-sm-9 col-xs-12">
+				<label class="radio-inline">
+					<input class="radio inline cs" type="radio" name="istype" id="istype_0" value="0"  {if $reply['istype']==0 } checked="checked" {/if} /> 粉丝序号
+				</label>
+				<label class="radio-inline">
+					 <input class="radio inline cs" type="radio" name="istype" id="istype_1" value="1"  {if $reply['istype']==1 } checked="checked" {/if}/> 客栈老板娘
+				 </label>
+			</div>
+	</div>
+<div id="huodong" {if $reply['istype']==1}style="display:none"{/if}>
+	<div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">活动标题</label>
+            <div class="col-sm-9 col-xs-12">
+               <select name="hc_chuansongid">
+						{loop $hc_chuansongist $row}
+						<option value="{$row['id']}" {if $row['id']==$reply['hc_chuansongid']}selected="selected"{/if} >{$row['title']}</option>
+						{/loop}
+					</select>
+            </div>
+        </div>
+    </div>
+	
+	</div>
+	
+
+<div id="chuansong" {if $reply['istype']==0}style="display:none"{/if}>
+
+	<div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">标题</label>
+            <div class="col-sm-9 col-xs-12">
+              <input type="text" value="{$reply['title']}" class="span5" name="title">
+					<div class="help-block">用户发送关键词返回的图文主题。活动未开始或者结束发送的是文字</div>
+            </div>
+        </div>
+    </div>
+	<div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">标题</label>
+            <div class="col-sm-9 col-xs-12">
+				{php echo tpl_form_field_image('cover', $reply['cover'])}
+            </div>
+        </div>
+    </div>
+	
+	<div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">描述</label>
+            <div class="col-sm-9 col-xs-12">
+				<textarea name="desc" class="span6" cols="70" style="height:80px">{$reply['desc']}</textarea>
+				<div class="help-block">每个账号只能支持一个活动，多的无效</div>			
+            </div>
+        </div>
+    </div>
+	
+	</div>
+	
+</div>
+
+
+
+
+
+
+
+
+
+
+<script>
+$(".cs").click(function(){
+ 	_v=$("input[name='istype']:checked").val();
+	if(_v==0){
+		$('#chuansong').hide();
+		$('#huodong').show();
+	}else{
+		$('#chuansong').show();
+		$('#huodong').hide();
+	}
+});
+</script>

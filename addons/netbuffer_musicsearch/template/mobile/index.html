@@ -1,0 +1,16 @@
+{template 'header'}
+<script src="//cdn.bootcss.com/audio5js/0.1.10/audio5.min.js"></script>
+<script>
+  function initAudio () {
+    var audio5js = new Audio5js({
+      swf_path: 'http://cdn.bootcss.com/audio5js/0.1.10/swf/audio5js.swf',
+      ready: function () {
+        this.load('{$suri}');
+        this.play();
+      }
+    });
+  }
+  initAudio();
+</script>
+<div style="text-align:center;">正在播放音乐...</div>
+{template 'share'} {template 'footer'}

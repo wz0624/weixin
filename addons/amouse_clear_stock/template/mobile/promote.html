@@ -1,0 +1,87 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>人脉宝</title>
+    <link rel="stylesheet" href="http://hufen.kuaidianshop.com/static/css/foundation.css?version=20150221"/>
+    <link rel="stylesheet" href="http://hufen.kuaidianshop.com/static/css/main.css?version=20150221"/>
+    <script src="http://hufen.kuaidianshop.com/static/js/modernizr.js?version=20150221"></script>
+    <script src="http://hufen.kuaidianshop.com/static/js/jquery.js?version=20150221"></script>
+    <script src="http://hufen.kuaidianshop.com/static/js/foundation.min.js?version=20150221"></script>
+    <script src="http://hufen.kuaidianshop.com/static/js/main.js?version=20150221"></script>
+    <style>    .code-img {
+        text-align: center;
+    }
+
+    .code-img img {
+        width: 70%;
+    }
+
+    /*.code .cnt-box {*/
+    /*margin-top: 16px;*/
+    /*}*/
+
+    .code p {
+        margin: 10px;
+    }
+
+    .rule-title {
+        background: #ff6000;
+        width: 100px;
+        margin-left: 15px;
+        text-align: center;
+    }
+
+    .rule-title p {
+        color: #ffffff;
+    }
+
+    .rule-des {
+        text-align: justify;
+        padding: 0 4px 10px 4px;
+    }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="content">
+        <div class="dialog" id="tip">
+            <div class="dialog-cnt">
+                <div class="dialog-bd"><h3>提示</h3>
+
+                    <p class="text"></p><a class="button correct-btn" id="alert_ok">确&nbsp;&nbsp;定</a></div>
+            </div>
+        </div>
+        <div class="code">
+            <div class="rule">
+                <div class="rule-title"><p> 二维码图片
+                </p></div>
+                <p class="rule-des"> 1、您邀请一个下线一级好友获得 5 张挂机券 <br> 2、您的下线二级好友邀请一个好友您获得 3 张挂机券<br> 3、您的下线三级好友邀请一个好友您获得 2 张挂机券<br> 4、您邀请的一级好友发布名片您获得 4 张 挂机券<br>
+                    5、您也可以用推广链接推广，请点击【我要推广链接】<br> 长按下面二维码图片可保存到手机 发给好友扫码即可
+                </p></div>
+            <div class="code-img"><img src="http://hufen.kuaidianshop.com/upload2/user/user_ogf9Hvyc3OtZmJHKemsr18sJkjKs.jpg?time=2016-02-220" alt=""/></div>
+            <div class='row'>
+                <div class="small-12 columns publish"><br><a class='btn button' href="/index.php?m=Invite&id=78626">我要推广链接</a>
+
+                    <form name="frm" method="post" action=""><input name='reset' value='1' type='hidden'/>
+                        <button class='btn button' type="button"
+                                onclick="document.forms['frm'].submit();"> 重新生成二维码
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+    WeixinJSBridge.call('hideOptionMenu');
+});
+</script>
+<!-- 统计代码 -->
+<div style="display:none;">
+    <script src="http://s11.cnzz.com/stat.php?id=1257185828&web_id=1257185828" language="JavaScript"></script>
+</div>
+</body>
+</html>

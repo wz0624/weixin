@@ -1,0 +1,294 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li {if $operation == 'set'}class="active"{/if}><a href="{php echo $this->createWebUrl('prize', array('op' => 'set'))}">设置奖项</a></li>
+	<li {if $operation == 'prize'}class="active"{/if}><a href="{php echo $this->createWebUrl('prize', array('op' => 'prize'))}">参与记录</a></li>
+</ul>
+
+{if $operation == 'set'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				奖项1设置
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">金额</label>
+					<div class="col-xs-12 col-sm-2 input-group">
+						<input type="text" name="money1" class="form-control" value="{$prizeinfo1['money']}" />
+						<span class="input-group-addon">元</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">总计金额</label>
+					<div class="col-xs-12 col-sm-2 input-group">
+						<input type="text" name="maxmoney1" class="form-control" value="{$prizeinfo1['maxmoney']}" />
+						<span class="input-group-addon">元</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">中奖概率</label>
+					<div class="col-xs-12 col-sm-2 input-group">
+						<input type="text" name="chace1" class="form-control" value="{$prizeinfo1['chance']}" />
+						<span class="input-group-addon">%</span>
+					</div>
+				</div>				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">图片</label>
+					<div class="col-sm-9 col-xs-12 input-group">
+						{php echo tpl_form_field_image('thumb1', $prizeinfo1['pic'])}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				奖项2设置
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">金额</label>
+					<div class="col-xs-12 col-sm-2 input-group">
+						<input type="text" name="money2" class="form-control" value="{$prizeinfo2['money']}" />
+						<span class="input-group-addon">元</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">总计金额</label>
+					<div class="col-xs-12 col-sm-2 input-group">
+						<input type="text" name="maxmoney2" class="form-control" value="{$prizeinfo2['maxmoney']}" />
+						<span class="input-group-addon">元</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">中奖概率</label>
+					<div class="col-xs-12 col-sm-2 input-group">
+						<input type="text" name="chace2" class="form-control" value="{$prizeinfo2['chance']}" />
+						<span class="input-group-addon">%</span>
+					</div>
+				</div>				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">图片</label>
+					<div class="col-sm-9 col-xs-12 input-group">
+						{php echo tpl_form_field_image('thumb2', $prizeinfo2['pic'])}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				奖项3设置
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">金额</label>
+					<div class="col-xs-12 col-sm-2 input-group">
+						<input type="text" name="money3" class="form-control" value="{$prizeinfo3['money']}" />
+						<span class="input-group-addon">元</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">总计金额</label>
+					<div class="col-xs-12 col-sm-2 input-group">
+						<input type="text" name="maxmoney3" class="form-control" value="{$prizeinfo3['maxmoney']}" />
+						<span class="input-group-addon">元</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">中奖概率</label>
+					<div class="col-xs-12 col-sm-2 input-group">
+						<input type="text" name="chace3" class="form-control" value="{$prizeinfo3['chance']}" />
+						<span class="input-group-addon">%</span>
+					</div>
+				</div>				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">图片</label>
+					<div class="col-sm-9 col-xs-12 input-group">
+						{php echo tpl_form_field_image('thumb3', $prizeinfo3['pic'])}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				奖项4设置
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">金额</label>
+					<div class="col-xs-12 col-sm-2 input-group">
+						<input type="text" name="money4" class="form-control" value="{$prizeinfo4['money']}" />
+						<span class="input-group-addon">元</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">总计金额</label>
+					<div class="col-xs-12 col-sm-2 input-group">
+						<input type="text" name="maxmoney4" class="form-control" value="{$prizeinfo4['maxmoney']}" />
+						<span class="input-group-addon">元</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">中奖概率</label>
+					<div class="col-xs-12 col-sm-2 input-group">
+						<input type="text" name="chace4" class="form-control" value="{$prizeinfo4['chance']}" />
+						<span class="input-group-addon">%</span>
+					</div>
+				</div>				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">图片</label>
+					<div class="col-sm-9 col-xs-12 input-group">
+						{php echo tpl_form_field_image('thumb4', $prizeinfo4['pic'])}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				奖项5设置
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">金额</label>
+					<div class="col-xs-12 col-sm-2 input-group">
+						<input type="text" name="money5" class="form-control" value="{$prizeinfo5['money']}" />
+						<span class="input-group-addon">元</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">总计金额</label>
+					<div class="col-xs-12 col-sm-2 input-group">
+						<input type="text" name="maxmoney5" class="form-control" value="{$prizeinfo5['maxmoney']}" />
+						<span class="input-group-addon">元</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">中奖概率</label>
+					<div class="col-xs-12 col-sm-2 input-group">
+						<input type="text" name="chace5" class="form-control" value="{$prizeinfo5['chance']}" />
+						<span class="input-group-addon">%</span>
+					</div>
+				</div>				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">图片</label>
+					<div class="col-sm-9 col-xs-12 input-group">
+						{php echo tpl_form_field_image('thumb5', $prizeinfo5['pic'])}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				奖项6设置
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">金额</label>
+					<div class="col-xs-12 col-sm-2 input-group">
+						<input type="text" name="money6" class="form-control" value="{$prizeinfo6['money']}" />
+						<span class="input-group-addon">元</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">总计金额</label>
+					<div class="col-xs-12 col-sm-2 input-group">
+						<input type="text" name="maxmoney6" class="form-control" value="{$prizeinfo6['maxmoney']}" />
+						<span class="input-group-addon">元</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">中奖概率</label>
+					<div class="col-xs-12 col-sm-2 input-group">
+						<input type="text" name="chace6" class="form-control" value="{$prizeinfo6['chance']}" />
+						<span class="input-group-addon">%</span>
+					</div>
+				</div>				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">图片</label>
+					<div class="col-sm-9 col-xs-12 input-group">
+						{php echo tpl_form_field_image('thumb6', $prizeinfo6['pic'])}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				奖项7设置
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">金额</label>
+					<div class="col-xs-12 col-sm-2 input-group">
+						<input type="text" name="money7" class="form-control" value="{$prizeinfo7['money']}" />
+						<span class="input-group-addon">元</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">总计金额</label>
+					<div class="col-xs-12 col-sm-2 input-group">
+						<input type="text" name="maxmoney7" class="form-control" value="{$prizeinfo7['maxmoney']}" />
+						<span class="input-group-addon">元</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">中奖概率</label>
+					<div class="col-xs-12 col-sm-2 input-group">
+						<input type="text" name="chace7" class="form-control" value="{$prizeinfo7['chance']}" />
+						<span class="input-group-addon">%</span>
+					</div>
+				</div>				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">图片</label>
+					<div class="col-sm-9 col-xs-12 input-group">
+						{php echo tpl_form_field_image('thumb7', $prizeinfo7['pic'])}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+{elseif $operation == 'prize'}
+
+<div class="main">
+	<div class="category">
+			<div class="panel panel-default">
+				<div class="panel-body table-responsive">
+					<table class="table table-hover active">
+						<thead>
+							<tr>
+								<th style="width:30px;">#</th>
+								<th style="width:180px;">参与者openid</th>
+								<th style="width:100px;">时间</th>
+								<th style="width:150px;">金额</th>
+							</tr>
+						</thead>
+						{loop $prizeinfo $row}
+						<tr>
+							<td>{$row['id']}</td>
+							<td>{$row['openid']}</td>
+							<td>{php echo date("m-d H:i:s",$row['time'])}</td>
+							<td>{$row['money']}</td>
+						</tr>
+						{/loop}
+					</table>
+				</div>
+			</div>
+	</div>
+{$pager}
+</div>
+{/if}
+
+<script>
+	require(['bootstrap'],function($){
+		$('.btn').hover(function(){
+			$(this).tooltip('show');
+		},function(){
+			$(this).tooltip('hide');
+		});
+	});
+</script>
+{template 'common/footer'}

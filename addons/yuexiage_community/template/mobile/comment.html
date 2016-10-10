@@ -1,0 +1,53 @@
+<style>
+    .face_c{position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:1030;}
+    #sinaEmotion{ display: none;    width: 273px;z-index: 1032;}
+    #sinaEmotion .faces {
+        width: 251px;
+    }
+    .message{color: red; display: none;}
+</style>
+<div class="panel panel-default ">
+    <div class="panel-heading" style="text-align:center">
+        <a href="javascript:;" class="navbar-link pull-left close" style="color:#6c6c6c !important;"> <i class="glyphicon glyphicon-remove"></i> </a> 
+            评论
+    </div>
+    <div class="panel-body">
+        <form class="publish">
+            <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12">
+                            <div class="message"></div>
+                            <textarea class="form-control content" rows="3" id="content" maxlength="50"></textarea>
+                            <sub>可输入50字内容</sub>
+                            <input type="hidden" id="coment_id" value="">
+                            <input type="hidden" id="coment_pre" value="">
+                            <input type="hidden" id="cid" value="">
+                        </div>
+                        <div class="col-md-6 col-xs-6">
+                            <img class="face" src='{$_W["siteroot"]}addons/yuexiage_community/images/css/images/c.png' width='20px'/>
+                        </div>   
+                        <div class="col-md-6 col-xs-6 " style='text-align: right;'>
+                            <button type="button" class="btn btn-success btn-sm send" style="padding:2px 15px;">发送</button>
+                        </div> 
+                    </div>
+                </div>
+            </form>
+             <script type="text/javascript">
+                $('body').delegate('.reply', {
+                    click : function(event){
+                        $(this).next('.comment_body').toggle();
+                        event.preventDefault();
+                    }
+                });
+                $('.face').bind({
+                    click: function(event){
+                        if(! $('#sinaEmotion').is(':visible')){
+                            $(this).sinaEmotion();
+                            event.stopPropagation();
+                        }
+                    }
+                });
+            </script>
+    </div>
+</div>
+

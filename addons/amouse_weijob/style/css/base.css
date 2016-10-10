@@ -1,0 +1,44 @@
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td{ padding:0; margin:0;} 
+table{border-collapse:collapse; border-spacing:0;} 
+fieldset,img{border:0;} 
+address,caption,cite,code,dfn,em,th,var{font-weight:normal; font-style:normal;} 
+ol,ul，li{list-style:none;} 
+caption,th{text-align:left;} 
+h1,h2,h3,h4,h5,h6{font-weight:normal; font-size:100%;} 
+q:before,q:after{content:'';} 
+abbr,acronym{border:0;} 
+.hidden{display:none;}
+.clearfix:after,.box:after,.phead:after,.pbody:after{content:"\0020";display:block;clear:both;height:0;overflow:hidden;}
+.clearfix,.box,.phead,.pbody{zoom:1;}
+a{color:#666; text-decoration:none;cursor: pointer;}
+a:hover{color:#f00;text-decoration:none;cursor: pointer;}
+.pt10{padding-top: 10px;}
+.pb10{padding-bottom: 10px;}
+.mt0{margin-top: 0px;}
+.mr5{margin-right: 5px;}
+.tl{text-align:left;}
+.tc{text-align:center;}
+.tr{text-align:right;}
+.fl{float:left; display:inline;}
+.fr{float:right; display:inline;}
+.fb{font-weight:bold;}
+.mar_auto{margin: 0 auto!important;}
+.clear{clear:both;}
+html,body{font-family: "微软雅黑";background-color: #e2e2e2;}
+a{text-decoration: none;color: #666;}
+ul{list-style: none;margin: 0;padding: 0;}
+.head,.contents,.footer{margin: 0 auto;padding: 0px;}
+.ft-h{font-family: "黑体";}
+.head{height: 40px;line-height: 30px;text-align: center;padding: 10px 0px 0px;background: #283449  center center no-repeat;color: #fff;font-size: 18px;position: relative;background-size: 177px 26px;}
+.head a{position: absolute;top: 0px;left: 0px;width: 80px;height: 50px;background:center center no-repeat;}
+.head a.right-pic{background:url("../images/icon_job_go.png") right center no-repeat;background-size: 11px 15px;;left:auto;right: 0px;color: #fff;font-size: 15px;line-height: 50px;}
+.left-tit{background: #fff 15px center no-repeat;text-align: left;height: 50px;margin-bottom: 10px;border-bottom: 1px solid #dadada;background-size:160px 25px;background-size:177px 26px ; }
+.left-tit a{display: block;text-decoration: none;height: 50px;}
+.mm-ismenu{background-color: #eee;}
+.mm-list > li > a, .mm-list > li > span{font-size: 18px;color: #8c8c8c;}
+.mm-menu > .mm-list{padding: 0px;}
+.mm-menu .mm-list > li:after{border-color: #d3d3d3;}
+#menu_left>ul>li.selected>a{background-color: #e80000;color: #fff;}
+.go-top{width:55px;height: 55px;display: block;position: fixed;right: 0px;bottom:0px;background:center center no-repeat;background-size: 35px 35px;display: none; }
+#infscr-loading{text-align: center;}
+#infscr-loading img{width: 16px;height: 16px;}

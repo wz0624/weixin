@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0"/>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>{$row['title']}</title>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <link href="{NOW_PATH}files/style.css?v=5" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        .bg-img {
+            position: absolute;
+            top: 30%;
+            left: 20%;
+            width: 64%;
+            height: 27%;
+        }
+        .degree_color {
+            position: absolute;
+            display: block;
+            left: 24%;
+            top: 65.5%;
+            height: 1%;
+            width: 30%;
+            z-index: 10;
+        }
+        .degree_dem {
+            position: absolute;
+            display: block;
+            left: 21.1%;
+            top: 64.9%;
+            height: 2.2%;
+            width: 3.5%;
+            border-radius: 50%;
+            z-index: 10;
+        }
+        @-webkit-keyframes 'aler' {
+            from { left: 50%; }
+            to{ left: 28%; }
+        }
+        .degree_text_b {
+            position: absolute;
+            left: 28%;
+            top: 58%;
+            z-index: 10;
+            color: #F72E2E;
+            font-weight: bold;
+            font-size: 36px;
+            -webkit-animation-duration: 1s;
+            -webkit-animation-iteration-count:1;
+        }
+        .degree_text_b.aler {
+            -webkit-animation-name: 'aler';
+        }
+        .degree_btn {
+            position: absolute;
+            display: block;
+            left: 19%;
+            top: 83%;
+            height: 9%;
+            width: 40%;
+            z-index: 10;
+            cursor: pointer;
+        }
+        .degree_abtn {
+            position: absolute;
+            display: block;
+            left: 70%;
+            top: 66%;
+            height: 13%;
+            width: 21%;
+            z-index: 10;
+            cursor: pointer;
+        }
+        .degree_add_alert {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 11000;
+            display: none;
+            width: 162px;
+            height: 154px;
+            background: url("{NOW_PATH}files/degree_add.png") no-repeat;
+            background-size: contain;
+            line-height: 154px;
+            padding-left: 162px;
+            text-align: left;
+            color: #ffe900;
+            font-weight: bold;
+            font-size: 62px;
+            -webkit-text-stroke: 2px #ff9f5f;
+        }
+        .degree_tag {
+            position: absolute;
+            display: block;
+            left: 10%;
+            top: 75%;
+            height: 3.7%;
+            width: 50%;
+            z-index: 10;
+            text-align: center;
+            color: #000000;
+            font-family:"SimHei","Microsoft YaHei","MicrosoftJhengHei","SimSun";
+        }
+    </style>
+</head>
+<body style="position:relative;">
+
+<div class="bao" id="boy_next" style="z-index:9">
+    <img src="{NOW_PATH}files/boy_share/img_1_0.jpg">
+    <img src="{NOW_PATH}files/boy_share/img_2_0.png">
+    <img src="{NOW_PATH}files/boy_share/img_3_0.jpg">
+</div>
+
+
+
+<div class="image bg-img" style="z-index:8">
+    <img src="{php echo toimage($uuser['img'])}">
+</div>
+
+<div class="degree_text_b">
+    <span>{php echo intval($uuser['val'])}</span>°C
+</div>
+
+<div class="degree_color {php echo val_l($uuser['val'])}">
+    <span style="width:{php echo intval($uuser['val'])}%"></span>
+</div>
+<div class="degree_dem {php echo val_l($uuser['val'])}"></div>
+
+<a class="degree_btn" href="{php echo get_link('uid').'&uid='.$user['id']}">&nbsp;</a>
+
+<div class="degree_abtn" onclick="pluswen();"></div>
+
+<div class="degree_tag">快帮{$uuser['tag']}{$uuser['title']}</div>
+
+<div class="loading_alert">
+    <div class="container">
+        <div class="nuan"></div>
+        <div class="sun"></div>
+        <div class="tips"></div>
+    </div>
+</div>
+
+<div class="degree_add_alert">+<span>0</span>°C</div>
+<div class="alert_mask"></div>
+
+</body>
+
+<script type="text/javascript" src="{NOW_PATH}files/jquery.js"></script>
+<script type="text/javascript" src="{NOW_PATH}files/jquery.alert.js"></script>
+<script type="text/javascript" src="{NOW_PATH}files/kinetic-v5.1.0.min.js"></script>
+<script type="text/javascript" src="{NOW_PATH}files/TweenMax.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $(".degree_text_b").css({
+            'font-size': $(window).width() * 0.06
+        });
+        $(".degree_tag").css({
+            'font-size': $(window).width() * 0.04
+        });
+        //
+        var ww = $(window).width() * 0.3,
+                wh = $(window).width() * 0.3 * 0.95,
+                wt = ($(window).height() - wh) / 2,
+                wl = ($(window).width() - ww) / 2
+        $(".degree_add_alert").css({
+            width:ww,
+            height:wh,
+            top:wt,
+            left:wl - (ww / 2),
+            'line-height':wh+'px',
+            'padding-left':ww+'px',
+            'font-size': $(window).width() * 0.12
+        });
+    });
+
+
+    var shareData = {
+        "imgUrl" : "{php echo toimage($row['share_txt'])}",
+        "link" : "{php echo urwdo('index','',1)}&uid={$uuser['id']}",
+        "title" : "{$row['share_title']}",
+        "desc" : "{$row['share_desc']}"
+    };
+    var jssdkconfig = {JSONJSSDKCONFIG} || {};
+    //
+    var upData = {
+        "now_path" : "{NOW_PATH}",
+        "img" : "{php echo toimage($uuser['img'])}",
+        "upfile" : "{php echo urwdo('upfile','',1)}",
+        "unupfile" : "{php echo urwdo('unupfile','',1)}",
+        "index" : "{php echo urwdo('index','',1)}",
+        "uuid" : "{$uuser['id']}"
+    };
+</script>
+<script type="text/javascript" src="{NOW_PATH}files/upload.js?v=5"></script>
+</html>

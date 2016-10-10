@@ -1,0 +1,36 @@
+<div class="input-group" id="previewInput">
+    <input type="text" class="form-control" id="previewOpenid" placeholder="请输入OpenID">
+    <span class="input-group-btn">
+        <button class="btn btn-default" type="button" id="sendPreviewMessage">
+            发送
+        </button>
+    </span>
+</div>
+<div class="help-block warning" id="previewHelp"></div>
+<div class="input-group">
+    <p>微信扫一扫，预览更方便</p>
+    <img src="{php echo $this->createWebUrl('preview',array('op'=>'qrcode','oid'=>$optionId))}" style="width: 80%;" alt="qrcode">
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('#sendPreviewMessage').click(function () {
+            if ($("#previewOpenid").val() == "") {
+                $("#previewOpenid").focus();
+                $("#previewHelp").html("请填写OpenID");
+            } else {
+                $.ajax({
+                    type: 'GET',
+                    url: "{php echo $this->createWebUrl('preview')}&op=ajax&oid={$optionId}&openid="+$("#previewOpenid").val(),
+                    success: function (data) {
+                        if(data == '1') {
+                            alert("发送成功");
+                        } else {
+                            alert("发送失败");
+                        }
+                    },
+                    dataType: "JSON"
+                });
+            }
+        });
+    });
+</script>

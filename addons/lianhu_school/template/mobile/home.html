@@ -1,0 +1,184 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <title>学生中心-{$_SESSION['school_name']}-家校通</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{MODULE_URL}style/css/style.css?{TIMESTAMP}">
+    <link rel="stylesheet" href="{MODULE_URL}style/css/buttons.css">
+    <link href="http://cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body style='background-color:#eee'>
+  <div class="top-wrap" style='width:100%;height:35px;overflow:hidden;'>
+        <div class="fn-clear tr-box top">
+            <a href="{php echo $this->createMobileUrl('change_student');}" ><div class='fn-left fn-text-center'  style=' width:15%;margin-left:0; height:38px;overflow:hidden;color:#fff'  >&nbsp;&nbsp;<i class="fa fa-bars"></i></div></a>
+            <div class='text_center' style='display:inline-block;width:65%;text-align:center;'>学生中心</div>
+            <a href="{php echo $this->createMobileUrl('add_student');}" style='color:#fff'><div class='fn-right fn-text-center'style='width:15%;margin-right:0;  height:38px;overflow:hidden'><i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;</div></a>
+       </div>
+  </div>
+    <main>
+    <div class="panel memberhead" style='border-radius:0;'>
+        <div class="header-l"><img class="icon-level-p1" src="{$_W['attachurl']}{$result['student_img']}"/></div>
+		        <div class="header-r">
+            <ul class="distributor-infor">
+                <li><span class="distributor-infor-label">学生姓名：</span><span class="distributor-infor-c">{$result['student_name']}</span></li>
+                <li><span class="distributor-infor-label">学生学号：</span><span class="distributor-infor-c">{$result['xuehao']}</span></li>
+                <li><span class="distributor-infor-label">学生班级：</span><span class="distributor-infor-c">{$result['grade_name']}--{$result['class_name']}</span></li>
+                <li><span class="distributor-infor-label">班主任：</span><span class="distributor-infor-c">{$result['teacher_realname']}</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class='msg'>
+      <a href="{php echo $this->createMobileUrl('neimsg')}">
+      <img src='{MODULE_URL}/style/new/Email_72px_1177606_easyicon.net.png'>
+      <span>{$msg_count}</span>
+    </a>
+    </div>
+    
+    <div class="row count" style='margin-left:0px;margin-right:0px;overflow:hidden'>
+        <div class="small-3 large-3 columns mid">
+        	 <a href="{php echo $this->createMobileUrl('Record',array('op'=>'work_record'))}" class="count-a">
+                <p class="count-dis-mony" style="font-size:0.8em">{$work_num}</p>
+                <span class="count-title">作业记录</span></a>
+        </div>
+        <div class="small-3 large-3 columns mid">
+        	 <a href="{php echo $this->createMobileUrl('Record',array('op'=>'test_record'))}" class="count-a">
+                <p class="count-dis-mony" style="font-size:0.8em">{$test_num}</p>
+                <span class="count-title">考试记录</span></a>
+        </div>
+		
+       <div class="small-3 large-3 columns last">
+            <a href="{php echo $this->createMobileUrl('Record',array('op'=>'error_record'))}" class="count-a">
+                <p class="count-dis-mony" style="font-size:0.8em">{$weak_num}</p>
+                <span class="count-title">错题管理</span></a>
+        </div>
+       <div class="small-3 large-3 columns last">
+            <a href="{php echo $this->createMobileUrl('give_money')}" class="count-a">
+                <p class="count-dis-mony" style="font-size:0.8em">{$need_money}</p>
+                <span class="count-title">缴费管理</span></a>
+        </div>	
+    </div>
+
+<div class="container" style="margin-bottom:60px;margin-top:20px;">
+	<div class="row row_left">
+		<div class="col-md-3">
+                                    <a href="{php echo $this->createMobileUrl('syllabus')}">
+                        <button class="button button-primary button-box button-giant button-longshadow-right"style='text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);'>
+                                <i class="fa fa-language"></i>
+                        </button>    
+                                <i class='font-up'> 课程表</i>
+                        </a> 
+                        
+		</div>
+
+  		<div class="col-md-3">
+                                <a href="{php echo $this->createMobileUrl('leave')}">
+                                    <button class="button button-primary button-box button-giant button-longshadow-right"style='text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);'>
+                                        <i class="fa fa-inbox"></i>
+                                </button>            
+                                <i class='font-up'>请假申请</i>
+                                </a>    
+		</div>      
+		<div class="col-md-3">                 
+                            <a href="{php echo $this->createMobileUrl('Personer_list')}">
+                                    <button class="button  button-action button-box button-giant button-longshadow-right"style='text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);'>
+                                        <i class="fa fa-users"></i>
+                                </button>
+                                <i class='font-up'>
+                                班级老师</i>
+                                </a>   
+		</div>
+	</div>
+	<div class="row row_left">
+		<div class="col-md-3">
+                                <a href="{php echo $this->createMobileUrl('Record',array('op'=>'work_record'))}">
+                                <button class="button button-action button-box button-giant button-longshadow-right" style='text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);'>
+                                        <i class="fa fa-bars"></i>
+                                </button>  
+                                <i class='font-up'>学生记录</i>
+                                </a>    
+		</div>
+		<div class="col-md-3">
+                            <a href="{php echo $this->createMobileUrl('score')}">
+                            <button class="button button-caution button-box button-giant button-longshadow-right" style='text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);'>
+                                    <i class="fa fa-line-chart"></i>
+                            </button>              
+                           <i class='font-up'>考试成绩</i>
+                            </a>  
+		</div>
+		<div class="col-md-3">
+                                <a href="{php echo $this->createMobileUrl('real_xiangxi',array('op'=>'work_record'))}">
+                                <button class="button button-highlight button-box button-giant button-longshadow-right" style='text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);'>
+                                        <i class="fa fa-table"></i>
+                                </button>     
+                                
+                                <i class='font-up'>学生详细</i>
+                                </a> 
+		</div>
+	</div>
+	<div class="row row_left">
+		<div class="col-md-3">
+                                <a href="{php echo $this->createMobileUrl('applist')}">
+                                    <button class="button button-royal button-box button-giant button-longshadow-right" style='text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);'>
+                                        <i class="fa fa-paper-plane-o" style="color:#fff"></i>
+                                </button> 
+                                <i class='font-up'> 预约项目</i>
+                                </a>    
+		</div>
+		<div class="col-md-3">
+                                <a href="{php echo $this->createMobileUrl('myInfo')}">
+                                    <button class="button button-caution button-box button-giant button-longshadow-right" style='text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);'>
+                                        <i class="fa fa-file" style="color:#fff"></i>
+                                </button> 
+                                <i class='font-up'>我的资料</i>
+                                </a>    
+		</div>
+        
+		<div class="col-md-3">                 
+                                 <a href="{php echo $this->createMobileUrl('video')}">
+                                    <button class="button button-royal button-box button-giant button-longshadow-right" style='text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);'>
+                                       <i class="fa fa-video-camera" style="color:#fff"></i>
+                                </button> 
+                                <i class='font-up'> 教室监控</i>
+                                </a>            
+		</div>
+	
+    </div>
+    <div class='row row_left'>
+     		<div class="col-md-3">
+                                <a href="{php echo $this->createMobileUrl('applist_result')}">
+                                    <button class="button button-primary button-box button-giant button-longshadow-right"style='text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);'>
+                                        <i class="fa fa-inbox"></i>
+                                </button>            
+                                <i class='font-up'>预约结果</i>
+                                </a>    
+		</div>
+     </div>
+</div>
+</main>
+<style>
+        .font-up{
+                display: block;
+                position: relative;
+                top: -22px;
+                color: #fff;
+                font-size: 0.8em;
+                font-style: normal;
+        }
+</style>
+<script>
+    var width=$(window).width();
+    $(function(){
+        w=(width-104*3+10)/2;
+        $('.row_left').css('padding-left',w);
+    });
+</script>
+{template 'jsweixin'}
+{template 'footer'}

@@ -1,0 +1,30 @@
+{template 'common/header'}
+<a class="btn btn-primary pull-right" href="{php echo $this->createWebUrl('activity', array('op'=>'add'))}">新增活动</a>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>名称</th>
+        <th>优惠券ids</th>
+        <th>总数</th>
+        <th>已使用</th>
+    </tr>
+    </thead>
+    <tbody>
+    {loop $all_activity $activity}
+    <tr>
+        <td>
+            {$activity['name']}
+        </td>
+        <td>
+            {$activity['coupon_ids']}
+        </td>
+        <td>
+            {$activity['total']}
+        </td>
+        <td>
+            {$activity['used']}
+        </td>
+    </tr>
+    {/loop}
+    </tbody>
+</table>

@@ -1,0 +1,130 @@
+<ion-view view-title="我的" id="account">
+    <ion-content>
+        <div class="row" style="background-color: #f84546;min-height: 210px;position:relative">
+            <div class="col col-25"></div>
+            <div class="col col-50 col-one">
+                <div>
+                    <img class="img-one" ng-src="{{user.avatar || '/addons/yike_red_packet/template/mobile/huiyigou/img/tmp/images/head-edit.png'}}"/>
+                    <img class="img-two" src="/addons/yike_red_packet/template/mobile/huiyigou/img/img-three.png">
+                </div>
+                <p class="number">昵称：{{user.nickname}}</p>
+                <p class="number">会员id：{{user.uid}}</p>
+                <p class="number">会员等级：{{user.inviterLevelName}}</p>
+            </div>
+            <div class="col col-25"></div>
+        </div>
+        <div class="gray-wide-line"></div>
+        <div class="list">
+            <a class="item item-icon-right">
+                <img src="/addons/yike_red_packet/template/mobile/huiyigou/img/tmp/images/account_03.png"
+                     style="height: 20px;width: auto;vertical-align: middle"/>
+                &nbsp;会员升级
+                <i class="icon ion-ios-arrow-right i"></i>
+            </a>
+            <div>
+                <a class="item item-button-right" ng-show="user.inviter_level < 1" ng-click="upgradeLevel(1)">
+                    {{levelPrice['1']}}元成为"{{levelList['1']}}"
+                    <button class="button button-assertive">
+                        升级
+                    </button>
+                </a>
+                <a class="item item-button-right" ng-show="user.inviter_level < 2" ng-click="upgradeLevel(2)">
+                    {{levelPrice['2']}}元成为"{{levelList['2']}}"
+                    <button class="button button-assertive">
+                        升级
+                    </button>
+                </a>
+                <a class="item item-button-right" ng-show="user.inviter_level < 3" ng-click="upgradeLevel(3)">
+                    {{levelPrice['3']}}元成为"{{levelList['3']}}"
+                    <button class="button button-assertive">
+                        升级
+                    </button>
+                </a>
+            </div>
+
+            <a class="item item-icon-right" ng-click="go('address-manage')">
+                <img src="/addons/yike_red_packet/template/mobile/huiyigou/img/tmp/images/account_01.png"
+                     style="height: 20px;width: auto;vertical-align: middle"/>
+                &nbsp;家族成员
+                <i class="icon ion-ios-arrow-right i"></i>
+            </a>
+            <div>
+                <a class="item item-button-right" ui-sref="level({id: 1})">
+                    一级会员
+                    <button class="button button-assertive">
+                        {{data.count1 || 0}} 人
+                    </button>
+                </a>
+                <a class="item item-button-right" ui-sref="level({id: 2})">
+                    二级会员
+                    <button class="button button-assertive">
+                        {{data.count2 || 0}} 人
+                    </button>
+                </a>
+                <a class="item item-button-right" ui-sref="level({id: 3})">
+                    三级会员
+                    <button class="button button-assertive">
+                        {{data.count3 || 0}} 人
+                    </button>
+                </a>
+            </div>
+
+            <a class="item item-icon-right" ng-click="go('shopping-cart')">
+                <img src="/addons/yike_red_packet/template/mobile/huiyigou/img/tmp/images/account_02.png"
+                     style="height: 20px;width: auto;vertical-align: middle"/>
+                &nbsp;会员佣金
+                <i class="icon ion-ios-arrow-right i"></i>
+            </a>
+            <div>
+
+                <div class="item item-button-right" ui-sref="rebates">
+                    我的总佣金
+                    <button class="button button-assertive">
+                        {{user.money || 0 | number: 2}} 元
+                    </button>
+                </div>
+                <div class="item item-button-right" ui-sref="rebates({status: 2})">
+                    已领取佣金
+                    <button class="button button-assertive">
+                        {{user.withdraw || 0 | number: 2}} 元
+                    </button>
+                </div>
+                <div class="item item-button-right" ui-sref="rebates({status: 1})">
+                    未领取佣金
+                    <button class="button button-assertive">
+                        {{user.money - user.withdraw || 0 | number: 2}} 元
+                    </button>
+                </div>
+            </div>
+
+
+            <!--<a class="item item-icon-right" ng-click="go('draw-cash-apply')">-->
+                <!--<img src="/addons/yike_red_packet/template/mobile/huiyigou/img/tmp/images/account06.png"-->
+                     <!--style="height: 20px;width: auto;vertical-align: middle"/>-->
+                <!--&nbsp;会员红包专区-->
+                <!--<i class="icon ion-ios-arrow-right i"></i>-->
+            <!--</a>-->
+
+            <!--<div>-->
+                <!--<div class="item item-button-right">-->
+                    <!--发放给一级会员的红包-->
+                    <!--<button class="button button-assertive">-->
+                        <!--0 元-->
+                    <!--</button>-->
+                <!--</div>-->
+                <!--<div class="item item-button-right">-->
+                    <!--发放给二级会员的红包-->
+                    <!--<button class="button button-assertive">-->
+                        <!--0 元-->
+                    <!--</button>-->
+                <!--</div>-->
+                <!--<div class="item item-button-right">-->
+                    <!--发放给三级会员的红包-->
+                    <!--<button class="button button-assertive">-->
+                        <!--0 元-->
+                    <!--</button>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+    </ion-content>
+</ion-view>

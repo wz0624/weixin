@@ -1,0 +1,339 @@
+
+<!--正文导航-->
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="utf-8">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+        <meta content="telephone=no" name="format-detection" /> 
+        <meta name="google-site-verification" content="DVVM1p1HEm8vE1wVOQ9UjcKP--pNAsg_pleTU5TkFaM">
+        <style>
+            body > a:first-child,body > a:first-child img{ width: 0px !important; height: 0px !important; overflow: hidden; position: absolute}
+            body{padding-bottom: 0 !important;}
+        </style>
+        <meta id="viewport" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+        <title>缴费中心</title>
+        <link rel="stylesheet" href="{MODULE_URL}public/mobile/css/weixin.css?{php echo time()}">
+		<link rel="stylesheet" href="{OSSURL}public/mobile/css/reset.css?{php echo time()}">
+        <script src="{OSSURL}public/mobile/js/jquery.js"></script>
+</head>
+<body>
+    <div id="wrap" class="user_order">
+        <header id="header">
+            <ul class="order">
+				<li class="order_li all_g"><a href="javascript:void(0)">全部</a></li>
+                <li class="order_li no_g"><a href="javascript:void(0)" value = "{$rest}" id="no_g">待缴费</a></li>
+                <li class="order_li yes_g"><a href="javascript:void(0)">已缴费</a></li>
+                <li class="order_li cancel_g"><a href="javascript:void(0)" onclick="changeselect('cancel_g');">已退费</a></li>
+            </ul>			
+        </header>
+        <section id="order_list">
+            <!-- 全部 -->
+            <section class="order_all all_g">
+			        {if !empty($list)}
+			            {loop $list $item}
+                            <a href="{php echo $this->createMobileUrl('kcinfo', array('id' => $item['kcid'], 'schoolid' =>$schoolid), true)}">
+                                <dl class="order_cnt">
+                                    <dt><div style="background-image:url({php echo tomedia($teacher[$kecheng[$item['kcid']]['tid']]['thumb']);})"></div>{$teacher[$kecheng[$item['kcid']]['tid']]['tname']}</dt>
+                                    <dd>{$kecheng[$item['kcid']]['name']}</dd>
+                                    <dd>{$kecheng[$item['kcid']]['adrr']}</dd>
+                                    <dd>开始:{php echo date('Y-m-d',$kecheng[$item['kcid']]['start'])}</dd>
+                                    <dd>结束:{php echo date('Y-m-d',$kecheng[$item['kcid']]['end'])}</dd>
+                                    <!-- 三种状态分别是order_ready、order_unready、order_over -->
+									{if $kecheng[$item['kcid']]['start']>TIMESTAMP}
+									<div class="order_static order_unready"></div>
+									{else if $kecheng[$item['start']]['start']<TIMESTAMP && $kecheng[$item['start']]['end']<TIMESTAMP}
+									<div class="order_static order_ready"></div>
+									{else if TIMESTAMP<$kecheng[$item['end']]['start']}
+									<div class="order_static order_over"></div>
+									{/if}
+									{if $item['status'] == 1}
+                                    <div class="order_static1 order_unready1"></div>
+									{else if $item['status'] == 2}
+									<div class="order_static1 order_ready1"></div>
+									{else if $item['status'] == 3}
+									<div class="order_static1 order_ok1"></div>
+									{/if}
+                                </dl>
+                            </a>
+						{/loop}
+					{else}	
+							<section class="order_null">
+									<p>您还没任何缴费项目哦~</p>
+							</section>
+					{/if}		
+            </section>
+            <!-- 待缴费 -->
+            <section class="order_unpay no_g">
+                    {if !empty($list1)}
+			            {loop $list1 $item}			
+                        <div class="">
+                            <dl class="unpay_li" val="{$item['id']}">
+                                <dt><div style="background-image:url({php echo tomedia($teacher[$kecheng[$item['kcid']]['tid']]['thumb']);})"></div>{$teacher[$kecheng[$item['kcid']]['tid']]['tname']}</dt>
+                                <dd>{$kecheng[$item['kcid']]['name']}</dd>
+                                <!-- value中是剩余名额 -->
+								{php $temp = $kecheng[$item['kcid']]['minge']-$kecheng[$item['kcid']]['yibao'];}
+                                <dd value="{$temp}个名额">{$kecheng[$item['kcid']]['cose']}</dd>
+                                <dd>{$kecheng[$item['kcid']]['adrr']}</dd>
+                                <dd>开始:{php echo date('Y-m-d',$kecheng[$item['kcid']]['start'])}</dd>
+                                <dd>结束:{php echo date('Y-m-d',$kecheng[$item['kcid']]['end'])}</dd>
+                                <input type="hidden" value="{$item['id']}" class="coupon_cid"/>
+                                <div class="order_close" style="background-image:url({OSSURL}public/mobile/img/mask_close.png)"></div>
+                            </dl>
+                            <p class="order_time">请于{php echo date('Y年m月d日',$kecheng[$item['kcid']]['start'])}之前缴费哦~</p>
+                            <div class="mask"></div>
+                        </div>
+						{/loop}
+					{else}	
+						<section class="order_null" style="z-index:999;">
+								<p>您还没任何待缴项目哦~</p>
+						</section>
+					{/if}	
+                <ul class="order_sum">
+                    <li><span id="quanxuan" style="background-image:url({OSSURL}public/mobile/img/user-uc.png)">全选</span>未付（<b></b>个)</li>
+                    <li><div class="btn" id="jiesuan">去结算</div></li>
+                </ul>
+            </section>
+            <!-- 已缴费 -->
+            <section class="order_payed yes_g">
+			        {if !empty($list2)}
+			            {loop $list2 $item}
+                            <a href="{php echo $this->createMobileUrl('kcinfo', array('id' => $item['kcid'], 'schoolid' =>$schoolid), true)}">
+                                <dl class="order_cnt">
+                                    <dt><div style="background-image:url({php echo tomedia($teacher[$kecheng[$item['kcid']]['tid']]['thumb']);})"></div>{$teacher[$kecheng[$item['kcid']]['tid']]['tname']}</dt>
+                                    <dd>{$kecheng[$item['kcid']]['name']}</dd>
+                                    <dd>{$kecheng[$item['kcid']]['adrr']}</dd>
+                                    <dd>开始:{php echo date('Y-m-d',$kecheng[$item['kcid']]['start'])}</dd>
+                                    <dd>结束:{php echo date('Y-m-d',$kecheng[$item['kcid']]['end'])}</dd>
+                                    <!-- 三种状态分别是order_ready、order_unready、order_over -->
+									{if $kecheng[$item['kcid']]['start']>TIMESTAMP}
+									<div class="order_static order_unready"></div>
+									{else if $kecheng[$item['start']]['start']<TIMESTAMP && $kecheng[$item['start']]['end']<TIMESTAMP}
+									<div class="order_static order_ready"></div>
+									{else if TIMESTAMP<$kecheng[$item['end']]['start']}
+									<div class="order_static order_over"></div>
+									{/if}
+									{if $item['status'] == 1}
+                                    <div class="order_static1 order_unready1"></div>
+									{else if $item['status'] == 2}
+									<div class="order_static1 order_ready1"></div>
+									{else if $item['status'] == 3}
+									<div class="order_static1 order_ok1"></div>
+									{/if}
+                                </dl>
+                            </a>
+						{/loop}
+					{else}	
+							<section class="order_null">
+									<p>您还没任何未缴项目哦~</p>
+							</section>
+					{/if}
+            </section>
+            <!-- 已退费 -->
+            <section class="order_refund cancel_g">                                   
+			        {if !empty($list3)}
+			            {loop $list3 $item}
+                            <a href="{php echo $this->createMobileUrl('kcinfo', array('id' => $item['kcid'], 'schoolid' =>$schoolid), true)}">
+                                <dl class="order_cnt">
+                                    <dt><div style="background-image:url({php echo tomedia($teacher[$kecheng[$item['kcid']]['tid']]['thumb']);})"></div>{$teacher[$kecheng[$item['kcid']]['tid']]['tname']}</dt>
+                                    <dd>{$kecheng[$item['kcid']]['name']}</dd>
+                                    <dd>{$kecheng[$item['kcid']]['adrr']}</dd>
+                                    <dd>开始:{php echo date('Y-m-d',$kecheng[$item['kcid']]['start'])}</dd>
+                                    <dd>结束:{php echo date('Y-m-d',$kecheng[$item['kcid']]['end'])}</dd>
+                                    <!-- 三种状态分别是order_ready、order_unready、order_over -->
+									{if $kecheng[$item['kcid']]['start']>TIMESTAMP}
+									<div class="order_static order_unready"></div>
+									{else if $kecheng[$item['start']]['start']<TIMESTAMP && $kecheng[$item['start']]['end']<TIMESTAMP}
+									<div class="order_static order_ready"></div>
+									{else if TIMESTAMP<$kecheng[$item['end']]['start']}
+									<div class="order_static order_over"></div>
+									{/if}
+									{if $item['status'] == 1}
+                                    <div class="order_static1 order_unready1"></div>
+									{else if $item['status'] == 2}
+									<div class="order_static1 order_ready1"></div>
+									{else if $item['status'] == 3}
+									<div class="order_static1 order_ok1"></div>
+									{/if}
+                                </dl>
+                            </a>
+						{/loop}
+					{else}	
+							<section class="order_null">
+								<p>您还没任何退费项目哦~</p>
+							</section>
+					{/if}
+            </section>
+        </section>
+        <div id="mask" style="display:none;background:;">
+            <div class="dialoge" id="delete" style="display:none;">
+                <div class="dialoge_close"></div>
+                <h1>请问您确定要删除吗？</h1>
+                <a class="dialoge_close" href="javascript:void(0)">取消</a>
+                <a class="dialoge_ture" href="javascript:void(0)">确定</a>
+            </div>
+            <div class="dialoge" id="dialoge_inf" style="display:none">
+                <div class="dialog_close"></div>
+                <span>您还没有在读班级哦</span>        		
+            </div>
+        </div>
+    </div>
+	{php include $this->template('footer');} 
+</body>
+
+<script>
+ $(function() {
+     $('.all_g').remove('select');
+     $('.no_g').remove('select');
+     $('.yes_g').remove('select');
+     $('.cancel_g').remove('select');
+        var select_div = 'all_g';
+        if (select_div == '') {
+            select_div = 'all_g';
+        }
+        $("." + select_div).addClass('select');
+
+        if ($('.unpay_li').length == '0') {
+           $('.order_sum').hide();
+        }
+         });
+</script>
+<script>
+    $(function() { 
+    	var ua = navigator.userAgent.toLowerCase();
+    	var browserType = '';
+    	if (ua.match(/MicroMessenger/i) == "micromessenger") {
+            browserType = "touchstart";
+        }else if(ua.indexOf('iphone') > -1 || ua.indexOf('Android') > -1 || ua.indexOf('Linux') > -1 || ua.indexOf('Mac') > -1){
+        	browserType = "touchstart";
+        }else{
+            browserType = "click";
+        }
+        $('#jiesuan').bind('click', function() {
+            var arr = new Array();
+            var j = 0;
+            for (var i = 0; i < $('.unpay_li').length; i++) {
+                if ($('.unpay_li').eq(i).hasClass('click')) {
+                    arr[j] = $('.unpay_li').eq(i).attr('val');
+                    j++;
+                }
+            }
+            var str = arr.join(',');
+            if (str == '') {
+                alert('请先选择结算项目！');
+                return false;
+            }
+            if (j++ > 5) {
+                alert('一次选择不可超过5个订单！');
+                return false;
+            }			
+            window.location.href = "{php echo $this->createMobileUrl('gopay', array('schoolid' => $schoolid),true)}" + "&str=" + str;
+        });
+    });
+</script>
+<script>
+    //删除
+    function deleteClass(cid, stuid) {
+		var submitData = {
+					schoolid : "{$schoolid}",
+					weid     : "{$_W['uniacid']}",
+					openid   : "{$openid}",
+					uid      : "{$fan['uid']}",
+					kcid     : cid,
+					sid      : stuid
+		};
+        $.post("{php echo $this->createMobileUrl('payajax',array('op'=>'deleteclass'))}",submitData, function(data) {
+            if (data.result) {
+			    var val = $('#no_g').attr('value');
+                $('#no_g').attr('value', val - 1);
+				$('#mask').hide();
+            } else {
+                $('#mask').show();
+                $('#dialoge_inf').html('<span>' + data.msg + '</span>');
+                $('#dialoge_inf').show();
+            }
+        },'json');
+
+    }
+
+</script>
+<script>
+    $(document).ready(function(e) {
+        $(".order > li").bind("click", function() {
+            if ($(this).hasClass("select"))
+                return;
+            var _index = $(this).index();
+            $(this).addClass("select").siblings(".select").removeClass("select");
+            $("#order_list > section").eq(_index).addClass("select").siblings(".select").removeClass("select");
+        })
+        var _list = 0;
+        
+        var ua = navigator.userAgent.toLowerCase();
+    	var browserType = '';
+    	if (ua.match(/MicroMessenger/i) == "micromessenger") {
+            browserType = "touchstart";
+        }else if(ua.indexOf('iphone') > -1 || ua.indexOf('Android') > -1 || ua.indexOf('Linux') > -1 || ua.indexOf('Mac') > -1){
+        	browserType = "touchstart";
+        }else{
+            browserType = "click";
+        }
+        
+        $(document).bind('touchstart', function() {
+            if (event.target.id == "mask") {
+                $(".dialoge").hide();
+                $("#mask").hide();
+            }
+            if (event.target.className == "dialoge_close") {
+                $(".dialoge").hide();
+                $("#mask").hide();
+            }
+            if (event.target.className == "dialoge_ture") {
+                var cid = $('.coupon_cid').eq(_list).val();
+                var stuid = '{$item['sid']}';
+                deleteClass(cid, stuid);
+                $(".dialoge").hide();
+                $("#mask").hide();
+                $(".order_unpay > div").eq(_list).remove()
+            }
+
+        })
+        $(".unpay_li").bind('click', function() {
+            $(this).toggleClass("click");
+            var unpay_flag = true;
+            for (var i = 0; i < $('.unpay_li').length; i++) {
+                if (!$('.unpay_li').eq(i).hasClass('click')) {
+                    unpay_flag = false;
+                }
+            }
+            if (unpay_flag) {
+                $('#quanxuan').addClass('click');
+            } else {
+                $('#quanxuan').removeClass('click');
+            }
+        })
+        $(".order_sum span").bind('click', function() {
+            if ($(this).hasClass("click")) {
+                $(this).removeClass("click");
+                $(".order_unpay .unpay_li").removeClass("click");
+            } else {
+                $(this).addClass("click");
+                for (var j = 0; j < $('.unpay_li').length; j++) {
+                    if (!$('.unpay_li').eq(j).parent().hasClass('delete')) {
+                        $('.unpay_li').eq(j).addClass("click");
+                    }
+                }
+            }
+        })
+        $(".order_close").bind('click', function() {
+            $("#mask").show();
+            $(".dialoge#delete").show();
+            _list = $(event.target).index(".order_close");
+            event.stopPropagation();
+        })
+
+    });
+</script>
+</html>

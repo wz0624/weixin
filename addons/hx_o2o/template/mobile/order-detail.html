@@ -1,0 +1,122 @@
+{template 'header'}
+<style>section{padding:0 .75rem}section h6{color:#632714;padding:1rem 0;border-bottom:1px solid #dbc5ba;margin:0;margin-bottom:10px}.product_info .item{padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid #dbc5ba}.product_info .item .img{padding-left:0}.product_info .item .img img{display:block;width:64px;height:64px;border-radius:2px}.product_info .item .name{color:#632714;height:60px;display:table}.product_info .item .name span{display:block;height:60px;vertical-align:middle;display:table-cell;font-weight:500}.product_info .item .price{height:60px;line-height:60px;text-align:right;color:#632714;padding-right:0}.product_info .item .price span{font-size:1.1rem}.product_info ul{margin:0}.product_info ul li{height:24px;line-height:24px;color:#b9a093;margin-bottom:10px}.product_info ul li .text{float:right}.product_info ul li .order_amount{color:#f45e4e}.product_info ul li .order_amount strong{font-size:1.25rem;font-weight:400}.coupons a{width:100%}.coupons h6 span{float:right;color:#b9a093}.coupons h6 span strong{color:red;padding:0 5px}.coupons h6 span i{margin-left:5px}.coupons ul{margin:0 0 10px 0}.coupons ul li{height:28px;line-height:28px;text-align:right;color:#b9a093}.coupons ul li i{color:#10c6bb;margin-right:5px}.coupons ul li span{color:#f45e4e}.service_info ul{margin:0 0 10px 0}.service_info ul li{height:24px;line-height:24px;color:#b9a093}.beautician img{display:block;width:68px;height:68px;border-radius:50%}.beautician .info div{color:#f45e4e;text-align:right}.beautician .info div span{color:#632714;float:left}.beautician .info p{color:#b9a093;margin-bottom:0;font-size:13px}.checkout_cart{width:100%;margin-bottom:0;position:fixed;bottom:0;left:0;z-index:10}.checkout_cart .col{padding:0}.checkout_cart .col .btn{width:100%;border-radius:0;height:48px;line-height:48px}.checkout_cart .col .total_price{text-align:left;color:#f45e4e;background:#f5fcfc}.checkout_cart .col .total_price span{font-size:1.5rem}.status{background:#9e9e9e;font-size:12px;color:#fff;padding:2px 8px;border-radius:0 3px 3px 3px;margin-left:5px}.cancel{background:#f44336}.paided{background:#f57c00}.confirm{background:#40c4ff}.serving{background:#ba68c8}.bereviews{background:#00bcd4}.finish{background:#4caf50}.payment .row{height:28px;line-height:28px;margin-bottom:10px}.payment .row .s2{height:28px;text-align:center;display:table}.payment img{display:block;width:28px;height:28px}.payment .row .s2 i{font-size:1.5rem;vertical-align:middle;display:table-cell;color:#DCDCDC}.payment .row .s2 i.fa-check-circle{color:#30AA9F}</style>
+<header>
+    <a href="javascript:history.back();" class="waves-effect waves-teal btn-flat go_back"><i class="fa fa-angle-left"></i></a>
+    <span>订单详情</span>
+</header>
+<section class="product_info">
+    <h6>服务项目{if $order['status'] == 0}<span class="status confirm">待支付</span>{else if $order['status'] == 1}<span class="status serving">进行中</span>{else if $order['status'] == 2}<span class="status finish">已完成</span>{else}<span class="status cancel">已取消</span>{/if}</h6>
+        {loop $order_product $row}
+        <div class="row item">
+            <div class="col s3 img">
+                <img src="{php echo tomedia($row['thumb'])}" class="responsive-img">
+            </div>
+            <div class="col s6 name">
+                <span>{$row['name']} x{$row['total']}</span>
+            </div>
+            <div class="col s3 price">￥<span>{$row['price']}</span></div>
+        </div>
+        {/loop}
+        <ul>
+        <li>
+            <span class="label">服务时长：</span>
+            <span class="text">{$total_time} 分钟</span>
+        </li>
+                    <li>
+                <span class="label">订单金额：</span>
+                <span class="text order_amount">￥<strong>{$total_price}</strong></span>
+            </li>
+            <li>
+                <span class="label">应付金额：</span>
+                <span class="text order_amount">￥<strong>{$total_price}</strong></span>
+            </li>
+            </ul>
+</section>
+<div class="split_line"></div>
+{php $weekarray=array("日","一","二","三","四","五","六");}
+{php $timestamp = strtotime($order['date'] . $order['time']);}
+<section class="service_info">
+    <h6>个人信息</h6>
+    <ul>
+        <li>客户名称：{$order_address['consignee']}</li>
+        <li>联系手机：{$order_address['mobile']}</li>
+        <li>服务地址：{$order_address['city']}{$order_address['address']}{$order_address['room']}</li>
+        <li>服务时间：{php echo date('Y年m月d日 H:i',$timestamp)}【周{php echo $weekarray[date("w",$timestamp)]}】</li>
+    </ul>
+</section>
+<div class="split_line"></div>
+
+<section class="beautician">
+    <h6>服务门店</h6>
+    <div class="row">
+        <div class="col s3">
+            <img src="{php echo tomedia($order_shop['thumb_sm'])}" class="responsive-img">
+        </div>
+        <div class="col s9 info">
+            <div>
+                <span>{$order_shop['name']}</span>{$order_shop['score_html']}{$order_shop['score']}分
+            </div>
+            <p>{$order_shop['description']}<br/>地址：{$order_shop['address']} 电话：{$order_shop['tel']}</p>
+        </div>
+    </div>
+</section>
+<div class="split_line"></div>
+
+<section class="payment">
+    <h6>支付方式</h6>
+    <p>
+        <div class="row">
+            {if $order['paytype'] == 3}
+            <div class="col s2">
+                <img src="{IMG_PATH}offline_pay.png" class="responsive-img" />
+            </div>
+            <div class="col s8">
+                <span>到店支付</span>
+            </div>
+            {else}
+            <div class="col s2">
+                <img src="{IMG_PATH}online_pay.png" class="responsive-img" />
+            </div>
+            <div class="col s8">
+                <span>在线支付</span>
+            </div>
+            {/if}
+        </div>
+    </p>
+</section>
+
+<!-- 底部固定 -->
+<div class="split_line"></div>
+<div class="mr_bottom"></div>
+<div class="row fixed_bottom_next">
+    <div class="col s12"><a href="{php echo $this->createMobileUrl('orderlist',array('op'=>'display'))}" class="waves-effect waves-light btn teal"><i class="fa fa-reply"></i> 返回我的订单</a></div></div>
+
+<script type="text/javascript">
+    $('#cancel-order').click(function()
+    {
+        var order_id = $(this).attr('order_id');
+
+        alert_choose('若订单已支付，且距服务时间不足 1.5 小时，只退还部分金额；若您使用优惠券，则只退还支付金额部分。确认取消该订单？', function()
+        {
+            ajax('/member/cancel-order', {"order_id": order_id}, function(result)
+            {
+                alert_confirm(result.message, function()
+                {
+                    window.location.reload();
+                });
+            })
+        })
+    })
+
+    $('#to-pay').click(function()
+    {
+        ajax('/member/order-pay', {"order_id": 82783}, function(result)
+        {
+            if (result.status == 1)
+                window.location.href = '/pay/?attach=1';
+            else
+                alert_modal(result.message);
+        });
+    })
+</script>    </body>
+</html>

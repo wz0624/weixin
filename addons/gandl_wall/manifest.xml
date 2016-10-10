@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.we7.cc" versionCode="0.6">
+	<application setting="true">
+		<name><![CDATA[钱钱圈]]></name>
+		<identifie><![CDATA[gandl_wall]]></identifie>
+		<version><![CDATA[2.9.2]]></version>
+		<type><![CDATA[activity]]></type>
+		<ability><![CDATA[钱钱圈]]></ability>
+		<description><![CDATA[钱钱圈]]></description>
+		<author><![CDATA[admin]]></author>
+		<url><![CDATA[http://www.we7.cc/]]></url>
+	</application>
+	<platform>
+		<subscribes>
+			<message type="text" />
+			<message type="image" />
+			<message type="voice" />
+			<message type="video" />
+			<message type="shortvideo" />
+			<message type="location" />
+			<message type="link" />
+			<message type="subscribe" />
+			<message type="unsubscribe" />
+			<message type="qr" />
+			<message type="trace" />
+			<message type="click" />
+			<message type="view" />
+			<message type="merchant_order" />
+			<message type="card_pass_check" />
+			<message type="card_not_pass_check" />
+			<message type="user_get_card" />
+			<message type="user_del_card" />
+			<message type="user_consume_card" />
+			<message type="poi_check_notify" />
+		</subscribes>
+		<handles>
+			<message type="image" />
+			<message type="voice" />
+			<message type="video" />
+			<message type="shortvideo" />
+			<message type="location" />
+			<message type="link" />
+			<message type="subscribe" />
+			<message type="qr" />
+			<message type="trace" />
+			<message type="click" />
+			<message type="merchant_order" />
+			<message type="text" />
+			<message type="card_pass_check" />
+			<message type="card_not_pass_check" />
+			<message type="user_get_card" />
+			<message type="user_del_card" />
+			<message type="user_consume_card" />
+			<message type="poi_check_notify" />
+		</handles>
+		<rule embed="true" />
+		<card embed="true" />
+	</platform>
+	<bindings>
+		<menu>
+			<entry title="圈子列表" do="list" state="" direct="false" />
+			<entry title="创建圈子" do="add" state="" direct="false" />
+		</menu>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[install.php]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[upgrade_2.5_2.6.php]]></upgrade>
+</manifest>

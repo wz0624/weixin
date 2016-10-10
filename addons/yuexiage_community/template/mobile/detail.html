@@ -1,0 +1,505 @@
+{template 'header'}
+<link rel="stylesheet" type="text/css" href="{$_W['siteroot']}addons/yuexiage_community/images/css/base.css?{TIMESTAMP}">
+<link rel="stylesheet" type="text/css" href="{$_W['siteroot']}addons/yuexiage_community/images/css/index.css?{TIMESTAMP}">
+<link rel="stylesheet" type="text/css" href="{$_W['siteroot']}addons/yuexiage_community/images/css/jquery-sinaEmotion-2.1.0.min.css" />
+ <script type="text/javascript" src="{$_W['siteroot']}addons/yuexiage_community/images/js/jquery-sinaEmotion-2.1.0.min.js"></script>
+<style>
+    .panel-heading .pull-left,.panel-heading .pull-right{
+        color: #2fa5ff !important;
+    }
+    .detail .panel-heading{
+        text-align: center;
+    }
+    .avatar{
+        float: left;
+        width: 50px;
+        margin-right: 15px;
+    }
+    .avatar img{
+        width: 50px;
+        height: 50px;
+        border-radius: 25px;
+    }
+    .detail .panel-body {
+        line-height: 50px;
+        padding: 10px;
+    }
+    .detail .navbar-fixed-bottom{
+        border-top: 1px solid #e5e5e5
+    }
+    .btn-sm {
+        margin: 5px;
+        padding: 0px 15px;
+        border-radius: 23px;
+    }
+    .tabs li{
+        float: left;
+    }
+    .tabs{
+        height: auto;
+        overflow: hidden;
+    }
+    .tab_user img{
+        border-radius: 25px;
+    }
+    .tab_user .col-md-2,.tab_user .col-xs-2{
+       
+    }
+    .tab_user a{
+        color: red;
+        text-align: center;
+    }
+    .tab_num{
+        color: #6c6c6c;
+    }
+    .tab_user i{
+        width: 100%;
+    }
+    .comments li{
+        width: 100%;
+        overflow: hidden;
+        padding: 5px 10px;
+        border-bottom: 1px solid #e5e5e5;
+    }
+    .comments li + .comments li {
+        border-bottom: 1px solid #e5e5e5;
+    }
+    .comment_list{
+        height: auto;
+        overflow: hidden;
+    }
+    #mcover{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0, 0, 0, 0.7);display:none;z-index:20000;}
+    #mcover img{position:fixed;right: 18px;top:5px;width:260px;height:180px;z-index:20001;}
+    #mbutton{padding:15px 10px 15px 10px; overflow:hidden; border-bottom:1px #DDD solid;}
+    #mbutton > span{float:right; display:inline-block; background:#58a3ff; border:1px #63a0eb solid; color:#FFF; height:30px; line-height:30px; padding:0 10px; margin-left:10px;}
+	.msg{
+		background-color: #333;
+		color: #fff;
+		text-align: center;
+		width: 100%;
+		height: 50px;
+		line-height: 50px;
+		filter: alpha(opacity=50);
+		-moz-opacity: 0.5;
+		opacity: 0.8;
+	}
+   .red_heart{    
+        display: none;
+        font-size: 52px;
+        color: red;
+        position: absolute;
+        z-index: 1040;
+        bottom: -24px;
+    }
+    .content img{
+        width: 100%;
+    }
+	p{
+		padding:5px;
+	}
+</style>
+
+<script type="text/javascript">
+$(function(){
+    $(".comments li:last").css("border","none");
+})
+function nofind(){
+    var img=event.srcElement;
+    img.src="resource/images/heading.jpg";
+    img.onerror=null; 
+}
+
+$(function(){
+    /*点击评论*/
+    $(".comment").click(function(){
+        $.post("{php echo $this->createMobileUrl('Checkaccess', array());}",{type:'comment'},function(data){
+            var dataset = $.parseJSON(data);
+            if(dataset.error=='4'){
+                alert("请不要频繁回帖");
+            }else if(dataset.error){
+                alert("你没有回帖权限!");
+            }
+            else if(dataset.success){
+                $.post("{php echo $this->createMobileUrl('detail', array('id'=>$id));}",{id:{php echo $id;}},function(data){
+                    if(data==''){
+                        $('.face_c').slideDown();
+                        var cid=$(".cid").val();
+                        $("#cid").val(cid);
+                    }else{
+                        var dataset = $.parseJSON(data);
+                        location.href=dataset.url;
+                    }
+                });
+            }
+        });
+
+    });
+
+    /*关闭*/
+    $(".close").click(function(){
+        $('.face_c').slideUp();
+    });
+
+    /*赞*/
+    $(".hits").click(function(){
+        $.post("{php echo $this->createMobileUrl('detail', array('id'=>$id));}",{},function(data){
+           
+            if(data!=''){
+                var dataset = $.parseJSON(data);
+                location.href=dataset.url;
+            }else{
+                var uid = "{$_W["member"]['uid']}";
+                var id = "{$_GPC['id']}";
+                if(uid !=""){
+                    $.post("{php echo $this->createMobileUrl('hits', array());}",{uid:uid,id:id},function(data){
+                        if(data){
+                            tmp=1;
+
+                            $(".tab_user_uid").each(function(index,element){
+                                if($(element).val() == uid){
+                                    text = $(".tab_num:eq("+index+")").text();
+                                    $(".tab_num:eq("+index+")").text(++text);
+                                    tmp = 0;
+                                }
+                                
+                            });
+                            if(tmp==1){
+                                var html = '<div class="col-md-2 col-xs-2">';
+                                html+='<a  href="javascript:;" >';
+                                html+='<img src="{php $u = mc_fetch($_W["member"]["uid"], array("avatar")); echo $u["avatar"];}" alt="" width="100%" onerror="nofind();">';
+                                html+='<i class="glyphicon glyphicon-heart"><span class="tab_num">1';
+                                html+='</span></i>';
+                                html+='<input type="hidden" class="tab_user_uid" value="{$_W["member"]["uid"]}">';
+                                html+='</a>';
+                                html+='</div>';
+                                $(".tab_user").append(html);
+
+                            }
+                            
+
+                                $(".hits i").hide(2000);
+                                $(".hits i").show(1000);
+                        }
+                    });
+                }else{
+                    $('.login').slideDown();
+                }
+            }
+        });
+    });
+
+    /*点击列表评论*/
+    $(".comment_list").click(function(){
+        var coment_id=$(".coment_id",this).val();
+        var coment_name=$(".coment_name",this).val();
+        var cid=$(".cid").val();
+        $.post("{php echo $this->createMobileUrl('Checkaccess', array());}",{type:'comment'},function(data){
+                var dataset = $.parseJSON(data);
+                if(dataset.error=='4'){
+                    alert("请不要频繁回帖");
+                }else if(dataset.error){
+                    alert("你没有回帖权限!");
+                }
+                else if(dataset.success){
+
+                $.post("{php echo $this->createMobileUrl('detail', array('id'=>$id));}",{},function(data){
+                     
+                    if(data!=''){
+                        var dataset = $.parseJSON(data);
+                        location.href=dataset.url;
+                    }else{
+                        $('.face_c').slideDown();
+                        $("#coment_id").val(coment_id);
+                        $("#coment_pre").val("回复"+coment_name+"###");
+                        $("#content").attr("placeholder","回复"+coment_name+"###");
+                        $("#cid").val(cid);
+                    }
+                });
+            }
+        });
+    });
+
+
+    /*发表*/
+    $(".send").click(function(event){
+        var content = $("#content").val();
+       
+        var coment_id = $("#coment_id").val();
+        var coment_pre = $("#coment_pre").val();
+        var cid = $("#cid").val();
+        $.post("{php echo $this->createMobileUrl('Checkaccess', array());}",{type:'comment'},function(data){
+            var dataset = $.parseJSON(data);
+            if(dataset.error=='4'){
+                alert("请不要频繁回帖");
+            }else if(dataset.error){
+                alert("你没有回帖权限!");
+            }
+            else if(dataset.success){
+                $.post("{php echo $this->createMobileUrl('comments', array());}",{content:content,coment_pre:coment_pre,coment_id:coment_id,cid:cid},function(data){
+                    if(data){
+                        var html ='    <li>';
+                            html +='    <a href="javascript:;" class="comment_list">';
+                            html +='        <div class="avatar">';
+                            html +='            <img src="{php $u = mc_fetch($_W["member"]["uid"], array("avatar")); echo $u["avatar"];}" alt="" width="100%" onerror="nofind();">';
+                            html +='        </div>';
+                            html +='        <div>';
+                            html +="            {php echo $_W['fans']['nickname']}";
+                            html +='            <p class="pull-right">';
+                            html +='               {php echo date("m-d H:i");}';
+                            html +='            </p>';
+                            html +='        </div>';
+                            html +='        <p style="PADDING-left: 65px;">'+coment_pre+content+'</p>';
+                            html +='        <input type="hidden" class="coment_id" value="{php echo $comment["id"]}">';
+                            html +="        <input type='hidden' class='coment_name' value='{php echo $_W['fans']['nickname']}'>";
+                            html +='    </a>';
+                            html +='</li>';
+                            alert('评论成功!');
+        					$("#content").val("");
+                            $(".comments").append(html);
+                            $('.face_c').slideUp();
+                            $(".comment_list").parseEmotion();
+        					
+                        }else{
+                            $(".message").text("评论失败").show();
+                        }
+                });
+            }
+        });
+
+    });
+
+    $(".comment_list").parseEmotion();
+
+
+    $(".del_li").click(function(){
+        id=$(this).parent().find(".c_id").val();
+        index = $(this).index();
+        if (confirm("你确定删除当前评论吗？")) { 
+            
+            $.post("{php echo $this->createMobileUrl('delComment', array('id'=>id));}",{id: id},function(data){
+                   if (data==1) {
+                        $(".del_li:eq("+index+")").parent().parent().remove(); 
+                   };
+            });
+        }
+    });
+
+
+});
+</script>
+<div class="panel panel-default detail ">
+    <div class="panel-heading">
+        <a href="javascript:history.go(-1)" class="navbar-link pull-left"> <i class="glyphicon glyphicon-chevron-left"></i> </a> 
+            详情
+        {if in_array($us['nickname'],$admin)}
+        <a href="javascript:;" class="navbar-link pull-right remove"> <i class="glyphicon glyphicon-remove"></i> </a> 
+        <script>
+        $(function(){
+            $(".remove").click(function(){
+                if (confirm("你确定删除当前内容吗？")) {  
+                    $.post("{php echo $this->createMobileUrl('delContent', array('id'=>$id));}",{id: {$id}},function(data){
+                       if (data==1) {
+                            javascript:history.go(-1); 
+                       };
+                    });
+                }
+            });
+        });
+            
+        </script>
+        {/if}
+    </div>
+	{if $msg}
+	<div class="msg">
+		{php if($msg) echo $msg;}
+	</div>
+	{/if}
+    <div class="panel-body">
+        <div class="avatar">
+            <a href="{php echo $this->createMobileUrl('user', array('uid'=>$user['uid']));}">
+                <img src="{$user['avatar']}" alt="" onerror="nofind();">
+            </a>
+        </div>
+        {$user['nickname']}
+        <div class="createtime pull-right">
+            <a href="{php echo $this->createMobileUrl('user', array());}">
+                {php echo date("Y-m-d",$row['createtime']);}
+            </a>
+        </div>
+    </div>
+    <p style="padding-left:10px;">{$row['title']}</p>
+    <img src="{php echo tomedia($row['thumb']);}" title="{$row['title']}" width="100%">
+    <div class="content" style="padding:0px;">{php echo html_entity_decode($row['content'])}</div>
+    <ul class="tabs">
+        {loop $tabs $tab}
+            <li><div class="btn btn-primary btn-sm">{$tab['name']}</div></li>
+        {/loop}
+    </ul>
+    <p style="padding-left:10px;">
+        {php echo count($hits);}个人点赞
+    </p>
+    <div class="container">
+        <div class="row tab_user">
+            {loop $hits $hit}
+            <div class="col-md-2 col-xs-2">
+                <a  href="javascript:;" >
+                    <img src="{php $u = mc_fetch($hit['uid'], array('avatar')); echo $u['avatar'];}" alt="" width="100%" onerror="nofind();">
+                    <i class="glyphicon glyphicon-heart"><span class="tab_num ">{$hit['hits']}</span></i>
+                    <input type="hidden" class="tab_user_uid" value="{$hit['uid']}">
+                </a>
+            </div>
+            {/loop}
+        </div>
+    </div>
+    <p style="    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 10px;
+    margin: 10px 0px;">
+        评论{php echo count($comments);}
+    </p>
+    <ul class="comments">
+    {loop $comments $comment}
+        <li>
+
+            
+                <div class="avatar">
+                    <img src="{php $u = mc_fetch($comment['ownerid'], array('avatar')); echo $u['avatar'];}" alt="" width="100%" onerror="nofind();">
+                </div>
+        
+                <div>
+                    {$comment['owner']} 
+                    {if $comment['ownerid'] == $_W['member']['uid'] || in_array($us['nickname'],$admin)}
+                        <a href="javascript:;" class="del_li">[删除] </a>
+                        <input type="hidden" class="c_id" value="{$comment['id']}">
+                    {/if}
+                    <p class="
+                    pull-right">
+                       {php echo date("m-d H:i",strtotime($comment['commentdate']));}
+                    </p>
+                    
+                </div>
+                <a href="javascript:;" class="comment_list">
+                    <p style="PADDING-left: 65px;">{php echo $this->qqcode($comment['commenttext']);}</p>
+                </a>
+                <input type="hidden" class="coment_id" value="{$comment['id']}">
+                <input type="hidden" class="coment_name" value="{$comment['owner']}">
+            
+        </li>
+    {/loop}
+        <li><input type="hidden" class="cid" value="{$id}"></li>
+    </ul>
+	{if trim($row['advertisement_link']) && trim($row['advertisement_img'])}
+	<style>
+		.container .section-separation-line{
+			margin: 20px auto;
+			text-align: center;
+		}
+		.container .section-separation-line>span {
+			-webkit-box-sizing: content-box;
+			-moz-box-sizing: content-box;
+			-ms-box-sizing: border-box;
+			-o-box-sizing: border-box;
+			box-sizing: content-box;
+			position: relative;
+			display: inline-block;
+			color: #959595;
+			padding: 0 10px;
+			font-size: 18px;
+		}
+		 .container .section-separation-line>span:before, .container .section-separation-line>span:after {
+			display: block;
+			position: absolute;
+			height: 1px;
+			width: 200px;
+			top: 50%;
+			margin-top: -3px;
+			left: -200px;
+			background-image: url('../addons/yuexiage_community/images/separation-line.png?7396bda83b88');
+			background-repeat: no-repeat;
+			background-position: left top;
+			content: '';
+		}
+		.container .section-separation-line>span:after {
+			left: auto;
+			right: -200px;
+			background-position: right top;
+		}
+		.thumbnail img{
+
+			width: 100%;
+			border:none;
+		}
+		.thumbnail{
+            height: 100px;
+			border:none;
+			padding:0;
+		}
+	</style>
+	<div class="container" style="background-color: #ededed; overflow:hidden;">
+		<h3 class="section-separation-line">
+            <span>推广</span>
+        </h3>
+	
+		<a href="{php echo tomedia($row['advertisement_link']);}" class="thumbnail">
+			<img src="{php echo tomedia($row['advertisement_img']);}" />
+		</a>
+	
+	</div>
+	{/if}
+    <div class="panel-heading navbar-fixed-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-xs-4" style="border-right: 1px solid #e5e5e5;">
+                    
+                    <a  href="javascript:;" class="hits">
+                    <i class="glyphicon glyphicon-heart" style="color:#fd6457"></i>
+                    赞
+                    </a>
+                </div>
+                <div class="col-md-4 col-xs-4" style="border-right: 1px solid #e5e5e5;">
+                    <a  href="javascript:;" class="comment">
+                    <i class="glyphicon glyphicon-comment" style="color:#2da4fe"></i>
+                    评论
+                    </a>
+                </div>
+                <div class="col-md-4 col-xs-4">
+                    <a  href="javascript:;" onclick="document.getElementById('mcover').style.display='block';">
+                    <i class="glyphicon glyphicon-share" style="color:#5dc654"></i>
+                    分享
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+	$(function(){
+		timeOutEvent = setTimeout("longPress()",3000);
+	});
+	function longPress(){ 
+		$(".msg").hide();
+		
+	}
+</script> 
+<script>
+    sharedata = {
+        title: "{php echo $row['title']}",
+        desc: "{php echo mb_substr(trim(strip_tags(html_entity_decode($row['content']))), 0, 20, 'utf-8').'……';}",
+						
+        link: '{php echo $_W['siteroot']."app/index.php?i=".$_W['uniacid']."&c=entry&id=".$id."&share=y&do=detail&m=yuexiage_community";}',
+        imgUrl: "{php echo tomedia($row['thumb']);}",
+        success: function(){
+           var url = "{php echo $this->createMobileUrl('detail', array('id'=>$id,'action'=>'share'));}";
+            $.post(url, function(dat){});
+        }
+    };
+</script>
+
+</div>
+<div id="mcover" onclick="$(this).hide()"><img src="./resource/images/guide.png"></div>
+<div class="login" style="display: none;">
+</div>
+<div class="face_c" style="display: none;">
+    {php include $this->template('comment');}
+</div>
+
+{template 'footer'}

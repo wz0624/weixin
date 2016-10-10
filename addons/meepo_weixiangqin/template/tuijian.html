@@ -1,0 +1,57 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li class="active"><a>粉丝推荐</a></li>
+	<li><a href="{php echo $this->createWebUrl('set')}">基本设置</a></li>
+	<li><a href="{php echo $this->createWebUrl('pay_set')}">消费设置</a></li>
+	<li><a href="{php echo $this->createWebUrl('payrecord')}">充值记录</a></li>
+	<li><a href="{php echo $this->createWebUrl('baoyuerecord')}">包月记录</a></li>
+	<li><a href="{php echo $this->createWebUrl('Exchangerecord')}">兑换记录</a></li>
+	<li><a href="{php echo $this->createWebUrl('photolist')}">图片管理</a></li>
+	<li><a href="{php echo $this->createWebUrl('tjapply')}">推荐记录</a></li>
+	<li><a href="{php echo $this->createWebUrl('sayhi_content')}">打招呼语设置</a></li>
+	<li><a href="{php echo $this->createWebUrl('flower_record')}">送花记录</a></li>
+	<li><a href="{php echo $this->createWebUrl('sayhi_record')}">打招呼记录</a></li>
+	<li><a href="{php echo $this->createWebUrl('share_record')}">分享记录</a></li>
+	<li ><a href="{php echo $this->createWebUrl('quxiao')}">取消关注列表</a></li>
+</ul>
+
+       
+<div class="panel panel-info">
+	<div class="panel-heading">
+		推荐粉丝
+	</div>
+<form id="reply-form" class="form-horizontal form"  method="post" enctype="multipart/form-data">
+	<div class="panel-body">
+		<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">粉丝基本信息</label>
+		<div class="col-sm-9">
+			<img width="50" src="{if preg_match('/http:(.*)/',$tuijian['avatar'])}{$tuijian['avatar']} {else if preg_match('/images(.*)/',$tuijian['avatar'])} {$_W['attachurl']}{$tuijian['avatar']}     {else}{MEEPORES}/static/friend/images/cdhn80.jpg{/if}" class="avatar" />
+			<div class="mainContent">
+				<div class="nickname">微信昵称: {$tuijian['nickname']}</div>
+				<div>性别: {if $tuijian['gender']==1}男{else}女{/if}</div>
+			</div>
+			<span class="help-block">粉丝基本信息如上</span>
+		</div>
+		</div>
+	    <div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">设置推荐到首页过期时间</label>
+			<div class="col-sm-9">
+				{php echo tpl_form_field_date('tj_over_time',$tj_over_time,true);}
+				<span class="help-block">设置推荐到首页过期时间
+				</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-12">
+				<input name="submit" type="submit" value="保存" class="btn btn-primary btn-danger" />
+				<input type="hidden" name="id" value="{$id}" />
+				<input type="hidden" name="page" value="{$page}" />
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			</div>
+		</div>
+	
+</div>
+</form>
+</div>
+
+{template 'common/footer'}

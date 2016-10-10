@@ -1,0 +1,154 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+    <li {if $op=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('applyjob', array('op' => 'display'))}">求职信息管理</a></li>
+    <!--{if !empty($id) && $op=='post'}-->
+    <!--<li class="active"> <a href="{php echo $this->createWebUrl('applyjob',array('op'=>'post','id'=>$id));}">编辑求职信息</a> </li>-->
+    <!--{/if}-->
+</ul>
+{if $op == 'display'}
+<div class="panel panel-info">
+    <div class="panel-heading">筛选</div>
+    <div class="panel-body">
+        <form action="./index.php" method="get" class="form-horizontal" role="form">
+            <input type="hidden" name="c" value="site"/>
+            <input type="hidden" name="a" value="entry"/>
+            <input type="hidden" name="m" value="amouse_weijob"/>
+            <input type="hidden" name="do" value="applyjob"/>
+            <input type="hidden" name="op" value="display"/>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 control-label">关键字</label>
+                <div class="col-sm-8 col-md-8 col-lg-8">
+                    <input class="form-control" name="keyword" id="" type="text" value="{$_GPC['keyword']}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="pull-right col-xs-12 col-sm-2 col-md-2 col-lg-2">
+                    <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="table-responsive panel-body">
+        <table class="table">
+            <thead>
+            <tr>
+                <th style="width:20%;">姓名</th>
+                <th style="width:80px;">联系电话</th>
+                <th style="width:100px;">期望薪资</th>
+                <th style="width:100px;">期望工作</th>
+                <th style="width:100px;">学历</th>
+                <th style="width:100px;">状态</th>
+                <th style="text-align:right; min-width:60px;">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {loop $list $item}
+            <tr>
+
+                <td>{$item['name']}</td>
+                <td>{$item['mobile']}</td>
+                <td>{$item['salary']} </td>
+                <td>{$item['work']} </td>
+                <td>{$item['edu']} </td>
+                <td>{if $item['status']=='0'}<span class="label label-info">未审核</span> {else}<span class="label label-success">审核</span> {/if} </td>
+                <td style="text-align:right;">
+                    {if $item['status']=='0'}
+                    <a href="{php echo $this->createWebUrl('applyjob', array('op' => 'recommed','status'=>'1', 'id' => $item['id']))}" title="审核" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="" data-original-title="详情" >
+                        <i class="fa fa-wrench">审核</i>
+                    </a>
+                    {/if}
+                    <!--<a href="{php echo $this->createWebUrl('applyjob', array('id' => $item['id'], 'op' => 'post'))}"-->
+                       <!--title="编辑" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm"><i class="fa fa-edit">编辑求职信息</i>-->
+                    <!--</a>-->
+                    <a  href="{php echo $this->createWebUrl('applyjob', array('id' => $item['id'], 'op' => 'delete'))}"  onclick="return confirm('此操作不可恢复，确认吗？'); return false;"
+                        title="删除" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm"><i
+                            class="fa fa-times">删除</i>
+                    </a>
+                </td>
+            </tr>
+            {/loop}
+            </tbody>
+        </table>
+    </div>
+
+    {$pager}
+</div>
+<!--{elseif $op == 'post'}
+{template 'common'}
+
+<div class="clearfix">
+    <form class="form-horizontal form" action="" method="post" enctype="multipart/form-data" onsubmit="return formcheck()">
+        <div class="panel panel-default">
+            <div class="panel-heading">公司信息</div>
+            <div class="panel-body">
+                <input type="hidden" name="id" value="{$item[id]}">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">公司名称</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control"  name="title" id="title" value="{$item['title']}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">公司简称</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" name="short" value="{$item['short']}">
+                        <span class="help-block">要短小精干的简称哦</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">联系人</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" name="linkman" id="linkman"  value="{$item['linkman']}">
+                    </div>
+                </div>
+
+                <div class="form-group" id="js_music_div">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">固定电话</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" class="form-control" name="tel" id="tel" value="{$item['tel']}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">手机</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" name="phone" value="{$item['phone']}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">QQ</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="qq" value="{$item[qq]}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">投简邮箱</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="email" id="email" value="{$item[email]}" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">公司简介</label>
+                    <div class="col-sm-8">
+                        <textarea style="height:100px;" class="span7 richtext-clone" name="content" id="content" cols="70" id="reply-add-text">{$item['content']}</textarea>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <input name="submit" type="submit" value="提交" class="btn btn-primary col-lg-1">
+                <input type="hidden" name="token" value="{$_W['token']}"/>
+            </div>
+        </div>
+    </form>
+</div>-->
+{/if}
+{template 'common/footer'}

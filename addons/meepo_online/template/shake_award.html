@@ -1,0 +1,154 @@
+{template 'common/header'}
+{template 'nav'}
+{template 'list_nav'}
+<div class="main">
+{if $op=='list'}
+ <div class="panel panel-default">
+        <div class="table-responsive panel-body">
+
+            <div style="padding:15px;">
+                <table class="table table-hover">
+                    <thead class="navbar-inner">
+                    <tr>
+                        <th>奖品id</th>
+						<th>奖品类型</th>
+                        <th>奖品名称</th>
+						
+                        <th style="width: 80px">图片</th>
+                        <th>领奖链接URL</th>
+						<th>奖品数量</th>
+						<th>已中奖人数</th>
+                        <th>中奖概率</th>
+                        <th style="width: 200px">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {loop $lists $row}
+                    <tr>
+
+
+                        <td>{$row['id']} </td>
+						<td>{if $row['type']=='0'}虚拟物品{else}实物{/if} </td>
+                        <td>{$row['name']} </td>
+                        <td><img src="{php echo tomedia($row['img'])}" width="50px" height="50px"></td>
+						
+                        <td>{$row['get_url']}</td>
+						<td>{$row['num']}</td>
+						<td>{$row['had_get_num']} </td>
+                        <td>{$row['gailv']}%</td>
+						
+                        <td >
+                            <a class="btn btn-default" rel="tooltip" href="{php echo $this->createWebUrl('shake_award',array('op'=>'post','listid'=>$listid,'id'=>$row['id']));}" title="编辑"><i class="glyphicon glyphicon-edit"></i></i>编辑</a>
+
+                            <a href="{php echo $this->createWebUrl('shake_award', array( 'id' => $row['id'],'listid'=>$listid, 'op' => 'del'))}" class="btn btn-default" role="button"  onclick="return confirm('此操作不可恢复，确认删除？');return false;"><i class="glyphicon glyphicon-remove"></i>删除</a>
+
+                        </td>
+                    </tr>
+                    {/loop}
+                    </tbody>
+                </table>
+                {$pager}
+            </div>
+
+        </div>
+    </div>
+</div>
+{elseif $op=='post'}
+    <form method="post">
+            <input type="hidden" name="listid" value="{$listid}">
+            <input type="hidden" name="id" value="{$item['id']}">
+            <div class="panel panel-default">
+
+                    <div class="panel-heading">
+                        摇一摇奖品添加 
+                    </div>
+                             <div class="panel-body">
+                                    <ul class="list-group">
+
+                    <li class="list-group-item ng-scope" style="border: 0" ng-repeat="item in context.items" id="append-list">
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">奖品类型</label>
+							<div class="col-sm-9 col-xs-12">
+								<label class="radio-inline">
+									<input type="radio" name="type" value="0"  {if $item['type'] == '0'}checked="true"{/if} onclick="change_type1()">虚拟物品
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="type" value="1"   {if 
+									$item['type'] == '1'}checked="true"{/if} onclick="change_type2()">实物
+								</label>
+								<span class="help-block">奖品类型</span>
+							</div>
+						</div>
+
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-3 col-md-2 control-label">奖品名称</label>
+                            <div class="col-sm-9 col-xs-12">
+                                <input type="text" class="form-control ng-pristine ng-valid" placeholder="" name="name" value="{$item['name']}">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-3 col-md-2 control-label">奖品图片</label>
+                            <div class="col-sm-9 col-xs-12">
+
+                                {php echo tpl_form_field_image('img',$item['img']);}
+                                建议宽*高(374*394)
+                            </div>
+                        </div>
+
+                        <div class="form-group get_url"  {if $item['type'] == '1'}style="display:none"{/if}>
+                            <label class="col-xs-12 col-sm-3 col-md-2 control-label">奖品链接url</label>
+                            <div class="col-sm-9 col-xs-12">
+                                {php echo tpl_form_field_link('get_url',$item['get_url']);}
+                                <span class="help-block">奖品领取链接</span>
+                            </div>
+                        </div>
+						
+						<div class="form-group">
+                            <label class="col-xs-12 col-sm-3 col-md-2 control-label">奖品数量</label>
+                            <div class="col-sm-9 col-xs-12">
+                                <input type="text" class="form-control ng-pristine ng-valid" placeholder="" name="num" value="{$item['num']}">
+                                <span class="help-block">请填写整数</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-3 col-md-2 control-label">奖品中奖概率</label>
+                            <div class="col-sm-9 col-xs-12">
+                                <input type="text" class="form-control ng-pristine ng-valid" placeholder="" name="gailv" value="{$item['gailv']}">
+                                <span class="help-block">请填写整数、所有奖品的中奖概率和不能大于100%</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                            <div class="col-sm-9 col-xs-12">
+                                <input name="submit" type="submit" value="保存"
+                                       class="btn btn-primary span3"> 
+								<input type="hidden" name="token" value="{$_W['token']}" />
+
+                            </div>
+                        </div>
+
+                    </li>
+
+                    </ul>
+
+                          </div>
+
+                </div>
+
+        </form>
+<script>
+function change_type1(){
+	//$(".get_way").hide();
+	$(".get_url").show();
+}
+function change_type2(){
+	//$(".get_way").show();
+	$(".get_url").hide();
+}
+</script>
+
+{/if}
+</div>
+{template 'common/footer'}

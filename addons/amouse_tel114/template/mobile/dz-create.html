@@ -1,0 +1,235 @@
+
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" >
+<title></title>
+<meta name="description" content="" /> 
+<meta name="keywords" content="" />
+<link rel="stylesheet" href="source/plugin/alj114/css/sj/base.css" />
+<link rel="stylesheet" href="source/plugin/alj114/css/sj/module.css" />
+<script>
+mo = new Object;
+mo.in_mobile = true;mo.module_flag = modules['review'];</script>
+<script src="source/plugin/alj114/js/jquery.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var jq = jQuery.noConflict();
+</script>
+<script src="source/plugin/alj114/js/sj/common.js" type="text/javascript"></script>
+</head>
+<script type="text/javascript">var STYLEID = '1', STATICURL = 'static/', IMGDIR = 'static/image/common', VERHASH = 'h22', charset = 'gbk', discuz_uid = '55212', cookiepre = 'LLsH_c17c_', cookiedomain = '.dzx30.com', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = 'newthread', creditnotice = '1|威望|,2|金钱|,3|贡献|,4|靓币|', defaultstyle = '', REPORTURL = 'aHR0cDovLzExNC5kengzMC5jb20vcGx1Z2luLnBocD9pZD1hbGoxMTQmYWN0PWFkZCZtb2JpbGU9Mg==', SITEURL = 'http://114.dzx30.com/', JSPATH = 'static/js/';</script>
+<body id="body">
+<a name="top"></a>
+<header>
+    <div class="header">
+        <a class="header-left" href="javascript:;" onclick="history.go(-1);">
+            <span class="icon18-white icon18-stand icon18-lt"></span>返回
+        </a>
+                    <p class="header-title">
+                发布114号码          </p>
+                        <div class="header-right">
+            
+            <a href="plugin.php?id=alj114&amp;mobile=2" class="header-btn">
+                <img src="source/plugin/alj114/images/home.png" class="header-img">
+            </a>
+        </div>
+            </div>
+</header>
+<style type="text/css">
+.header {
+display: block;
+position: relative;
+height: 44px;
+line-height: 44px;
+color: white;
+overflow: hidden;
+border-bottom: 1px solid #FF7300;
+background: -webkit-linear-gradient(top, #FF7300, #FF7300);
+background: -moz-linear-gradient(top, #FF7300, #FF7300);
+}
+.btn-mycolor {
+color: #fff;
+background: -webkit-linear-gradient(top, #FF7300, #FF7300);
+background: -moz-linear-gradient(top, #FF7300, #FF7300);
+border-color: #FF7300;
+}
+</style>
+<div class="container module-review" id="mobile_body" style="width:98%"><div class="panel-comm panel-fullsize">
+    <div class="panel-body">
+        <div class="form-box">
+<iframe style="display:none" name="myiframe" id="myiframe"></iframe>
+            <form id="postform" name="postform" action="plugin.php?id=alj114&amp;act=add&amp;tid=" method="POST" 
+            enctype="multipart/form-data" onsubmit="return checkPostReview(this);" target="myiframe">
+                <input type="hidden" name="formhash" value="4f9dc7ed">
+                
+                <div class="form-item">
+                    <fieldset>
+                        <legend>图片LOGO<span class="txt-warning">（必填）</span>:</legend>
+                        <div class="item-inline">
+                            <input type="file"  name="logo">120*120
+                        </div>
+                    </fieldset>
+                </div>
+ <div class="form-item">
+                    <fieldset>
+                        <legend>号码分类<span class="txt-warning">（必填）</span>:</legend>
+                        <div class="item-inline">
+                            <select name="a" id="a"  onchange="ajaxget('plugin.php?id=alj114&act=getpos&rid=' + $('a').value, 'getpos')">
+<option value="">&#35831;&#36873;&#25321;</option><option value="1"  >急救举报</option>
+<option value="2"  >政务公开</option>
+<option value="3"  >便民电话</option>
+</select>
+ <span id="getpos">
+                        </span>
+                        </div>
+                    </fieldset>
+                </div>
+                
+                <div class="form-item">
+                    <fieldset>
+                        <legend>所属地区</legend>
+                        <div>
+                            <select value="" data-parent=".p-line" class="input" title="!post_14!" order="9" data-sub="Linkage_region"  level="area2,area3" remember="1" name="region" id="region"  maxlength="100" type="text" onchange="ajaxget('plugin.php?id=alj114&act=getregion&rid=' + $('region').value, 'getregion')">
+                            <option data-target="#" value=""> </option>
+                                                        <option  value="1" >北京市</option>
+                                                        <option  value="2" >天津市</option>
+                                                        <option  value="3" >河北省</option>
+                                                        <option  value="4" >山西省</option>
+                                                        <option  value="5" >内蒙古自治区</option>
+                                                        <option  value="6" >辽宁省</option>
+                                                        <option  value="7" >吉林省</option>
+                                                        <option  value="8" >黑龙江省</option>
+                                                        <option  value="9" >上海市</option>
+                                                        <option  value="10" >江苏省</option>
+                                                        <option  value="11" >浙江省</option>
+                                                        <option  value="12" >安徽省</option>
+                                                        <option  value="13" >福建省</option>
+                                                        <option  value="14" >江西省</option>
+                                                        <option  value="15" >山东省</option>
+                                                        <option  value="16" >河南省</option>
+                                                        <option  value="17" >湖北省</option>
+                                                        <option  value="18" >湖南省</option>
+                                                        <option  value="19" >广东省</option>
+                                                        <option  value="20" >广西壮族自治区</option>
+                                                        <option  value="21" >海南省</option>
+                                                        <option  value="22" >重庆市</option>
+                                                        <option  value="23" >四川省</option>
+                                                        <option  value="24" >贵州省</option>
+                                                        <option  value="25" >云南省</option>
+                                                        <option  value="26" >西藏自治区</option>
+                                                        <option  value="27" >陕西省</option>
+                                                        <option  value="28" >甘肃省</option>
+                                                        <option  value="29" >青海省</option>
+                                                        <option  value="30" >宁夏回族自治区</option>
+                                                        <option  value="31" >新疆维吾尔自治区</option>
+                                                        <option  value="32" >台湾省</option>
+                                                        <option  value="33" >香港特别行政区</option>
+                                                        <option  value="34" >澳门特别行政区</option>
+                                                        <option  value="35" >海外</option>
+                                                        <option  value="36" >其他</option>
+                                                    </select>
+<span id="getregion">
+                        </span>
+
+ <span name="region1" id="region1">
+</span>
+                        </div>
+                       
+                    </fieldset>
+                </div>
+<div class="form-item">
+                    <fieldset>
+                       <legend>号码名称<span class="txt-warning">（必填）</span>:</legend>
+                        <div>
+                            <input type="text"   class="px" name="title">
+                        </div>
+                       
+                    </fieldset>
+                </div>
+                 <div class="form-item">
+                    <fieldset>
+                        <legend>电话号码<span class="txt-warning">（必填）</span>:</legend>
+                        <div>
+                            <input type="text"   class="px" name="tel">
+                        </div>
+                       
+                    </fieldset>
+                </div>
+<div class="form-item">
+                    <fieldset>
+                        <legend>地址<span class="txt-warning">（必填）</span>:</legend>
+                        <div>
+                            <input type="text"   class="px" name="e">
+                        </div>
+                       
+                    </fieldset>
+                </div>
+<div class="form-item">
+                    <fieldset>
+                        <legend>网址链接<span class="txt-warning"></span>:</legend>
+                        <div>
+                            <input type="text"   class="px" name="d" value="">
+                        </div>
+                       
+                    </fieldset>
+                </div>
+<div class="form-item">
+                    <fieldset>
+                        <legend>关联店铺ID(bid)<span class="txt-warning"></span>:</legend>
+                        <div>
+                            <input type="text"   class="px" name="bid" value="" placeholder="品牌商家的店铺ID">
+                        </div>
+                       
+                    </fieldset>
+                </div>
+                <div class="form-item">
+                    <label for="review_content">号码介绍<span class="txt-warning">（必填）</span>:</label>
+<textarea fwin="apply" rows="3" name="intro" style="background:#FFF;" id="review_content"  required></textarea>
+                    
+                </div>
+                                <div class="form-submit">
+                    <div class="btn-group-vertical full-width">
+                        <button type="submit" name="submit" value="Y" class="btn btn-mycolor">提交</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+function tips(txt, fun) {
+jq('.tips').remove();
+var div = jq('<div style="background: url(source/plugin/alj114/images/tips.png);max-width: 85%;min-height: 77px;min-width: 270px;position: absolute;left: -1000px;top: -1000px;text-align: center;border-radius:10px;"><span style="color: #ffffff;line-height: 77px;font-size: 23px;">' + txt + '</span></div>');
+jq('body').append(div);
+div.css('zIndex', 9999999);
+div.css('left', parseInt((jq(window).width() - div.width()) / 2));
+var top = parseInt(jq(window).scrollTop() + (jq(window).height() - div.height()) / 2);
+div.css('top', top);
+setTimeout(function() {
+div.remove();
+if (fun) {
+fun();
+}
+}, 2000);
+}
+
+</script>
+</div>
+
+<div id="mask" style="display:none;"></div>
+<div class="footer">
+<div>
+<a href="home.php?mod=space&amp;uid=55212&amp;do=profile&amp;mycenter=1&amp;mobile=2">zombieszy</a> , <a href="member.php?mod=logging&amp;action=logout&amp;formhash=4f9dc7ed&amp;mobile=2" title="退出" class="dialog">退出</a>
+</div>
+    <div>
+<a href="http://114.dzx30.com/plugin.php?id=alj114&act=add&mobile=1&simpletype=no">标准版</a> |  
+<a href="javascript:;" style="color:#D7D7D7;">触屏版</a> | 
+<a href="http://114.dzx30.com/plugin.php?id=alj114&act=add&mobile=no">电脑版</a> | 
+<a href="http://www.discuz.net/mobile.php?platform=ios">客户端</a>
+    </div>
+<p>&copy; Comsenz Inc.</p>
+</div>
+</body>
+</html>

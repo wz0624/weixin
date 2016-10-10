@@ -1,0 +1,132 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li><a href="{php echo $this->createWebUrl('level');}">等级头衔</a></li>
+	<li class="active"><a href="{php echo $this->createWebUrl('sms');}">短信中心</a></li>
+	<li><a href="{php echo $this->createWebUrl('signin');}">签到中心</a></li>
+	<li><a href="{php echo $this->createWebUrl('message');}">消息中心</a></li>
+	<li><a href="{php echo $this->createWebUrl('feedback');}">留言中心</a></li>
+	<li><a href="{php echo $this->createWebUrl('task');}">任务中心</a></li>
+	<li><a href="{php echo $this->createWebUrl('member');}">会员中心</a></li>
+	<li><a href="{php echo $this->createWebUrl('template');}">会员模板</a></li>
+	<li><a href="{php echo $this->createWebUrl('fanslog');}">粉丝统计</a></li>	
+	<li><a href="{php echo $this->createWebUrl('memberlog');}">会员统计</a></li>
+</ul>
+<!-- 短信设置 -->
+<div class="clearfix">
+<form action="" class="form-horizontal form" method="post" enctype="multipart/form-data" id="form1">
+	    <div class="alert alert-info">短信为官方短信和聚会合短信，请选择配置。<br/>1.官方短信请配置绑定论坛账号交易币<br/>2.聚合短信请直接购买套餐(<a href="http://www.juhe.cn/" target="_blank">www.juhe.cn</a>)</div>
+		<div class="panel panel-default">
+		    <div class="panel-heading">
+			    是否启用短信验证：
+			    <input type="checkbox" name="flag" value="1" {if intval($setting['smsstatus'])==1} checked="checked" {/if} data="{$setting['id']}"/>
+		    </div>
+			<div class="panel-body">
+			<div class="row-fluid">
+    			<div class="span8 control-group">
+					<a class="btn btn-default" href="{php echo $this->createWebUrl('smsrecord');}"><i class="fa fa-list"></i> 验证码发放记录</a>
+					<a class="btn btn-default" style="margin:0 10px;" href="{php echo $this->createWebUrl('smsinfo');}"><i class="fa fa-comments"></i> 短信通知</a>
+					<a class="btn btn-default" href="{php echo $this->createWebUrl('smsadd');}"><i class="fa fa-dollar"></i> 短信充值记录</a>
+					{if $_W['role']=='founder'}<a style="margin-left:10px;" class="btn btn-danger addsms" href="javascript:void(0)"><i class="fa fa-plus"></i> 短信充值</a>{/if}
+       		 </div>
+    		</div>
+    		</div>
+	    </div>		
+		{if ($setting['smsstatus'] != 0)}
+		<div class="panel panel-default" id="cardmain">
+			<div class="panel-heading">
+				短信策略设置
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">短信类型</label>
+					<div class="col-sm-9">
+						<label for="smstype0" class="radio-inline"><input type="radio" name="smstype" value="0" id="smstype0" {if intval($setting['smstype'])==0} checked="checked" {/if} onclick="$('#juhe').hide();"/> 官方短信(下版本提供)</label>&nbsp;&nbsp;&nbsp;
+						<label for="smstype1" class="radio-inline"><input type="radio" name="smstype" value="1" id="smstype1" {if intval($setting['smstype'])==1} checked="checked" {/if} onclick="$('#juhe').show();"/> 聚合短信(请选择此项)</label>
+					</div>
+				</div>
+				<div id="juhe"{if $setting['smstype']==0} style="display: none;"{/if}>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">短信验证KEY</label>
+					<div class="col-sm-9">
+						<input type="text" name="smskey" class="form-control" value="{$setting['smskey']}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">短信验证模板</label>
+					<div class="col-sm-9">
+						<input type="text" name="tpl_id" class="form-control" value="{$setting['tpl_id']}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">短信验证签名</label>
+					<div class="col-sm-9">
+						<input type="text" name="sign" class="form-control" value="{$setting['sign']}" />
+					</div>
+				</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">短信验证时效</label>
+					<div class="col-sm-9 input-group input-medium" style="padding-left:15px;">
+                        <span class="input-group-addon">短信验证时效</span>
+                        <input type="text" name="aging" value="{$setting['aging']}" class="form-control">							           
+						<span class="input-group-addon">秒(如：3分钟内有效,直接输入180即可,超过180秒失效)</span>
+                    </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">短信验证次数</label>
+					<div class="col-sm-9">
+						<label for="totalcnf1" class="radio-inline"><input type="radio" name="agingrepeat" value="0" id="totalcnf1" {if intval($setting['agingrepeat'])==0} checked="checked" {/if}/> 时效内可重复使用</label>&nbsp;&nbsp;&nbsp;
+						<label for="totalcnf2" class="radio-inline"><input type="radio" name="agingrepeat" value="1" id="totalcnf2" {if intval($setting['agingrepeat'])==1} checked="checked" {/if}/> 只能使用一次</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		{/if}
+		<div class="form-group">
+			<div class="col-sm-12">
+				<button type="submit" class="btn btn-primary col-lg-1" name="submit" value="保存短信策略">保存短信策略</button>
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			</div>
+		</div>
+</div>
+{if $_W['role']=='founder'}
+<div id="guanbi" class="hide">
+	<span type="button" class="pull-right btn btn-primary" data-dismiss="modal" aria-hidden="true">关闭</span>
+</div>
+{/if}
+<script type="text/javascript">
+	require(['jquery.ui', 'bootstrap.switch', 'util'], function($, $, u){
+		$(function(){
+			$(":checkbox[name='flag']").bootstrapSwitch();
+			$(':checkbox').on('switchChange.bootstrapSwitch', function(e, state){
+				$this = $(this);
+				var status = this.checked ? 1 : 0;
+				$.post(location.href, {status:status}, function(resp){
+					if(resp != 'success') {
+						u.message('操作失败, 请稍后重试.')
+					} else {
+						u.message('操作成功', location.href, 'success');
+					}
+				});
+			});
+			$('.btn').hover(function(){
+				$(this).tooltip('show');
+			},function(){
+				$(this).tooltip('hide');
+			});
+		});
+		{if $_W['role']=='founder'}
+		$('.addsms').click(function(){
+			$.get("{php echo url('site/entry/smsaddnum',array('m' => 'stonefish_member'))}", function(data){
+				if(data == 'dataerr') {
+					u.message('系统出错', '', 'error');
+				} else {
+					var obj = u.dialog('增加短信条数', data, $('#guanbi').html());
+				}
+				obj.modal('show');
+			});
+		});
+		{/if}
+	});
+</script>
+{template 'common/footer'}

@@ -1,0 +1,107 @@
+.btn_type{
+    background:#FFF;
+}
+.btn_green{
+    background:#43ac6a;
+}
+.product_type {
+    background: #ffffff;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    margin-top: 46px;
+    padding: 10px;
+}
+.product_type a{
+    width:23%;
+    margin-left: 2px;
+}
+
+.exchange {
+    background: #ffffff;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    margin-top: 36px;
+}
+
+.exchange p {
+    line-height: 4em;
+}
+
+.my-score a > p {
+    color: #FF9800;
+}
+
+.exchange .line {
+    margin: 0;
+}
+
+.change {
+    text-align: center;
+    margin-top: 1em;
+
+}
+
+.change .btn {
+    padding: 0.8em 1em;
+    width: 60%;
+}
+
+.record {
+    margin-top: 16px;
+}
+
+.record p {
+    line-height: 4em;
+}
+
+.date {
+    color: #929292;
+}
+
+.goods-list {
+    margin-top: 2px;
+    padding:0 1px;
+}
+
+.goods-list a:hover{
+    border:1px solid #FF9800;
+}
+
+
+
+.goods-detail {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    display: block;
+    margin-top: 3px;
+}
+
+
+.goods-current{
+    border: 1px solid #FF9800;
+}
+
+
+.goods-intro{
+    padding:8px;
+    font-size: 12px;
+    margin: 1px;
+    background: #EFEFEF;
+}
+
+.goods-cz{
+    padding:1px 0px 1px 10px;
+    font-size: 12px;
+    margin: 1px;
+    background: #EFEFEF;
+}
+
+
+.integration{
+    color: #F04124;
+    text-align: center;
+    float: right;
+}
+.integration2{
+    color: #191919;
+    text-align: center;
+    float: right;
+}

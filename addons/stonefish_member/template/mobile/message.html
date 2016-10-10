@@ -1,0 +1,109 @@
+{template 'header'}
+<style>
+	ul,li {padding:0; margin:0; border:0;}
+	body{background:{$config['memberbgcolor']}; padding-bottom:40px;}
+	.btn-group-top-box{padding:10px 0; font-family:Helvetica, Arial, sans-serif; text-align:center; width:100%;}
+	.btn-group-top{overflow:hidden;}
+	.btn-group-top .btn{ -webkit-box-shadow:none; box-shadow:none; border-color:{$config['memberiocncolor']}; color:{$config['memberiocncolor']}; padding:6px;width:100px;}
+	.btn-group-top .btn:hover{color:{$config['memberiocncolor']}; background:#F2F2F2;}
+	.btn-group-top .btn.active{color:#FFF; background:{$config['memberiocncolor']};}
+	.btn.use{background:{$config['memberbntcolor']}; color:{$config['memberbnttcolor']}; border:0; border-radius:5px;}
+	
+    .scroll-container .list-group {list-style:none; padding:0; margin:10px; text-align:left;}
+	.scroll-container .list-group .list-group-item{border:none; height:70px;}
+	.scroll-container .list-group .list-group-item .con{ margin:0 auto;}
+	.scroll-container .list-group .list-group-item .list-hd{padding-left:10px;width:220px;float:left;}
+	.scroll-container .list-group .list-group-item .list-hd div{font-weight:bold; margin:2px 0px; font-size:16px; color:#444444;width:220px;height:25px;line-height:25px;text-overflow:ellipsis; -o-text-overflow:ellipsis;overflow:hidden;-moz-binding:url('ellipsis.xml#ellipsis');}
+	.scroll-container .list-group .list-group-item .list-hd div a{color:#444444;}
+	.scroll-container .list-group .list-group-item .list-hd p{color:#b8b8b9;}
+	.scroll-container .list-group .list-group-item .list-con{float:left;width:50px;}
+	.scroll-container .list-group .list-group-item .list-con img{display:block; width:50px; height:50px; margin:0 auto;}
+	.scroll-container .list-group .list-group-item .list-con .derpn{padding:10px 10px 0 10px; border-top:1px dotted rgb(204, 204, 204); margin-top:10px;display:none;}
+	.scroll-container .list-group .list-group-item .list-ft{background:{$config['memberbntcolor']}; height: 44px; line-height: 44px; overflow: hidden; position:relative; padding:0 0 0 15px;color:{$config['memberbnttcolor']}; margin-bottom:5px; margin-top:10px;}
+	.scroll-container .list-group .list-group-item .list-ft b{color: {$config['memberbnttcolor']}; font-size: 30px;}
+	.scroll-container .list-group .list-group-item .list-ft .btns{width:105px; text-align:center; font-size:18px; color:{$config['memberbnttcolor']}; line-height:44px;}
+	.scroll-container .list-group .list-group-item .list-ft .btns a{color:{$config['memberbnttcolor']};}
+	.scroll-container .load-more{padding:10px;text-align:center;font-size:1em;}
+	
+	.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus{background-color:{$config['memberbntcolor']}; border-color:{$config['memberbntcolor']};}
+	.pagination>li>a, .pagination>li>span{color:{$config['memberbntcolor']}; border:1px solid {$config['memberbntcolor']};}
+	.panel.deliver{margin:0; padding:0 15px 10px 15px; background:transparent;}
+	.deliver form .btn.btn-primary{{$config['memberbntcolor']}; color:{$config['memberbnttcolor']} border:0;}
+	@media screen and (max-width: 767px) {.tpl-district-container div{margin-bottom:10px;}}
+	
+	.topnav{position:fixed; top:0; left: 0;width: 100%; height: 90px; background: #FFF;border-bottom:1px solid #d5d5d5;box-shadow:0 1px 9px #d5d5d5; line-height:40px; z-index:99;}
+	.topnav .leftdiv{float:left;padding-left:10px;}
+	.topnav .rightdiv{ float:right;padding-right:10px;font-size:13px;}
+	.topnav .rightdiv a{color:#999;text-decoration:none;}
+	.topnavdiv{color:#FFFFFF;height:90px;width:100%;background:#FFFFFF;}
+</style>
+<div class="topnav">
+<span class="leftdiv">{$_W['page']['title']}</span>
+<span class="rightdiv"><a href="{php echo $this->createMobileUrl('member')}"><i class="fa fa-arrow-left"></i> 返回</a></span>
+<div class="btn-group-top-box" style="margin-top:30px;">
+	<div class="btn-group btn-group-top">
+		<a href="{php echo $this->createMobileUrl('message',array('op'=>'display'))}" class="btn btn-default {if $op == 'display' || $op == 'view'}active{/if}">未读消息</a>
+		<a href="{php echo $this->createMobileUrl('message',array('op'=>'mine'))}" class="btn btn-default {if $op == 'mine'}active{/if}">所有消息</a>
+	</div>
+</div>
+</div>
+<div class="topnavdiv">隐藏我</div>
+{if $op == 'display' || $op == 'mine'}
+<div class="scroll-container">
+	<div class="wrapper">
+		{loop $lists $list}
+		    <ul class="list-group" >
+				<li class="list-group-item">
+					<div class="con">
+						<div class="list-con">
+							<a href="{php echo $this->createMobileUrl('message',array('op'=>'view','id' => $list['messageid']))}"><img src="{php echo tomedia($list['thumb'])}" border="0"></b>
+						</div>
+						<div class="list-hd">
+							<div><a href="{php echo $this->createMobileUrl('message',array('op'=>'view','id' => $list['messageid']))}">{$list['title']}</a></div>
+							<p>{php echo date('Y年m月d日', $list['starttime']);}</p>
+						</div>												
+					</div>
+				</li>
+		    </ul>
+		{/loop}
+		<div class="btn-group-top-box">
+			<div class="btn-group btn-group-top">
+				{$pager}
+			</div>
+		</div>
+	</div>
+</div>
+{elseif $op == 'view'}
+<style media="all" type="text/css">
+	.read-coupon{padding:10px;}
+	.read-coupon .coupon-title{font-size:16px; color:#444; padding:10px; margin:0;background:#FFFFFF;border-radius: 5px;text-align:center;line-height:24px;}
+	.read-coupon .coupon-content{min-height:100px;}
+	.read-coupon .coupon-content > img{width:100%; max-width:595px; max-height:320px; display:block; margin:0 auto; border:8px solid transparent; border-width:10px 0 0 0;}
+	.read-coupon .coupon-sn{padding:8px 15px; -webkit-box-sizing:border-box; background:{$config['memberbntcolor']}; color:{$config['memberbnttcolor']}; line-height:20px; font-size:14px; vertical-align:middle;}
+	.read-coupon .coupon-sn p:first-of-type{font-size:14px;}
+	.read-coupon .coupon-sn p:first-of-type span{font-size:18px;}
+	.coupon-form{padding:10px 0px 0 0px;}
+	.coupon-form .form-group{margin:10px 0;}
+	.coupon-form .form-group .btn{border-radius:5px;}
+	.coupon-form .form-group:first-child .btn{background:{$config['memberbntcolor']}; border-color:{$config['memberbntcolor']}; color:{$config['memberbnttcolor']};}
+</style>
+	<div class="read-coupon">
+		<h4 class="coupon-title">{$data['title']}</h4>
+		<div class="coupon-content">
+			{if !empty($data['thumb'])}
+			<img src="{php echo tomedia($data['thumb']);}">
+			{else}
+			<img src="../addons/stonefish_member/template/images/message.png">
+			{/if}
+		</div>
+  		<div class="coupon-sn">
+			<p><span>{php echo date('Y年m月d日', $data['starttime']);}</span><br>{php echo htmlspecialchars_decode($data['description'])}</p>
+		</div>
+		<div class="coupon-form">
+			<div class="form-group">
+				<a href="{php echo $this->createMobileUrl('message')}" class="btn btn-default btn-block">返回</a>
+			</div>
+		</div>
+	</div>
+{/if}
+{template 'footer'}

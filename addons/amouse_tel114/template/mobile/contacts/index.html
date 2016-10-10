@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>电话本</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="jquery.mobile-1.4.3.css"/>
+    <link rel="stylesheet" href="lichao.css"/>
+    <link rel="stylesheet" href="styles.css" type="text/css">
+    <script src="lichao.js"></script>
+</head>
+<body >
+
+<div data-role="page" id="index" >
+
+    <div class="ad" id="syad" >
+    </div>
+    <div id="lichao"  style="margin-top:25px;"></div>
+
+
+
+    <div data-role="footer" data-position="fixed" class="ui-bar" style="padding:0px 5px 0px 8px;" id="indexfooter">
+    </div>
+</div>
+<div data-role="page" id="search" >
+    <div class="ad" id="ssad"></div>
+    <div id="searchinput"  style="margin:18px 0px 0px 0px;">
+
+    </div>
+    <div role="main" class="ui-content" >
+        <ul data-role="listview" data-inset="true"  id="searchlist">
+
+        </ul>
+    </div>
+
+    <div data-role="footer"  data-position="fixed" id="searchfooter">
+
+    </div>
+</div>
+<div data-role="page" id="listview">
+    <div class="ad" id="lbad"></div>
+    <div role="main" class="ui-content"  style="padding:0px 10px 0px 10px;margin:5px 0px 0px 0px;">
+        <ul data-role="listview" data-inset="true"  data-filter="true" data-filter-placeholder="搜索..." id="list">
+        </ul>
+        <div id="loadmore"></div>
+    </div>
+    <div data-role="footer"  data-position="fixed" id="listfooter">
+
+    </div>
+</div>
+<div data-role="page" id="detail">
+    <div role="main" class="ui-content"  id="telDetail">
+    </div>
+    <div data-role="footer" data-position="fixed"  id="detailfooter">
+
+    </div>
+</div>
+
+<script src="jquery-1.11.1.js"></script>
+<script src="jquery.mobile-1.4.3.js"></script>
+<script type="text/javascript" src="yxMobileSlider.js"></script>
+<script>
+    $(document).ready(function(){
+        var token=getQueryString("token");
+        var cookieopenid=getCookie(token);
+        var from=getQueryString("from");
+        if(cookieopenid){
+            //setCookie(token,cookieopenid);
+            var url=document.URL.indexOf("#");
+            if(url>0){
+                window.location.href="http://dianhuaben.chaoyuanwuxian.com/webapp/index.html?token="+token;
+            }
+        }else{
+            document.title = "首次访问，请耐心等待...";
+            if(from){
+                window.location.href="http://dianhuaben.chaoyuanwuxian.com/index.php?s=/Home/App/getuserinfo/token/"+token;
+            }else{
+                var openid=getQueryString("openid");
+                if(openid){
+                    setCookie(token,openid);
+                }else{
+                    window.location.href="http://dianhuaben.chaoyuanwuxian.com/index.php?s=/Home/App/getuserinfo/token/"+token;
+                }
+
+            }
+        }
+        if(token){
+            $(document).bind("mobileinit",function(){
+                $.extend(  $.mobile , {
+                    defaultPageTransition:'none',
+                    //defaultPageTransition:'none'
+                });
+            });
+//获取模板编号
+            var _data3={};
+            _data3.token = token;
+            $.get(_url+"getMoban", _data3,
+                    function (data) {
+                        //moban=data;
+                        setCookie(token+'moban',data)
+                    });
+            var _data={};
+            _data.token = token;
+            _data.openid = getCookie(token);
+            $.get(_url+"getType", _data,
+                    function (data) {
+                        $("#lichao").html("");
+                        var jsonData = eval(data);
+                        var _arr = [];
+                        var moban=getCookie(token+'moban');
+                        if(moban == 0){
+
+                            $.each(jsonData, function(i, item) {
+                                _arr.push('<div role="main" class="ui-content" id="type" style="margin-bottom:-20px;"><div class="ui-block-a" id="type1" ><img width="80px"  src="'+item.img+'"/><br /><span><font size="4px" color="#FFBB00">' + item.title + '</font></span></div>' );
+                                $.each(item.type2, function(j, item2) {
+                                    _arr.push('<a data-no="'+item2.id+'" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"><div  class="ui-block-b"><img width="45px" src="'+item2.img+'"/><br /><font size="1px">' + item2.title + '</font></div></a>' );
+                                });
+                                _arr.push('</div><hr width="90%" color="#DDDDDD" size="1px"/>');
+                            });
+                        }else if(moban == 1){
+                            $.each(jsonData, function(i, item) {
+                                _arr.push('<div role="main" class="ui-content" id="type" style="margin-bottom:-10px;padding-left:10px;padding-right:10px;margin-top:-20px;background-color: #EEEEEE"><div class="ui-block" id="type1" style="background-color: #FFFFFF;border: 1px solid #DDDDDD;height: 30px;font-size: 18px;padding-top:8px;padding-left:10px"><span><font color="#FF3300 ">● ' + item.title + '</font></span></div>' );
+                                $.each(item.type2, function(j, item2) {
+                                    _arr.push('<a data-no="'+item2.id+'" href="#listview" data-transition="none" style="text-decoration:none;color:#000000;"><div  class="ui-block-b" style="background-color: #FFFFFF;padding-top: 10px;border: 1px solid #DDDDDD;height: 40px;width: 25%;font-size: 15px;"><font  color="#555555">' + item2.title + '</font></div></a>' );
+                                });
+                                _arr.push('</div>');
+                            });
+                        }
+                        _arr.push('<br /><br /><br />');
+                        if (_arr.length > 0) {
+                            $("#lichao").html(_arr.join(""));
+                            $("#lichao").trigger( "create" );
+                            $("#lichao").on("click", "a", getInfo);
+                            var _arrfooter = [];
+                            _arrfooter.push('<div data-role="fieldcontain" style="padding:0px 0px 0px 0px;margin:-2px 0px -12px 0px;"><div style="width:75%;float:left"> <input type="search" name="keyword" id="keyword"  placeholder="搜索..."/></div> <div ><a id="searchbut" href="#search" data-transition="none" style="width:10%;margin:9px 5px 0px 5px;" data-role="button" onclick="getSearch()">搜索</a></div> </div> ' );
+                            $("#indexfooter").html(_arrfooter.join(""));
+                            $("#indexfooter").trigger( "create" );
+                            var _arrinput = [];
+                            _arrinput.push('<div data-role="fieldcontain" style="padding:0px 5px 0px 5px;margin:-8px 0px -20px 0px;"><div style="width:80%;float:left;margin:-8px 5px -12px 5px;"> <input type="search"  name="keyword" id="keyword1"  placeholder="搜索..."/></div> <div ><a id="searchbut" data-transition="none" style="width:10%;margin:7px 5px 0px 5px;height:14px;padding:5px 7px 15px 7px;" data-role="button" onclick="getSearch()"><font size="2.8px" >搜索</font></a></div></div> ');
+                            $("#searchinput").html(_arrinput.join(""));
+                            $("#searchinput").trigger( "create" );
+                            var footer = [];
+                            footer.push('<h5>潮源无线</h5>');
+                            $("#searchfooter").html(footer.join(""));
+                            $("#listfooter").html(footer.join(""));
+                            $("#detailfooter").html(footer.join(""));
+                        }
+                        getAdimg("搜索页顶部广告","ssad");
+                        gettitle();
+                        $("#index").trigger( "create" );
+                    });
+        }else{
+            alert('缺少参数！');
+        }
+
+        $("#list").on("click", "a", getDetail);
+        $("#searchlist").on("click", "a", getSearchDetail);
+
+        //幻灯片
+        var _data1={};
+        _data1.type = "首页顶部广告";
+        _data1.typeid = 'syad';
+        _data1.token = token;
+        $.get(_url+"getAdimg2", _data1,
+                function (data) {
+                    setCookie(token+'syad',data)
+                });
+        if(getCookie(token+'syad')){
+            document.getElementById('syad').innerHTML='<div class="slider">'+getCookie(token+'syad')+'</div>';
+            $(".slider").yxMobileSlider({width:1024,height:380,during:3000});
+        }else{
+            getAdimg("首页顶部广告","syad");
+        }
+    });
+</script>
+</body>
+</html>

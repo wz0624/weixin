@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="yes" name="apple-touch-fullscreen" />
+<meta name="robots" content="none" />
+<meta name="viewport" id="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<title>谁是我的知己？- 情感大考验</title>
+{php echo register_jssdk();} 
+
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}public/css/style.css?v1.01">
+
+<script src="{MODULE_URL}public/js/jquery-1.8.3.min.js"></script>
+</head>
+<body>
+	<div class="wrap rel">
+	<img src="{$result['avatar']}" style="left:-3000px;position: absolute;">
+
+<div class="progress_warp mcenter rel">
+	<div class="progress_line_bg abscenter">
+		<div class="progress"></div>
+	</div>
+	<div class="progress_label rel dbox">
+		<span><em class="on">1</em></span>
+		<span><em>2</em></span>
+		<span><em>3</em></span>
+		<span><em>4</em></span>
+		<span><em>5</em></span>
+		<span><em>6</em></span>
+		<span><em>7</em></span>
+		<span><em>8</em></span>
+		<span><em>9</em></span>
+		<span><em>10</em></span>
+	</div>
+</div>
+<div class="question_wrap mcenter rel">
+	<div class="question_pic rel">
+		<img src="http://f.shiyi11.com/ui/img/web/dot.gif">
+		<div class="skip abs">换一题</div>
+	</div>
+	<p class="question"></p>
+</div>
+<div class="answer mcenter"><ul></ul></div>
+<div style="display:none">
+     <form id="submitForm" name="submitForm" action="{php echo $this->createMobileUrl('user_question', array('topic'=>time(),'op'=>'topic'));}" method="post">
+	  <input type="hidden" name="type" value="topic"/>
+	  <input type="hidden" id="qa_content" name="qa_content">
+	  <input type="hidden" name="token" value="{$_W['token']}" />
+</form></div>
+			
+<script type="text/javascript">
+
+  var questions ={$qjson};
+
+  var userAnswers = [];
+  var answeredQuestionId = null;
+  var randomId;
+  var dNum = 0;
+  var flag = 0;
+
+  $(function() {	//入口函数开始   	
+  	
+	//获取随机题目
+  	function getRandomQuestion () {
+      if (answeredQuestionId != null) {
+      	questions.splice(answeredQuestionId, 1);
+      	answeredQuestionId = null;
+      }
+
+      //获取随机id
+      randomId = getRandomId(randomId);
+      return questions[randomId];
+  	}
+
+  	function getRandomId (newRandomId) {
+		//获取随机id
+		var rid = parseInt(Math.random() * (questions.length));
+		if (newRandomId == rid) return getRandomId(rid);
+
+		return rid;
+	}
+	
+    function genarateQuestionHtml (currentQuestion) {
+      $('.question_pic img').attr('src','{$_W['attachurl']}'+currentQuestion.image);
+      $('.question').html(currentQuestion.title);
+      
+      var answersHtml = '';
+      $.each(currentQuestion.answers, function(id, answer) {
+      	answersHtml += '<li data-qid="'+currentQuestion.id+'" data-aid="'+id+'" id="be-wxgame1222-tm'+currentQuestion.id+'">'+answer+'</li>';
+      });
+      $('.answer ul').html(answersHtml);
+      $('.answer li').bind('click', function() {
+    	$('.answer li').unbind();
+      	nextFn(this);
+  	    //_hmt.push(['_trackEvent', 'nav', 'click', 'literature']);
+      });
+    }
+
+  	function changeFn(){	//换一题随机封装函数开始
+      var currentQuestion = getRandomQuestion();
+      $('.wrap').fadeOut(300);
+      var timer=null;
+      clearTimeout(timer);
+      timer=setTimeout(function(){genarateQuestionHtml(currentQuestion);}, 300);
+      $('.wrap').fadeIn(300);
+	}
+
+	function nextFn(_this){		//下一题封装函数开始
+      var qid = parseInt($(_this).attr('data-qid'));
+      var aid = parseInt($(_this).attr('data-aid'));
+      userAnswers.push(qid + '_' + aid);
+      $(_this).addClass('on');
+      
+      dNum ++;
+      var myWidth=11*dNum;
+
+      //console.log(userAnswers.join("|"));
+      
+      if (dNum >= 10) {
+      	$(_this).removeClass('on');
+      	//submit userAnswers
+      	$("#qa_content").val(userAnswers.join("|"));
+        $("#submitForm").submit();
+      } else {
+      	setTimeout(function(){
+          $('.progress_label em').eq(dNum).addClass('on');
+		  $('.progress').css('width',myWidth+'%');
+      	}, 300)
+      
+      	//change question
+      	answeredQuestionId = randomId;
+      	changeFn();
+      }
+	}
+
+  	//init question
+	$('.skip').click(function(){
+      if (flag == 0) {
+      	flag = 1;
+      	changeFn();
+      	setTimeout(function() {
+      	  flag = 0;
+      	}, 600)
+      }
+	})
+	
+  	var currentQuestion = getRandomQuestion();
+  	genarateQuestionHtml(currentQuestion);
+  });
+
+
+</script>
+	<script>
+wx.ready(function () {
+
+  var shareData = {
+    title: '谁是{$result['nickname']}的知己？- 情感大考验',
+    desc: '敢玩吗？看看你有多了解我',
+    link: "{$_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&topic={$_GPC['topic']}&op=topic&do=user_question&m=qqh_dwm",
+    imgUrl: '{$result['avatar']}'
+  };
+  wx.onMenuShareAppMessage(shareData);
+  wx.onMenuShareTimeline(shareData);
+});
+
+</script>
+	</div>
+	<p class="coop_info">{$md_config['name']}</p>
+</body>
+</html>

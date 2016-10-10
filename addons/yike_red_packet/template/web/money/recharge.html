@@ -1,0 +1,124 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+
+    <li class="active"><a href="{php echo $this->createWebUrl('money', array('op'=>'recharge'));}">充值记录</a></li>
+
+    <li><a href="{php echo $this->createWebUrl('money', array('op'=>'deposit'));}">佣金记录</a></li>
+
+</ul>
+
+<div class="panel panel-info">
+    <div class="panel-body">
+        <form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site"/>
+            <input type="hidden" name="a" value="entry"/>
+            <input type="hidden" name="m" value="yike_red_packet"/>
+            <input type="hidden" name="do" value="money"/>
+            <input type="hidden" name="op" value="recharge"/>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">ID</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control" name="mid" value="{$_GPC['uid']}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">会员信息</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control" name="realname" value="{$_GPC['realname']}"
+                           placeholder="可搜索昵称"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">
+                </label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="submit" class="btn btn-primary" value="搜索">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="clearfix">
+
+    <div class="panel panel-default">
+
+        <div class="panel-heading">充值记录</div>
+
+        <div class="panel-body">
+
+            <div class="table-responsive panel-body">
+
+                <table class="table table-hover" style="min-width: 300px;">
+
+                    <thead class="navbar-inner">
+
+                    <tr>
+
+                        <th class="col-sm-1">充值订单号</th>
+                        <th class="col-sm-3">粉丝</th>
+                        <th class="col-sm-2">会员等级</th>
+                        <th class="col-sm-2">充值金额</th>
+                        <th class="col-sm-2">充值时间</th>
+                        <th class="col-sm-2">状态</th>
+                        <th class="col-sm-2">备注</th>
+                        <th class="col-sm-2">操作</th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {loop $list $listid $item}
+
+                    <tr>
+
+                        <td>{$item['id']}</td>
+                        <td><img src="{$item['avatar']}" alt="">{$item['nickname']}</td>
+                        <td>{$item['type']}</td>
+                        <td>{$item['money']}</td>
+                        <td>{$item['created_time']}</td>
+                        <td>{$item['status']}</td>
+                        <td>{$item['remark']}</td>
+
+                        <td class="text-right">
+
+                            <a href="{php echo $this->createWebUrl('operator',array('op'=>'delete','uid'=>$goods['uid']));}"
+                               onclick="return confirm('此操作不可恢复，确认删除？');return false;" class="btn btn-default btn-sm"
+                               data-toggle="tooltip" data-placement="bottom" title="" data-original-title="删除"><i
+                                    class="fa fa-times"></i></a>
+
+                        </td>
+
+                    </tr>
+
+                    {/loop}
+
+                    {if empty($list)}
+
+                    <tr>
+
+                        <td colspan="8">
+
+                            暂无订单
+
+                        </td>
+
+                    </tr>
+
+                    {/if}
+
+                    </tbody>
+
+                </table>
+
+                {$pager}
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{template 'common/footer'}

@@ -1,0 +1,228 @@
+﻿{template 'header'}
+        <div id="mask">
+        </div>
+        <div class="zWrap" id="zWrap" style="display: none;">
+            <div class="zBg">
+            </div>
+            <div class="zLogo">
+            </div>
+			<form method="post" id="Form" action="">
+			<input type="hidden" name="op" id="op" value="post">
+			<input type="hidden" name="fromuser" id="fromuser" value="{$fromuser}">
+			<input type="hidden" name="token" value="{$_W['token']}" />
+            <div class="zContent">
+                <div class="zName">
+                    <i>
+                    </i>
+                    <input type="text" class="zNameInput" placeholder="创始人姓名" id="userName" name="userName">
+                </div>
+                <div class="zOption">
+                    <i class="zOptionI1">
+                    </i>
+                    <select class="zOptionSelect" name="industry" id="industry">
+                        <option value="餐饮">
+                            餐饮
+                        </option>
+                        <option value="汽车">
+                            汽车
+                        </option>
+                        <option value="农业">
+                            农业
+                        </option>
+                        <option value="医疗">
+                            医疗
+                        </option>
+                        <option value="金融">
+                            金融
+                        </option>
+                        <option value="硬件">
+                            硬件
+                        </option>
+                        <option value="电商">
+                            电商
+                        </option>
+                        <option value="游戏">
+                            游戏
+                        </option>
+                        <option value="企业服务">
+                            企业服务
+                        </option>
+                        <option value="社交">
+                            社交
+                        </option>
+                        <option value="教育">
+                            教育
+                        </option>
+                        <option value="媒体">
+                            媒体
+                        </option>
+                        <option value="房产家装">
+                            房产家装
+                        </option>
+                    </select>
+                    <i class="zOptionI2">
+                    </i>
+                </div>
+                <div class="zCaseName">
+                    <i>
+                    </i>
+                    <input type="text" class="zCaseNameInput" placeholder="项目名称" id="case" name="case">
+                </div>
+				<input type="submit" name="submit" id="submit" value="立即生成" style="width: 100%;
+background: #00B7EE none repeat scroll 0% 0%;
+height: 50px;
+position: relative;
+border-radius: 5px;
+margin: 20px auto;">
+            </div>
+        </div>
+		</form>
+        <!--生成页面-->
+        <div id="wrap" class="wrap">
+            <div id="borderLogo" class="borderLogo">
+                <a href="" target="_blank">
+                    <div class="logoImg">
+                    </div>
+                </a>
+            </div>
+            <div id="content" class="main">
+                <p class="title" align="left" id="p1_title">
+                    {$info['case']}被曝获8.6亿美金B轮融资，创始人{$info['userName']}的多名前女友追悔莫及
+                </p>
+                <div class="src" id="p1_time">
+                    <span style="margin-right:5px;">
+                        {$info['industry']}
+                    </span>
+                    2016-02-03
+                    <span style="margin-left:8px;">
+                        17837浏览
+                    </span>
+                </div>
+                <p align="center" id="p1_img">
+                </p>
+                <p style="font-size: 13px;text-align:left;width: 100%;color: #999;">
+                    本文内容纯属虚构，博君一笑。
+                </p>
+                <img src="{$_W['attachurl']}/{$reply['picurl']}"
+                width="100%">
+                <p>
+                </p>
+                <p class="text text1">
+                    <b>
+                        腾讯创业讯
+                    </b>
+                    腾讯创业曾报道随机行业创业团队{$info['case']}，其创始人{$info['userName']}表示腾讯创业的报道为他们赢得了非常多的关注，近日{$info['case']}透露其刚刚完成了6.8亿美金C轮融资。据悉，本轮融资领投方为九合创投，天使投资方为华创资本。
+                </p>
+                <p>
+                </p>
+                <p class="text text2">
+                    据悉，{$info['case']}创始人{$info['userName']}自融资消息被媒体曝光后，在知春路的家被上百位位前女友团团包围，她们纷纷追悔莫及，愿意重归于好，并表示想给{$info['userName']}生猴子。
+                </p>
+            </div>
+            <div class="shareBtn" id="shareBtn">
+                <i>
+                </i>
+            </div>
+            <div class="share_ewm">
+                <p>
+                    本文内容系腾讯创业策划的线上互动，根据用户填写随机生成。
+                </p>
+                <img src="../addons/bm_inbark/template/img/share_ewm.png">
+            </div>
+        </div>
+
+        <script src="http://mat1.gtimg.com/ent/samuelcheng/whitepaper/js/preloadjs-0.6.2.min.js"
+        type="text/javascript">
+        </script>
+        <script>
+            window.sourceArr = ["http://mat1.gtimg.com/tech/002016zhihui/2016startup/logo.png", "http://mat1.gtimg.com/tech/002016zhihui/2016startup/icon.png", "http://mat1.gtimg.com/tech/002016zhihui/2016startup/bg.jpg",
+
+            ]; //需要加载的资源
+            //loading加载 
+            var preload = {
+
+                loading: null,
+                piclist: sourceArr,
+                init: function() {
+                    $("#zWrap").hide();
+                    preload.reload();
+                    preload.loadAll();
+                },
+                reload: function() {
+                    if (preload.loading != null) {
+                        preload.loading.close();
+                    }
+
+                    preload.loading = new createjs.LoadQueue(false);
+                    preload.loading.on('complete', preload.handleComplete);
+                    preload.loading.on('progress', preload.handleOverallProgress);
+                    preload.loading.on('error', preload.handleFileError);
+                },
+                handleOverallProgress: function() {
+                    //var perc = Math.round(Math.round(preload.loading.progress * 1000) / 10);
+                    // preload.num.html(perc+"%");
+                },
+                handleComplete: function() {
+                    // $(".loading").hide();
+                    var zWrap = $("#zWrap");
+                    var formTable = $("#formTable");
+                    var industry = $("#industry");
+                    var in_len = industry.find("option");
+                    var btn = $("#btn");
+                    var userName = $("#userName");
+                    var wrap = $("#wrap");
+                    var oCase = $("#case");
+                    var index = 0;
+                    var str = "";
+                    var num = 0;
+                    var p1_title = $("#p1_title");
+                    var p1_cont1 = $("#p1_cont1");
+                    var p1_cont2 = $("#p1_cont2");
+                    var p1_cont3 = $("#p1_cont3");
+                    var p1_img = $("#p1_img");
+                    var mask = $("#mask");
+                    var sIndex, comment;
+                    var investRand1, investRand2;
+                    var date = new Date();
+                    var wrap = $("#wrap");
+                    var p1_time = $("#p1_time");
+                    day = date.getDate();
+                    comment = Math.round(Math.random() * 10000) + 4870;
+                    
+                    /*点击跳到首页*/
+                    var shareBtn = $("#shareBtn");
+                    shareBtn.click(function() {
+                        zWrap.show();
+                        userName.val("");
+                        oCase.val("");
+                        wrap.hide();
+                        p1_cont1.html("");
+                        p1_cont2.html("");
+                        p1_cont3.html("");
+                    })
+
+                },
+                handleFileError: function() {},
+                loadAll: function() {
+                    while (preload.piclist.length > 0) {
+                        preload.loadAnother();
+                    }
+                },
+                loadAnother: function() {
+                    var item = preload.piclist.shift();
+                    preload.loading.loadFile(item);
+                }
+            }
+            //preloading执行
+            $(function() {
+                preload.init();
+            })
+        </script>
+	<?php
+		$_share = array();
+		$_share['link'] = 'http://'.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . '&wxref=mp.weixin.qq.com';
+		$_share['title'] = $reply['title'];
+		$_share['img'] = $_W['attachurl'] . $reply['picurl'];
+		$_share['content'] = $info['case'].'被曝获8.6亿美金B轮融资，创始人'.$info['userName'].'的多名前女友追悔莫及';
+	?>		
+{template 'footer'}

@@ -1,0 +1,594 @@
+* {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+     margin: 0;
+     padding: 0;
+}
+html,
+body{
+    height: 100%;
+    overflow: hidden;
+}
+#main-box{
+    position: relative;
+    height: 100%;
+}
+#game-layer-time {
+    position: absolute;
+    font-size: 20px;
+    background-color: rgba(0,0,0,0.4);
+    border-radius: 8px;
+    font-weight: bold;
+    color: #fff;
+    width: 106px;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    top: 8px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    overflow: hidden;
+}
+#game-start-tap{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #41308d;
+    color: #7854c2;
+    font-size: 10px;
+    text-align: center;
+    line-height: 14px;
+}
+#game-end-tap{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: none;
+    pointer-events: none;
+    -webkit-transition-property:-webkit-transform ;
+}
+#game-end-tap span{
+    width: 25%;
+    float: left;
+    height: 100%;
+    background-color: #2b6de5;
+    box-sizing:border-box;
+}
+#game-end-tap.show{
+    display: block;
+}
+#game-layer-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    overflow: hidden;
+    background-size: 100% auto;
+    background-position: center top;
+}
+
+.game-layer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.game-layer>div{
+    position: absolute;
+    border-left: 1px solid #000;
+    border-bottom: 1px solid #000;
+    box-sizing: border-box;
+}
+.tile{
+    background-size: 100% 100%;
+    background-image: url("../image/game_tile.png");
+}
+#btn-prize {
+    width: 37px;
+    height: 41px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: none;
+    z-index: 11;
+    background-size: 100% 100%; /* 74 84*/
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-image: url("../image/btn_prize.png");
+}
+#btn-prize.anim{
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-name: btnprizeanim;
+    -webkit-animation-duration: 200ms;
+    -webkit-transform-origin: bottom center;
+}
+@-webkit-keyframes btnprizeanim{
+    25%{-webkit-transform: rotate(-6deg);}
+    50%{-webkit-transform: rotate(0deg);}
+    75%{-webkit-transform: rotate(6deg);}
+    100%{-webkit-transform: rotate(0deg);}
+}
+#btn-prize.show{
+    display: block;
+}
+#game-icon-prize{
+    width: 37px;
+    height: 42px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: none;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-image: url("../image/btn_prize.png");
+}
+#game-icon-prize.anim{
+    display: block;
+     -webkit-transition:-webkit-transform 1s ease-in-out;
+}
+.tile.clicked:after{
+    content: "";
+    position: absolute;
+    background-color: rgba(0,0,0,0.8);
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+.tile.start:after{
+    content: "";
+    background-position: center center;
+    background-size: 57px 31px;
+    background-repeat: no-repeat;
+    background-image: url("../image/game_page_icon_start.png");
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+.tile.prize:after{
+    content: "";
+    background-position: center center;
+    background-size: 49px 60px;
+    background-repeat: no-repeat;
+    background-image: url("../image/game_page_icon_prize.png");
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+.tt1, .tt2, .tt3, .tt4, .tt5 {
+    background-size: auto 86%;
+}
+#welcome,#GameLayerBG{
+    position:fixed;
+}
+@-webkit-keyframes flash {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.flash {
+    -webkit-animation: flash .2s 3;
+}
+
+.bad {
+    background-color: #f00;
+    -webkit-animation: flash .2s 3;
+}
+.icon-cloud{
+    width: 60px;
+    height: 36px;
+    display: inline-block;
+    vertical-align: middle;
+    background-size: 100% auto;
+    background-image: url("../image/icon_prize.png");
+}
+.icon-star{
+    width: 25px;
+    height: 21px;
+    background-image: url(../image/result_page_star.png);
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    display: inline-block;
+}
+#game-layer-score {
+    background-size: 400px 500px;
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-color: #180C32;
+    height: 100%;
+    min-height: 440px;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: none;
+    z-index: 11;
+    position: relative;
+}
+#game-layer-score.modify .company-rights{
+    position: relative;
+    line-height: 40px;
+    bottom: 0;
+}
+#game-layer-score.modify .ads{
+    position: relative;
+}
+#game-layer-score-text{
+    position: absolute;
+    top: 100px;
+    margin: 0 auto;
+    background-size: 100% 100%;
+    left: 0;
+    right: 0;
+}
+#game-layer-score-text.success{
+    width: 108px;
+    background-image: url(../image/result_page_text_success2.png);
+    height: 25px;
+    /*background-image: url(../image/result_page_text_success.png);*/
+}
+#game-layer-score-text.fail{
+    width: 148px;
+    height: 28px;
+    /*background-image: url(../image/result_page_text_fail.png);*/
+}
+#game-layer-score-score{
+    color: #fafcf1;
+    font-size: 50px;
+    line-height: 70px;
+    position: absolute;
+    top: 150px;
+    width: 100%;
+    text-align: center;
+}
+#game-layer-score-best{
+    color: #e4a969;
+    font-size:17px;
+    line-height: 20px;
+    position: absolute;
+    top: 216px;
+    width: 100%;
+    text-align: center;
+}
+
+#game-layer-score-share {
+    height: 1.3em;
+    line-height: 1.3em;
+    overflow: hidden;
+}
+.game-layer-score-rank{
+    position: absolute;
+    top: 300px;
+    width: 100%;
+    text-align: center;
+    font-size: 15px;
+    color: #fafcf1;
+}
+.game-layer-score-rank b{
+    color: #e4a969;
+    font-weight: normal;
+}
+
+.share-icon {
+    width: 1.7em;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+}
+.btn-layout{
+    text-align: center;
+    margin-top:345px;
+}
+.btn-layout .btn {
+    width: 91px;
+    height: 40px;
+    display: inline-block;
+    background-size: 91px 120px;
+    background-repeat: no-repeat;
+    background-image: url("../image/result_page_btn.png");
+}
+#game-layer-score-btn .btn.btn-share{
+    background-position: 0 0;
+}
+#game-layer-score-btn .btn.btn-index-page{
+    background-position: 0 -40px;
+}
+#game-layer-score-btn .btn.btn-reply{
+    background-position: 0 -80px;
+}
+#landscape {
+    display: none;
+}
+
+#gameBody {
+    position: relative;
+    width: 640px;
+    margin: 0 auto;
+    height: 100%;
+}
+.ads {
+    position: absolute;
+    display: none;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+}
+
+.ads.show {
+    display: block;
+}
+
+.ads img {
+    width: 100%;
+    margin-bottom: -4px;
+}
+
+.btn-close-ad {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60px;
+    height: 60px;
+    background-image: url("../image/btn_close.png");
+    background-size: 35px 35px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.company-rights {
+    color: #7854c2;
+    font-size: 10px;
+    text-align: center;
+    line-height: 14px;
+    position: absolute;
+    bottom:20px;
+    width: 100%;
+}
+.company-rights.low{
+    bottom:20px;
+}
+.masklayer {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2000;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  text-align: right;
+}
+.masklayer.on {
+  display: block;
+}
+.masklayer img {
+  margin-top: 10px;
+  margin-right: 30px;
+  width: 160px;
+}
+.register-panel-layer {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none;
+    z-index: 12;
+}
+
+.register-panel-layer.show {
+    display: block;
+}
+.register-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto 25px;
+    background-color: #fba778;
+    border-radius: 12px;
+    display: none;
+    z-index: 13;
+}
+#panel-got-prize{
+    height: 240px;
+}
+#panel-got-prize .register-main{
+    height: 234px;
+}
+#panel-without-times{
+    height: 220px;
+}
+#panel-without-times .register-main{
+    height: 214px;
+}
+.register-panel.show {
+    display: block;
+}
+.register-panel .register-main {
+    border-radius: 12px;
+    margin-top: 6px;
+    position: relative;
+    background-image: -webkit-linear-gradient(0deg, #F7E39C 0%, #FFFFFF 50%, #F7E39C 100%);
+}
+.register-panel .register-content {
+    width: 100%;
+    min-height: 45px;
+    line-height: 45px;
+    border-radius: 20px 20px 0 0;
+    background-repeat: repeat-x;
+    background-size: 1px 45px;
+    background-image: url("../image/bg_th.png");
+    position: absolute;
+    top: 6px;
+    left: 0;
+    text-align: center;
+}
+
+.register-panel .btn-layout {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.register-panel .btn-know {
+    display: inline-block;
+    width: 156px;
+    height: 41px;
+    background-size: 156px 41px;
+    background-image: url("../image/btn_know.png");
+}
+.register-panel .icon-got-prize{
+    width: 154px;
+    height: 76px;
+    position: absolute;
+    top: -37px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    background-size: 100% 100%;
+    background-image: url(../image/result_page_prize_got.png);
+    -webkit-transform: translate(20px, 0px);
+}
+.register-panel .icon-without-times{
+    width: 199px;
+    height: 78px;
+    position: absolute;
+    top: -37px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    background-size: 100% 100%;
+    background-image: url(../image/result_page_prize_no.png);
+    -webkit-transform: translate(10px, 0px);
+}
+.register-panel .btn-know {
+    background-position: 0 0;
+}
+.register-panel .result-page-prize{
+    color: #d1865c;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 25px;
+    margin-top: 50px;
+}
+.register-panel .plus{
+    font-size: 15px;
+    color: #d1865c;
+    line-height: 20px;
+    margin-top: 12px;
+    padding-bottom: 8px;
+}
+.register-panel .color_warn{
+    color: #fd615f;
+    font-weight: bold;
+    text-decoration: none;
+}
+#guide-panel {
+    background-image: url(../image/guide_panel.jpg);
+    background-size: 100% auto;
+    background-position: bottom center;
+    height: 100%;
+    position: fixed;
+    z-index: 20;
+    top: 0;
+    width: 100%;
+    left: 0;
+    display: none;
+}
+@media screen and (max-height: 500px) {
+  #guide-panel {
+    background-position: center center;
+  }
+}
+#guide-panel.show{
+    display: block;
+}
+
+#loading-panel{
+    background-color: #f2f2f2;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 21;
+    display: none;
+}
+#loading-panel.show{
+    display: block;
+}
+.loading-panel-content{
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 235px;
+    height: 195px;
+    background-size: 100%  100%;
+    background-image: url(../image/loading_panel.png);
+}
+.loading-panel-progress-box{
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 138px;
+    width: 221px;
+    height: 14px;
+}
+.loading-panel-progress{
+    width: 0;
+    height: 100%;
+    background-size: 221px 14px;
+    background-position: left center;
+    background-image: url(../image/loading_panel_progress.png);
+}
+.loading-panel-progress-current{
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 164px;
+    color: #907f75;
+    font-size: 20px;
+    font-weight: bolder;
+    text-shadow: 1px 2px 0px #F3F3F3;
+    text-transform: uppercase;
+}
+/************************************ajax loading**************************/
+.loadingBox{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    z-index: 22;
+    background-color: rgba(0,0,0,0.7);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-image: url(../image/big_load.gif);
+}
+.loadingBox.show{
+    display: block;
+}

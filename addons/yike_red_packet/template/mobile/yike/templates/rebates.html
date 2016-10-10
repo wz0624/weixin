@@ -1,0 +1,32 @@
+<ion-view view-title="我的" id="account">
+    <ion-content>
+        <div class="row" style="background-color: #f84546;min-height: 210px;position:relative">
+            <div class="col col-25"></div>
+            <div class="col col-50 col-one">
+                <div>
+                    <img class="img-one"
+                         ng-src="{{user.avatar || '/addons/yike_red_packet/template/mobile/huiyigou/img/tmp/images/head-edit.png'}}"/>
+                    <img class="img-two" src="/addons/yike_red_packet/template/mobile/huiyigou/img/img-three.png">
+                </div>
+                <p class="number">昵称：{{user.nickname}}</p>
+                <p class="number">会员id：{{user.uid}}</p>
+                <p class="number">会员等级：{{user.inviterLevelName}}</p>
+            </div>
+            <div class="col col-25"></div>
+        </div>
+        <div class="gray-wide-line"></div>
+        <div class="list">
+            <a class="item item-avatar" ng-repeat="item in data.list">
+                <img ng-src="{{item.avatar || '/addons/yike_red_packet/template/mobile/huiyigou/img/tmp/images/head-edit.png'}}">
+                <h2>{{item.nickname}}</h2>
+                <p>
+                    可提佣金:{{item.money}}元
+                    <button class="button button-small button-assertive" ng-click="rebates(item.id)" ng-show="item.status == 1"
+                            style="position: absolute; right: 20px; bottom: 20px;">提现
+                    </button>
+                </p>
+            </a>
+            <p class="text-center padding" ng-if="data.flag">暂无数据</p>
+        </div>
+    </ion-content>
+</ion-view>

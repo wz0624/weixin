@@ -1,0 +1,55 @@
+{template 'common/header'}
+{template 'nav'}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		阿里大鱼短信设置
+	</div>
+	<div class="panel-body">
+		<form action="" method="post" class="form-horizontal" role="form" id="form1">
+		<input type="hidden" name="id" value="" class="form-control">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">阿里大鱼appkey</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input type="text" name="appkey" value="{$sms_config['appkey']}" class="form-control">
+					<span class="help-block">阿里大鱼appkey</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">阿里大鱼appsecret</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input type="text" name="appsecret" value="{$sms_config['appsecret']}" class="form-control">
+					<span class="help-block">阿里大鱼appsecret</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">阿里大鱼身份验证签名</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input type="text" name="sms_signname" value="{$sms_config['sms_signname']}" class="form-control">
+					<span class="help-block">默认为：身份验证</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">阿里大鱼短信验证码的模板号码</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input type="text" name="sms_tpl_id" value="{$sms_config['sms_tpl_id']}" class="form-control">
+					<span class="help-block">到阿里大鱼后台管理申请一个模板内容为【尊敬的${fans_user}、您的预约验证码已经发送到你的手机、验证码为${mobile_code}、请注意隐私安全！】的短信模板</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">阿里大鱼预约提醒的模板号码</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input type="text" name="sms_success_tpl_id" value="{$sms_config['sms_success_tpl_id']}" class="form-control">
+					<span class="help-block">到阿里大鱼后台管理申请一个模板内容为【尊敬的${fans_user}、您在${account_name}微信公众平台、预约的直播活动:${item_name}马上就要开始啦！】的短信模板</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label"></label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input type="submit" class="btn btn-success" value="提交">
+					<input type="hidden" name="token" value="9d35b511">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+{template 'common/footer'}

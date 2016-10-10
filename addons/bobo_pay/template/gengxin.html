@@ -1,0 +1,76 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li  class="active" ><a href="{php echo $this->createWebUrl('gengxin',array())}">公告列表</a></li>
+</ul>
+<button class="btn btn-warning" onclick="addgonggao()">添加公告</button>
+<br>
+<div class="main panel panel-default">
+	<div class="panel-body table-responsive">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:30px;">ID</th>
+					<th style="width:300px;">公告内容</th>
+					<th style="width:100px;">是否禁用</th>
+					<th style="width:100px;">创建时间</th>
+ 					<th style="width: 100px;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['id']}</td>
+					<td>{$item['gonggaocontent']}</td>
+					<td>{if $item['isshow']==1}否{/if} {if $item['isshow']==2}是{/if}</td>
+					<td>{php echo date("Y-m-d H:i",$item['create_at']);}</td>
+					<td style="text-align:left;">
+						<a href="{php echo $this->createWebUrl('gengxin',array('operation' =>'jinyong','uid'=>$item['id']))}">{if $item['isshow']== '1'}<button class="">禁用</button>{/if}</a>
+						<a href="{php echo $this->createWebUrl('gengxin',array('operation' =>'qiyong','uid'=>$item['id']))}">{if $item['isshow']== '2'}<button class="">启用</button>{/if}</a>
+					</td>
+				</tr>
+				{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+</div>
+
+		<div class="modal fade" id="myModal">
+		<div class="modal-dialog" style="margin-top: 100px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">添加公告</h4>
+				</div>
+				<form id="add_member" action="{php echo $this->createWebUrl('gengxin',array('operation' =>'addgonggao'))}" method="post" enctype="multipart/form-data" class="form-horizontal ">
+				<div class="modal-body">
+						<div class="form-group">
+		                    <label class="col-md-3 control-label" for="text-input">公告内容</label>
+		                    <div class="col-md-9">
+		                        <textarea class="form-control" placeholder="输入公告内容" name="gonggaocontent"></textarea>
+		                        <span>公告内容</span>
+		                    </div>
+					    </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="submit" class="btn btn-primary">确认添加</button>
+				</div>
+				    </form>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+<script>
+	require(['bootstrap'],function($){
+		$('.btn').hover(function(){
+			$(this).tooltip('show');
+		},function(){
+			$(this).tooltip('hide');
+		});
+	});
+	function addgonggao(){
+		$('#myModal').modal('show');
+	}
+</script>
+
+{template 'common/footer'}

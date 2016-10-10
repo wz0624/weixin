@@ -1,0 +1,552 @@
+<div class="form-group">
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>是否开启极验验证码</label>
+    <div class="col-sm-9 col-xs-12">
+        <input class="js-flag" type="checkbox" name="iscode" radiotype = "fmcodekey" {if $rvote['iscode']} checked="checked" {/if} />
+       		
+		<div class="help-block">开启极验验证码，包括会话界面、首页、选手展示页投票验证码，及评论验证码（解决苹果不兼容问题，增强防作弊功能，滑动验证）</div>
+    </div>
+</div>
+<div id="fmcodekey" {if !$rvote['iscode']}style="display:none"{/if}>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 极验验证ID：</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" name="codekey" value="{$rvote['codekey']}" placeholder="如果开启验证码，这里必须设置，极验验证 ID"/>
+            
+        </div>
+    </div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 极验验证KEY：</label>
+		<div class="col-sm-9">
+			<input type="text" class="form-control" name="codekeykey" value="{$rvote['codekeykey']}" placeholder="如果开启验证码，这里必须设置，极验验证 KEY"/>
+			<div class="help-block">获取ID,KEY请点击 <a href="http://my.geetest.com/accounts/register/?inviter_email=cwzbooth@126.com" target="_blank">此处</a>{if $_W['role']=='founder'}，获取方法请点击  <a href="http://bbs.012wz.com/forum.php?mod=viewthread&tid=16&extra=page%3D1"  target="_blank">获取方法</a>{/if}
+		    </div>
+        </div>
+	</div>
+</div>
+<div class="form-group">
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>是否开启投票用户填写信息</label>
+    <div class="col-sm-9 col-xs-12">
+        <input class="js-flag" type="checkbox" name="voteerinfo" {if $rvote['voteerinfo']} checked="checked" {/if} />
+            
+        <div class="help-block">开启投票用户填写信息</div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>是否开启投票用户自定投票数</label>
+    <div class="col-sm-9 col-xs-12">
+        <input class="js-flag" type="checkbox" name="votenumpiao" {if $rvote['votenumpiao']} checked="checked" {/if} />
+       
+        <div class="help-block">开启投票用户自定投票数</div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>是否开启付费投票</label>
+    <div class="col-sm-9 col-xs-12">
+        <input class="js-flag" type="checkbox" name="votepay" radiotype = "votepay" {if $rvote['votepay']} checked="checked" {/if} />
+               
+        <div class="help-block">开启付费投票</div>
+    </div>
+</div>
+<div id="votepay" {if !$rvote['votepay']}style="display:none"{/if}>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 付费标题：</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" name="votepaytitle" value="{$rvote['votepaytitle']}" placeholder="如果开启付费投票，这里必须设置"/>
+            <div class="help-block">投票付费的标题</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 付费说明：</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" name="votepaydes" value="{$rvote['votepaydes']}" placeholder="如果开启付费投票，这里必须设置"/>
+            <div class="help-block">投票付费的描述，详细说明为什么要付费投票</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 付费金额：</label>
+        <div class="col-sm-9">
+           <div class="input-group">
+                <span class="input-group-addon">每次投票需支付</span>
+                <input type="text" name="votepayfee" id="votepayfee" class="form-control" value="{$rvote['votepayfee']}" />
+                <span class="input-group-addon">元</span>
+            </div>
+            <div class="help-block">投票付费的金额，每次投票需要支付的金额</div>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>是否开启付费报名</label>
+    <div class="col-sm-9 col-xs-12">
+        <input class="js-flag" type="checkbox" name="regpay" radiotype = "regpay" {if $rvote['regpay']} checked="checked" {/if} />
+            
+        <div class="help-block">开启报名付费功能</div>
+    </div>
+</div>
+<div id="regpay" {if !$rvote['regpay']}style="display:none"{/if}>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 付费标题：</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" name="regpaytitle" value="{$rvote['regpaytitle']}" placeholder="如果开启付费报名，这里必须设置"/>
+            <div class="help-block">报名付费的标题</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 付费说明：</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" name="regpaydes" value="{$rvote['regpaydes']}" placeholder="如果开启付费报名，这里必须设置"/>
+            <div class="help-block">报名付费的描述，详细说明为什么要付费报名</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 付费金额：</label>
+        <div class="col-sm-9">
+           <div class="input-group">
+                <span class="input-group-addon">报名需支付</span>
+                <input type="text" name="regpayfee" id="regpayfee" class="form-control" value="{$rvote['regpayfee']}" />
+                <span class="input-group-addon">元</span>
+            </div>
+            <div class="help-block">报名付费的金额，报名需要支付的金额</div>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>前端是否开启报名</label>
+    <div class="col-sm-9 col-xs-12">
+        <input class="js-flag" type="checkbox" name="addpvapp" {if $rvote['addpvapp']} checked="checked" {/if} />
+        
+        <div class="help-block">前端是否允许用户报名</div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>报名数据是否同步至系统粉丝数据表</label>
+    <div class="col-sm-9 col-xs-12">
+        <input class="js-flag" type="checkbox" name="isfans" {if $rvote['isfans']} checked="checked" {/if} />
+       	
+		<div class="help-block">报名数据是否同步至系统粉丝数据表</div>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>投票展示模式</label>
+    <div class="col-sm-9 col-xs-12">
+
+    	<span style="margin-right: 50px;"><input class="js-flag" type="checkbox" name="mediatype"  radiotype = "mediatype" {if $rvote['mediatype'] == 1}checked="checked"{/if}> 图片模式</span>
+
+    	<span style="margin-right: 50px;"><input class="js-flag" type="checkbox" name="mediatypem" radiotype = "mediatypem" {if $rvote['mediatypem'] == 1}checked="checked"{/if}> 好声音模式</span>
+
+    	<input class="js-flag" type="checkbox" name="mediatypev" radiotype = "mediatypev" {if $rvote['mediatypev'] == 1}checked="checked"{/if}> 视频模式
+
+    	<div class="help-block">投票展示的模式，可以单独图片展示，可以多媒体才艺展示，可多选</div>
+    </div>
+</div>
+<div  id="mediatype" {if !$rvote['mediatype']}style="display:none"{/if}>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>是否开启必须上传图片</label>
+        <div class="col-sm-9 col-xs-12">
+            <input class="js-flag" type="checkbox" name="ismediatype" {if $rvote['ismediatype']} checked="checked" {/if} />
+            
+            <div class="help-block">选中图片模式后，是否开启必须上传图片</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>个人图片展示模式</label>
+        <div class="col-sm-9 col-xs-12">
+            <label class="radio-inline">
+                <input type="radio" name="moshi" value="1" {if $rvote['moshi'] == 1} checked="checked"{/if}/>相册模式
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="moshi" value="2" {if $rvote['moshi'] == 2} checked="checked"{/if}/>详情模式
+            </label>
+        </div>
+    </div>
+</div>
+
+<div class="form-group" id="mediatypem" {if !$rvote['mediatypem']}style="display:none"{/if}>
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>是否开启必须上传声音</label>
+    <div class="col-sm-9 col-xs-12">
+        <input class="js-flag" type="checkbox" name="ismediatypem" {if $rvote['ismediatypem']} checked="checked" {/if} />
+        
+        <div class="help-block">选中好声音模式后，是否开启必须上传声音</div>
+    </div>
+</div>
+<div class="form-group" id="mediatypev" {if !$rvote['mediatypev']}style="display:none"{/if}>
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>是否开启必须上传视频</label>
+    <div class="col-sm-9 col-xs-12">
+        <input class="js-flag" type="checkbox" name="ismediatypev" {if $rvote['ismediatypev']} checked="checked" {/if} />
+        
+        <div class="help-block">选中视频模式后，是否开启必须上传视频</div>
+    </div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-2 col-md-2  control-label">多媒体上传说明</label>
+	<div class="col-sm-8">
+		<textarea name="webinfo" style="height:200px; " class="form-control richtexti" cols="70" rows="100">{$rvote['webinfo']}</textarea>				
+		<div class="help-block">对上传图片、声音、视频、网络视频的详细说明{if $_W['role']=='founder'}（<a href="http://bbs.012wz.com/forum.php?mod=viewthread&tid=6&extra=page%3D1" target="_blank">查看默认说明</a>）{/if}</div>
+	</div>
+</div>
+
+<div class="form-group">
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>是否可重复投票</label>
+    <div class="col-sm-9 col-xs-12">
+        <input class="js-flag" type="checkbox" name="cqtp" {if $rvote['cqtp']} checked="checked" {/if} />
+       
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>报名是否需审核</label>
+    <div class="col-sm-9 col-xs-12">
+        <input class="js-flag" type="checkbox" name="tpsh" {if $rvote['tpsh']} checked="checked" {/if} />
+       	
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>是否开启评论</label>
+    <div class="col-sm-9 col-xs-12">
+        <input class="js-flag" type="checkbox" name="isbbsreply" {if $rvote['isbbsreply']} checked="checked" {/if} />
+       
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>是否开启弹幕预设</label>
+    <div class="col-sm-9 col-xs-12">
+        <input class="js-flag" type="checkbox" name="tmyushe" {if $rvote['tmyushe']} checked="checked" {/if} />
+       
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>弹幕评论是否同步到数据库</label>
+    <div class="col-sm-9 col-xs-12">
+        <input class="js-flag" type="checkbox" name="tmreply" {if $rvote['tmreply']} checked="checked" {/if} />
+       
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>是否开启IP作弊限制</label>
+    <div class="col-sm-9 col-xs-12">
+        <input class="js-flag" type="checkbox" name="isipv" radiotype = "isipv" {if $rvote['isipv']} checked="checked" {/if} />
+       		
+		<div class="help-block">是否开启IP作弊限制,注意：开启IP防作弊，会大大减慢服务器的速度，请谨慎开启。</div>
+    </div>
+</div>
+<div id="isipv" {if !$rvote['isipv']}style="display:none"{/if}>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>存在作弊ip后是否开启继续允许访问</label>
+        <div class="col-sm-9 col-xs-12">
+            <input class="js-flag" type="checkbox" name="ipturl" {if $rvote['ipturl']== 0} checked="checked" {/if} />
+           
+            <div class="help-block">存在作弊ip后是否开启继续允许访问等</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>存在作弊ip是否开启继续允许投票、评论</label>
+        <div class="col-sm-9 col-xs-12">
+            <input class="js-flag" type="checkbox" name="ipstopvote" {if $rvote['ipstopvote'] == 0} checked="checked" {/if} />
+            <div class="help-block">存在作弊ip后是否开启允许投票、评论等</div>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label">地区限制</label>
+    <div class="col-xs-12 col-sm-9">
+        <input type="text" name="iplocallimit" value="{$rvote['iplocallimit']}" class="form-control">
+        <span class="help-block">输入重庆就全重庆的都可以用, 输入北京就只有北京的可以用，用英文逗号隔开地区就可以支持多地区，支持到区县，比如直接输入海淀区(不要加北京)就可以了，如果不符合地区，会自动跳转到限制页面。</span>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label">地区限制提示</label>
+    <div class="col-xs-12 col-sm-9">
+        <input type="text" name="iplocaldes" value="{$rvote['iplocaldes']}" class="form-control">
+        <span class="help-block">不在活动范围内的用户提示，可以使用的命令有：<br /> #限制地区#  允许的活动范围地区<br />#用户地区#  用户的实际地区</span>
+    </div>
+</div>
+ <div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">报名照片数限制</label>
+    <div class="col-sm-9 col-xs-6">
+		<div class="input-group">
+			<span class="input-group-addon">每个参赛者报名时最多上传</span>
+			<input type="text" class="form-control" name="tpxz" value="{$rvote['tpxz']}" />
+			<span class="input-group-addon">张照片(最多为8)</span>
+		</div>
+    </div>
+</div>
+ <div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">报名照片自动缩略宽度</label>
+    <div class="col-sm-9 col-xs-6">
+		<div class="input-group">
+			<span class="input-group-addon">每个参赛者报名上传图片自动缩略宽度</span>
+			<input type="text" class="form-control" name="autolitpic" value="{$rvote['autolitpic']}" />
+			<span class="input-group-addon">PX(像素)</span>
+		</div>
+		<div class="help-block">不了解 默认即可,数值越大，图像越清晰，占用空间越大！</div>
+    </div>
+</div>
+
+ <div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">报名照片自动缩略质量</label>
+    <div class="col-sm-9 col-xs-6">
+		<div class="input-group">
+			<span class="input-group-addon">每个参赛者报名上传图片自动缩略质量</span>
+			<input type="text" class="form-control" name="autozl" value="{$rvote['autozl']}" />
+			<span class="input-group-addon">%</span>
+		</div>
+		<div class="help-block">请填写 1 - 100的整数，数值越大，图像越清晰，占用空间越大！</div>
+    </div>
+</div>
+
+
+
+ <div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">每日投票统一ip次数限制</label>
+    <div class="col-sm-9 col-xs-6">
+		<div class="input-group">
+			<span class="input-group-addon">每天每个IP投票</span>
+			<input type="text" class="form-control" name="limitip" value="{$rvote['limitip']}" />
+			<span class="input-group-addon">次自动开启作弊模式，将其加入屏蔽名单，第二天可解除</span>
+		</div>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label">投票限速</label>
+    <div class="col-xs-12 col-sm-9">
+        <div class="input-group">
+            <span class="input-group-addon">全体用户每</span>
+            <input type="text" name="limitsd" id="limitsd" class="form-control" value="{$rvote['limitsd']}" />
+            <span class="input-group-addon">分钟可获得</span>
+            <input type="text" name="limitsdps" id="limitsdps" class="form-control" value="{$rvote['limitsdps']}" />
+            <span class="input-group-addon">票</span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label">参赛者最高得票数</label>
+    <div class="col-xs-12 col-sm-9">
+        <div class="input-group">
+            <span class="input-group-addon">在限定时间内每个参赛者最多得</span>
+            <input type="text" name="usersmostvote" id="usersmostvote" class="form-control" value="{$rvote['usersmostvote']}" />
+            <span class="input-group-addon">票</span>
+        </div>
+        <div class="help-block">在该活动中，限定时间内所能获取的最多票数，与下面 限定时间 同时使用</div>
+
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label">最高票数限定时间</label>
+    <div class="col-sm-9 col-xs-12">
+       	{php echo tpl_form_field_daterange('vdatelimit', array('start'=>date('Y-m-d H:i',$rvote['votestarttime']),'end'=>date('Y-m-d H:i',$rvote['voteendtime'])), true)}
+		<div class="help-block">在该活动中，限定时间内所能获取的最多票数，与参赛者最高的票数同时使用</div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label">公众号投票模式</label>
+    <div class="col-sm-9 col-xs-6">
+        <div class="btn-group">
+            <div class="gzhms">{if $rvote['unimoshi'] == 1}<input type="hidden" name="unimoshi" value="1" readonly>{else}<input type="hidden" name="unimoshi" value="0" readonly>{/if}</div>
+            <a href="javascript:;" onclick="oneuni()" title="单公众号" id="oneuniacid" class="btn {if $rvote['unimoshi'] != 1}btn-success{else}btn-default{/if}">单公众号</a>
+            <a href="javascript:;" onclick="moreuni()" title="多公众号" id="moreuniacid" class="btn {if $rvote['unimoshi'] == 1}btn-success{else}btn-default{/if}">多公众号</a>
+        </div>
+    </div>
+</div>
+<div id="oneuni" {if $rvote['unimoshi'] == 1}style="display: none"{/if}>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">最多投票数(A)</label>
+        <div class="col-sm-9 col-xs-6">
+            <div class="input-group">
+                <span class="input-group-addon">每个用户对所有选手最多投</span>
+                <input type="text" class="form-control" name="u_fansmostvote" value="{$rvote['fansmostvote']}" />
+                <span class="input-group-addon">次票</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">每日投票数(B)</label>
+        <div class="col-sm-9 col-xs-6">
+            <div class="input-group">
+                <span class="input-group-addon">每天每个用户对所有选手最多投</span>
+                <input type="text" class="form-control" name="u_daytpxz" value="{$rvote['daytpxz']}" />
+                <span class="input-group-addon">次票</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">同一选手最高投票数(C)</label>
+        <div class="col-sm-9 col-xs-6">
+            <div class="input-group">
+                <span class="input-group-addon">每个用户可给同一选手总共投</span>
+                <input type="text" class="form-control" name="u_allonetp" value="{$rvote['allonetp']}" />
+                <span class="input-group-addon">次票</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">同一选手每天投票数(D)</label>
+        <div class="col-sm-9 col-xs-6">
+            <div class="input-group">
+                <span class="input-group-addon">每天每个用户可给同一选手投</span>
+                <input type="text" class="form-control" name="u_dayonetp" value="{$rvote['dayonetp']}" />
+                <span class="input-group-addon">次票</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="moreuni" {if $rvote['unimoshi'] != 1}style="display: none"{/if}>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-2 col-md-2  control-label text-danger">主公众号</label>
+		<div class="col-sm-9 col-xs-6">
+            <div class="input-group text-danger">
+               <span class="label label-danger">当前公众号 {$_W['account']['name']}</span>
+            </div>
+        </div>
+    </div>
+	
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-2 col-md-2  control-label text-danger">子公众号选择</label>
+		<div class="col-sm-9 col-xs-6">
+            <div class="input-group text-info">
+                {loop $uniacids $uni}
+					{php $uniarrs = $this->uniarr($uniarr, $uni['uniacid'])}
+						<label for="uni_{$uni['uniacid']}" class="checkbox-inline"><input id="uni_{$uni['uniacid']}" type="checkbox" name="binduniacid[]" value="{$uni['uniacid']}"{if ($uniarrs)}checked="checked"{/if}> {$uni['name']}</label>
+				{/loop}
+            </div>
+			<div class="help-block">开启方法：重要：借用授权模式请选择：高级借用授权方式【<a href="http://bbs.012wz.com/forum.php?mod=viewthread&tid=42&extra=page%3D1" target="_blank">设置方法</a>】。  点击选择要开启的多公众号</div>
+        </div>
+    </div>
+	
+	
+
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">所有公众号最多投票数(A)</label>
+        <div class="col-sm-9 col-xs-6">
+            <div class="input-group">
+                <span class="input-group-addon">每个用户对所有选手最多投</span>
+                <input type="text" class="form-control" name="fansmostvote" value="{$rvote['fansmostvote']}" />
+                <span class="input-group-addon">次票</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">所有公众号每日投票数(B)</label>
+        <div class="col-sm-9 col-xs-6">
+            <div class="input-group">
+                <span class="input-group-addon">每天每个用户对所有选手最多投</span>
+                <input type="text" class="form-control" name="daytpxz" value="{$rvote['daytpxz']}" />
+                <span class="input-group-addon">次票</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">所有公众号同一选手最高投票数(C)</label>
+        <div class="col-sm-9 col-xs-6">
+            <div class="input-group">
+                <span class="input-group-addon">每个用户可给同一选手总共投</span>
+                <input type="text" class="form-control" name="allonetp" value="{$rvote['allonetp']}" />
+                <span class="input-group-addon">次票</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">所有公众号同一选手每天投票数(D)</label>
+        <div class="col-sm-9 col-xs-6">
+            <div class="input-group">
+                <span class="input-group-addon">每天每个用户可给同一选手投</span>
+                <input type="text" class="form-control" name="dayonetp" value="{$rvote['dayonetp']}" />
+                <span class="input-group-addon">次票</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">单公众号最多投票数(a)</label>
+        <div class="col-sm-9 col-xs-6">
+            <div class="input-group">
+                <span class="input-group-addon">每个用户对所有选手最多投</span>
+                <input type="text" class="form-control" name="uni_fansmostvote" value="{$rvote['uni_fansmostvote']}" />
+                <span class="input-group-addon">次票</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">单公众号每日投票数(b)</label>
+        <div class="col-sm-9 col-xs-6">
+            <div class="input-group">
+                <span class="input-group-addon">每天每个用户对所有选手最多投</span>
+                <input type="text" class="form-control" name="uni_daytpxz" value="{$rvote['uni_daytpxz']}" />
+                <span class="input-group-addon">次票</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">单公众号同一选手最高投票数(c)</label>
+        <div class="col-sm-9 col-xs-6">
+            <div class="input-group">
+                <span class="input-group-addon">每个用户可给同一选手总共投</span>
+                <input type="text" class="form-control" name="uni_allonetp" value="{$rvote['uni_allonetp']}" />
+                <span class="input-group-addon">次票</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label">单公众号同一选手每天最高投票数(d)</label>
+        <div class="col-sm-9 col-xs-6">
+            <div class="input-group">
+                <span class="input-group-addon">每天每个用户可给同一选手投</span>
+                <input type="text" class="form-control" name="uni_dayonetp" value="{$rvote['uni_dayonetp']}" />
+                <span class="input-group-addon">次票</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>单公众号是否允许查看所有用户</label>
+        <div class="col-sm-9 col-xs-12">
+            <label class="radio-inline">
+                <input type="radio" name="uni_all_users" value="1" {if $rvote['uni_all_users'] == 1} checked="checked"{/if}/>允许
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="uni_all_users" value="0" {if $rvote['uni_all_users'] == 0} checked="checked"{/if}/>不允许
+            </label>                
+            <div class="help-block">单公众号是否允许查看所有用户,点击允许则与主公众号显示的相同</div>
+        </div>
+    </div>
+
+</div>
+
+<div class="form-group">
+	<label class="col-xs-12 col-sm-2 col-md-2  control-label">报名提示语</label>
+	<div class="col-sm-9">
+		<input type="text" class="form-control" name="userinfo" value="{$rvote['userinfo']}" />
+	<div class="help-block">用户参赛报名时的提示语</div>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-xs-12 col-sm-2 col-md-2  control-label">投票成功提示语</label>
+	<div class="col-sm-9">
+		<input type="text" class="form-control" name="votesuccess" value="{$rvote['votesuccess']}" />
+	<div class="help-block">此设置用于投票成功提示语<br />参赛者编号、姓名 可用变量：<br/>#编号# （参赛者编号）<br/>#参赛人名#（参与人昵称或者真实姓名）<br/>#投票票数#（投票的票数）</div>
+	</div>
+</div>
+<script type="text/javascript">
+    function oneuni() {
+        $('#oneuni').show();
+        $('#moreuni').hide();
+        $("#oneuniacid").addClass("btn-success");
+        $("#moreuniacid").addClass("btn-default");
+        $("#moreuniacid").removeClass("btn-success");
+        $('.gzhms').html('<input type="hidden" name="unimoshi" value="0" readonly>');
+    }
+    function moreuni() {
+        $('#moreuni').show();
+        $('#oneuni').hide();
+        $("#moreuniacid").addClass("btn-success");
+        $("#oneuniacid").addClass("btn-default");
+        $("#oneuniacid").removeClass("btn-success");
+        $('.gzhms').html('<input type="hidden" name="unimoshi" value="1" readonly>');
+    }
+</script>

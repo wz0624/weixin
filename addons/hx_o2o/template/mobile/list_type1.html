@@ -1,0 +1,61 @@
+{template 'header'}
+<style>.item{width:100%;height:auto;text-align:center;position:relative}.item img{display:block;margin:0 auto}.item .intro{width:100%;height:auto;padding:12px .75rem;text-align:left}.item span{display:inline-block;padding:10px;background:url({IMG_PATH}price_bg.png);color:#fff;position:absolute;left:0;bottom:28%}.item .intro h6{color:#632714;font-size:1.1rem;margin:0;margin-bottom:2px}.item .intro p{color:#b9a093;padding:0;margin:0}</style>
+    <header>
+        <a href="{php echo $this->createMobileUrl('main')}" class="waves-effect waves-teal btn-flat go_back"> <i class="fa fa-angle-left"></i>
+        </a>
+        <span>{$category['name']}</span>
+    </header>
+
+    <section class="product_list" id="product_list">
+        {loop $list $row}
+        <a href="{php echo $this->createMobileUrl('detail',array('id'=>$row['id']))}">
+            <div class="item">
+                <img src="{php echo tomedia($row['list_thumb'])}" class="responsive-img">
+                <span>￥{$row['price']}</span>
+                <div class="intro">
+                    <h6>{$row['name']}</h6>
+                    <p>{$row['description']}</p>
+                </div>
+            </div>
+        </a>
+        {/loop}
+    </section>
+    <div class="split_line"></div>
+    <div id="redgiftNextPage" currentpage="1"></div>
+<script type="text/javascript">
+$(window).scroll(function () {
+    var scrollTop = $(this).scrollTop();
+    var scrollHeight = $(document).height();
+    var windowHeight = $(this).height();
+    if (scrollTop + windowHeight == scrollHeight) {
+        var page = Number($("#redgiftNextPage").attr('currentpage')) + 1;
+        redgiftList(page);
+        $("#redgiftNextPage").attr('currentpage', page);
+    }
+});
+function redgiftList(page){
+    ajax('{php echo $this->createMobileUrl('list',array('catid'=>$catid))}', {"page": page}, function(result)
+        {
+            if (result.status == 1)
+            {
+                var data = result.data,
+                str  = '';
+                $.each(data, function(k)
+                {
+                    str += '<a href="' + (data[k].url) + '">';
+                    str += '<div class="item">';
+                    str += '<img src="' + (data[k].list_thumb) + '" class="responsive-img">';
+                    str += '<span>' + (data[k].price) + '</span>'
+                    str += '<div class="intro"><h6>' + (data[k].name) + '</h6><p>' + (data[k].description) + '</p></div>';
+                    str += '</div></a>';
+                })
+                $('#product_list').append(str);
+            }
+            else
+            {
+                tips(result.message);
+            }
+        }, 'GET');
+}
+</script>
+{template 'footer'}

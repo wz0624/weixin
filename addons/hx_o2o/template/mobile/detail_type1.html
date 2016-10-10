@@ -1,0 +1,134 @@
+{template 'header'}
+<link href="{CSS_PATH}swiper.min.css" rel="stylesheet">
+<style>.back{position:fixed;top:5px;left:5px;z-index:2000;opacity:.9}.top{width:100%;height:auto;text-align:center;position:relative}.top .price{width:100%;height:80px;padding-top:40px;text-align:left;background:url({IMG_PATH}detail_price_bg.png) no-repeat;background-size:cover;position:absolute;left:0;bottom:0}.top .price .selling_price{color:#f45e4e;font-size:20px;margin-left:.75rem}.top .price .product_price{margin-left:10px;color:#b9a093}.top .price .product_price del{color:#999;margin-left:5px}.details_name .product_name{font-weight:700;color:#632714}.details_name .service_hours{height:24px;line-height:24px;color:#b9a093;text-align:right}.details_name .service_hours i{color:#ff8376}.product_steps .title{margin-bottom:5px;padding:4px 0;border-bottom:1px solid #dbc5ba}.product_steps .title .s7{color:#632714}.product_steps .title .s5{color:#b9a093;font-size:13px;text-align:right}.swiper-container{width:100%;height:auto;margin:.75rem auto}.swiper-slide{text-align:center;background:#fff;display:-webkit-box;display:-ms-flexbox;display:-webkit-flex;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;-webkit-align-items:center;align-items:center}.swiper-slide span{font-size:13px;color:#aa8c7c}.detail_intro{padding-top:.75rem}.detail_intro h6{font-weight:700;color:#632714}.detail_intro p{color:#b9a093}.buy{width:100%;margin-bottom:0;position:fixed;bottom:0;left:0;z-index:10}.buy .col{padding:0}.buy .col .btn{width:100%;border-radius:0;height:48px;line-height:48px}.buy .col .cart{padding:0;position:relative}.buy .col .cart i{color:#888;font-size:2em;color:#51ccc9}.buy .col .cart span{display:block;width:20px;height:20px;line-height:20px;font-size:12px;text-align:center;color:#fff;background:red;border-radius:10px;position:absolute;top:2px;left:50%;margin-left:-5px;z-index:11;opacity:.7;font-weight:500}</style>
+<script src="{JS_PATH}swiper.min.js"></script>
+
+    <a href="{php echo $this->createMobileUrl('list',array('catid'=>$item['catid']))}" class="btn-floating waves-effect waves-light teal back"> <i class="fa fa-angle-left"></i>
+    </a>
+    <div class="top">
+        <img class="responsive-img" src="{php echo tomedia($item['thumb'])}">
+        <div class="price">
+            <span class="selling_price">￥{$item['price']}</span>
+            <span class="product_price">
+                市场价 <del>￥{$item['marketprice']}</del>
+            </span>
+        </div>
+    </div>
+
+    <section class="details_name">
+        <div class="row">
+            <div class="col s6 product_name">{$item['name']}</div>
+            <div class="col s6 service_hours"> <i class="fa fa-clock-o fa-lg"></i>
+                总时长：{$item['timeneed']}分钟
+            </div>
+        </div>
+    </section>
+    <div class="split_line"></div>
+    {php $pics = iunserializer($item['pics'])}
+    <section class="product_steps">
+        <div class="row title">
+            <div class="col s7">项目流程</div>
+            <div class="col s5">{php echo count($pics)}个步骤</div>
+        </div>
+        <div class="swiper-container" id="product-steps">
+            <div class="swiper-wrapper">
+                {loop $pics $pic}
+                <div class="swiper-slide">
+                    <div class="item">
+                        <img src="{php echo tomedia($pic['thumb'])}" class="responsive-img">
+                        <span>{$pic['name']}</span>
+                    </div>
+                </div>
+                {/loop}
+            </div>
+        </div>
+    </section>
+    <div class="split_line"></div>
+
+    <section class="detail_intro" id="staggered">
+        <div class="row">
+            <div class="col s12">
+                {$item['content']}
+            </div>
+        </div>
+    </section>
+    <div class="split_line"></div>
+    <div class="mr_bottom"></div>
+
+    <div class="row buy">
+        <div class="col s2">
+            <a href="{php echo $this->createMobileUrl('mycart')}" class="waves-effect waves-teal btn grey lighten-5 cart">
+                <i class="fa fa-shopping-cart"></i>
+                {php $CartTotal = $this->getCartTotal();}
+                <span class="cart_quantity" id="cart-quantity" {if $CartTotal == 0}style="display:none"{/if}>{$CartTotal}</span>
+            </a>
+        </div>
+        <div class="col s5">
+            <a href="javascript:void(0)" class="waves-effect waves-light btn red" id="add-to-cart" style="padding:0;">
+                <i class="fa fa-cart-arrow-down"></i>
+                加入购物车
+            </a>
+        </div>
+        <div class="col s5">
+            <a class="waves-effect waves-light btn teal lighten-2" id="checkout-product" style="padding:0;">
+                <i class="fa fa-chevron-circle-right"></i>
+                立即下单
+            </a>
+        </div>
+
+    </div>
+    <script>
+    new Swiper('#product-steps', {
+        slidesPerView: 3,
+        spaceBetween: 12,
+        freeMode: true
+    });
+
+    $('#add-to-cart').click(function()
+    {
+        ajax('{php echo $this->createMobileUrl('mycart',array('op'=>'add'))}', {"product_id": {$item['id']},}, function(result)
+        {
+            if (result.status == -1)
+            {
+                alert_modal(result.message, function()
+                {
+                    window.location.href = '{php echo $this->createMobileUrl('my')}';
+                });
+            }
+            else if (result.status == 1)
+            {
+                tips(result.message, function()
+                {
+                    $('#cart-quantity').hide('fast', function()
+                    {
+                        $(this).html(result.total).show('slow');
+                    });
+                }, 2000);
+            }
+            else
+            {
+                alert_modal(result.message);
+            }
+        });
+    })
+
+    $('#checkout-product').click(function()
+    {
+        {if empty($_W['openid'])}
+        alert_modal('小主, 要授权登录后才能下单哦!', function()
+        {
+            window.location.href = '{php echo $this->createMobileUrl('my')}';
+        })
+        return;
+        {/if}
+        ajax('{php echo $this->createMobileUrl('mycart',array('op'=>'checkout','from'=>'product'))}', {"products": [{"product_id": {$item['id']}, "quantity": 1}]}, function(result)
+        {
+            if (result.status == 1 && result.orderid > 0)
+                window.location.href = '{php echo $this->createMobileUrl('appointment')}&orderid=' + result.orderid;
+            else
+                alert_modal('检出购物车商品失败');
+        });
+    })
+</script>
+</body>
+</html>

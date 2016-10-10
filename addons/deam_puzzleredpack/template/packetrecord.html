@@ -1,0 +1,93 @@
+{template 'common/header'}
+<div class="main">
+	<div class="panel panel-info">
+    	<div class="panel-heading">筛选</div>
+        <div class="panel-body">
+        	<form action="./index.php" method="get" class="form-horizontal" role="form">
+				<input type="hidden" name="c" value="site" />
+				<input type="hidden" name="a" value="entry" />
+				<input type="hidden" name="m" value="deam_puzzleredpack" />
+				<input type="hidden" name="do" value="packetrecord" />
+                <input type="hidden" name="id" value="{$actid}" />
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">openid</label>
+					<div class="col-xs-12 col-sm-8 col-lg-9">
+						<input class="form-control" name="openid" id="" type="text" value="">
+					</div>
+				</div>
+                <div class="form-group col-sm-12">
+                    <input type="submit" name="submit" value="筛选" class="btn btn-primary col-lg-1">
+                    <input type="hidden" name="token" value="{$_W['token']}">
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="panel panel-default">
+    	<div class="panel-heading">红包发放统计</div>
+        <div class="panel-body">
+        	<p>本次活动时间：<span class="label label-success">{php echo date('Y-m-d H:i:s',$item['starttime'])} 至 {php echo date('Y-m-d H:i:s',$item['endtime'])}</span></p>
+            <p>第一个红包发放时间：<span class="label label-info">{if $firstpacket['mytime']}{php echo date('Y-m-d H:i:s',$firstpacket['mytime'])}{else}暂未发放{/if}</span> 红包状态：{if $firstpacketStatus['status'] =='RECEIVED'} 
+            <span class="label label-success">已领取</span>
+            {elseif $firstpacketStatus['status'] =='FAILED'}
+            <span class="label label-danger">发放失败 ：{$firstpacketStatus['reason']}</span>
+            {elseif $firstpacketStatus['status'] =='SENDING'}
+            <span class="label label-warning">发放中 </span>
+            {elseif $firstpacketStatus['status'] =='SENT'}
+            <span class="label label-warning">已发放待领取 </span>
+            {elseif $firstpacketStatus['status'] =='REFUND'}
+            <span class="label label-warning">已退款</span>
+            {/if}
+            </p>
+            <p>最近一个红包发放时间：<span class="label label-info">{if $lastpacket['mytime']}{php echo date('Y-m-d H:i:s',$lastpacket['mytime'])}{else}暂未发放{/if}</span> 红包状态：{if $lastpacketStatus['status'] =='RECEIVED'} 
+            <span class="label label-success">已领取</span>
+            {elseif $lastpacketStatus['status'] =='FAILED'}
+            <span class="label label-danger">发放失败 ：{$firstpacketStatus['reason']}</span>
+            {elseif $lastpacketStatus['status'] =='SENDING'}
+            <span class="label label-warning">发放中 </span>
+            {elseif $lastpacketStatus['status'] =='SENT'}
+            <span class="label label-warning">已发放待领取 </span>
+            {elseif $lastpacketStatus['status'] =='REFUND'}
+            <span class="label label-warning">已退款</span>
+            {/if}</p>
+            <p>本次活动发放总金额：<span class="label label-danger">{php echo $item['total_prize']}元</span> 红包范围：<span class="label label-success">{php echo $item['minprize']}元 至 {php echo $item['maxprize']}元</span></p>
+            <p>本次活动已发放金额：<span class="label label-danger">{php echo number_format($allSum / 100 , 2);}元</span> 已发放个数：<span class="label label-success">{$allCount}个</span> 平均值：<span class="label label-warning">{php echo number_format($allSum / 100 / $allCount , 2);}元</span></p>
+        </div>
+    </div>
+    
+    <div class="panel panel-default">
+    	<div class="panel-heading">红包发放记录</div>
+        <div class="panel-body">
+        	<div style="padding-top:15px">
+                <table class="table table-hover">
+                    <thead class="navbar-inner">
+                        <tr>
+                            <th style="width:120px;text-align:center;">红包id</th>
+                            <th style="width:300px;text-align:center;">openid</th>
+                            <th style="text-align:center;">交易号</th>
+                            <th style="width:150px;text-align:center;">红包金额(元)</th>
+                            <th style="text-align:center;">发放时间</th>
+                            <th style="text-align:center; width:80px;">删除</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {loop $getPacketRecord $item}
+                            <tr>
+                                <td style="text-align:center;">{$item['id']}</td>
+                                <td style="text-align:center;">{$item['openid']}</td>
+                                <td style="text-align:center;">{$item['mch_billno']}</td>
+                                <td style="text-align:center;">{php echo number_format($item['total_amount'] / 100 , 2); }</td>
+                                <td style="text-align:center;">{php echo date('Y-m-d H:i:s', $item['mytime']); }</td>
+                                <td style="text-align:center;"><a href="{php echo $this->createWebUrl('packetrecorddel', array('packetid' => $item['id'] , 'actid' => $actid ))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;">删除</a></td>
+                            </tr>
+                        {/loop}
+                    </tbody>
+                </table>
+                {$pager}
+            </div>
+        </div>
+    
+    </div>
+    
+</div>
+{template 'common/footer'}

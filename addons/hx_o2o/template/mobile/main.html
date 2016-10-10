@@ -1,0 +1,10 @@
+{template 'header'}
+<style>.site_wrap img{display:block;margin:0 auto}.site_wrap .locate{top:5px;right:5px;padding-top:0}.site_wrap .locate a{color:#FFF;padding-left:15px;padding-right:15px;border-radius:18px}.site_wrap .locate a i{margin-right:5px}</style>
+    <div class="site_wrap">
+        {loop $category $row}
+        <a href="{php echo $this->createMobileUrl('list',array('catid'=>$row['id']))}">
+            <img class="responsive-img" src="{php echo tomedia($row['thumb'])}"></a>
+        {/loop}
+    </div>
+{php $_share['title'] = $title;$_share['imgUrl'] = tomedia($config['sitelogo']);$_share['desc'] = $config['sitedescription'];}
+{template 'footer'}

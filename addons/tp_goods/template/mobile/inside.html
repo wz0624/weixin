@@ -1,0 +1,140 @@
+{template 'common/header'}
+<meta name="viewport" content="width=device-width" />
+
+
+<link rel="stylesheet" href="/addons/tp_goods/image/style.css" type="text/css" />
+
+
+<script type="text/javascript" src="/addons/tp_goods/js/jquery.js"></script>
+<script type="text/javascript" src="/addons/tp_goods/js/jquery.flexslider-min.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<div class="container">
+	<p>   </p>
+	<div class="panel panel-default">
+   <div class="panel-body">
+      {$data['title']}
+   </div>
+</div>
+<div class="block_home_slider">
+                          <div id="home_slider" class="flexslider">
+                    
+                              <ul class="slides">
+                                  <li>
+                                      <div class="slide">
+                                            <img src="{php echo tomedia($data['remark']);}" alt="" />
+                                            <div class="caption">
+                                              
+                                            </div>
+                                        </div>
+                                    </li>
+  
+                                    <li>
+                                      <div class="slide">
+                                            <img src="{php echo tomedia($data['remark1']);}" alt="" />
+                                            <div class="caption">
+                                                
+                                            </div>
+                                        </div>
+                                    </li>
+                                    
+                                    <li>
+                                      <div class="slide">
+                                            <img src="{php echo tomedia($data['remark2']);}" alt="" />
+                                            <div class="caption">
+                                             
+                                            </div>
+                                        </div>
+                                    </li>
+                                    
+                                    <li>
+                                      <div class="slide">
+                                            <img src="{php echo tomedia($data['remark3']);}" alt="" />
+                                            <div class="caption">
+                                               
+                                            </div>
+                                        </div>
+                                    </li>
+                                    
+                                    
+                                </ul>
+                            </div>
+                            
+                            <script type="text/javascript">
+                $(function () {
+                  $('#home_slider').flexslider({
+                    animation : 'slide',
+                    controlNav : true,
+                    directionNav : true,
+                    animationLoop : true,
+                    slideshow : false,
+                    useCSS : false
+                  });
+                  
+                });
+              </script>
+                        </div>
+<br/>
+</div>
+<div class="container">
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">产品详情</h3>
+  </div>
+  <div class="panel-body">
+    
+  {php echo html_entity_decode($data['text']);}
+</div>
+  </div>
+</div>
+ <button type="button" class="btn btn-primary" style="width:100%;">
+  <a href="{$data['address']}" style="color:#FFFFFF">点击查看商品</a>
+</button>
+<br/>
+<br/>
+<link href="/addons/tp_goods/css/global_nav.css" type="text/css" rel="stylesheet">
+<div class="global-nav global-nav--current">
+    <div class="global-nav__nav-wrap" style="background:#9c231b;">
+        <div style="width:50px; height:45px; padding:9px 0 0 5px;"></div>
+        <div style="width:62%; float:; height:45px;color:#FFF; padding:10px 0;">
+        <p style=" color:#0F0;"></p><p>点击马上关注，开始赚钱之旅</p>
+        </div>
+        <div style="width:70px; float:; height:45px;text-align:right; padding-right:5px; padding-top:2px;">
+          <a href="{$data['lian']}" class="global-nav__nav-link" style=" margin-top:10px; ">
+               <span class="global-nav__nav-tit" style="border:1px solid #0F0; color:#FFF;">马上关注
+       </a>
+           </div>
+    </div>
+    <div class="global-nav__operate-wrap">
+        <span class="global-nav__yhd-logo"></span>
+    </div>
+</div>
+</div>
+<script type="text/javascript" src="/addons/tp_goods/css/zepto.min.js"></script>
+<script type="text/javascript">
+Zepto(function($){
+   var $nav = $('.global-nav'), $btnLogo = $('.global-nav__operate-wrap');
+   //点击箭头，显示隐藏导航
+   $btnLogo.on('click',function(){
+     if($btnLogo.parent().hasClass('global-nav--current')){
+       navHide();
+     }else{
+       navShow();
+     }
+   });
+   var navShow = function(){
+     $nav.addClass('global-nav--current');
+   }
+   var navHide = function(){
+     $nav.removeClass('global-nav--current');
+   }
+   
+})
+function get_search_box(){
+   try{
+      document.getElementById('get_search_box').click();
+   }catch(err){
+      document.getElementById('keywordfoot').focus();
+   }
+}
+</script>
+{template 'common/footer'}

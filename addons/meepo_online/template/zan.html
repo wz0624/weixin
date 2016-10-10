@@ -1,0 +1,116 @@
+{template 'common/header'}
+{template 'nav'}
+{template 'list_nav'}
+<style>
+.editable-click, a.editable-click {
+    color: #000 !important;
+    border-bottom:none !important;
+    text-decoration: none;
+}
+.editable-input.editable-has-buttons {
+    width: auto;
+    max-width: 100px;
+}
+.st-sort-ascent:before {
+    content: '\25B2';
+}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body">
+		<form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+			<input type="hidden" name="c" value="site" />
+			<input type="hidden" name="a" value="entry" />
+			<input type="hidden" name="m" value="meepo_online" />
+			<input type="hidden" name="do" value="zan" />
+            
+            <input type="hidden" name="listid" value="{$listid}" />
+           
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">粉丝昵称</label>
+				<div class="col-xs-12 col-sm-8 col-lg-8">
+					<input class="form-control" name="nickname" id="" type="text" value="{$_GPC['nickname']}" placeholder="请输入粉丝昵称">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input class="btn btn-primary" id="" type="submit" value="搜索">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<!-- 项目管理 -->
+<div class="panel panel-default">
+	<div class="panel-heading">
+		赞管理
+	</div>
+	<div class="panel-body">
+		<table  class="table table-striped">
+			<thead>
+				<tr>
+					<th style="width:100px;">赞序号</th>
+					<th style="width:200px;">赞粉丝</th>
+					<th style="width:150px;">赞时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{loop $lists $key $row}
+				<tr id="box_{$row['id']}">
+					<td>
+					{php echo ($total-$key-(($pindex - 1) * $psize))}
+					</td>
+					<td>
+						<div>
+							<img src="{$row['avatar']}" width=40px height=40px />
+							<div>{$row['nickname']}</div>
+						</div>
+					</td>
+					<td>{php echo date('Y-m-d H:i:s',$row['createtime'])}</td>
+					
+					<td style="overflow:visible">
+						<button class="btn btn-danger" title="删除" onclick="del('{$listid}','{$row['id']}')">
+							删除
+						</button>
+						
+					</td>
+				</tr>
+			{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+	
+</div>
+<script language="JavaScript">
+{if $status=='10'}
+function myrefresh() 
+{ 
+       window.location.reload(); 
+} 
+setTimeout('myrefresh()',4000); //指定1秒刷新一次 
+{/if}
+
+function del(a,b){
+	if(a!='' && b!=''){
+		$.ajax({
+		  type:'post',
+		  url:"{php echo $this->createWebUrl('zan',array('op'=>'ajax'))}",
+		  data:{'ajax_type':'del','listid':a,'id':b},
+		  async:false,
+		  cache:false,
+		  dataType:"json",
+		  success:function(json){
+				if(json.errno==0){
+					if($('#box_'+b).length > 0){
+						 $('#box_'+b).remove();
+					}
+				}
+		  }
+		  });
+	}
+}
+</script>
+{template 'common/footer'}

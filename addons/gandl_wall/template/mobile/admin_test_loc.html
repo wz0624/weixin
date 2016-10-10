@@ -1,0 +1,162 @@
+{php $title=$wall['topic']}
+
+{template 'inc/header'}
+	<script type="text/javascript">
+
+	</script>
+		
+	<style>
+		
+	</style>
+
+	<!-- 公共变量 -->
+	<input type="hidden" id="is_user_infoed" value="{$is_user_infoed}"/>
+
+		
+	<!-- 首页 -->
+    <div class="app-page" data-page="index_page">
+
+
+		<div class="app-topbar" style="display:none;height:0px;"></div>
+		<div class="app-content" style="background:#F8F8F8;padding-bottom:50px;">
+			<div class="app-body">
+				<div id="app_notice">
+					<div id="notice_location" class="weui_cells" style="display:none;">
+						<a class="weui_cell">
+							<div class="weui_cell_hd"><img src="{MODULE_URL}/static/mobile/images/icon_hint.png" style="width:20px;margin-right:5px;display:block"></div>
+							<div class="weui_cell_bd weui_cell_primary">
+								<p>只有{$wall['city']}范围内才能抢哦~</p>
+							</div>
+							<div class="weui_cell_ft">重新定位</div>
+						</a>
+					</div>
+				</div>
+				<div id="mine_position">
+				
+				</div>
+
+			</div>
+		</div>
+
+		<!-- loading toast -->
+		<div id="toast_loading" class="weui_loading_toast" style="display:none;z-index:99999;position:fixed;">
+			<div class="weui_mask_transparent"></div>
+			<div class="weui_toast">
+				<div class="weui_loading">
+					<div class="weui_loading_leaf weui_loading_leaf_0"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_1"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_2"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_3"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_4"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_5"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_6"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_7"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_8"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_9"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_10"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_11"></div>
+				</div>
+				<p class="weui_toast_content">定位中...</p>
+			</div>
+		</div>
+
+
+
+    </div> <!-- END 首页 -->
+
+
+
+{template 'inc/script'}
+<script type="text/javascript">
+	$(function(){
+
+		App.controller('index_page', function (page) {
+
+			// 定位相关
+			var notice_location=$(page).find('#notice_location');
+			var mineLocation=function(){
+				notice_location.find('.weui_cell_ft').html('定位中...');
+				// 定位
+				wx.getLocation({
+					success: function (res) {
+						// 根据坐标获取所在城市并跳转
+						$.post("{php echo $_W['siteroot'] . 'app/' . substr($this->createMobileUrl('admin',array('cmd'=>'test_loc','submit'=>loc,'pid'=>pencode($wall['id']))), 2)}",{
+							latitude:res.latitude,
+							longitude:res.longitude
+						},function( data ) {
+							notice_location.find('.weui_cell_ft').html('重新定位');
+							if(data.status==0){
+								swal({   
+									title:'定位失败',
+									text: data.info,
+									type: "warning",
+									showCancelButton: true,
+									confirmButtonText: "重新定位",
+									cancelButtonText: "关闭"
+								}, function(isConfirm){
+									if(isConfirm){
+										mineLocation();
+									}else{
+										notice_location.show();
+									}
+								});
+							}else{
+								notice_location.show();
+								$(page).find('#mine_position').html(data.data);
+							}
+						});
+					},
+					fail: function(){
+						notice_location.find('.weui_cell_ft').html('重新定位');
+						swal({   
+							title:'定位失败',
+							text: '请开启手机定位功能后重试',
+							type: "warning",
+							showCancelButton: true,
+							confirmButtonText: "重新定位",
+							cancelButtonText: "关闭"
+						}, function(isConfirm){
+							if(isConfirm){
+								mineLocation();
+							}else{
+								notice_location.show();
+							}
+						});
+					},
+					cancel: function(){
+						notice_location.find('.weui_cell_ft').html('重新定位');
+						swal({   
+							title:'确定放弃定位？',
+							text: '只有{$wall["city"]}范围的人才能抢钱哦~',
+							type: "warning",
+							showCancelButton: true,
+							confirmButtonText: "重新定位",
+							cancelButtonText: "关闭"
+						}, function(isConfirm){
+							if(isConfirm){
+								mineLocation();
+							}else{
+								notice_location.show();
+							}
+						});
+					}
+				});
+			};
+			$(page).find('#notice_location a').click(function(){
+				mineLocation();
+			});
+
+
+			// 调用微信相关接口
+			wx.ready(function(){
+				// 如果当前活动限制区域且我上次定位的区域不等于活动区域时，需触发自动定位
+
+					mineLocation();
+		
+			});
+		});
+
+		App.load('index_page','fade');
+	});
+</script>
+{template 'inc/footer'}

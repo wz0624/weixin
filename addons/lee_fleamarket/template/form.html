@@ -1,0 +1,41 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		设置
+	</div>
+	<input type="hidden" name="reply_id" value="{$reply['id']}" />
+	<div class="panel-body">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">名称</label>
+				<div class="col-sm-9">
+					<input type="text" value="{$reply['title']}" class="form-control" name="title">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">图文消息图片(也用于分享)</label>
+				<div class="col-sm-9">
+					{php echo tpl_form_field_image('picture', $reply['picture']);}
+					<span class="help-block"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">简介</label>
+				<div class="col-sm-9">
+					<input type="text" value="{$reply['description']}" class="form-control" name="description">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">详情</label>
+				<div class="col-sm-9">
+					<input type="text" value="{$reply['content']}" class="form-control" name="content">
+				</div>
+			</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+kindeditor($('#content'));
+kindeditorUploadBtn($('#bless-picture'));
+kindeditorUploadBtn($('#user-bgimage'));
+
+</script>

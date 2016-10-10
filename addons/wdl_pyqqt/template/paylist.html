@@ -1,0 +1,45 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+  <li class="active"><a href="{php echo $this->createWebUrl('pay'); }">支付列表</a></li>
+</ul>
+<div class="main">
+  <div class="category">
+    <form action="" method="post" onsubmit="return formcheck(this)">
+      <div class="panel panel-default">
+        <div class="panel-body table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th style="width:150px;">支付者头像</th>
+                <th style="width:200px;">支付者昵称</th>
+                <th style="width:100px;">被支付者昵称</th>
+                <th style="width:150px;">被支付者头像</th>
+                <th style="width:150px;">支付金额</th>
+                <th style="width:300px;">支付时间</th>
+                <th style="width:150px;">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+            {loop $lists $row}
+            <tr>
+              <td><img src="{php echo $row['want_user']['avatar']; }" width="60" height="60"></td>
+              <td><a href="">{$row['want_user']['nickname']}</a></td>
+              <td><a href="">{$row['origin_user']['nickname']}</a></td>
+              <td><img src="{php echo $row['origin_user']['avatar']; }" width="60" height="60"></td>
+              <td>{$row['price']}</td>
+              <td>{php echo date('Y-m-d H:i:s', $row['add_time']); }</td>
+              <td>
+                <a href="{php echo $this->createWebUrl('delete', array('id' => $row['id']))}" onclick="return confirm('是否要删除此条记录？请谨慎操作');return false;" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="删除"><i class="fa fa-times"></i></a>
+              </td>
+            </tr>
+            {/loop}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {$pager}
+    </form>
+  </div>
+</div>
+{template 'common/footer'}

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{$_W['account']['name']}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no"/>
+	<script type="text/javascript" src="../addons/hc_chuansong/js/rem.js"></script>
+	<script type="text/javascript" src="../addons/hc_chuansong/js/jquery-1.4.2.js"></script>
+	<script type="text/javascript" src="../addons/hc_chuansong/js/jihecode.js"></script>
+	<link rel="stylesheet" href="../addons/hc_chuansong/css/reset.css">
+	
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+{php $signPackage=$_W['account'][jssdkconfig];}	
+<script>
+
+	
+	wx.config({
+		debug: false,
+		appId: '<?php echo $signPackage["appId"];?>',
+		timestamp: <?php echo intval($signPackage["timestamp"]);?>,
+		nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+		signature: '<?php echo $signPackage["signature"];?>',
+		jsApiList: ['checkJsApi','onMenuShareTimeline','onMenuShareAppMessage','showOptionMenu','hideMenuItems'] 
+	});
+	wx.ready(function(){
+		wx.showOptionMenu();
+		wx.onMenuShareTimeline({
+			title:'{$item['share_title']}',
+			desc:'{$item['share_desc']}',
+			link: '{$_W['siteroot']}/app/{php echo $this->createMobileUrl('share_detail',array('uid'=>$_W['member']['uid']))}',
+			imgUrl: '{php echo toimage($item['share_thumb'])}',
+			success: function () { 
+				submit();
+			},
+			cancel: function () { }
+		});
+		wx.onMenuShareAppMessage({
+			title:'{$item['share_title']}',
+			desc:'{$item['share_desc']}',
+			link: '{$_W['siteroot']}/app/{php echo $this->createMobileUrl('share_detail',array('uid'=>$_W['member']['uid']))}',
+			imgUrl: '{php echo toimage($item['share_thumb'])}',
+			success: function () { 
+				//alert('只有分享朋友圈才有效');
+				submit();				
+			},
+			cancel: function () { }
+		});
+		wx.hideMenuItems({
+			menuList: [
+			'menuItem:openWithSafari',
+			'menuItem:share:email',
+			'menuItem:openWithQQBrowser',
+			'menuItem:share:qq',
+			'menuItem:share:weiboApp',
+			'menuItem:share:QZone',
+			'menuItem:copyUrl',
+			'menuItem:readMode',
+			] // 
+		});
+	});
+</script>
+</head>
+
+<body style="background-color:{$item['home_color']}">
+<img src="{$_W['attachurl']}{$item['result_thumb']}" alt="">
+<dl class="matchTop">
+{if !empty($member['avatar'])}
+    <dt><img src="{$member['avatar']}" alt=""></dt>
+{else}
+    <dt><img src="{$list[0]['headimgurl']}" alt=""></dt>
+{/if}
+
+    <dd>
+        <span>昵称：<i>{$list[0]['nickname']}</i></span>
+        <span>手机：<i>{$list[0]['mobile']}</i></span>
+    </dd>
+</dl>
+<div class="jiheCode">
+    <div class="jiheCodeInfo">
+        <h1>我的抽奖码</h1>
+        <div class="countWrap">
+            <div class="pic"></div>
+			{loop $list $aaa}
+			<div class="jiheCodeNum">
+                <div class="jiheCodeNumInfo"><span>{$aaa['award_no']}</span>   </div>
+                <p class="jiheCodeNumTime">{php echo date('Y-m-d H:i:s',$aaa['create_time'])}</p>
+            </div>
+			{/loop}
+		</div>
+        
+        <div class="pic"></div>
+        <div class="jiheCodeNumBtn"></div>
+    </div>
+    <div class="jiheCodeInfoBtn"><span class="guize">邀请好友拿抽奖码</span></div>
+    
+</div>
+<div class="no" style="display:none;">0</div>
+<div class="fanPaiWrap" id="fanPaiWrap">
+	<img class="top" src="../addons/hc_chuansong/images/anmanpanPaiTop.png" alt="">
+	<div class="list">  
+	</div>
+	<img class="bottom" src="../addons/hc_chuansong/images/anmanpanPaiBotton.png" alt="">
+</div>
+<div class="anmanTips">
+	{$item['desc']}
+</div>
+	<!-- 弹窗 -->
+
+ <div class="haveMoreCodeIn">
+    <div class="haveMoreCodeCon">
+        <div class="haveMoreCodeBtn"></div>
+        <div class="pWrap">
+        <p class="haveMoreCodeInContent">点击右上角，选择<strong>「发送给朋友」</strong>邀请好友，好友点击文章底部的<strong>「阅读原文」</strong>报名成功，您即可额外获<strong>「一个抽奖码」</strong></p>
+        <img src="../addons/hc_chuansong/images/shareAppMessage.jpg" alt="">
+        </div>
+        
+    </div>
+</div>
+
+<div class="maskErweima">
+ 
+</div>
+
+
+</body>
+</html>

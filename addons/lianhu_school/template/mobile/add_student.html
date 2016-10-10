@@ -1,0 +1,42 @@
+{template 'header'}
+{template 'common'}
+<link type="text/css" rel="stylesheet" href="../addons/lianhu_school/images/style.css">
+<div class="head">
+	<span class="title">绑定其他学生账号</span>
+</div>
+<form class="form-horizontal" method="post" role="form" action="{php echo $this->createMobileUrl('bangding', array('submit' => '1'))}">
+	<div class="order-main">
+		<div class="add-address img-rounded" id="" >
+			<div class="add-address-hd">请仔细填写相应资料：</div>
+			<div class="add-address-main">
+				<div class="form-group">
+					<label class="col-sm-3 control-label">学生姓名：</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" name='student_name' id='student_name'>
+					</div>
+				</div>
+                {if $config['family_set']!='alone_school'}
+				<div class="form-group">
+					<label class="col-sm-3 control-label">系统编号：</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" name='student_passport' id='student_passport'>
+					</div>
+				</div>
+                {else}	
+				<div class="form-group">
+					<label class="col-sm-3 control-label">学生学号：</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" name='student_passport' id='student_passport'>
+					</div>
+				</div>                			
+                {/if}
+				<div class="form-group">
+					<div class="col-sm-12">
+						<button type="submit" class="btn btn-danger" >提交</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+{template 'jsweixin'}

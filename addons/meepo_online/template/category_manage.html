@@ -1,0 +1,141 @@
+{template 'common/header'}
+{template 'nav'}
+<style>
+.editable-click, a.editable-click {
+    color: #000 !important;
+    border-bottom:none !important;
+    text-decoration: none;
+}
+.editable-input.editable-has-buttons {
+    width: auto;
+    max-width: 100px;
+}
+.st-sort-ascent:before {
+    content: '\25B2';
+}
+</style>
+<!-- 项目管理 -->
+{if $op=='list'}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		项目管理
+	</div>
+	<div class="panel-body">
+		<table  class="table table-striped">
+			<thead>
+				<tr>
+					<th style="width:50px;">分类编号</th>
+					<th style="width:100px;">分类排序序号</th>
+					<th style="width:300px;">分类名称</th>
+					<th style="width:300px;">分类默认图片</th>
+					<th style="width:200px;">添加日期</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{loop $categorys $row}
+				<tr>
+					<td>
+					{$row['id']}
+					</td>
+					<td>
+					{$row['displayorder']}
+					</td>
+					<td>
+						{$row['title']}
+					</td>
+					<td>
+						<img src="{php echo tomedia($row['no_img'])}" width=50 height=50 />
+					</td>
+					<td>
+						{php echo date('Y-m-d H:i:s',$row['createtime'])}
+					</td>
+					
+					<td>
+						<a class="btn btn-default" title="编辑" href="{php echo $this->createWebUrl('category_manage',array('op'=>'post','id'=>$row['id']))}">
+							<i class="fa fa-gear"></i>
+						</a>
+						<a class="btn btn-default" title="删除" href="{php echo $this->createWebUrl('category_manage',array('op'=>'del','id'=>$row['id']))}" onclick="return confirm('删除将无法恢复，确认吗？');return false;">
+							<i class="fa fa-times"></i>
+						</a>
+					</td>
+				</tr>
+			{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+	<div class="panel-footer">
+		<a href="{php echo $this->createWebUrl('category_manage',array('op'=>'post'))}" class="btn btn-sm btn-success">
+			<i class="glyphicon glyphicon-plus"></i>新增直播分类
+		</a>
+	</div>
+</div>
+{elseif $op=='post'}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		{if !empty($category['id'])}编辑{else}新增{/if}直播分类
+	</div>
+	<div class="panel-body">
+		<form action="" method="post" class="form-horizontal" role="form" id="form1" >
+			<input type="hidden" name="id" value="{$category['id']}"> 
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">是否显示</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<label class="radio-inline">
+						<input type="radio" name="isshow" value="1"  {if $category['isshow'] == '1'}checked="true"{/if}>是
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="isshow" value="0"   {if 
+						$category['isshow'] == '0'}checked="true"{/if}>否
+					</label>
+					<span class="help-block">是否显示</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">排序序号</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input type="text" value="{$category['displayorder']}" class="form-control" name="displayorder">
+					<span class="help-block">排序序号</span>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">分类名称</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input type="text" value="{$category['title']}" class="form-control" name="title">
+					<span class="help-block">分类名称</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">分类默认图片</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					{php echo tpl_form_field_image('no_img', $category['no_img']);}
+					<span class="help-block">分类默认图片</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input type="submit" name="submit" class="btn btn-success" value="提交">
+					<input type="hidden" name="token" value="{$_W['token']}">
+				</div>
+			</div>
+			
+		</form>
+	</div>
+</div>
+<script>
+function type_change1()
+{
+	
+}
+
+function type_change2()
+{
+	
+}
+
+</script>
+{/if}
+{template 'common/footer'}

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" type="text/css" href="{RES}mobile/bridge/css/reward.css?v=1" media="all" />
+	<title>{$reply['title']}</title>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+	<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+	<!-- Mobile Devices Support @begin1 -->
+	<meta content="application/xhtml+xml;charset=UTF-8" http-equiv="Content-Type">
+	<meta content="telephone=no, address=no" name="format-detection">
+	<meta name="apple-mobile-web-app-capable" content="yes" /> <!-- apple devices fullscreen -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<!-- Mobile Devices Support @end -->
+	<style>
+		img{max-width:100%!important;}
+	</style>
+	{php echo register_jssdk(false);}
+</head>
+<body onselectstart="return true;" ondragstart="return false;">
+<script type="text/javascript">
+	(function () {
+		// 排行信息
+		window.rewardData = {$awardarr};
+		window.reward_page_config = {
+			NUMLIMIT: true,
+			{if $number_times!=0}
+			TOTALRESTTIMES: {$totalnum},
+			{/if}
+			{if $most_num_times!=0}
+			RESTTIMES:{$todaynum},
+			{/if}
+			ISEND: {$isend},
+		}
+	})();
+</script>
+<script src="{RES}mobile/bridge/js/iscroll_min.js" type="text/javascript"></script>
+<script src="{RES}mobile/bridge/js/zepto_min.js" type="text/javascript"></script>
+<script src="{RES}mobile/bridge/js/reward.js" type="text/javascript"></script>
+<div id="reward-page">
+	<div class="panel-container">
+		<ul class="container-title">
+			<li><a class="btn-activity"></a></li>
+			<!--<li><a class="btn-prize"></a></li>-->
+		</ul>
+		<div class="container-body">
+			<div class="container-content container-list">
+				<table class="table-title">
+					<col width="20%"/>
+					<col width="20%"/>
+					<col width="40%"/>
+					<col width="20%"/>
+					<tr>
+						<th></th>
+						<th><span class="icon icon-type"></span></th>
+						<th><span class="icon icon-name"></span></th>
+						<th><span class="icon icon-num"></span></th>
+					</tr>
+				</table>
+				<div class="table-scroll">
+					<table class="table-body">
+						<col width="20%"/>
+						<col width="20%"/>
+						<col width="40%"/>
+						<col width="20%"/>
+					</table>
+				</div>
+			</div>
+			<div class="container-content container-prize">
+				<table class="table-title">
+					<col width="20%"/>
+					<col width="20%"/>
+					<col width="40%"/>
+					<col width="20%"/>
+					<tr>
+						<th></th>
+						<th><span class="icon icon-name"></span></th>
+						<th><span class="icon icon-sn">SN码</span></th>
+						<th></th>
+					</tr>
+				</table>
+				<div class="table-scroll">
+					<table class="table-body">
+						<col width="20%"/>
+						<col width="20%"/>
+						<col width="40%"/>
+						<col width="20%"/>
+					</table>
+				</div>
+			</div>
+		</div>
+		<table class="table-body" id="table-ps">
+			<tr class="ps">
+				<td>{$reply['awardtip']}</td>
+			</tr>
+		</table>
+		<table class="table-bottom">
+			<tr>
+				<td>
+					<div class="btn-layout">
+						<a class="btn-back"  href="{php echo $this->createMobileUrl('index', array('id' => $id), true)}"></a>
+						<a class="btn-share" href="javascript:void(0);"></a>
+						<a class="btn-prize" href="{php echo $this->createMobileUrl('main', array('id' => $id), true)}"></a>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="company-rights"><a href="{if !empty($reply['copyrighturl'])}{$reply['copyrighturl']}{else}#{/if}" style="color:#7854c2;">{if empty($reply['copyright'])}{$_W['account']['name']}{else}{$reply['copyright']}{/if}</a></div>
+	<div class="ads show" id="game-panel-ad">
+		<img src="{$ad}" onclick="jump_url();" />
+		<div class="btn-close-ad"></div>
+	</div>
+	<script>
+		function jump_url() {
+			var adurl = "{$reply['adurl']}";
+			if (adurl != '') {
+				window.location.href = adurl;
+			}
+		}
+	</script>
+</div>
+<div class="register-panel-layer"></div>
+<div class="register-panel" id="panel-got-prize">
+	<div class="register-main">
+		<div class="register-content">
+			<div class="icon-prize-title"></div>
+			<label class="label-password"> 商家确认密码：</label>
+			<form action="/Webmagpiebridge/getreward" method="post" id="form-submit-reward">
+				<input type="hidden" name="id" value="2737" />
+				<input type="hidden" name="v" value="8372f73a073e0d8a596d67599157b2a7" />
+				<input type="hidden" name="pid" value="1071" />
+				<input type="hidden" name="wechatid" value="osXr8jiIm4HVEnuN28FShCPvg2k4" />
+				<input placeholder="请输入密码" type="password" name="inputpassword">
+				<input type="hidden" name="inputid">
+				<div class="btn-layout">
+					<input class="btn-cancel" type="reset" value=""/>
+					<input class="btn-start" type="submit" value=""/>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="register-panel" id="panel-without-times">
+	<div class="register-main">
+		<div class="register-content">
+			<div class="icon-without-times"></div>
+			<div class="result-page-prize">很可惜</div>
+			<p class="plus">你的游戏机会已经用完，<br/>可以告诉好友来增加游戏机会</p>
+			<div class="btn-layout">
+				<span class="btn-know"></span>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="masklayer" class="masklayer">
+	<img src='{RES}mobile/bridge/image/share.png' alt='' style="width:260px;" />
+</div>
+<div mark="stat_code" style="width:0px; height:0px; display:none;"></div>
+<script>
+	wx.ready(function () {
+		sharedata = {
+			title: '{$share_title}',
+			desc: '{$share_desc}',
+			link: '{$share_url}',
+			imgUrl: '{$share_image}',
+			success: function(){
+				var url = "{php echo $this->createMobileUrl('share', array('id' => $id), true)}";
+				$.ajax
+				({
+					url: url,
+					type:'POST',
+					data: {},
+					dataType:'json',
+					error: function () {
+						alert('网络通讯异常，请稍后再试！');
+					},
+					success: function (result) {
+						alert(result.msg);
+						setTimeout('time_jump()', 1000);
+					}
+				});
+			},
+			cancel: function(){
+				//alert('cancel');
+			}
+		};
+		wx.onMenuShareAppMessage(sharedata);
+		wx.onMenuShareTimeline(sharedata);
+	});
+
+	function time_jump() {
+		var url = "{php echo $this->createMobileUrl('index', array('id' => $id), true)}";
+		location.href = url;
+	}
+</script>
+</body>
+</html>

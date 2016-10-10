@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>猜猜你是谁？</title>
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="msapplication-tap-highlight" content="no">
+
+<link rel="stylesheet" href="css/game.css">
+</head>
+<body class="wap-box">
+
+<div class="wap-contain">
+	<div class="warper" id="warper">
+		<p class="fff"><span class="ft24">你小时候是谁？</span><br>记得小时候看过的动画片吗？想知道你是哪个动画人物吗？</p>
+		<p class="tc mtb20"><img src="images/kitty.jpeg" width="100%" alt="kitty"></p>
+		<p class="tc mtb20"><input type="text" id="txtName" name="txtName" class="myname" maxlength="10" value="请输入您的名字" onFocus="if(value==defaultValue){value='';this.style.color='#999'}" onBlur="if(!value){value=defaultValue;this.style.color='#999'}"></p>
+		<p class="mtb20"><a class="postrlt" id="postrlt">开始测试</a></p>
+	</div>
+</div>
+	
+<script type="text/javascript" src="js/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="js/game.js"></script>
+</body>
+</html>

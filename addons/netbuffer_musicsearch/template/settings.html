@@ -1,0 +1,13 @@
+{template 'common/header'}
+<div class="col-md-12 panel">
+	<form class="form-horizontal" action="" method="post">
+	  <div class="form-group">
+	    <div class="col-sm-offset-2 col-sm-10">
+	       <input type="hidden" name="token" value="{$_W['token']}" />
+	       <input name="submit" value="submit" type="hidden"/>
+	       <button class="btn btn-primary" type="submit">提交</button>
+	    </div>
+	  </div>
+	</form>
+</div>
+{template 'common/footer'}

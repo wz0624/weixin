@@ -1,0 +1,15 @@
+﻿{if $reply['adlist']}
+{php $ad_ary=explode(",",$reply['adlist'])}
+{php shuffle($ad_ary)}
+{php $ad=pdo_fetch('select * from '.tablename('j_pocketmoney_ad').' where id='.$ad_ary[0].'');}
+<div class="footermenu">
+	<div class="footerbody">
+    	<span class="footerclose" onClick="$('.footermenu').hide()">x</span>
+        <div class="footerad">
+        	<a href="{$ad['url']}">
+            <img src="{$_W['attachurl']}{$ad['thumb']}" height="48" width="48" style="vertical-align:middle;"/> {$ad['description']}
+            </a>
+        </div>
+    </div>
+</div>
+{/if}

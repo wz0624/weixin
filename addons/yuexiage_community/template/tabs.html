@@ -1,0 +1,280 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('tabs', array('op' => 'post'))}">添加标签</a></li>
+	<li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('tabs', array('op' => 'display'))}">管理标签</a></li>
+</ul>
+{if $operation == 'post'}
+<style type='text/css'>
+	.tab-pane {padding:20px 0 20px 0;}
+</style>
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				{if empty($item['id'])}添加标签{else}编辑标签{/if}
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>标签状态</label>
+					<div class="col-sm-9 col-xs-12">
+						<select name="status" class='form-control'>
+							<option value="1" {if $item['status'] != '0'} selected{/if}>上架</option>
+							<option value="0" {if $item['status'] == '0'} selected{/if}>下架</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">置顶</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type="checkbox" aria-label="..." name="top" value="1" {if $item['top']==1} checked{/if}>
+						</label>
+					</div>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">系统标签</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type="checkbox" aria-label="..." name="sys" value="1" {if $item['sys']==1} checked{/if}>
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品图</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_image('thumb', $item['thumb'], '', array('extras' => array('text' => 'readonly')))}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>标签名称</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="tabsname" id="tabsname" class="form-control" value="{$item['name']}" maxlength="10" />
+						<span class="help-block">最多10个汉字</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+	$(function () {
+		window.optionchanged = false;
+		$('#myTab a').click(function (e) {
+			e.preventDefault();//阻止a链接的跳转行为
+			$(this).tab('show');//显示当前选中的链接及关联的content
+		})
+	});
+</script>
+<script type="text/javascript">
+	require(['bootstrap'],function($){
+		$('.btn').hover(function(){
+			$(this).tooltip('show');
+		},function(){
+			$(this).tooltip('hide');
+		});
+		
+		$(function(){
+			$('#form1').submit(function(){
+				var result = true;
+				if($('#tabsname').val() == ''){
+					result = false;
+					util.message('请设置标签名称.');
+				}
+				return result;
+			});
+		});
+	});
+
+</script>
+{elseif $operation == 'display'}
+
+<div class="main">
+	<div class="panel panel-info">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body">
+		<form action="./index.php" method="get" class="form-horizontal" role="form">
+			<input type="hidden" name="c" value="site" />
+			<input type="hidden" name="a" value="entry" />
+			<input type="hidden" name="m" value="yuexiage_community" />
+			<input type="hidden" name="do" value="tabs" />
+			<input type="hidden" name="op" value="display" />
+			<div class="row">
+				<div class="form-group col-xs-6">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">关键字</label>
+					<div class="col-xs-12 col-sm-8 col-lg-9">
+						<input class="form-control" name="keyword" id="" type="text" value="{$_GPC['keyword']}">
+					</div>
+				</div>
+				<div class="form-group col-xs-6">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">状态</label>
+					<div class="col-xs-12 col-sm-8 col-lg-9">
+						<select name="status" class='form-control'>
+							<option value="2" {if $_GPC['status'] == '2'} selected{/if}>全部</option>
+							<option value="1" {if $_GPC['status'] == '1'} selected{/if}>上架</option>
+							<option value="0" {if $_GPC['status'] == '0'} selected{/if}>下架</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		
+			<div class="row">
+				<div class="form-group col-xs-6">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">删除</label>
+					<div class="col-xs-12 col-sm-8 col-lg-9">
+						<select name="deleted" class='form-control'>
+							<option value="2" {if $_GPC['deleted'] == '2'} selected{/if}>全部</option>
+							<option value="1" {if $_GPC['deleted'] == '1'} selected{/if}>已删除</option>
+							<option value="0" {if $_GPC['deleted'] == '0'} selected{/if}>未删除</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group col-xs-6">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">类型</label>
+					<div class="col-xs-12 col-sm-8 col-lg-9">
+						<select name="sys" class='form-control'>
+							<option value="2" {if $_GPC['sys'] == '2'} selected{/if}>全部</option>
+							<option value="1" {if $_GPC['sys'] == '1'} selected{/if}>系统</option>
+							<option value="0" {if $_GPC['sys'] == '0'} selected{/if}>公众</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-xs-6">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">置顶</label>
+					<div class="col-xs-12 col-sm-8 col-lg-9">
+						<select name="top" class='form-control'>
+							<option value="2" {if $_GPC['top'] == '2'} selected{/if}>全部</option>
+							<option value="1" {if $_GPC['top'] == '1'} selected{/if}>置顶</option>
+							<option value="0" {if $_GPC['top'] == '0'} selected{/if}>不置顶</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		
+			<div class="form-group">
+				<div class="col-xs-12 col-sm-2 col-lg-2">
+					<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+				</div>
+			</div>
+			<div class="form-group">
+			</div>
+		</form>
+	</div>
+</div>
+<style>
+.label{cursor:pointer;}
+</style>
+<div class="panel panel-default">
+	<div class="panel-body table-responsive">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:2%;">ID</th>
+					<th style="width:10%">标签名字</th>
+					<th style="width:5%">置顶</th>
+					<th style="width:8%">标签状态</th>
+					<th style="width:8%">标签所有者</th>
+					<th style="width:5%">类型</th>
+				
+						<th style="width:6%">已删除</th>
+						<th style="width:6%">修改者</th>
+						<th style="width:15%">修改时间</th>
+						<th style="width:6%">删除者</th>
+						<th style="width:15%">删除时间</th>
+				
+					<th style="text-align:right;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['id']}</td>
+					<td>
+						{if $item['status']==1}
+							<span class="label label-success">{$item['name']}</span>
+						{else}
+							<span class="label label-default">{$item['name']}</span>
+						{/if}
+					</td>
+					<td>
+						{if $item['top']==1}
+							<span class="label label-success"><i class="glyphicon glyphicon-ok"></i></span>
+						{else}
+							<span class="label label-default"><i class="glyphicon glyphicon-remove"></i></span>
+						{/if}
+					</td>
+					<td>
+						{if $item['status']==1}
+						<span class="label label-success">
+						上架
+						</span>
+						{else}
+						<span class="label label-warning">
+						下架
+						</span>
+						{/if}
+					</td>
+					<td>
+						<span class="label label-primary">{$item['owner']}</span>
+					</td>
+					<td>
+						{if $item['sys']=='1'}
+						<span class="label label-danger">系统</span>
+						{else}
+						<span class="label label-warning">
+						公共
+						</span>
+						{/if}
+					</td>
+					
+					<td>
+						{if $item['deleted']=='1'}
+							<a href="{php echo $this->createWebUrl('tabs', array('id' => $item['id'], 'op' => 'restore'))}" 
+								class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="恢复">
+							<i class="glyphicon glyphicon-backward"></i>
+						</a>
+						{/if}
+					</td>
+					<td>
+						{$item['modify']}
+					</td>
+					<td>
+						{$item['lastmodified']}
+					</td>
+					<td>
+						{$item['del']}
+					</td>
+					<td>
+						{$item['lastdel']}
+					</td>
+					
+					<td style="text-align:right;">
+						<a href="{php echo $this->createWebUrl('tabs', array('id' => $item['id'], 'op' => 'post'))}"
+							class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="编辑">
+							<i class="fa fa-pencil"></i>
+						</a>&nbsp;&nbsp;
+						<a href="{php echo $this->createWebUrl('tabs', array('id' => $item['id'], 'op' => 'delete'))}" 
+							onclick="return confirm('此操作不可恢复，确认删除？');return false;" 
+							class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="删除">
+							<i class="fa fa-times"></i>
+						</a>
+						&nbsp;&nbsp;
+						<a href="{php echo $this->createWebUrl('tabs', array('id' => $item['id'], 'op' => 'top'))}" 
+							class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="置顶">
+							<i class="glyphicon glyphicon-arrow-up"></i>
+						</a>
+					</td>
+				</tr>
+				{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+	</div>
+</div>
+{/if}
+{template 'common/footer'}

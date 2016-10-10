@@ -1,0 +1,78 @@
+<?php defined('IN_IA') or exit('Access Denied');?><?php  include $this->display('common/header'); ?>
+<?php  include $this->display('common'); ?>
+<!-- 引入sweetalert -->
+<link rel="stylesheet" href="../addons/weixin_login//Public//plugins/sweetalert/sweetalert.css">
+<script src="../addons/weixin_login//Public//plugins/sweetalert/sweetalert.min.js"></script>
+<!-- 引入公共js文件 -->
+<script src="../addons/weixin_login//Public//js/public.js"></script>
+
+<ul class="nav nav-tabs">
+	<li><a href="<?php  echo $this->createWebUrl('Index', array('op' => 'index'))?>">管理授权</a></li>
+	<li class="active"><a href="<?php  echo $this->createWebUrl('Index', array('op' => 'add'))?>">添加授权</a></li>
+</ul>
+<script>
+	require(['bootstrap'],function($){
+		$('.btn').hover(function(){
+			$(this).tooltip('show');
+		},function(){
+			$(this).tooltip('hide');
+		});
+	});
+</script>
+<div class="main">
+	<form action="" method="post" class="form-horizontal form add_nav" enctype="multipart/form-data" id="form1">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				添加授权
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>名称：</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="name" class="form-control" required placeholder="起个名称吧~" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>网址：</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="url" name="tourl" class="form-control" value="" required placeholder="www.xxx.com" />
+						<p class="help-block">请填写您的网址(支持http/https)，例:http://baidu.com 注:不需要加 / 及后面的内容 </p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">说明：</label>
+					<div class="col-sm-9 col-xs-12">
+						<textarea class="form-control" name="desc" rows="3" placeholder="您可以写点什么备注~"></textarea>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="<?php  echo $_W['token'];?>" />
+		</div>
+	</form>
+</div>
+<script>
+	$('.add_nav').submit(function(){
+		var post_data = $(this).serialize();
+		var url = $(this).attr('action');
+		$.ajax({
+			type:'post',
+			url: url,
+			data: post_data,
+			dataType:'json',
+			success:function(res){
+				swal({title:CheckCode(res.Code),text: res.Message,type: CheckCode(res.Code,2)},function(){
+					if( CheckCode(res.Code,2) == 'success')
+						window.location.href = '<?php  echo $this->createWebUrl('Index', array('op' => 'index'))?>';
+				});
+			},
+			error:function(){ swal("Error", "请检查您的网络", "error"); }
+		});
+		return false;
+	});
+
+</script>
+<?php  include $this->display('common/footer'); ?>

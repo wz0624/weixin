@@ -1,0 +1,649 @@
+{template 'common/header'}
+
+<div class="main">
+	<!-- Nav tabs -->
+	<ul class="nav nav-tabs" role="tablist">
+		<li role="presentation" class="active">
+			<a href="#jcsz" aria-controls="jcsz" role="tab" data-toggle="tab">
+				基础设置
+			</a>
+		</li>
+		<li role="presentation">
+			<a href="#xxjs" aria-controls="xxjs" role="tab" data-toggle="tab">
+				详细介绍
+			</a>
+		</li>		
+		<li role="presentation">
+			<a href="#ggkz" aria-controls="ggkz" role="tab" data-toggle="tab">
+				功能控制
+			</a>
+		</li>
+		<li role="presentation">
+			<a href="#wgsz" aria-controls="wgsz" role="tab" data-toggle="tab">
+				外观设置
+			</a>
+		</li>
+		<li role="presentation">
+			<a href="#tpbm" aria-controls="tpbm" role="tab" data-toggle="tab">
+				报名投票
+			</a>
+		</li>
+		<li role="presentation">
+			<a href="#jfsz" aria-controls="jfsz" role="tab" data-toggle="tab">
+				积分设置
+			</a>
+		</li>
+		<li role="presentation">
+			<a href="#cjsz" aria-controls="cjsz" role="tab" data-toggle="tab">
+				抽奖设置
+			</a>
+		</li>
+		<li role="presentation">
+			<a href="#twhf" aria-controls="twhf" role="tab" data-toggle="tab">
+				图文回复
+			</a>
+		</li>
+		<li role="presentation">
+			<a href="#fxsz" aria-controls="twhf" role="tab" data-toggle="tab">
+				分享设置
+			</a>
+		</li>		
+	</ul>
+	<form action="" class="form-horizontal form ng-pristine ng-valid" method="post" enctype="multipart/form-data">
+		<input name="id" type="hidden" value="{$item['id']}" />
+		<div class="panel panel-default">
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<!-- 基础设置 -->
+				<div role="tabpanel" class="tab-pane active" id="jcsz">
+					<div class="panel-body">
+						<div class="form-group"><label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">活动主题</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="title" value="{$item['title']}" />
+								<span class="help-block">
+									<strong>例：男神女神自拍比赛</strong>
+								</span>
+							</div>
+
+						</div>
+						
+						<div class="form-group"><label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">默认描述</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="describe" value="{$item['describe']}" />
+								<span class="help-block">
+									<strong>用户报名未填描述时显示。（例：我有我风采，为什么不秀出来！）</strong>
+								</span>
+							</div>
+
+						</div>
+						
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">报名时间</label>
+							<div class="col-sm-6">
+								{php echo tpl_form_field_daterange('jointimes', array('start' => $item['joinstart'],'end'   => $item['joinend']),true);}
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">投票时间</label>
+							<div class="col-sm-6">
+								{php echo tpl_form_field_daterange('times', array('start' => $item['start'],'end'   => $item['end']),true);}
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">多倍投票狂欢时间</label>
+							<div class="col-sm-6">
+								{php echo tpl_form_field_daterange('doubletimes', array('start' => $item['doublestart'],'end' => $item['doubleend']),true);}
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">多倍投票倍率</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="double" value="{$item['double']}" />
+								<span class="help-block">
+									<strong>投票倍率。计算方式：1*倍率。如填2就是1*2，投一票等于2票（需要设置上面多倍时间）</strong>
+								</span>						
+							</div>
+						</div>									
+					</div>
+				</div>
+				
+				<!-- 详细介绍 -->
+				<div role="tabpanel" class="tab-pane" id="xxjs">
+					<div class="panel-body">
+						<div class="form-group"><label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">公告标题</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="noticetitle" value="{$item['noticetitle']}" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">公告内容</label>
+							<div class="col-sm-6">
+								<?php if(!empty($item['noticecontent'])){$details['noticecontent'] = $item['noticecontent'];}?>
+								{php echo tpl_ueditor('noticecontent', $details['noticecontent']);}
+							</div>
+						</div>
+						
+
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">活动介绍</label>
+							<div class="col-sm-6">
+								<?php if(!empty($item['detail'])){$details['detail'] = $item['detail'];}?>
+								{php echo tpl_ueditor('detail', $details['detail']);}
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">活动规则</label>
+							<div class="col-sm-6">
+								<?php if(!empty($item['rules'])){$details['rules'] = $item['rules'];}?>
+								{php echo tpl_ueditor('rules', $details['rules']);}
+								<span class="help-block">
+									<strong>根据活动自身实际情况填写（以上只为示范，尽可能填写详细）</strong>
+								</span>						
+							</div>
+
+						</div>						
+					</div>
+				</div>
+				
+				<!-- 功能开关 -->
+				<div role="tabpanel" class="tab-pane" id="ggkz">
+					<div class="panel-body">
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">是否开启底部朋友圈</label>
+							<div class="col-sm-6">
+								<div class="btn-group" data-toggle="buttons">
+									<label class="btn btn-primary {if $item['openpopularity'] === '1'} active{/if}">
+										<input type="radio" name="openpopularity" value="1" autocomplete="off" {if $item['openpopularity'] === '1'} checked{/if}>是
+									</label>
+									<label class="btn btn-primary {if empty($item['openpopularity'])} active{/if}">
+										<input type="radio" name="openpopularity" value="0" autocomplete="off" {if empty($item['openpopularity'])} checked{/if}>否
+									</label>
+								</div>
+							</div>
+
+						</div>
+						
+					   <div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">是否只允许微信打开</label>
+							<div class="col-sm-6">
+								<div class="btn-group" data-toggle="buttons">
+									<label class="btn btn-primary {if $item['checkua'] === '1'} active{/if}">
+										<input type="radio" name="checkua" value="1" autocomplete="off" {if $item['checkua'] === '1'} checked{/if}>是
+									</label>
+									<label class="btn btn-primary {if empty($item['checkua'])} active{/if}">
+										<input type="radio" name="checkua" value="0" autocomplete="off" {if empty($item['checkua'])} checked{/if}>否
+									</label>
+								</div>
+								（选是后，其他平台将不能访问页面，只允许微信打开）
+							</div>
+
+						</div>
+						
+					   <div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">参赛是否审核</label>
+							<div class="col-sm-6">
+								<div class="btn-group" data-toggle="buttons">
+									  <label class="btn btn-primary {if $item['verify'] === '1'} active{/if}">
+										<input type="radio" name="verify" value="1" autocomplete="off" {if $item['verify'] === '1'} checked{/if}>是
+									</label>
+									<label class="btn btn-primary {if empty($item['verify'])} active{/if}">
+										<input type="radio" name="verify" value="0" autocomplete="off" {if empty($item['verify'])} checked{/if}>否
+									</label>
+								</div>
+								（选否将直接展示，选是需要管理在后台审核通过后才展示）
+							</div>
+
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">是否关闭网页报名</label>
+							<div class="col-sm-6">
+								<div class="btn-group" data-toggle="buttons">
+									  <label class="btn btn-primary {if $item['openwapjoin'] === '1'} active{/if}">
+										<input type="radio" name="openwapjoin" value="1" autocomplete="off" {if $item['openwapjoin'] === '1'} checked{/if}>是
+									</label>
+									<label class="btn btn-primary {if empty($item['openwapjoin'])} active{/if}">
+										<input type="radio" name="openwapjoin" value="0" autocomplete="off" {if empty($item['openwapjoin'])} checked{/if}>否
+									</label>
+								</div>
+								（关闭后用户将不能在微信网页报名）
+							</div>
+
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">是否关闭回复投票</label>
+							<div class="col-sm-6">
+								<div class="btn-group" data-toggle="buttons">
+									  <label class="btn btn-primary {if $item['openmsgvote'] === '1'} active{/if}">
+										<input type="radio" name="openmsgvote" value="1" autocomplete="off" {if $item['openmsgvote'] === '1'} checked{/if}>是
+									</label>
+									<label class="btn btn-primary {if empty($item['openmsgvote'])} active{/if}">
+										<input type="radio" name="openmsgvote" value="0" autocomplete="off" {if empty($item['openmsgvote'])} checked{/if}>否
+									</label>
+								</div>
+								（关闭后用户将不能在公众号回复投票）
+							</div>
+
+						</div>	
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">积分变动是否通知</label>
+							<div class="col-sm-6">
+								<div class="btn-group" data-toggle="buttons">
+									  <label class="btn btn-primary {if $item['creditnotice'] === '1'} active{/if}">
+										<input type="radio" name="creditnotice" value="1" autocomplete="off" {if $item['creditnotice'] === '1'} checked{/if}>是
+									</label>
+									<label class="btn btn-primary {if empty($item['creditnotice'])} active{/if}">
+										<input type="radio" name="creditnotice" value="0" autocomplete="off" {if empty($item['creditnotice'])} checked{/if}>否
+									</label>
+								</div>
+								（开启此功能，用户在本模块积分变动，都会通知回复。）<br/>
+								如不能成功给用户发送通知(双方一段时间内没有消息交互将不允许推送消息给会员)，将引起积分抽奖错误。此项做保留选项，待后解决，请先关闭。
+							</div>
+
+						</div>		
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">是否开启虚拟访问量</label>
+							<div class="col-sm-6">
+								<div class="btn-group" data-toggle="buttons">
+									  <label class="btn btn-primary {if $item['openvirtualclick'] === '1'} active{/if}">
+										<input type="radio" name="openvirtualclick" value="1" autocomplete="off" {if $item['openvirtualclick'] === '1'} checked{/if}>是
+									</label>
+									<label class="btn btn-primary {if empty($item['openvirtualclick'])} active{/if}">
+										<input type="radio" name="openvirtualclick" value="0" autocomplete="off" {if empty($item['openvirtualclick'])} checked{/if}>否
+									</label>
+								</div>
+								（开启此功能，用户在给选手投票后，会随机增加选手1-10访问量。）
+							</div>
+
+						</div>							
+					</div>
+				</div>
+				
+				<!-- 外观设置 -->
+				<div role="tabpanel" class="tab-pane" id="wgsz">
+					<div class="panel-body">
+					   <div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">首页背景音乐</label>
+							<div class="col-sm-6">
+								{php echo tpl_form_field_audio('audio', $item['audio']);}
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">头部全局banner图</label>
+							<div class="col-sm-6">
+								{php echo tpl_form_field_multi_image('thumb', $item['thumb']);}
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">body背景色</label>
+							<div class="col-sm-6">
+								{php echo tpl_form_field_color('bodycolor', $item['bodycolor']);}（默认值：#6e6e6f）
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">box主色</label>
+							<div class="col-sm-6">
+								{php echo tpl_form_field_color('boxcolor', $item['boxcolor']);}（默认值：#e44f4f）
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">标题色</label>
+							<div class="col-sm-6">
+								{php echo tpl_form_field_color('titlecolor', $item['titlecolor']);}（默认值：#544a4f）
+							</div>
+
+						</div>		
+
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">文字颜色</label>
+							<div class="col-sm-6">
+								{php echo tpl_form_field_color('textcolor', $item['textcolor']);}（默认值：#e6d8a1）
+							</div>
+
+						</div>
+						
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">按钮色</label>
+							<div class="col-sm-6">
+								{php echo tpl_form_field_color('buttoncolor', $item['buttoncolor']);}（默认值：#dea543）
+							</div>
+
+						</div>
+
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for=""></label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample1">
+										  点击查看配色对应位置
+								</button>
+								
+								<button class="btn btn-primary" onclick="setColor('#6e6e6f','#e44f4f','#544a4f','#e6d8a1','#dea543');" type="button">
+									默认色
+								</button>
+								<button class="btn btn-primary" onclick="setColor('#483977','#d5447f','#B64281','#e6d8a1','#dea543');" type="button">
+									紫色调
+								</button>
+								
+								<span class="help-block">
+									<div class="collapse" id="collapseExample1">
+									  <div class="well">
+										如果你有漂亮的配色，可以发给我分享给大家。
+										<img src="http://weixin.puzzlephp.com/attachment/images/global/20151209141453.png"/>
+									  </div>
+									</div>
+								</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">全局底部说明</label>
+							<div class="col-sm-6">
+								<?php 
+								if($item111 = pdo_fetch("SELECT `data` FROM " . tablename("xiaof_toupiao_setting") . " WHERE `id` = :id", array(":id" => $_GPC['sid']))){
+									$item111 = iunserializer($item111['data']);	
+									if(!empty($item111['bottom'])){$detailitem['bottom'] = $item111['bottom'];}
+								}
+								?>
+								{php echo tpl_ueditor('bottom', $detailitem['bottom']);}
+							</div>
+
+						</div>					
+					</div>
+				</div>
+				
+				<!-- 投票报名设置 -->
+				<div role="tabpanel" class="tab-pane" id="tpbm">
+					<div class="panel-body">
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">个人每天可投票数</label>
+							<div class="col-sm-6"><input type="text" class="form-control" name="vnum" value="{if empty($item['vnum'])}5{else}{$item['vnum']}{/if}" placeholder="" /></div>
+
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">活动地区限制</label>
+							<div class="col-sm-6">
+								<div class="row row-fix tpl-district-container">
+								<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+									<select name="city" data-value="{$item['city']}" class="form-control tpl-province">
+									</select>
+									<span class="help-block">
+										<strong>不选择省市则不限制地区参与</strong>
+									</span>
+								</div>
+
+							</div>
+							</div>
+
+						</div>
+						
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">投票前是否关注</label>
+							<div class="col-sm-6">
+								<div class="btn-group" data-toggle="buttons">
+									  <label class="btn btn-primary {if $item['votefollow'] === '1'} active{/if}">
+										<input type="radio" name="votefollow" value="1" autocomplete="off" {if $item['votefollow'] === '1'} checked{/if}>是
+									</label>
+									<label class="btn btn-primary {if empty($item['votefollow'])} active{/if}">
+										<input type="radio" name="votefollow" value="0" autocomplete="off" {if empty($item['votefollow'])} checked{/if}>否
+									</label>
+								</div>
+								（需要oauth权限，可以设置借用认证服务号权限。）
+							</div>
+
+						</div>
+					   <div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">报名前是否关注</label>
+							<div class="col-sm-6">
+								<div class="btn-group" data-toggle="buttons">
+									  <label class="btn btn-primary {if $item['joinfollow'] === '1'} active{/if}">
+										<input type="radio" name="joinfollow" value="1" autocomplete="off" {if $item['joinfollow'] === '1'} checked{/if}>是
+									</label>
+									<label class="btn btn-primary {if empty($item['joinfollow'])} active{/if}">
+										<input type="radio" name="joinfollow" value="0" autocomplete="off" {if empty($item['joinfollow'])} checked{/if}>否
+									</label>
+								</div>
+								（需要oauth权限，可以设置借用认证服务号权限。）
+							</div>
+
+						</div>
+						
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">关注二维码</label>
+							<div class="col-sm-6">
+								{php echo tpl_form_field_image('accountqrcode', $item['accountqrcode']);}
+								<span class="help-block">
+									<strong>可以用场景二维码，需自行去二维码管理新建</strong>
+								</span>							
+							</div>
+						</div>					
+					</div>
+				</div>
+				
+				<!-- 积分设置 -->
+				<div role="tabpanel" class="tab-pane" id="jfsz">
+					<div class="panel-body">
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">是否开启积分功能</label>
+							<div class="col-sm-6">
+								<div class="btn-group" data-toggle="buttons">
+									  <label class="btn btn-primary {if $item['opencredit'] === '1'} active{/if}">
+										<input type="radio" name="opencredit" value="1" autocomplete="off" {if $item['opencredit'] === '1'} checked{/if}>是
+									</label>
+									<label class="btn btn-primary {if empty($item['opencredit'])} active{/if}">
+										<input type="radio" name="opencredit" value="0" autocomplete="off" {if empty($item['opencredit'])} checked{/if}>否
+									</label>
+								</div>	
+								（开启本功能下面设置才会生效）						
+							</div>
+
+						</div>
+
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">报名送积分数</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="joincredit" value="{$item['joincredit']}" placeholder="留空为不赠送" />				
+							</div>
+
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">投票送积分数</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="votecredit" value="{$item['votecredit']}" placeholder="留空为不赠送" />					
+							</div>
+
+						</div>						
+					</div>
+				</div>
+				
+				<!-- 抽奖设置 -->
+				<div role="tabpanel" class="tab-pane" id="cjsz">
+					<div class="panel-body">
+					   <div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">是否开启积分抽奖功能</label>
+							<div class="col-sm-6">
+								<div class="btn-group" data-toggle="buttons">
+									  <label class="btn btn-primary {if $item['opendraw'] === '1'} active{/if}">
+										<input type="radio" name="opendraw" value="1" autocomplete="off" {if $item['opendraw'] === '1'} checked{/if}>是
+									</label>
+									<label class="btn btn-primary {if empty($item['opendraw'])} active{/if}">
+										<input type="radio" name="opendraw" value="0" autocomplete="off" {if empty($item['opendraw'])} checked{/if}>否
+									</label>
+								</div>	
+								（开启本功能下面设置才会生效）						
+							</div>
+
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">抽奖一次所需积分数</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="drawcredit" value="{$item['drawcredit']}" placeholder="" />					
+							</div>
+
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">奖品设置</label>
+							<div class="col-sm-6">
+								<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample9" aria-expanded="false" aria-controls="collapseExample9">
+										  点击设置奖品
+								</button>
+								
+							</div>	
+						</div>	
+						
+						
+						<div class="help-block">
+							<div class="collapse" id="collapseExample9">
+								<div class="form-group">
+									<label class="col-xs-12 col-sm-3 col-md-2 control-label" for=""></label>
+									<div class="col-sm-8">					
+										<div class="col-sm-3">
+										   属性		
+										</div>	
+										
+										<div class="col-sm-2">
+											中奖概率			
+										</div>					
+										<div class="col-sm-2">
+											展示名称			
+										</div>
+										<div class="col-sm-2">
+											总数量	
+										</div>								
+										<div class="col-sm-3">
+											 物品图片（尺寸75*60）
+										</div>
+									</div>	
+								</div>
+								{loop $item['prize'] $k $v}
+								<div class="form-group">
+									<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">奖项{$k}</label>
+									<div class="col-sm-8">					
+										<div class="col-sm-3">
+										   <select name="prize[{$k}][attr]" class="form-control">
+												<option {if empty($v['attr'])} selected{/if} value="0">谢谢参与</option>
+												<option {if $v['attr'] == '1'} selected{/if} value="1">实物</option>
+												<option {if $v['attr'] == '2'} selected{/if} value="2">赠送积分</option>
+												<option {if $v['attr'] == '3'} selected{/if} value="3">双倍投票半小时</option>
+												<option {if $v['attr'] == '4'} selected{/if} value="4">双倍投票一小时</option>
+												<option {if $v['attr'] == '5'} selected{/if} value="5">双倍投票二小时</option>
+												<option {if $v['attr'] == '6'} selected{/if} value="6">双倍投票八小时</option>
+											</select>			
+										</div>	
+										
+										<div class="col-sm-2">
+											<input type="text" class="form-control" name="prize[{$k}][probability]" value="{$v['probability']}" placeholder="概率" title="中奖概率"/>				
+										</div>					
+										<div class="col-sm-2">
+											<input type="text" class="form-control" name="prize[{$k}][name]" value="{$v['name']}" placeholder="奖品展示名称"  title="奖品展示名称"/>				
+										</div>
+										<div class="col-sm-2">
+											<input type="text" class="form-control" name="prize[{$k}][num]" value="{$v['num']}" placeholder="总数量"  title="总数量"/>				
+										</div>								
+										<div class="col-sm-3">
+										{php echo tpl_form_field_image('prize['.$k.'][pic]', $v['pic'], '', array('width' => 75));}
+										</div>
+									</div>
+								</div>
+								{/loop}
+								
+							</div>
+						</div>						
+					</div>
+				</div>
+				
+				<!-- 图文回复 -->
+				<div role="tabpanel" class="tab-pane" id="twhf">
+					<div class="panel-body">
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">回复图片</label>
+							<div class="col-sm-6">
+								{php echo tpl_form_field_image('replythumb', $item['replythumb']);}
+							</div>
+						</div>	
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">回复标题</label>
+							<div class="col-sm-6"><input type="text" class="form-control" name="replytitle" value="{$item['replytitle']}" placeholder="" /></div>
+
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">回复内容</label>
+							<div class="col-sm-6"><input type="text" class="form-control" name="replycontent" value="{$item['replycontent']}" placeholder="" /></div>
+
+						</div>						
+					</div>
+				</div>
+				
+				<!-- 分享设置 -->
+				<div role="tabpanel" class="tab-pane" id="fxsz">
+					<div class="panel-body">
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">分享图片</label>
+							<div class="col-sm-6">
+
+								{php echo tpl_form_field_image('sharethumb', $item['sharethumb'], '', array('width' => 400, 'extras' => array('text' => 'ng-model="entry.sharethumb"')));}
+							</div>
+
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">分享标题</label>
+							<div class="col-sm-6"><input type="text" class="form-control" name="sharetitle" value="{$item['sharetitle']}" placeholder="" /></div>
+
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">分享内容</label>
+							<div class="col-sm-6"><input type="text" class="form-control" name="sharecontent" value="{$item['sharecontent']}" placeholder="" /></div>
+
+						</div>
+
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label" for="">选手拉票分享标题</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" name="mysharetitle" value="{$item['mysharetitle']}" placeholder="" />
+								<span class="help-block">
+									<strong>可替换参数{title}=活动名称，{uid}=选手编号，{name}=选手姓名<br/>
+									例：我参加{title}，编号是{uid}，大家多多支持
+									</strong>
+								</span>										
+							</div>
+
+						</div>						
+					</div>
+									
+				</div>				
+			</div>
+		
+		</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<div class="col-sm-12">
+						<input name="token" type="hidden" value="{$_W['token']}" />
+						<input type="submit" class="btn btn-primary" name="submit" value="提交">
+					</div>
+				</div>
+			</div>
+	</form>			
+</div>
+<script type="text/javascript">
+
+	function setColor(bodycolor,boxcolor,titlecolor,textcolor,buttoncolor){
+		$("input[name='bodycolor']").val(bodycolor);
+		$("input[name='boxcolor']").val(boxcolor);
+		$("input[name='titlecolor']").val(titlecolor);
+		$("input[name='textcolor']").val(textcolor);
+		$("input[name='buttoncolor']").val(buttoncolor);
+	}
+			require(["jquery", "district"], function($, dis){
+				$(".tpl-district-container").each(function(){
+					var elms = {};
+					elms.province = $(this).find(".tpl-province")[0];
+					var vals = {};
+					vals.province = $(elms.province).attr("data-value");
+					dis.render(elms, vals, {withTitle: true});
+				});
+			});
+		</script>
+{template 'common/footer'}

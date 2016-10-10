@@ -1,0 +1,53 @@
+    <nav class="cd-nav-container" id="cd-nav" style='z-index:1000'>
+		<header>
+			<h3>导航</h3>
+			<a href="#0" class="cd-close-nav">Close</a>
+		</header>
+		<ul class="cd-nav">
+			<li class="{if $op=='list'}cd-selected{/if}" data-menu="index">
+				<a href="{php echo $this->createMobileUrl('line')}">
+					<span>
+                          <i class="fa fa-comments" style="{if $op=='list'}color:#fff;{else}color:#C5A8B3;{/if}font-size:3em"></i>
+                    </span>
+					<em>班级圈</em>
+				</a>
+			</li>
+            {loop $_W['line_type'] $row}
+                <li data-menu="{$row}" class="{if $op==$row}cd-selected{/if}" >
+                    <a href="{php echo $this->createMobileUrl('line_other',array('op'=>$row));}">
+                        <span> <i class="fa fa-cubes" style="{if $op==$row}color:#fff;{else}color:#C5A8B3;{/if}font-size:3em"></i></span>
+                        <em>{$row}</em>
+                    </a>
+                </li>
+            {/loop}
+ 			<li class="" data-menu="index">
+				<a href="{php echo $this->createMobileUrl('line_other',array('op'=>'home_work'));}">
+					<span>
+                          <i class="fa fa-folder-open" style="color:#C5A8B3;font-size:3em"></i>
+                    </span>
+					<em>家庭作业</em>
+				</a>
+			</li>             
+			<li class="" data-menu="index">
+				<a href="{php echo $this->createMobileUrl('home')}">
+					<span>
+                          <i class="fa fa-user" style="color:#C5A8B3;font-size:3em"></i>
+                    </span>
+					<em>学生中心</em>
+				</a>
+			</li>            
+		</ul> 
+	</nav>
+    <div class="cd-overlay">
+    </div>
+    <script>
+        $(function(){
+            window_height=$(window).height();
+            li_height=(window_height-68)/3;
+            $(".cd-nav").find('li').css('height',""+li_height+"px");
+            span_top=li_height/2-48;
+            en_top=li_height/2+15;
+            $(".cd-nav").find('span').css('top',""+span_top+"px");
+            $(".cd-nav").find('em').css('top',""+en_top+"px");
+        });     
+    </script>

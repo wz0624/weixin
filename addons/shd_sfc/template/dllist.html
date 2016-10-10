@@ -1,0 +1,174 @@
+{template 'common/header'}
+
+
+
+<div class="main">
+
+
+
+<ul class="nav nav-tabs">
+
+
+
+	<li><a href="{php echo $this->createWebUrl('list');}">活动列表</a></li>
+
+
+
+	<li><a href="./index.php?c=platform&a=reply&do=post&m=shd_sfc">添加活动</a></li>
+
+
+
+	<li class="active"><a href="">春联列表</a></li>
+
+
+
+</ul>
+
+
+
+<form method="post" action="" role="form">
+
+
+
+	<input name="submit" type="submit" value="导出EXCEL" class="btn btn-primary">
+
+
+
+	<input type="hidden" name="token" value="{$_W['token']}" />
+
+
+
+</form>
+
+
+
+
+
+
+
+	<div style="padding:15px;">
+
+
+
+		<form action="" method="post">
+
+
+
+		<table class="table table-hover">
+
+
+
+			<thead class="navbar-inner">
+
+
+
+				<tr>
+
+
+
+					<th align="center" style="width:3%;text-align:center;">ID</th>						
+
+
+
+                    <th align="center" style="width:8%;text-align:center;">姓名</th>
+
+
+
+					<th align="center" style="width:10%;text-align:center;">手机</th>
+
+					<th align="center" style="width:10%;text-align:center;">地址</th>
+
+					<th align="center" style="width:37%;text-align:center;">春联内容</th>
+					
+					<th align="center" style="width:20%;text-align:center;">春联说明</th>
+
+					<th align="center" style="width:12%;text-align:center;">添加时间</th>
+
+
+
+
+				</tr>
+
+
+
+			</thead>
+
+
+
+			<tbody>
+
+
+
+				{loop $dllist $row}
+
+
+
+					<tr>		
+
+
+
+						<td align="center" style="text-align:center;">{$row['id']}</td>
+
+
+
+                        <td align="center" style="text-align:center;">{$row['username']}</td>
+
+
+
+						<td align="center" style="font-size:12px; color:#666text-align:center;">{$row['userphone']}</td>
+
+
+						<td align="center" style="font-size:12px; color:#666text-align:center;">{$row['useraddress']}</td>
+
+						<td align="center" style="font-size:12px; color:#666; text-align:left;">{$row['dl_txt']}</td>
+
+
+						<td align="center" style="font-size:12px; color:#666; text-align:left;">{$row['dl_shuoming']}</td>
+
+						<td align="center" style="font-size:12px; color:#666; text-align:center;">{php echo date('Y-m-d H:i:s',$row['add_date'])}</td>
+
+
+
+						
+
+						<td style="text-align:center;">{if $row['status'] == 1}操作成功{/if}
+
+
+
+                        </td>
+
+
+
+					</tr>
+
+
+
+				{/loop}
+
+
+
+			</tbody>
+
+
+
+		</table>
+
+
+
+	</form>
+
+
+
+		{$pager}
+
+
+
+	</div>
+
+
+
+</div>
+
+
+
+{template 'common/footer'}

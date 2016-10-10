@@ -1,0 +1,24 @@
+.contents{width:auto;background-color: #fff;padding: 20px 0px;}
+
+html,body{background-color: #fff;}
+.head{text-align: center;padding-top: 0px;height: 50px;line-height: 50px;background-image: none;}
+.head.fixed{position: fixed;top: 0px;left: 0px;height: 50px;z-index: 222;width: 100%;}
+.select-all{margin: 15px 20px;}
+.own-lists input{float: left;line-height: 15px;margin-top: 3px;margin-right: 10px;}
+.select-all label{float: left;font-size:14px;color: #6a6c6c;line-height: 20px;}
+a.delet{display: block;height: 50px;line-height: 50px;text-align: center;color: #fff;font-size: 16px;padding: 0px 10px 0px 15px;letter-spacing: 2px;left: auto;right: 0px;background: none;}
+.items li{border-bottom:2px solid #f4f3f3; padding: 10px 20px;}
+.items li input{margin-top: 15px;}
+a.item-link{display: block;float: left;min-height: 40px;width: 90%;}
+a.item-link img{width: 40px;height: 40px;margin-right: 10px;border:1px solid #ccc;}
+.item-infor p{line-height: 18px;margin-bottom: 3px;}
+.item-infor p.place{margin-bottom: 0px;}
+.item-infor p span{font-size: 14px;color: #787a7a;}
+.item-infor p span.position-name{font-size: 15px;color: #5f6161;}
+.item-infor p span.email{font-size: 13px;}
+
+
+
+.no-data{padding-top:68px; text-align: center;}
+.no-data img{width:80px ;height:  88px; }
+.no-data p{color: #8f8f8f;font-size: 15px;letter-spacing: 2px;margin-top: 25px;}

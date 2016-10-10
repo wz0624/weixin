@@ -1,0 +1,51 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#">添加活动</a></li>
+</ul>
+<script>
+require(['bootstrap'],function($){
+	$('.btn,.tips').hover(function(){
+		$(this).tooltip('show');
+	},function(){
+		$(this).tooltip('hide');
+	});
+});
+</script>
+<style>
+.listbox ul,.listbox ul li{ list-style:none; margin:0; padding:0;}
+.listbox ul{ text-align:center;}
+.listbox ul li{ display:inline-block; width:22%; margin:1%;}
+</style>
+<div class="main">
+  <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+    <div class="panel panel-default">
+      <div class="panel-heading">活动</div>
+      <div class="panel-body"> 
+        <div class="form-group">
+          <div class="col-sm-12 col-xs-12 listbox">
+            <div class="btn-group" data-toggle="buttons">
+              <label class="btn btn-success active">
+                <input type="radio" name="options" id="option1" autocomplete="off" checked> Radio 1 (preselected)
+              </label>
+              <label class="btn btn-success">
+                <input type="radio" name="options" id="option2" autocomplete="off"> Radio 2
+              </label>
+              <label class="btn btn-success">
+                <input type="radio" name="options" id="option3" autocomplete="off"> Radio 3
+              </label>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    <div class="form-group col-xs-12">
+      <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+      <input type="hidden" name="token" value="{$_W['token']}" />
+    </div>
+  </form>
+</div>
+<script type="text/javascript">
+
+</script>
+{template 'common/footer'} 

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>{$_SESSION['sitetitle']}—统计</title>
+    <link href="{RES}bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="{RES}css/bootstrap-responsiv.css">
+
+
+    <link rel="stylesheet" type="text/css" href="{RES}css/dataTables.bootstra.css">
+    <script src="{RES}js/jquery-2.0.0.min.js"></script>
+    <script type="text/javascript" src="{RES}js/jquery.dataTables.js"></script>
+    <script src="{RES}bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{RES}js/pccalculate.js"></script>
+    <script src="{RES}js/Chart.js"></script>
+    <style type="text/css">
+#imglist{
+	width: 500px;margin: 0 auto;text-align: center;
+}
+#imglist img{
+	width:180px;
+	border:1px solid gray;
+	margin-top: 8px;
+	cursor: pointer;
+}
+#imglist img:HOVER {
+	border:2px solid black;
+}
+.caidan{
+	cursor: pointer;
+}
+.caidan:HOVER{
+	background:gray;
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.datatable').dataTable( {                        
+            "oLanguage": {
+                    "sUrl": "{RES}/js/zh_CN.json"
+                },
+                "bSort":false,
+        });
+} );
+var pieData = [
+				{
+					value: {$weixin1},
+					color:"#F7464A",
+					highlight: "#FF5A5E",
+					label: "微信支付"
+				},
+				{
+					value: {$ali1},
+					color: "#46BFBD",
+					highlight: "#5AD3D1",
+					label: "支付宝"
+				},
+			];
+var pieData1 = [
+				{
+					value: {$weixin2},
+					color:"#F7464A",
+					highlight: "#FF5A5E",
+					label: "微信支付"
+				},
+				{
+					value: {$ali2},
+					color: "#46BFBD",
+					highlight: "#5AD3D1",
+					label: "支付宝"
+				},
+			];
+
+			window.onload = function(){
+				var ctx = document.getElementById("chart-area").getContext("2d");
+				window.myPie = new Chart(ctx).Pie(pieData);
+				var ctx = document.getElementById("chart-area1").getContext("2d");
+				window.myPie = new Chart(ctx).Pie(pieData1);
+			};
+</script>
+  </head>
+  <body>
+<div class="container-fluid">
+<div class="container-fluid">
+        <div class="row-fluid">
+            <h1>蜜思肤微收银台收款记录</h1>
+            <div>
+                <ul class="breadcrumb">
+                    <li >
+                        菜单选项：
+                    </li>
+                    <li class="caidan" onClick="location.href='{php echo $this->createMobileUrl('pcindex', array())}'">
+                        收款页 <span >/</span>
+                    </li>
+                    <li class="caidan" onClick="location.href='{php echo $this->createMobileUrl('pcjilu', array())}'">
+                        记录页 <span >/</span>
+                    </li>
+                    <li class="caidan" onClick="location.href='{php echo $this->createMobileUrl('pcloginout', array())}'">
+                       退出登录
+                    </li>
+                </ul>
+            </div>
+        </div>
+	 <div class="row-fluid" style="width: 700px; height: 330px; margin: 20px auto;">
+
+            <div id="canvas-holder" style="float: left; width:300px;">
+				<canvas id="chart-area" width="300" height="300"></canvas>
+				<p style="text-align: center;">订单量统计:<br>
+				微信<span style="color: #FF5A5E;"><b>——</b></span>&nbsp;&nbsp;
+				支付宝<span style="color: #46BFBD;"><b>——</b></span>
+				</p>
+			</div>
+			<div id="canvas-holder" style="width:300px; float: right;">
+				<canvas id="chart-area1" width="300" height="300"></canvas>
+				<p style="text-align: center;">交易额统计:<br>
+				微信<span style="color: #FF5A5E;"><b>——</b></span>&nbsp;&nbsp;
+				支付宝<span style="color: #46BFBD;"><b>——</b></span>
+				</p>
+			</div>
+        </div>
+        </div>
+</div>
+  </body>
+</html>

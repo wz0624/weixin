@@ -1,0 +1,240 @@
+{template 'header'}
+<script>
+	require(['angular', 'bootstrap', 'utilsms'], function(angular, $, u){
+		angular.module('app', []).controller('loginPanel', function($scope, $http){
+			$scope.label = {
+				basic: {
+					error: false
+				},
+				code: {
+					countDown : '',
+					error: false
+				},
+				running: false
+			};
+			$scope.ret = {
+				basic: {
+					username : '',
+					districtid : '',
+					password : ''
+				},
+				code: {
+					username : '',
+					districtid : '',
+					password : ''
+				}
+			};
+			$scope.login = function(){
+				if($scope.label.running) {
+					return;
+				}
+				var ret = $scope.ret;
+				var mode = angular.element('li.active a[data-toggle="tab"]').attr('href') == '#basic' ? 'basic' : 'code';
+
+				if(ret[mode].realname == '' || ret[mode].username == ''{if $config['smsstatus']} || ret[mode].password == ''{/if}) {
+					$scope.label[mode].error = true;
+					return;
+				}
+				
+				var regBox = {
+       				regMobile : /^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$|17[0-9]{1}[0-9]{8}$/,//手机
+    			}
+				var mflag = regBox.regMobile.test(ret[mode].username);
+				if (!mflag) {
+				    u.message('请输入正确的手机号.');
+					return;
+    			}
+				$scope.label[mode].error = false;
+
+				$scope.label.running = true;
+				var params = angular.copy(ret[mode]);
+				params.mode = mode;
+				$http.post(location.href, params).success(function(dat){
+					if(dat != 'success') {
+						u.message(dat);
+					} else {
+						location.reload();
+					}
+					$scope.label.running = false;
+				});
+			};
+		});
+		angular.bootstrap(document, ['app']);
+
+		$(function(){
+			$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+				if($(e.target).attr('href') == '#code') {
+					$('#code').addClass('fadeInRight');
+				} else {
+					$('#basic').addClass('fadeInLeft');
+				}
+			});
+			$('.btn-sender').on('click', function(){
+				var mode = $('li.active a[data-toggle="tab"]').attr('href') == '#basic' ? 'basic' : 'code';
+				if(mode == 'basic') {
+					return;
+				}
+				var scope = angular.element('.ng-container').scope();
+				if(!scope.ret.code.realname) {
+					u.message('请输入真实姓名.');
+					return;
+				}
+				var scope = angular.element('.ng-container').scope();
+				if(!scope.ret.code.username) {
+					u.message('请输入手机号.');
+					return;
+				}
+				var regBox = {
+       				regMobile : /^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$|17[0-9]{1}[0-9]{8}$/,//手机
+    			}
+				var mflag = regBox.regMobile.test(scope.ret.code.username);
+				if (!mflag) {
+				    u.message('请输入正确的手机号.');
+					return;
+    			}
+				{if $config['smsstatus']}
+				send_Code(this, scope.ret.code.username, function(ret, message){
+					if(ret == 'failed') {
+						u.message('发送验证码失败. 详情: ' + message);
+					}
+				});
+				{/if}
+			});
+		});
+	});
+	/**
+	 * 点击指定的元素, 发送验证码, 并显示倒计时, 并通知发送状态
+	 * @param elm 元素节点
+	 * @param no 要发送验证码的手机号
+	 * @param callback 通知回调, 这个函数接受两个参数
+	 * function(ret, state)
+	 * ret 通知结果, success 成功, failed 失败, downcount 倒计时
+	 * state 通知内容, success 时无数据, failed 时指明失败原因, downcount 时指明当前倒数
+	 */
+	function send_Code(elm, no, callback) {
+		if(!no || !elm || !$(elm).attr('uniacid')) {
+			if($.isFunction(callback)) {
+				callback('failed', '给定的参数有错误');
+			}
+			return;
+		}
+		$(elm).attr("disabled", true);
+		var downcount = 60;
+		$(elm).html(downcount + "秒后重新获取");
+
+		var timer = setInterval(function(){
+			downcount--;
+			if(downcount <= 0){
+				clearInterval(timer);
+				$(elm).html("重新获取验证码");
+				$(elm).attr("disabled", false);
+				downcount = 60;
+			}else{
+				if($.isFunction(callback)) {
+					callback('downcount', downcount);
+				}
+				$(elm).html(downcount + "秒后重新获取");
+			}
+		}, 1000);
+
+		var params = {};
+		params.receiver = no;
+		params.uniacid = $(elm).attr('uniacid');
+		$.post('{php echo $this->createMobileUrl('verifycode','',$noredirect = true)}', params).success(function(dat){
+			if(dat == 'success') {
+				if($.isFunction(callback)) {
+					callback('success', null);
+				}
+			} else {
+				if($.isFunction(callback)) {
+					callback('failed', dat);
+				}
+			}
+		});
+	};
+</script>
+<style>
+	body{background:{$config['memberbgcolor']};}
+	.panel{margin:.5em; border:none;}
+	.panel-info>.panel-heading {background: -webkit-gradient(linear, 0 0, 100% 0, from(#D7D7D7), to(#D7D7D7), color-stop(30%, {$config['memberbgcolor']})); color:#666666; border:none;}
+	a{color:#666666;}a:hover{color: #3ebacc;}
+	.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus{color: #3ebacc;}
+	.actions{margin:.8em auto;}
+	.nav.nav-tabs{margin-bottom:.8em;}
+	.btn.btn-primary{background: {$config['memberbntcolor']}; color: {$config['memberbnttcolor']}; border: 0;}
+</style>
+{if $this->module['config']['module_branch']}
+<script language='javascript'>
+    function fetchChildCategory(cid) {
+	var html = '<option value="0">请选择网点</option>';
+	if (!category || !category[cid]) {
+		$('#cate_2').html(html);
+		return false;
+	}
+	for (i in category[cid]) {
+		html += '<option value="'+category[cid][i][0]+'">'+category[cid][i][1]+'</option>';
+	}
+	$('#cate_2').html(html);
+    }
+	var category = {php echo json_encode($business)};
+</script>
+{/if}
+<div class=" panel panel-info ng-container" ng-controller="loginPanel">
+	<div class="panel-heading">
+		<h4>{$_W['account']['childname']}确认身份</h4>
+	</div>
+	<div class="panel-body">
+	<form name="theform" method="post" role="form" ng-submit="login();">
+		<ul class="nav nav-tabs" role="tablist">
+			<li><!--<a href="#basic" role="tab" data-toggle="tab">账号登录</a>-->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+			<li class="active"><a href="#code" role="tab" data-toggle="tab">身份验证</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane animated active" id="code">
+				<div class="form-group has-feedback" ng-class="{'has-error': label.code.error}">
+					<label class="control-label sr-only"></label>
+					<input ng-model="ret.code.realname" type="text" class="form-control" placeholder="真实姓名" ng-init="ret.code.realname='{$profile['realname']}'" ng-value="">
+					<span class="glyphicon glyphicon-remove form-control-feedback" ng-show="label.code.error"></span>
+				</div>
+				<div class="form-group has-feedback" ng-class="{'has-error': label.code.error}">
+					<label class="control-label sr-only"></label>
+					<input ng-model="ret.code.username" type="tel" class="form-control" placeholder="手机号" ng-init="ret.code.username='{$profile['mobile']}'" ng-value="">
+					<span class="glyphicon glyphicon-remove form-control-feedback" ng-show="label.code.error"></span>
+				</div>
+				{if $config['smsstatus'] && $member_sms['status']}
+				<div class="form-group">
+					<button class="btn btn-warning btn-block btn-sender" uniacid="{$_W['uniacid']}">获取验证码</button>
+				</div>
+				<div class="form-group has-feedback" ng-class="{'has-error': label.code.error}">
+					<label class="control-label sr-only"></label>
+					<input ng-model="ret.code.password" type="tel" class="form-control" placeholder="验证码">
+					<span class="glyphicon glyphicon-remove form-control-feedback" ng-show="label.code.error"></span>
+				</div>
+				{/if}
+				{if $this->module['config']['module_branch']}
+				<div class="form-group has-feedback">可选择服务网点</div>
+				<div class="form-group has-feedback">
+				    <label class="control-label sr-only"></label>
+					<select class="form-control" style="margin-right:15px;" id="pcate" name="pcate" onchange="fetchChildCategory(this.options[this.selectedIndex].value)"  autocomplete="off">
+				        <option value="" selected="selected">请选择网点区域</option>
+				        {loop $district $row}
+				        <option value="{$row['id']}">{$row['title']}</option>
+				        {/loop}
+				    </select>
+					<span class="glyphicon glyphicon-remove form-control-feedback"></span>
+				</div>
+				<div class="form-group has-feedback" ng-class="{'has-error': label.code.error}">
+				    <label class="control-label sr-only"></label>
+					<select class="form-control" id="cate_2" name="districtid" ng-model="ret.code.districtid" autocomplete="off">
+					    <option value="0" selected="selected">请先选择网点区域</option>					    
+					</select>
+					<span class="glyphicon glyphicon-remove form-control-feedback" ng-show="label.code.error"></span>
+				</div>
+				{/if}
+			</div>
+		</div>
+		<button type="submit" class="btn btn-primary btn-block">确认身份</button>
+	</form>	
+	</div>
+</div>
+</div>

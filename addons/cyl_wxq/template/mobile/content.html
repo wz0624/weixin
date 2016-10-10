@@ -1,0 +1,172 @@
+{template 'header'}
+<body>
+  <header data-am-widget="header"
+          class="am-header am-header-default">
+      <div class="am-header-left am-header-nav">
+          <a href="{php echo $this->createMobileUrl('index');}" class=""> 
+
+                <i class="am-header-icon am-icon-home"></i>
+          </a>
+      </div>
+
+      <div class="am-header-title">
+          <a href="#title-link">
+            {$title}
+          </a>
+      </div>
+
+      <div class="am-header-right am-header-nav">
+          <a href="#right-link" class="" data-am-modal="{target: '#my-popup'}">
+
+                <i class="am-header-icon am-icon-search"></i>
+          </a>
+      </div>
+  </header>
+  
+  <div data-am-widget="list_news" class="am-list-news am-list-news-default" >
+
+<div class="am-popup" id="my-popup">
+  <div class="am-popup-inner">
+    <div class="am-popup-hd">
+      <h4 class="am-popup-title">搜索</h4>
+      <span data-am-modal-close
+            class="am-close">&times;</span>
+    </div>
+    <div class="am-popup-bd">
+    <form action="./index.php" method="get" class="form-horizontal content-padded" role="form">
+    <input type="hidden" name="i" value="{$_W['uniacid']}">
+    <input type="hidden" name="c" value="{$_GPC['c']}">   
+    <input type="hidden" name="do" value="{$_GPC['do']}">
+    <input type="hidden" name="m" value="{$_GPC['m']}">
+      <p><input type="text" class="am-form-field am-radius" name="keyword" placeholder="请输入关键词" /></p>
+    </form>
+
+    <div class="am-panel am-panel-default">
+  <div class="am-panel-hd">分类</div>
+  <div class="am-panel-bd">
+    <a class="tab-item external" href="{php echo $this->createMobileurl('index')}" style="color:#000">
+  全部分类
+</a>
+{loop $categories $cid $category}
+      <a class="tab-item external" href="{php echo $this->createMobileurl('index', array('cid'=>$category['id']));}" style="color:#000">
+  {$category['title']}
+</a>
+ {/loop}  
+  </div>
+</div>
+
+<section class="am-panel am-panel-default">
+  <header class="am-panel-hd">
+    <h3 class="am-panel-title">区域</h3>
+  </header>
+  <div class="am-panel-bd">
+    <a class="tab-item external" href="{php echo $this->createMobileurl('index')}" style="color:#000">
+  全部分类
+</a>
+{loop $areas $aid $area}
+      <a class="tab-item external" href="{php echo $this->createMobileurl('index', array('aid'=>$area['id']));}" style="color:#000">
+  {$area['title']}
+</a>
+ {/loop}  
+  </div>
+</section>
+
+    </div>
+  </div>
+</div>
+ <article class="am-article">
+  <div class="am-article-hd">
+    <h1 class="am-article-title">{$content['title']}</h1>
+    <p class="am-article-meta">更新时间：{php echo date('Y-m-d',$content['time'])}</p>
+  </div>
+
+  <div class="am-article-bd">
+    <table class="am-table am-table-bordered am-table-radius am-table-striped">
+   <tbody>
+        <tr>
+            <td>分类</td>
+            <td>{$categories[$content['categoryid']]['title']}</td>
+            
+        </tr>
+        <tr>
+            <td>区域</td>
+            <td>{$areas[$content['address']]['title']}</td>
+            
+        </tr>
+       
+        
+        <tr>
+            <td>群主微信号</td>
+            <td>{$content['wxh']}</td>
+            
+        </tr>
+    </tbody>
+</table>
+  </div>
+
+
+<section class="135editor" style="position:static;box-sizing: border-box;" data-id="86108">
+    <section style="margin:50px 5px 16px; border:3px solid rgb(89, 195, 249); text-align: center; border-radius: 2px; font-size: 18px; font-weight: inherit; text-decoration: inherit; box-sizing: border-box; padding: 0px;">
+        
+        <section style="margin: 8px 15px; line-height: 1.4; box-sizing: border-box; color: inherit;">
+            <section style="margin: 0px auto 20px; width: 60%;" data-width="60%">
+                <section style="text-align:center;">
+                    <section style="display: inline-block;background-color: rgb(254,254,254);padding: 0px 15px;">
+                        <span style="color: #59C3F9; font-size: 18px;" class="135brush" data-brushtype="text">群简介</span>
+                    </section>
+                </section>
+                <section style="margin-top: -28px; text-align: center; text-decoration: inherit; color: rgb(255, 255, 255); border-color: rgb(89, 195, 249); box-sizing: border-box; width: 100%;" data-width="100%">
+                    <section style="margin-top: 15px; box-sizing: border-box; color: inherit; text-align: left;">
+                        <section style="border-bottom-width: 1px; border-bottom-style: solid; width: 100%;border-color: rgb(89, 195, 249); box-sizing: border-box; color: inherit;" data-width="100%"></section>
+                    </section>
+                </section>
+            </section>
+            <p style="text-align: left; font-size: 14px; color: inherit;">
+                {$content['desc']}
+            </p>
+        </section>
+        <section style="margin: 10px 0px; border-top-width:3px; border-top-style: solid; border-color: rgb(89, 195, 249);">
+            <p style="color: inherit;">
+                <br/>
+            </p>
+        </section>
+        <section style="margin:10px;">
+            <section style="width: 50%; float: left; padding-right: 0.1em;" data-width="50%">
+                <img src="{$_W['attachurl']}{$content['ewm']}" style="width: 100%;" data-width="100%"/>
+            </section>
+            <section style="width: 50%; display: inline-block; padding-left: 0.1em;" data-width="50%">
+                <img src="https://mmbiz.qlogo.cn/mmbiz/cZV2hRpuAPiaY9qWsf33gZF4QPGEdxYOia1QRPx4occ15YZElXLIe2ibmaGlhYcknXia1fNKK4Urd039e3vCzErYOA/0" style="width: 100%;" data-width="100%"/>
+            </section>
+        </section>
+        <section style="margin:10px 8px;">
+            <section style="margin: 0.8em 0px 0.3em;">
+                <section style="text-align: center; text-decoration: inherit; color: rgb(255, 255, 255); border-color: rgb(89, 195, 249); box-sizing: border-box;">
+                    <section style="padding: 0.5em; line-height: 1.2em; font-size: 1em; border-radius: 4px; color: rgb(255, 255, 255); background-color: rgb(89, 195, 249);">
+                        <span style="font-size: 14px;"><strong style="color:inherit" class="135brush" data-brushtype="text">长按指纹 &gt; 识别图中二维码 &gt; 添加微信群</strong></span>
+                    </section>
+                </section>
+            </section>
+            
+        </section>
+    </section>
+    <section style="display: block; width: 0; height: 0; clear: both;"></section>
+</section>
+<p>
+    <br/>
+</p>
+
+
+</article>
+
+     {if $settings['gg']}
+<a href="{$settings['link']}">
+    <img src="{$_W['attachurl']}{$settings['gg']}" alt="" width="100%">
+</a>{/if}
+    <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+    <script src="http://libs.useso.com/js/jquery/2.1.1/jquery.min.js"></script>  
+    <script src="http://cdn.amazeui.org/amazeui/2.5.0/js/amazeui.min.js"></script>  
+    <script src="http://cdn.amazeui.org/amazeui/2.5.0/js/amazeui.widgets.helper.min.js"></script>  
+
+
+{template 'common/footer'}

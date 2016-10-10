@@ -1,0 +1,168 @@
+
+<!--正文导航-->
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="utf-8">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+        <meta content="telephone=no" name="format-detection" /> 
+        <meta name="google-site-verification" content="DVVM1p1HEm8vE1wVOQ9UjcKP--pNAsg_pleTU5TkFaM">
+        <style>
+            body > a:first-child,body > a:first-child img{ width: 0px !important; height: 0px !important; overflow: hidden; position: absolute}
+            body{padding-bottom: 0 !important;}
+        </style>
+        <meta id="viewport" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+        <title>确认订单</title>
+		<link rel="stylesheet" href="{OSSURL}public/mobile/css/reset.css?{php echo time()}">
+		<link type="text/css" rel="stylesheet" href="{OSSURL}public/mobile/css/greenStyle.css?v=4.80120" />
+        <script src="{OSSURL}public/mobile/js/jquery.js"></script>
+		<script type="text/javascript" src="{OSSURL}public/mobile/js/PromptBoxUtil.js?v=4.80309"></script>
+<style>
+.black_overlay{
+z-index:1001;
+}
+</style>
+</head>
+<body style="">
+    <div id="wrap" class="user_cost">
+        <!-- 修改开始 -->
+        <section id="cost_list">
+            <section class="uncost select">
+			       {if !empty($kc1)}
+                        <div class="quan_box click">
+                            <a href="#" style="display:block">
+                                <dl class="quan_list">
+                                    <dt><div style="background-image:url({php echo tomedia($teacher[$kecheng[$kc1['kcid']]['tid']]['thumb']);})"></div>{$teacher[$kecheng[$kc1['kcid']]['tid']]['tname']}</dt>
+                                    <dd>{$kecheng[$kc1['kcid']]['name']}</dd>
+                                    <dd>￥{$kecheng[$kc1['kcid']]['cose']}</dd>
+                                    <dd>{$kecheng[$kc1['kcid']]['adrr']}</dd>
+                                    <dd>开始:{php echo date('Y-m-d',$kecheng[$kc1['kcid']]['start'])}</dd>
+                                    <dd>结束:{php echo date('Y-m-d',$kecheng[$kc1['kcid']]['end'])}</dd>
+                                </dl>
+                            </a>
+                            <p>请于{php echo date('Y年m月d日',$kecheng[$kc1['kcid']]['start'])}之前缴费哦~</p>
+                        </div>
+                   	{/if}
+			       {if !empty($kc2)}
+                        <div class="quan_box click">
+                            <a href="#" style="display:block">
+                                <dl class="quan_list">
+                                    <dt><div style="background-image:url({php echo tomedia($teacher[$kecheng[$kc2['kcid']]['tid']]['thumb']);})"></div>{$teacher[$kecheng[$kc2['kcid']]['tid']]['tname']}</dt>
+                                    <dd>{$kecheng[$kc2['kcid']]['name']}</dd>
+                                    <dd>￥{$kecheng[$kc2['kcid']]['cose']}</dd>
+                                    <dd>{$kecheng[$kc2['kcid']]['adrr']}</dd>
+                                    <dd>开始:{php echo date('Y-m-d',$kecheng[$kc2['kcid']]['start'])}</dd>
+                                    <dd>结束:{php echo date('Y-m-d',$kecheng[$kc2['kcid']]['end'])}</dd>
+                                </dl>
+                            </a>
+                            <p>请于{php echo date('Y年m月d日',$kecheng[$kc2['kcid']]['start'])}之前缴费哦~</p>
+                        </div>
+                   	{/if}
+			       {if !empty($kc3)}
+                        <div class="quan_box click">
+                            <a href="#" style="display:block">
+                                <dl class="quan_list">
+                                    <dt><div style="background-image:url({php echo tomedia($teacher[$kecheng[$kc3['kcid']]['tid']]['thumb']);})"></div>{$teacher[$kecheng[$kc3['kcid']]['tid']]['tname']}</dt>
+                                    <dd>{$kecheng[$kc3['kcid']]['name']}</dd>
+                                    <dd>￥{$kecheng[$kc3['kcid']]['cose']}</dd>
+                                    <dd>{$kecheng[$kc3['kcid']]['adrr']}</dd>
+                                    <dd>开始:{php echo date('Y-m-d',$kecheng[$kc3['kcid']]['start'])}</dd>
+                                    <dd>结束:{php echo date('Y-m-d',$kecheng[$kc3['kcid']]['end'])}</dd>
+                                </dl>
+                            </a>
+                            <ul>
+                                <input type="hidden" value="" class="coupon_cid"/>
+                            </ul>
+                            <p>请于{php echo date('Y年m月d日',$kecheng[$kc3['kcid']]['start'])}之前缴费哦~</p>
+                        </div>
+                   	{/if}
+			       {if !empty($kc4)}
+                        <div class="quan_box click">
+                            <a href="#" style="display:block">
+                                <dl class="quan_list">
+                                    <dt><div style="background-image:url({php echo tomedia($teacher[$kecheng[$kc4['kcid']]['tid']]['thumb']);})"></div>{$teacher[$kecheng[$kc4['kcid']]['tid']]['tname']}</dt>
+                                    <dd>{$kecheng[$kc4['kcid']]['name']}</dd>
+                                    <dd>￥{$kecheng[$kc4['kcid']]['cose']}</dd>
+                                    <dd>{$kecheng[$kc4['kcid']]['adrr']}</dd>
+                                    <dd>开始:{php echo date('Y-m-d',$kecheng[$kc4['kcid']]['start'])}</dd>
+                                    <dd>结束:{php echo date('Y-m-d',$kecheng[$kc4['kcid']]['end'])}</dd>
+                                </dl>
+                            </a>
+                            <ul>
+                                <input type="hidden" value="" class="coupon_cid"/>
+                            </ul>
+                            <p>请于{php echo date('Y年m月d日',$kecheng[$kc4['kcid']]['start'])}之前缴费哦~</p>
+                        </div>
+                   	{/if}
+			       {if !empty($kc5)}
+                        <div class="quan_box click">
+                            <a href="#" style="display:block">
+                                <dl class="quan_list">
+                                    <dt><div style="background-image:url({php echo tomedia($teacher[$kecheng[$kc5['kcid']]['tid']]['thumb']);})"></div>{$teacher[$kecheng[$kc5['kcid']]['tid']]['tname']}</dt>
+                                    <dd>{$kecheng[$kc5['kcid']]['name']}</dd>
+                                    <dd>￥{$kecheng[$kc5['kcid']]['cose']}</dd>
+                                    <dd>{$kecheng[$kc5['kcid']]['adrr']}</dd>
+                                    <dd>开始:{php echo date('Y-m-d',$kecheng[$kc5['kcid']]['start'])}</dd>
+                                    <dd>结束:{php echo date('Y-m-d',$kecheng[$kc5['kcid']]['end'])}</dd>
+                                </dl>
+                            </a>
+                            <ul>
+                                <input type="hidden" value="" class="coupon_cid"/>
+                            </ul>
+                            <p>请于{php echo date('Y年m月d日',$kecheng[$kc5['kcid']]['start'])}之前缴费哦~</p>
+                        </div>
+                   	{/if}					
+                <article style="z-index:99;margin-top:100px;" id = "gao">
+                    <header>
+                        <h3>可缴费班级费用明细</h3>
+                    </header>
+                    <ul>
+					    {php $cose = $kc1['cose']+$kc2['cose']+$kc3['cose']+$kc4['cose']+$kc5['cose'];}	
+                        <li>应付金额：<span class='orange' id="lastPrice">￥{$cose}</span></li>
+                    </ul>
+                    <footer>
+                        <p>
+                            <input type="checkbox" id="ensure" class="check_ok" checked="checked">
+                            <a href="">同意报名退款协议</a>
+                        </p>
+						<p style="padding-bottom:10px;"></p>
+                        <div id="gopay"><a href="#" onclick="checkSubmit();" style="text-decoration:none;color:#fff;">微信支付</a></div>
+                    </footer>
+                </article>
+            </section>
+        </section>
+    </div>
+</body>
+<!-- 修改结束 -->
+
+<script>
+
+var PB = new PromptBox();
+    function checkSubmit() {
+	    PB.prompt('即将跳转微信支付！','forever');
+		var submitData = {
+					schoolid : "{$schoolid}",
+					weid     : "{$_W['uniacid']}",
+					od1      : "{$od1}",
+					od2      : "{$od2}",
+					od3      : "{$od3}",
+					od4      : "{$od4}",
+					od5      : "{$od5}"
+		};
+        $.post("{php echo $this->createMobileUrl('payajax',array('op'=>'creatorder'))}",submitData, function(data) {
+            if (data.result) {
+              window.location.href = data.msg
+            }else{
+			  PB.prompt(data.msg);
+			}
+        },'json');
+	// window.location.href = "{php echo $this->createMobileUrl('pay', array('schoolid' => $schoolid, 'cose' => $cose, 'wxpay' => $kc1['id'], 'order2' => $kc2['id'], 'order3' => $kc3['id'], 'order4' => $kc4['id'], 'order5' => $kc5['id']))}";
+    }	
+</script>
+
+<!--微信支付相关-->
+
+</html>

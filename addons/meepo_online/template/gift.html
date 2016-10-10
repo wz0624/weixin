@@ -1,0 +1,124 @@
+{template 'common/header'}
+{template 'nav'}
+{template 'list_nav'}
+<style>
+.editable-click, a.editable-click {
+    color: #000 !important;
+    border-bottom:none !important;
+    text-decoration: none;
+}
+.editable-input.editable-has-buttons {
+    width: auto;
+    max-width: 100px;
+}
+.st-sort-ascent:before {
+    content: '\25B2';
+}
+</style>
+<!-- 项目管理 -->
+{if $op=='list'}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		直播礼物管理
+	</div>
+	<div class="panel-body">
+		<table  class="table table-striped">
+			<thead>
+				<tr>
+					<th style="width:50px;">礼物排序序号</th>
+					<th style="width:100px;">礼物名称</th>
+					<th style="width:100px;">礼物图片</th>
+					<th style="width:150px;">单价</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{loop $gifts $row}
+				<tr>
+					<td>
+						{$row['displayorder']}
+					</td>
+					<td>
+						{$row['name']}
+					</td>
+					<td>
+						<img src="{php echo tomedia($row['img'])}" width=50px height=50px />
+					</td>
+					<td>
+						{$row['money']}元
+					</td>
+					
+					<td style="overflow:visible">
+						<a class="btn btn-default" title="编辑" href="{php echo $this->createWebUrl('gift',array('op'=>'post','listid'=>$listid,'id'=>$row['id']))}">
+							<i class="fa fa-gear"></i>
+						</a>
+						<a class="btn btn-default" title="删除" href="{php echo $this->createWebUrl('gift',array('op'=>'del','listid'=>$listid,'id'=>$row['id']))}" onclick="return confirm('删除将无法恢复，确认吗？');return false;">
+							<i class="fa fa-times"></i>
+						</a>
+					</td>
+				</tr>
+			{/loop}
+			</tbody>
+		</table>
+		
+	</div>
+	<div class="panel-footer">
+		<a href="{php echo $this->createWebUrl('gift',array('op'=>'post','listid'=>$listid))}" class="btn btn-sm btn-success">
+			<i class="glyphicon glyphicon-plus"></i>新增礼物
+		</a>
+	</div>
+</div>
+{elseif $op=='post'}
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		{if !empty($gift['id'])}编辑{else}新增{/if}礼物
+	</div>
+	<div class="panel-body">
+		<form action="" method="post" class="form-horizontal" role="form" id="form1" >
+			
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">排序序号</label>
+						<div class="col-sm-8 col-lg-10 col-xs-12">
+							<input type="text" value="{$gift['displayorder']}" class="form-control" name="displayorder">
+							<span class="help-block">排序序号</span>
+						</div>
+					</div>
+					<div class="form-group">
+							  <label class="col-xs-12 col-sm-2 col-md-2  col-lg-2 control-label">礼物名称</label>
+							  <div class="col-sm-9 col-lg-10">
+										  <input type="text" name="name" value="{$gift['name']}" class="form-control">
+								  <span class="help-block">礼物名称</span>
+							  </div>
+					 </div>
+					 <div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">礼物图片</label>
+						<div class="col-sm-8 col-lg-9 col-xs-12">
+							{php echo tpl_form_field_image('img', $gift['img']);}
+							<span class="help-block">礼物图片</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">单价</label>
+						<div class="col-sm-8 col-lg-9 col-xs-12">
+							<div class="input-group">
+								<div class="input-group-addon">单价</div>
+								<input type="text" class="form-control" name="money" value="{$gift['money']}">
+								<div class="input-group-addon">元</div>
+							</div>
+							<span class="help-block">最小值为0.01</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-12">
+							<input name="submit" type="submit" value="提交" class="btn btn-primary" />
+							<input type="hidden" name="id" value="{$gift['id']}" />
+							<input type="hidden" name="listid" value="{$listid}" />
+							<input type="hidden" name="token" value="{$_W['token']}" />
+						</div>
+					</div>
+	</div>
+	</form>
+</div>
+{/if}
+{template 'common/footer'}

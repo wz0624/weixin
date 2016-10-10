@@ -1,0 +1,274 @@
+{template 'weheader'}
+<style>
+body{background-color:#f0f0f0;font-weight:300;}
+a{color:#666}
+.weui_navbar{line-height:20px;}
+.weui_cells {margin-top:0;}
+.weui_media_box.weui_media_text .weui_media_info {margin-top: 0px;}
+.weui_tabbar_icon {height: 24px;}
+.weui_bar_item_on .weui_tabbar_icon i {color: #09BB07;}
+.weui_cell_bd i {color:#666;}
+
+.dayu_cells {overflow: hidden;position: relative;}
+.sticky-fixed {width: 100%;position: fixed;bottom: 0;z-index:9998;}
+
+.weui_cell_ft {margin-left:10px;font-size:14px;}
+.weui_cell_bd {font-size:16px;}
+.weui_cells_title {margin-top: 10px;}
+.weui_cells_title img{width:1.2rem;height:1.2rem;}
+
+.weui_actionsheet {bottom:50px;}
+</style>
+
+<div class="weui_tab_bd">
+	<div class="weui_cells_title">
+		<span class="weui_btn f18 weui_btn_mini{if $row['status'] == 0} weui_btn_default">{$activity['state1']}</span>
+		{elseif $row['status'] == 1} weui_btn_primary">{$activity['state2']}</span>
+		{elseif $row['status'] == 2} weui_btn_warn">{$activity['state4']}</span>
+		{elseif $row['status'] == 3} bg-blue">{$activity['state3']}</span>
+		{elseif $row['status'] == 9} weui_btn_warn">{$activity['state5']}</span>
+		{/if}
+		<a href="javascript:;" class="right">
+		{if $row['paystatus'] == 1}<span class="weui_btn f18 weui_btn_mini bg-blue right">未支付</span>
+        {elseif $row['paystatus'] == 2}<span class="weui_btn f18 weui_btn_mini weui_btn_warn right">已支付</span>
+		{/if}
+		</a>
+	</div>
+	<div class="weui_cells clear">
+		<div class="weui_cell">
+			<div class="weui_cell_bd weui_cell_primary f12">
+				{$row['createtime']}
+			</div>
+			<div class="weui_cell_ft f12">提交时间</div>
+		</div>
+		<div class="weui_cell f12 f-blue">
+	{if $activity['is_time']==0}
+			<div class="weui_cell_bd weui_cell_primary f12">
+				{$row['yuyuetime']}
+			</div>
+			<div class="weui_cell_ft f12">{$activity['yuyuename']}</div>
+	{elseif $activity['is_time']==2}
+			<div class="weui_cell_bd weui_cell_primary f12">
+				{$row['restime']}
+			</div>
+			<div class="weui_cell_ft f12">{$activity['yuyuename']}</div>
+			{if !$row['yuyuetime']}
+			<div class="weui_cell_bd weui_cell_primary f12">
+				{$row['yuyuetime']}
+			</div>
+			<div class="weui_cell_ft f12">受理时间</div>
+			{/if}
+	{/if}
+		</div>
+	</div>
+        <div class="weui_btn_area">
+		{if  $activity['pay'] == 1 && $row['paystatus'] == 1}
+			<span class="weui_btn weui_btn_default"><i class="iconfont">&#xe614;</i> 用户未支付，不能受理</span>
+		{elseif $row['status'] == 1}
+			<a href="javascript:void(0);" class="weui_btn weui_btn_warn" id="changeAjax">更新为：{$activity['state3']}</a>
+	<script>
+    $(document).ready(function () {
+        var ActionUrl = "{php echo $this->createMobileUrl('changeAjax', array(), true);}";
+        $("#changeAjax").bind('click',function () {
+		 $.confirm("您确定要更改状态为完成吗?", "确认?", function() {
+
+            var submitData = {
+                id:"{$row['rerid']}",
+                reid:"{$reid}",
+                status: "3"
+            };
+            $.post(ActionUrl, submitData,function(data) {
+                if (data.status == 1) {
+                    $.toast(data.message);
+                    setTimeout('window.location.href=location.href',1000);
+                    return;
+                } else {
+                    $.toast(data.message);
+                }
+            },"json")
+			        }, function() {
+          //取消操作
+        });
+
+        });
+	});
+	</script>
+		{elseif $row['status'] != 3}
+			<a href="javascript:;" id="reply" class="weui_btn weui_btn_primary" {if $row['status'] ==2}disabled{/if}>更 新 状 态</a>
+		{/if}
+        </div> 
+
+	<div id="actionSheet_wrap">
+        <div class="weui_mask_transition" id="mask">
+		</div>
+        <div class="weui_actionsheet" id="weui_actionsheet">
+            <div class="weui_actionsheet_action" style="background-color:#f0f0f0;">
+                <div class="weui_actionsheet_cell" id="actionsheet_cancel">
+					<i class="weui_icon_cancel"></i> 取消
+				</div>
+            </div>
+	<form action="" enctype="multipart/form-data" method="POST" id="form1">
+    <input type="hidden" name="rerid" value="{$rerid}" />
+    <input type="hidden" name="token" value="{$_W['token']}" />
+<div class="weui_actionsheet_menu">
+	<div class="weui_cells weui_cells_form">
+			<div class="weui_cell weui_cell_select">
+				<div class="weui_cell_bd weui_cell_primary">
+					<select class="weui_select" id="status" name="status">
+				{if $row['status'] != 0}<option value="0" {if $row['status'] == 0}selected="selected"{/if}>{$activity['state1']}</option>{/if}
+				<option value="1" {if $row['status'] == 0 or $row['status'] == 1}selected="selected"{/if}>{$activity['state2']}</option>
+				<option value="2" {if $row['status'] == 2}selected="selected"{/if}>{$activity['state4']}</option>
+				<option value="3" {if $row['status'] == 3}selected="selected"{/if}>{$activity['state3']}</option>
+					</select>
+				</div>
+			</div>
+			{if $activity['pay'] == 1}
+			<div class="weui_cell weui_cell_select">
+				<div class="weui_cell_bd weui_cell_primary">
+					<select class="weui_select" id="paystatus" name="paystatus">
+						<option value="1" {if $row['paystatus'] == 1}selected="selected"{/if}>未支付</option>
+						<option value="2"  {if $row['paystatus'] == 2}selected="selected"{/if}>已支付</option>
+					</select>
+				</div>
+			</div>
+			{/if}
+        <div class="weui_cell">
+            <div class="weui_cell_bd weui_cell_primary">
+			<textarea class="weui_textarea" name="kfinfo" rows="3" placeholder="请输入回复内容">{$row['kfinfo']}</textarea>
+                <div class="weui_textarea_counter"></div>
+            </div>
+		</div>
+	</div>
+</div>
+            <div class="weui_actionsheet_action">
+                <div class="weui_actionsheet_cell" style="padding:10px;"><button type="submit" name="button" class="weui_btn weui_btn_primary" {if $row['status'] ==2}disabled{/if}>更 新</button></div>
+            </div>
+	</form>
+        </div>
+    </div>
+
+	<div class="weui_cells_title"><span class="f14">用户资料</span><span class="right -wrap ell tright" style="width:70%;"><img src="{if !empty($face['tag']['avatar'])}{$face['tag']['avatar']}{else}{TEMPLATE_WEUI}images/noface.jpg{/if}" class="middle img-circle"> {$face['nickname']}</span></div>
+	<div class="weui_cells">
+		<div class="weui_cell">
+			<div class="weui_cell_bd weui_cell_primary">
+				{$row['member']}
+			</div>
+			<div class="weui_cell_ft">姓名</div>
+		</div>
+		<div class="weui_cell">
+			<div class="weui_cell_bd weui_cell_primary">
+				{$row['mobile']}
+			</div>
+			<div class="weui_cell_ft">手机</div>
+		</div>
+		{if $row['address'] && $activity['is_addr']==1}
+		<div class="weui_cell">
+			<div class="weui_cell_bd weui_cell_primary">
+				{$row['address']}
+			</div>
+			<div class="weui_cell_ft">地址</div>
+		</div>
+		{/if}
+	</div>
+	<div class="weui_cells_title"><span class="f14">订单信息</span></div>
+	<div class="weui_cells">
+		<div class="weui_cell">
+			<div class="weui_cell_bd weui_cell_primary">
+				{$row['ordersn']}
+			</div>
+			<div class="weui_cell_ft">订单编号</div>
+		</div>
+		{if $row['transid']}
+		<div class="weui_cell">
+			<div class="weui_cell_bd weui_cell_primary f14">
+				{$row['transid']}
+			</div>
+			<div class="weui_cell_ft">微信单号</div>
+		</div>
+		{/if}
+		{if $row['num'] > 1}
+		<div class="weui_cell">
+			<div class="weui_cell_bd weui_cell_primary">
+				<span class="right">{$xiangmu['title']}</span><span><i class="iconfont">&#xe61a;</i> {$xiangmu['price']}</span> × {$row['num']}
+			</div>
+			<div class="weui_cell_ft">{$activity['xmname']}</div>
+		</div>
+		<div class="weui_cell">
+			<div class="weui_cell_bd weui_cell_primary">
+				<span class="f-orange"><i class="iconfont">&#xe61a;</i> {$row['price']}</span>
+			</div>
+			<div class="weui_cell_ft">费用合计</div>
+		</div>
+		{else}		
+		<div class="weui_cell">
+			<div class="weui_cell_bd weui_cell_primary">
+				<span class="right">{$xiangmu['title']}</span> <span class="f-orange"><i class="iconfont">&#xe61a;</i> {$xiangmu['price']}</span>
+			</div>
+			<div class="weui_cell_ft">{$activity['xmname']}</div>
+		</div>
+		{/if}
+		<div class="weui_cell">
+			<div class="weui_cell_bd weui_cell_primary">
+				{if $row['paystatus'] == 1}<span class="weui_btn weui_btn_mini weui_btn_default">未支付</span>
+                {elseif $row['paystatus'] == 2}<span class="weui_btn weui_btn_mini weui_btn_warn">已支付</span>
+				{/if}
+				<span class="right f-{$row['css']}">{$row['paytype']}</span>
+			</div>
+			<div class="weui_cell_ft">付款状态</div>
+		</div>
+	</div>
+	<div class="weui_cells_title"><span class="f14">内容</span></div>
+	<div class="weui_cells">
+	{loop $ds $fid $ftitle}
+		<div class="weui_cell">
+			<div class="weui_cell_bd weui_cell_primary">
+		{if $ftitle['type'] == 'image'}
+			{if $row['fields'][$fid]}
+			<image class="weui_uploader_file weui_uploader_status" id="p{$fid}" src="{php echo tomedia($row['fields'][$fid]);}" height="50">
+			<script>
+				document.querySelector('#p{$fid}').onclick = function () {
+					wx.previewImage({
+						current: '{php echo tomedia($row['fields'][$fid]);}',
+						urls: [
+						'{php echo tomedia($row['fields'][$fid]);}'
+						]
+					});
+				};
+			</script>
+			{else}
+				未上传
+			{/if}
+		{else}
+			{if !empty($row['fields'][$fid])}{$row['fields'][$fid]}{else}未填{/if}
+		{/if}
+			</div>
+			<div class="weui_cell_ft">{$ftitle['fid']}</div>
+		</div>
+	{/loop}
+	</div>
+</div>
+<script>
+		$("#reply").click(function(){
+                    var mask = $('#mask');
+                    var weuiActionsheet = $('#weui_actionsheet');
+                    weuiActionsheet.addClass('weui_actionsheet_toggle');
+                    mask.show().addClass('weui_fade_toggle').one('click', function () {
+                        hideActionSheet(weuiActionsheet, mask);
+                    });
+                    $('#actionsheet_cancel').one('click', function () {
+                        hideActionSheet(weuiActionsheet, mask);
+                    });
+                    weuiActionsheet.unbind('transitionend').unbind('webkitTransitionEnd');
+
+                    function hideActionSheet(weuiActionsheet, mask) {
+                        weuiActionsheet.removeClass('weui_actionsheet_toggle');
+                        mask.removeClass('weui_fade_toggle');
+                        weuiActionsheet.on('transitionend', function () {
+                            mask.hide();
+                        }).on('webkitTransitionEnd', function () {
+                            mask.hide();
+                        })
+                    }
+		});
+</script>
+{template 'footers'}

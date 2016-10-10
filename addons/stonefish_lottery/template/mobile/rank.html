@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>{$reply['title']}排行榜--{$_W['account']['name']}</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<meta name="Description" content="{$reply['description']}" />
+<!-- Mobile Devices Support @begin -->
+<meta content="application/xhtml+xml;charset=UTF-8" http-equiv="Content-Type">
+<meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+<meta content="no-cache" http-equiv="pragma">
+<meta content="0" http-equiv="expires">
+<meta content="telephone=no, address=no" name="format-detection">
+<meta name="apple-mobile-web-app-capable" content="yes" /> <!-- apple devices fullscreen -->
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<!-- Mobile Devices Support @end -->
+<link href="../addons/stonefish_lottery/template/css/style1.css?{php echo time()}" rel="stylesheet" type="text/css" />
+<script src="{$_W['siteroot']}app/resource/js/lib/jquery-1.11.1.min.js?{php echo time()}"></script>
+<style>
+html{background:#F7E1B0;}
+.rankList {	margin:0px 10px;}
+.rankList .ranks {color:#3A2E16;}
+.rankList .ranks .avatar {float: left;width: 40px;height: 40px;	margin: 10px 0 0 0;}
+.rankList .ranks .avatar img {display: block;width: 100%;height: 100%;}
+.rankList .ranks .name {float: left;margin-left: 5px;}
+.rankList .ranks .lihe {margin-left:10px;float: left;margin-top:10px;width:100%;}
+.rankList .ranks .price {float: right;margin-right: 10px;}
+.rankList .rank_01{height: 60px;margin-bottom: 20px}
+.rankList .rank_01 {background: #FEF8E8;border-radius: 5px;}
+.rankList .rank_01 .avatar{margin: 10px 0 0 10px}
+.rankList .rank_01 .name,.rankList .rank_01 .price{line-height: 20px;margin-top:10px;}
+.rankList .ranks .serialNum {
+	float: left;
+	width: 44px;
+	height: 44px;
+	margin: 12px 12px 0 5px;
+	background: url(../addons/stonefish_lottery/template/images/serial_num_bg.png);
+	background-size: 100% 100%;
+	line-height: 20px;
+	font-size: 20px;
+	text-align: center;
+	color: #a9a589
+}
+.rankList .rank_bg .serialNum{
+	position: relative;
+	top: -2px;
+	width: 46px;
+	height: 74px;
+	margin: 0;
+	background: url(../addons/stonefish_lottery/template/images/rank_bg.png);
+	background-size: 46px 298px;
+	border-top: 0;
+	line-height: 65px
+}
+.rankList .rank_bg1 .serialNum {
+	color: #ffe949;
+	background-position: 0 0;
+}
+
+.rankList .rank_bg2 .serialNum {
+	color: #fff6b2;
+	background-position: 0 -75px;
+}
+
+.rankList .rank_bg3 .serialNum {
+	color: #fffff3;
+	background-position: 0 -149px;
+}
+.rankList .rank_bg4 .serialNum {
+	color: #fffff3;
+	background-position: 0 -224px;
+}
+.usr_more{ width: 100%;overflow: hidden; border:1px solid #c4d4d0; line-height: 35px; text-align: center; font-size: 14px; margin-top: 10px;color:#8d9695;}
+</style>
+</head>
+<script type="text/javascript">  
+$(document).ready(function() {  
+    var track_click = 0; //track user click on "load more" button, righ now it is 0 click  
+    var total_pages = {$total_pages};
+    $('#results').load('{php echo $this->createMobileUrl('pagepaihangdata', array('rid' => $rid,'pagesnum' => $reply['viewranknum']))}', {'page':track_click}, function() {track_click++;}); //initial data to load   
+    $(".load_more").click(function (e) { //user clicks on button
+        $(this).hide(); //hide load more button on click  
+        $('.animation_image').show(); //show loading image   
+        if(track_click <= total_pages) //make sure user clicks are still less than total pages  
+        {  
+            $.post('{php echo $this->createMobileUrl('pagepaihangdata', array('rid' => $rid,'pagesnum' => $reply['viewranknum']))}',{'page': track_click}, function(data) {  
+                $(".load_more").show(); //bring back load more button  
+                $("#results").append(data); //append data received from server  
+                $("html, body").animate({scrollTop: $("#load_more_button").offset().bottom}, 500);  
+                $('.animation_image').hide(); //hide loading image once data is received  
+                track_click++; //user click increment on load button  
+            }).fail(function(xhr, ajaxOptions, thrownError) {   
+                alert(thrownError); //alert any HTTP error  
+                $(".load_more").show(); //bring back load more button  
+                $('.animation_image').hide(); //hide loading image once data is received  
+            });  
+            if(track_click >= total_pages-1)  
+            {  
+                $(".load_more").attr("disabled", "disabled");
+				$(".load_more").html("全部加载完成");
+            }  
+         }  
+        });  
+});  
+</script> 
+<body>
+<div>
+    <div class="nou">	    
+		<div class="zhuan1">
+		    <div class="mingdan">
+                <h2 class="biaoti">排行榜</h2>
+            </div>
+			{if !empty($total_pages)}
+			<div class="rankList" id="results"></div>
+			{if $ranknum > $reply['viewranknum']}
+			<div align="center" style="margin:0px 10px;">  
+			    <button class="usr_more load_more" id="load_more_button">查看更多</button>
+			    <div class="animation_image" style="display:none;"><img src="../addons/stonefish_lottery/template/images/loading.gif"> Loading...</div>  
+			</div>
+			{/if}
+			{else}
+			<div class="mingdaninfo">
+				<div>暂时没有排名！</div>					
+            </div>
+			{/if}
+        </div>
+    </div>
+</div>
+{template 'footer'}
+{template 'jssdkhide'}
+</body>
+</html>

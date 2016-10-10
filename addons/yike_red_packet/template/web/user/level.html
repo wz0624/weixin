@@ -1,0 +1,96 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+
+    <li><a href="{php echo $this->createWebUrl('user', array('op'=>'list'));}">会员列表</a></li>
+
+    <li class="active"><a href="{php echo $this->createWebUrl('user', array('op'=>'level'));}">等级设置</a></li>
+
+</ul>
+
+<div class="clearfix">
+
+    <div class="panel panel-default">
+
+        <div class="panel-heading">等级设置</div>
+
+        <div class="panel-body">
+
+            <div class="table-responsive panel-body">
+
+                <table class="table table-hover" style="min-width: 300px;">
+
+                    <thead class="navbar-inner">
+
+                    <tr>
+
+                        <th class="col-sm-1">等级名称</th>
+                        <th class="col-sm-1">激活费用</th>
+                        <th class="col-sm-2">1级奖励</th>
+                        <th class="col-sm-2">1级分成人数</th>
+                        <th class="col-sm-2">2级奖励</th>
+                        <th class="col-sm-2">2级分成人数</th>
+                        <th class="col-sm-2">3级奖励</th>
+                        <th class="col-sm-2">3级分成人数</th>
+                        <th class="col-sm-2">额外奖励</th>
+                        <th class="col-sm-2">额外奖励人数</th>
+                        <th class="col-sm-2">操作</th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {loop $levels $levelid $level}
+
+                    <tr>
+
+                        <td>{$level['name']}</td>
+                        <td>{$level['money']}</td>
+                        <td>{$level['level1_money']}</td>
+                        <td>{$level['level1_count']}</td>
+                        <td>{$level['level2_money']}</td>
+                        <td>{$level['level2_count']}</td>
+                        <td>{$level['level3_money']}</td>
+                        <td>{$level['level3_count']}</td>
+                        <td>{$level['other_money']}</td>
+                        <td>{$level['other_count']}</td>
+
+                        <td>
+
+                            <a href="{php echo $this->createWebUrl('user',array('op'=>'edit_level','id'=>$level['id']));}" class="btn btn-default btn-sm"> 编辑</a>
+
+                        </td>
+
+                    </tr>
+
+                    {/loop}
+
+                    {if empty($levels)}
+
+                    <tr>
+
+                        <td colspan="8">
+
+                            暂无等级
+
+                        </td>
+
+                    </tr>
+
+                    {/if}
+
+                    </tbody>
+
+                </table>
+
+                {$pager}
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{template 'common/footer'}

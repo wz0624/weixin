@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>{$_SESSION['sitetitle']}</title>
+    <link href="{RES}bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="{RES}js/jquery-2.0.0.min.js"></script>
+    <script src="{RES}bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{RES}js/pccalculate.js"></script>
+    <style type="text/css">
+#imglist{
+	width: 500px;margin: 0 auto;text-align: center;
+}
+#imglist img{
+	width:180px;
+	border:1px solid gray;
+	margin-top: 8px;
+	cursor: pointer;
+}
+#imglist img:HOVER {
+	border:2px solid black;
+}
+.modalstyle{
+	margin-top: 10%;
+	width:700px;
+}
+.modalbodystyle{
+	height: 200px;
+}
+</style>
+<script type="text/javascript">
+function tuikuan(){
+	$('#tuikuanmima').val('');
+	$('#tuikuandanhao').val('');
+	$('#tuikuantype1').attr('checked',false);
+	$('#tuikuantype2').attr('checked',false);
+	$('#myModal').modal('show');
+}
+function qingkong(){
+	$('#tuikuanmima').val('');
+	$('#tuikuandanhao').val('');
+	$('#tuikuantype1').attr('checked',false);
+	$('#tuikuantype2').attr('checked',false);
+}
+function dotuikuan(){
+	var tuikuanmima=$('#tuikuanmima').val();
+	var tuikuandanhao=$('#tuikuandanhao').val();
+	var tuikuantype=$('input:radio[name="tuikuantype"]:checked').val();
+	if(tuikuanmima==''){
+		alert('请输入退款密码');return false;
+	}
+	if(tuikuandanhao==''){
+		alert('请输入退款单号');return false;
+	}
+	if(tuikuantype==''){
+		alert('请输入退款类型');return false;
+	}
+	$.ajax({
+        url: '{php echo $this->createMobileUrl('dopctuikuan', array())}',
+        type: 'POST',
+        dataType: 'json',
+        data: {tuikuanmima: tuikuanmima,tuikuandanhao:tuikuandanhao,tuikuantype:tuikuantype,randomshu:Math.random()},
+        success: function (result) {
+        		alert(result.msg);
+        	if(result.status==1){
+        		$('#tuikuanmima').val('');
+        		$('#tuikuandanhao').val('');
+        		$('#tuikuantype1').attr('checked',false);
+        		$('#tuikuantype2').attr('checked',false);
+        	}else{
+        		return false;
+        	}
+        }
+    });
+	
+	
+}
+function tongzhi(){
+	$('#myModal1').modal('show');
+}
+</script>
+  </head>
+  <body>
+  <p style="width: 800px; margin: 0 auto; border:1px solid; margin-top: 110px; border-bottom: 0px; line-height: 40px;">
+  <span onClick="location.href='{php echo $this->createMobileUrl('pcindex', array())}'" style="width: 100px; text-align: center;display: inline-block; background: gray; color: white; cursor: pointer; border-right: 1px solid;margin: 0;padding: 0px;">收款页</span>
+  <span onClick="location.href='{php echo $this->createMobileUrl('pcjilu', array())}'" style="width: 100px; text-align: center;display: inline-block; cursor: pointer;background: width;margin: 0;padding: 0px;">记录页</span>
+  <span onClick="location.href='{php echo $this->createMobileUrl('pcloginout', array())}'" style="width: 100px; text-align: center;display: inline-block; cursor: pointer;background: gray; color: white;border-right: 1px solid;margin: 0; padding: 0px;">退出登录</span>
+  </p>
+  <div style="width: 800px; height:500px;margin: 0 auto;border: 1px solid; ">
+	 <div class="main">
+		<h1 style="text-align: center;">蜜思肤微收银台</h1>
+		<hr style="width: 70%;margin: 5px auto;  color: gray;">
+		<div id="imglist" >
+		<img onClick="location.href='{php echo $this->createMobileUrl('pcshoukuan', array())}'" src="{RES}img/shoukuanjilu.png"  />
+		<img onClick="location.href='{php echo $this->createMobileUrl('pctongji', array())}'" src="{RES}img/shujvtongji.png"  />
+		<img onClick="tuikuan()" src="{RES}img/tuikuan.png"  />
+		<img onClick="tongzhi()" src="{RES}img/tongzhi.png"  />
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modalstyle" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="myModalLabel">退款操作</h3>
+      </div>
+      <div class="modal-body modalbodystyle" >
+      			<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>退款密码</label>
+					<div class="col-sm-9 col-xs-12">
+						<input id="tuikuanmima" type="password" name="tuikuanmima" class="form-control" value="" />
+					</div>
+				</div>
+				<br><br>
+			<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>退款单号</label>
+					<div class="col-sm-9 col-xs-12">
+						<input id="tuikuandanhao" type="text" name="tuikuandanhao" class="form-control" value="" />
+					</div>
+				</div>
+				<br><br>
+			<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>退款类型</label>
+					<div class="col-sm-9 col-xs-12">
+						<input id="tuikuantype1" type="radio" name="tuikuantype" class="" value="1" />微信
+						<input id="tukuantype2" type="radio" name="tuikuantype" class="" value="2" />支付宝
+					</div>
+				</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button id="qingkong" type="button" class="btn btn-primary" onClick="qingkong()">清空</button>
+        <button id="qingkong" type="button" class="btn btn-danger" onClick="dotuikuan()">确认退款</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modalstyle" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="myModalLabel">通知公告</h3>
+      </div>
+      <div class="modal-body modalbodystyle" >
+      	{loop $list $item}
+
+			<p style="font-size: 14px; line-height: 26px;">{$item['id']}.&nbsp;&nbsp;&nbsp;{$item['gonggaocontent']}</p>
+			<p style="font-size: 12px; line-height: 20px; text-align: right;">-----{php echo date("Y-m-d H:i",$item['create_at']);}</p>
+			<hr>
+		{/loop}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  </body>
+</html>

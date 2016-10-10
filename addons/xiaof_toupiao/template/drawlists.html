@@ -1,0 +1,117 @@
+{template 'common/header'}
+
+<ul class="nav nav-tabs">
+    <li class="active"><a href="{php echo $this->createWebUrl('lists');}">报名列表</a></li>
+    <li><a href="{php echo $this->createWebUrl('edit');}">添加报名</a></li>
+    <li><a href="{php echo $this->createWebUrl('safe');}">数据监控</a></li>
+</ul>
+
+<div class="main">
+    <div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form action="./index.php" method="get" class="form-horizontal" role="form">
+                <input type="hidden" name="c" value="site">
+                <input type="hidden" name="a" value="entry">
+                <input type="hidden" name="m" value="xiaof_toupiao">
+                <input type="hidden" name="do" value="drawlists">
+				
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">活动期数</label>
+                    <div class="col-xs-12 col-sm-8 col-lg-9">
+                        <select name="sid" class="form-control">
+                            <option {if $_GPC['sid'] == ''} selected{/if} value="">不限</option>
+                            {loop $settinglists $items}
+								<option {if $_GPC['sid'] === $items['id']} selected{/if} value="{$items['id']}">{$items['tit']}</option>
+							{/loop}
+                        </select>
+                    </div>               
+                </div>
+				
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">用户UID</label>
+                    <div class="col-xs-12 col-sm-8 col-lg-9">
+                        <input class="form-control" name="key" id="" type="text" value="{$_GPC['key']}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">状态</label>
+                    <div class="col-xs-12 col-sm-8 col-lg-8">
+                        <select name="uses" class="form-control">
+                            <option {if $_GPC['uses'] === ''} selected{/if} value="">不限</option>
+                            <option {if $_GPC['uses'] === '1'} selected{/if} value="1">以使用</option>
+                            <option {if $_GPC['uses'] === '2'} selected{/if} value="2">未使用</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-sm-2 col-lg-2">
+                        <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+                    </div>                    
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <form action="?{$_SERVER['QUERY_STRING']}" method="post" id="form1">
+        <table class="table table-hover"  style="width:100%;z-index:-10;" cellspacing="0" cellpadding="0">
+            <thead class="navbar-inner">
+            <tr>
+                <th style="width:30px;">删？</th>
+                <th style="width:90px;">用户UID</th>
+				<th style="width:150px;">用户昵称</th>
+                <th style="width:90px;">活动ID</th>
+                <th style="width:100px;">奖品名称</th>
+				<th style="width:250px;">抽取时间</th>
+				<th style="width:60px;">状态</th>
+                <th style="width:270px;" class="text-right">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {loop $list $item}
+            <tr>
+                <td><input type="checkbox" name="delete[]" value="{$item['id']}" /></td>
+                <td>{$item['uid']} </td>
+				<td>{$item['uname']} </td>
+                <td>{$item['sid']}</td>
+                <td>{$item['name']} </td>
+				<td>{php echo date("Y-m-d H:i",$item['created_at']);} </td>
+				<td>{if $item['uses'] === '1'}<span class="label label-danger">已核销</span>{else}<span class="label label-success">未核销</span>{/if}</td>
+                <td class="text-right" style="overflow:visible;">
+						<div class="btn-group">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							核销<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li><a href="{php echo $this->createWebUrl('drawlists', array('use'=>'1','did'=>$item['id']));}" >核销</a></li>						
+							</ul>
+						</div>	
+                </td>
+            </tr>
+            {/loop}
+            </tbody>
+        </table>
+
+        <table class="table table-hover">
+            <tr>
+                <td width="30">
+                    <input type="checkbox" onclick="var ck = this.checked;$(':checkbox').each(function(){this.checked = ck});" />
+                </td>
+                <td class="text-left">
+                    <input name="token" type="hidden" value="{$_W['token']}" />
+					<input type="submit" class="btn btn-primary span2" name="del" value="删除" />
+                </td>
+            </tr>
+        </table>
+        {$pager}
+    </form>
+</div>
+<script>
+    $('#form1').submit(function(){
+        if($(":checkbox[name='delete[]']:checked").size() > 0){
+            return confirm('确定执行该操作吗？');
+        }
+        alert('没有选择选手');
+        return false;
+    });
+</script>
+{template 'common/footer'}

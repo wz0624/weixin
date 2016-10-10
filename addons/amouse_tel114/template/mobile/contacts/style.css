@@ -1,0 +1,12 @@
+@charset "utf-8";
+/*绉慹浜掕仈鐗规晥鍩烘湰妗嗘灦CSS*/
+body, ul,li {margin:0;padding:0;-webkit-text-size-adjust: none}
+body>div{margin:0 auto}
+div {text-align:left}
+a img {border:0}
+/*绉慹浜掕仈鐗规晥鍩烘湰妗嗘灦CSS缁撴潫锛屽簲鐢ㄧ壒鏁堟椂锛屼互涓婃牱寮忓彲鍒犻櫎*/
+/* 鏁堟灉CSS寮€濮� */
+/*.slider{display:none}/*鐢ㄤ簬鑾峰彇鏇村姞浣撻獙*/
+/*.focus span{width:10px;height:10px;margin-right:10px;border-radius:50%;background:#bbb;font-size:0}
+.focus span.current{background:#fff}
+/* 鏁堟灉CSS缁撴潫 */

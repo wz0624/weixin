@@ -1,0 +1,164 @@
+{template 'common/header'}
+<script>
+
+</script>
+<div class="main">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				订单列表
+			</div>
+			<div class="panel-body">
+			<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th align="center" style="width:20px;text-align:center;">ID</th>						
+                    <th align="center" style="width:50px;text-align:center;">金额</th>
+					<th align="center" style="width:80px;text-align:center;">订单号</th>
+					<th align="center" style="width:40px;text-align:center;">支付方式</th>
+					<th align="center" style="width:40px;text-align:center;">支付状态</th>
+					<th align="center" style="width:60px;text-align:center;">收款人</th>
+					<th align="center" style="width:60px;text-align:center;">订单创建时间</th>
+					<th align="center" style="width:60px;text-align:center;">订单结束时间</th>
+					<th style="width:100px;text-align:center;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $row}
+					<tr>		
+						<td align="center" style="text-align:center;">{$row['id']}</td>
+                        <td align="center" style="text-align:center;color:red;">{$row['total_fee']}</td>
+                        <td align="center" style="text-align:center;">{$row['out_order']}</td>
+                        <td align="center" style="text-align:center;">{$row['paytype']}</td>
+						<td align="center" style=" text-align:center;">{php echo $this->getpaystatus($row['paytatus'])}</td>
+						<td align="center" style=" text-align:center;">{php echo $this->getuinfo($row['uid'])}</td>
+						<td align="center" style=" text-align:center;">{php echo date('Y-m-d H:i',$row['create_time'])}</td>
+						<td align="center" style="text-align:center;">{php echo date('Y-m-d H:i',$row['update_time'])}</td>
+						<td align="center" style="text-align:center;">
+							{if $row['paytatus']==1 && ($row['paytype']=='支付宝刷卡' || $row['paytype']=='支付宝扫码')}
+							<button onclick="chexiao({$row['id']})" class="btn btn-danger">撤销</button>
+							{/if}
+							{if $row['paytatus']==2 && ($row['paytype']=='支付宝刷卡' || $row['paytype']=='支付宝扫码')}
+							<button onclick="tuikuan({$row['id']})" class="btn btn-danger">退款</button>
+							{/if}
+							{if $row['paytatus']==1 && $row['paytype']=='微信扫码'}
+							<button onclick="wxguanbi({$row['id']})" class="btn btn-danger">关闭订单</button>
+							{/if}
+							{if $row['paytatus']==1 && $row['paytype']=='微信刷卡'}
+							<button onclick="wxchexiao({$row['id']})" class="btn btn-danger">撤销订单</button>
+							{/if}
+							{if $row['paytatus']==2 && ($row['paytype']=='微信扫码' || $row['paytype']=='微信刷卡')}
+							<button onclick="wxtuikuan({$row['id']})" class="btn btn-danger">退款</button>
+							{/if}
+						</td>
+						
+					</tr>
+				{/loop}
+			</tbody>
+		</table>
+		{$pager}
+			</div>
+		</div>
+</div>
+<script>
+function chexiao(pid){
+	if(window.confirm('你确定进行撤销交易吗？')){
+		$.ajax({
+	        url: '{php echo $this->createWebUrl('doalipaycancel', array())}',
+	        type: 'POST',
+	        dataType: 'json',
+	        data: {pid: pid,randomshu:Math.random()},
+	        success: function (result) {
+	        	if(result.status==1){
+	        		alert(result.msg);
+	        		window.location.reload();
+	        	}else{
+	        		alert(result.msg);
+	        	}
+	        }
+	    });
+	}else{
+		return false;
+	}
+}
+function tuikuan(pid){
+	if(window.confirm('你确定进行退款交易吗？')){
+		$.ajax({
+	        url: '{php echo $this->createWebUrl('doalipayrefund', array())}',
+	        type: 'POST',
+	        dataType: 'json',
+	        data: {pid: pid,randomshu:Math.random()},
+	        success: function (result) {
+	        	if(result.status==1){
+	        		alert(result.msg);
+	        		window.location.reload();
+	        	}else{
+	        		alert(result.msg);
+	        	}
+	        }
+	    });
+	}else{
+		return false;
+	}
+}
+function wxguanbi(pid){
+	if(window.confirm('你确定进行关闭订单吗？')){
+		$.ajax({
+	        url: '{php echo $this->createWebUrl('dowxguanbi', array())}',
+	        type: 'POST',
+	        dataType: 'json',
+	        data: {pid: pid,randomshu:Math.random()},
+	        success: function (result) {
+	        	if(result.status==1){
+	        		alert(result.msg);
+	        		window.location.reload();
+	        	}else{
+	        		alert(result.msg);
+	        	}
+	        }
+	    });
+	}else{
+		return false;
+	}
+}
+function wxchexiao(pid){
+	if(window.confirm('你确定进行撤销订单吗？')){
+		$.ajax({
+	        url: '{php echo $this->createWebUrl('dowxchexiao', array())}',
+	        type: 'POST',
+	        dataType: 'json',
+	        data: {pid: pid,randomshu:Math.random()},
+	        success: function (result) {
+	        	if(result.status==1){
+	        		alert(result.msg);
+	        		window.location.reload();
+	        	}else{
+	        		alert(result.msg);
+	        	}
+	        }
+	    });
+	}else{
+		return false;
+	}
+}
+function wxtuikuan(pid){
+	if(window.confirm('你确定进行退款吗？')){
+		$.ajax({
+	        url: '{php echo $this->createWebUrl('dowxtuikuan', array())}',
+	        type: 'POST',
+	        dataType: 'json',
+	        data: {pid: pid,randomshu:Math.random()},
+	        success: function (result) {
+	        	if(result.status==1){
+	        		alert(result.msg);
+	        		window.location.reload();
+	        	}else{
+	        		alert(result.msg);
+	        	}
+	        }
+	    });
+	}else{
+		return false;
+	}
+}
+</script>
+{template 'common/footer'}

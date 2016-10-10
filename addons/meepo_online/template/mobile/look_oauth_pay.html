@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>付费看直播</title>
+	<meta name="format-detection" content="telephone=no, address=no">
+	<meta name="apple-mobile-web-app-capable" content="yes" /> <!-- apple devices fullscreen -->
+	<meta name="apple-touch-fullscreen" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="keywords" content="付费看直播" />
+	<meta name="description" content="" />
+	<link type="text/css" rel="stylesheet" href="{MODULE_URL}template/mobile/rank/css/style-pop.css" />
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+</head>
+<body>
+ {if $list['need_pay']=='1'  && $list['pay_money']>0}
+<div id="pay_pop" class="pop">
+  		<div class="box">
+    		<h1>观看直播需要支付{$list['pay_money']}元</h1>
+			  <div class="inputqy">
+	<input type="text" id="paymoney"  value="{$list['pay_money']}" disabled="true"　readOnly="true"/>
+			  </div>
+            
+            <div class="but_con">
+                <button class="button_yes" onClick="look_pay()">支付</button>
+            </div>
+        </div>
+</div>
+{/if}
+<script>
+function look_pay(){
+		var money  = $('#paymoney').val();
+		if(Number(money)=='' || Number(money)<=0){
+			_loading_toast._show('支付金额错误');
+			return false;
+		}
+		var i = _meepoajax._querystring('i');
+		var j = _meepoajax._querystring('j');
+		var post_url = './index.php?i='+i+'&j='+j+'&c=entry&do=look_oauth&m=meepo_online';
+		$.ajax({
+				type:'post',
+				data:{'content':'付费观看直播','listid':'{$listid}','oauth_openid':'{$user['oauth_openid']}','topenid':'{$user['openid']}'},
+				url:post_url,
+				dataType:"json",
+				success: function(json){
+					if(json.errno=='1'){
+					  window.location.href = json.message;
+					}else{
+					  alert(json.message);
+					}
+				}	
+			})
+		
+}
+var _loading_toast= {
+    _center: function() {
+		var _left = ($(window).width() - $("#toast").outerWidth()) / 2 + "px";
+        $("#toast").css({
+            "top": "50%",
+            "left": _left
+        });
+    },
+    _show: function(text, fun) {
+        $("#toast").html(text);
+        _loading_toast._center();
+        $("#toast").show();
+        $("#toast").bind("resize", _loading_toast._center);
+        setTimeout(function() {
+            _loading_toast._hide(fun);
+        }, 3 * 1000);
+    },
+	_show2: function(text, fun) {
+        $("#toast").html(text);
+        _loading_toast._center();
+        $("#toast").show();
+        $("#toast").bind("resize", _loading_toast._center);
+        setTimeout(function() {
+            _loading_toast._hide(fun);
+        }, 1000);
+    },
+    _hide: function(fun) {
+        $("#toast").hide();
+        $("#toast").unbind("resize");
+        if (fun) {
+            (fun)();
+        }
+    }
+};
+var _meepoajax = {
+	_querystring : function(name){ 
+		var result = location.search.match(new RegExp("[\?\&]" + name+ "=([^\&]+)","i")); 
+		if (result == null || result.length < 1){ 
+			return "";
+		}
+		return result[1]; 
+	}
+};
+</script>
+</body>
+</html>
+

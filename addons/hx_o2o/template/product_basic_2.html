@@ -1,0 +1,129 @@
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>产品名称</label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="goodsname" id="goodsname" class="form-control" value="{$item['name']}" />
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">产品图</label>
+	<div class="col-sm-9 col-xs-12">
+		{php echo tpl_form_field_image('thumb', $item['thumb'], '', array('extras' => array('text' => 'readonly')))}<span>建议尺寸：640px*640px</span>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">列表页图</label>
+	<div class="col-sm-9 col-xs-12">
+		{php echo tpl_form_field_image('list_thumb', $item['list_thumb'], '', array('extras' => array('text' => 'readonly')))}<span>建议尺寸：800px*400px</span>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">产品价格</label>
+	<div class="col-sm-9 col-xs-12">
+		<div class="input-group form-group">
+			<span class="input-group-addon">现价</span>
+			<input type="text" name="price" id="price" class="form-control" value="{$item['price']}" />
+			<span class="input-group-addon">元</span>
+		</div>
+		<div class="input-group form-group">
+			<span class="input-group-addon">市场价</span>
+			<input type="text" name="marketprice" id="marketprice" class="form-control" value="{$item['marketprice']}" />
+			<span class="input-group-addon">元</span>
+		</div>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">时长</label>
+	<div class="col-sm-9 col-xs-12">
+		<div class="input-group">
+			<input type="text" name="timeneed" id="timeneed" class="form-control" value="{$item['timeneed']}" />
+			<span class="input-group-addon">分钟</span>
+		</div>
+		<span class="help-block">每次服务时长</span>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">项目内容</label>
+	<div class="col-sm-4 col-xs-12" style="margin-top:6px;">
+		<a onclick="addlc();"><i class="fa fa-plus"></i> 添加项目内容</a>
+	</div>
+</div>
+{php $pics = iunserializer($item['pics'])}
+<div id="liucheng">
+	{loop $pics $pic}
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-4 col-xs-12">
+			<input type="text" name="picname[]" value="{$pic['name']}" class="form-control" autocomplete="off" placeholder="请输入名称">
+		</div>
+		<div class="col-sm-4 col-xs-12">
+			<div class="input-group ">
+				<input type="text" name="picthumb[]" value="{$pic['thumb']}" readonly="" class="form-control" autocomplete="off">
+				<span class="input-group-btn"><button class="btn btn-default" type="button" onclick="showImageDialog(this);">选择图片</button></span>
+			</div>
+		</div>
+		<div class="col-sm-1 col-xs-12" style="margin-top:6px;">
+			<a onclick="$(this).parent().parent().remove();"><i class="fa fa-remove"></i></a>
+		</div>
+	</div>
+	{/loop}
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">项目内容次数</label>
+	<div class="col-sm-9 col-xs-12">
+		<div class="input-group">
+			<input type="text" name="times" id="times" class="form-control" value="{$item['times']}" />
+			<span class="input-group-addon">次</span>
+		</div>
+		<span class="help-block">以上项目内容重复次数</span>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">项目简介</label>
+	<div class="col-sm-9 col-xs-12">
+		<textarea name="description" class="form-control" cols="70">{$item['description']}</textarea>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">项目详情</label>
+	<div class="col-sm-9 col-xs-12">
+		{php echo tpl_ueditor('content', $item['content']);}
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否上架</label>
+	<div class="col-sm-9 col-xs-12">
+		<label for="isshow1" class="radio-inline"><input type="radio" name="status" value="1" id="isshow1" {if $item['status'] == 1}checked="true"{/if} /> 是</label>
+		&nbsp;&nbsp;&nbsp;
+		<label for="isshow2" class="radio-inline"><input type="radio" name="status" value="0" id="isshow2"  {if $item['status'] == 0}checked="true"{/if} /> 否</label>
+		<span class="help-block"></span>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="displayorder" class="form-control" value="{$item['displayorder']}" />
+	</div>
+</div>
+<script language="javascript">
+function addlc(){
+	var html = '<div class="form-group">' + 
+					'<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>' + 
+					'<div class="col-sm-4 col-xs-12">' + 
+						'<input type="text" name="picname[]" value="" class="form-control" autocomplete="off" placeholder="请输入名称">' + 
+					'</div>' + 
+					'<div class="col-sm-4 col-xs-12">' + 
+						'<div class="input-group ">' + 
+							'<input type="text" name="picthumb[]" value="" readonly="" class="form-control" autocomplete="off">' + 
+							'<span class="input-group-btn">' + 
+								'<button class="btn btn-default" type="button" onclick="showImageDialog(this);">选择图片</button>' + 
+							'</span>' + 
+						'</div>' + 
+					'</div>' +
+					'<div class="col-sm-1 col-xs-12" style="margin-top:6px;">' +
+						'<a onclick="$(this).parent().parent().remove();"><i class="fa fa-remove"></i></a>' +
+					'</div>' +
+				'</div>';
+	$("#liucheng").append(html);
+}
+</script>

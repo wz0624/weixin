@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>发布投稿</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" type="text/css" href="https://res.wx.qq.com/open/libs/weui/0.4.0/weui.css" />
+  </head>
+<body style="padding-bottom:55px">
+<link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/0.4.0/weui.css">
+<div class="content">
+<form  id="form" action="" method="post"  class="am-form" enctype="multipart/form-data">
+<div class="weui_cell weui_cell_select">
+    <div class="weui_cell_bd weui_cell_primary">
+      <select class="weui_select" name="pcate" required>
+        <option value="">请选择分类</option>
+         {loop $category $data}
+              <option name="pcate" value="{$data['id']}">{$data['name']}</option>
+            {/loop}
+      </select>
+    </div>
+  </div>
+</div>
+<div class="weui_cells_title">微信图文链接地址</div>
+<div class="weui_cells weui_cells_form">
+  <div class="weui_cell">
+    <div class="weui_cell_bd weui_cell_primary">
+    <input class="weui_input" type="url" name="wxurl" placeholder="请黏贴微信图文链接，下发请查看获取方法" required>
+     
+    </div>
+  </div>
+</div>
+
+
+    <input name="submit" type="submit" class="weui_btn weui_btn_primary" id="show-loading"  value="提交">
+     <input type="hidden" name="token" value="{$_W['token']}" />
+
+</form> 
+<p style="text-align: center">
+  <img src="{MODULE_URL}images/fabu.jpg" alt="" width="75%" style="text-align: center">
+</p>
+
+{template 'footer'}
+<script type="text/javascript">
+$(function () {
+
+    $('#show-loading').on('click', function () {
+        var pairs = $('form').serialize().split(/&/gi);
+        var data = {};
+        pairs.forEach(function(pair) {
+            pair = pair.split('=');
+            data[pair[0]] = decodeURIComponent(pair[1] || '');
+        });
+        if(!data.pcate){
+            $.weui.topTips('请选择分类');
+            return;
+        }
+         if(!data.wxurl){
+            $.weui.topTips('请填写链接');
+            return;
+        }
+        $.weui.loading("正在采集中，请稍后,网页会自动跳转........");
+    });
+});
+</script>
+</body>
+</html>

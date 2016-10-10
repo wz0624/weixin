@@ -1,0 +1,188 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>{if $set['copyright']}{$set['copyright']}{else}{$_W['account']['name']}{/if}-我的货源</title>
+    <link rel="stylesheet" href="{AMOUSE_CLEAR_STOCK_RES}css/foundation.css?version=20160101"/>
+    <link rel="stylesheet" href="{AMOUSE_CLEAR_STOCK_RES}css/main.css?version=20160101"/>
+    {php echo register_jssdk(false);}
+    <script src="{AMOUSE_CLEAR_STOCK_RES}js/modernizr.js?version=20160101"></script>
+    <script src="{AMOUSE_CLEAR_STOCK_RES}js/jquery.js?version=20160101"></script>
+    <script src="{AMOUSE_CLEAR_STOCK_RES}js/foundation.js?version=20160101"></script>
+    <script src="{AMOUSE_CLEAR_STOCK_RES}js/main.js?version=20160101"></script>
+    <link rel="stylesheet" href="{AMOUSE_CLEAR_STOCK_RES}css/product.css?version=20160101"/>
+    <link rel="stylesheet" href="{AMOUSE_CLEAR_STOCK_RES}css/p.css?version=20160101"/>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="content">
+
+        <div class="dialog" id="tip" style="display: none;">
+            <div class="dialog-cnt">
+                <div class="dialog-bd">
+                    <h3>提示</h3>
+                    <p class="text"></p>
+                    <a class="button correct-btn" id="alert_ok">确&nbsp;&nbsp;定</a>
+                </div>
+            </div>
+        </div>
+
+        {template 'nav_bar'}
+
+        <div style="font-size:12px;margin-top: 44px;margin-bottom:5px; float:left; width:100%; text-align:center;">
+            <span>您发布了 {$stotal} 个货源
+                {if $total>=$cset['ptotal']}
+                    <a href="{php echo $this->createMobileUrl('add',array(),true)}" class="" style="background:#C51A1A; width:80px;border-radius:3px; color:#fff; height:28px; line-height:28px; padding:5px">发布货源</a>
+                {else}
+                    <a href="#" onclick="new_alert('还需要成功邀请{$left_num}好友才能使用此功能！');return false;" style="background:#C51A1A; width:80px;border-radius:3px;
+                    color:#fff; height:28px; line-height:28px; padding:5px">发布货源</a>
+                {/if}
+            </span>
+            <div class="line"></div>
+        </div>
+
+        <div class="row goods">
+            {loop $goods $sg}
+            <div class="small-12 medium-12 columns  goods-list">
+                <a class="goods-detail" href="{php echo $this->createMobileUrl('view',array('pk'=>$sg['id']),true)}">
+                    <div class="goods-img">
+                        <img style="max-height: 150px" src="{php echo strpos($sg['logo'],'http://')===FALSE?tomedia($sg['logo']):$sg['logo']}" />
+                        <span style="color:#9D00A2;margin:4px;float:right;font-size:0.8em;"></span>
+                    </div>
+                    <div class="goods-intro"><span>
+                 {php echo pdo_fetchcolumn('SELECT name FROM '.tablename('amouse_board_product_category').' WHERE id=:id limit 1',array(':id'=>$sg['pcateid']))}
+                    </span>
+                        <span style='color:red'>
+                          {if $cset['is_status']==0} {if $sg['status']==0}【审核中】{elseif $sg['status']==1}【审核通过】{/if}{else}【无需审核】{/if}</span>
+                        <span class="integration">
+                             ￥{$sg['clear_price']}
+                        </span>
+                    </div>
+                    <div class="goods-cz">
+                        {if $cset['is_status']==1}<a href='#' onclick="AjaxRefer({$sg['id']})" class='btn button'>置顶货源</a>
+                        {else}
+                            {if $sg['status']==1}<a href='#' onclick="AjaxRefer({$sg['id']})" class='btn button'>置顶货源</a>{/if}
+                        {/if}
+                        <a href='#' onclick="ajaxEdit({$sg['id']})"  class='btn button'>编辑货源</a>
+                        <a href='#' onclick="ajaxDel({$sg['id']})" class='btn button'>删除货源</a>
+                    </div>
+                </a>
+            </div>
+            {/loop}
+        </div>
+        <div class="row">
+            <div class="small-12 columns publish">
+                <!-- http://mp.weixin.qq.com/s?__biz=MzIwOTE2NjcyMQ==&mid=405622833&idx=1&sn=60118bc6649c4edcab84430ca3c26ff9#rd-->
+                <a class="button btn" href="{$cset['outurl']}">图文教你发布货源？</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{template 'bottom_bar'}
+
+<script>
+    $(document).foundation();
+    alert_ok = null;
+    function new_alert(msg, cb){
+        alert_ok = cb;
+        $('#tip .text').html(msg);
+        $('#tip').show();
+    }
+    old_alert = window.alert;
+    window.alert = new_alert;
+    $('#alert_ok').click(function(){
+        if(alert_ok){
+            alert_ok();
+        }
+        $('#tip').hide();
+    });
+</script>
+
+<script>
+    function ajaxEdit($id) { //编辑
+        {if $cset['edit_credit']>0}
+            {if $cset['is_status']==1}
+                var ctxt="编辑商品需要扣除{$cset['edit_credit']}个积分，确认编辑吗？";
+            {else}
+                var ctxt="编辑商品需要扣除{$cset['edit_credit']}个积分并需要重新审核，确认编辑吗？";
+            {/if}
+            $r = confirm(ctxt);
+        {else}
+            {if $cset['is_status']==1}
+                $r = confirm("编辑商品，确认编辑吗？");
+            {else}
+                $r = confirm("编辑商品需要重新审核，确认编辑吗？");
+            {/if}
+        {/if}
+        if ($r) {
+            window.location.href = "{php echo $this->createMobileUrl('add',array(),true)}&pk=" + $id;
+        }
+    }
+
+    function ajaxDel($id) {//删除
+        {if $cset['del_credit']>0}
+             confirmtxt = confirm("需要扣除{$cset['del_credit']}个积分噢，您确认删除该商品吗？");
+        {else}
+            confirmtxt = confirm("您确认删除该商品吗？");
+        {/if}
+        if (confirmtxt) {
+            var ajaxurl="{php echo $this->createMobileUrl('AjaxDel',array(),true)}&pk="+ $id;
+            var result=AjaxReturn(ajaxurl,'get');
+            if(result.code==200) {
+                new_alert(result.msg);
+                location.reload();
+            }else{
+                new_alert(result.msg);
+            }
+
+        }
+    }
+    //刷新
+    function AjaxRefer(id) {
+        {if $cset['refer_credit']>0}
+            $reftxt = confirm("刷新置顶货源需要消耗 {$cset['refer_credit']}个积分噢！");
+        {else}
+            $reftxt = confirm("确认刷新置顶货源吗？");
+        {/if}
+        if ($reftxt) {
+            var ajaxurl="{php echo $this->createMobileUrl('AjaxRefer',array(),true)}&pk="+ id;
+            var result=AjaxReturn(ajaxurl,'get');
+
+            if(result.code==200) {
+                new_alert('刷新置顶成功');
+                window.location = "{php echo $this->createMobileUrl('product',array(),true)}";
+            }else {
+                alert(result.msg);
+            }
+        }
+    }
+
+
+    /*function getCookie(name) {
+        var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+        if (arr = document.cookie.match(reg))
+            return unescape(arr[2]);
+        else
+            return null;
+    }
+    var $free_vip = getCookie('free_vip');
+    $('.free_vip1').click(function () {
+        if ($free_vip == '') {
+            $('#alert_ok').attr("href", '/index.php?m=Invite');
+            $('#alert_ok').text('分享到朋友圈成为脉客');
+            new_alert('您还不是脉客或者已到期！分享指定文章到朋友圈即可成为脉客');
+            return false;
+        }
+    });*/
+</script>
+
+
+<!--<div style="display:none;">
+    <script src="http://s11.cnzz.com/stat.php?id=1257185828&web_id=1257185828" language="JavaScript"></script>
+</div>-->
+</body>
+</html>

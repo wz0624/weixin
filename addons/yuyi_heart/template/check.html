@@ -1,0 +1,32 @@
+{template 'common/header'}
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">问题</h3>
+  </div>
+<div class="panel-body table-responsive">
+    <table class="table">
+    <thead>
+    	<tr>
+    		<th>排序</th>
+    		<th>用户答案</th>
+    		<th>属性</th>    		
+    	</tr>
+    </thead>
+    <tbody>
+		{loop $res $key $item}
+		<tr>
+			<th>{php echo ++$key;}</th>
+			<th>{$item['content']}</th>
+			<th>
+	<a class="btn btn-default" href="{php echo $this->createWebUrl('changecomment',array('id_c'=>$item['id_c'],'id'=>$item['id']));}" role="button" onclick="你确定要修改这个评论？">修改</a>
+<a class="btn btn-default" href="{php echo $this->createWebUrl('delcomment',array('id_c'=>$item['id_c'],'id'=>$item['id']));}" role="button" onclick="return confirm('你确定要删除这个评论？')">删除</a>
+			</th>
+		</tr>
+		{/loop}
+    </tbody>
+  </table>
+  </div>
+</div>
+{$page}
+</div>
+{template 'common/footer'}

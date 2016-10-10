@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>打赏</title>
+	<meta name="format-detection" content="telephone=no, address=no">
+	<meta name="apple-mobile-web-app-capable" content="yes" /> <!-- apple devices fullscreen -->
+	<meta name="apple-touch-fullscreen" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="keywords" content="打赏" />
+	<meta name="description" content="" />
+	{php echo register_jssdk(false);}
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	<style>
+	*{margin:0;padding:0;font-size:100%;color:inherit;background-size:100%}
+#gave-box{
+	width:250px; height:285px; background:url({MODULE_URL}template/mobile/images/gave2.png) no-repeat; background-size:250px; position:absolute; left:50%; bottom:20px; margin-left:-125px;
+}
+#gave-text{
+	padding:110px 30px 0; height:116px; overflow:hidden
+}
+#gave-text p{
+	padding:5px; background-color:#fff; border-left:1px solid #cccccc; border-right:1px solid #efefef; border-top: 1px solid #cccccc; border-bottom: 1px solid #e9e9e9; overflow:hidden 
+}
+.gave-input{
+	width:100%; height:20px; line-height:20px; font-size:14px; background-color:#fff; border:none; margin:0; padding:0; overflow:hidden;
+}
+#gave-sub{
+	width:130px; height:33px; margin:0 auto;
+}
+#gave-close{
+	width:100%; height:50px; position:absolute; left:0; top:0; z-index:2; display:block;
+}
+#toast {
+    display: none;
+    position: fixed;
+    padding: 9px 15px;
+    background-color: #333;
+    z-index:9999999999;
+    border-radius: 5px;
+	font-size: 15px;
+    color: #ffffff;
+    line-height: 25px;
+    text-align: center;
+	
+}
+
+	</style>
+</head>
+<body style="width:100%;height:100%;background-color: rgba(0,0,0,.7);">
+
+<div class="container container-fill">
+{if $list['dashang_show']=='1'}
+				<div id="dashang_box" style="width:100%;background-color: rgba(0,0,0,.7);">
+				<div class="dashang_bj"></div>
+				<div id="gave-box" style="top:20%;bottom:0;z-index:11">
+				 
+					  <div id="gave-text">
+						<p>
+						  <input type="text" class="gave-input" id="gave-money" placeholder="请输入打赏金额({$list['dashang_limit']}~200)元" onkeyup="this.value=this.value.replace(/[^0-9.]/g,'')" /></p>
+						<p style="margin-top:15px;">
+						  <input type="text" class="gave-input"  id="gave-say" placeholder="加上您祝福的话(20字以内)" size="30" /></p>
+					  </div>
+					<div id="gave-sub"></div>
+				</div>
+				</div>
+				{/if}
+</div>
+<div id="toast"></div>
+<script>
+$(document).ready(function(){
+$("#gave-sub").click(function(){
+		var money=$('#gave-money');
+		var say=$('#gave-say');
+	if(isNaN(Number(money.val()))){
+			_loading_toast._show('请输入正常的打赏金额');
+			return false;
+	}
+	if(Number(money.val())=='' || Number(money.val())<=0){
+		_loading_toast._show('请输入正常的打赏金额');
+		return false;
+	}else if(Number(money.val())<{$list['dashang_limit']}){
+		_loading_toast._show("打赏金额不能小于{$list['dashang_limit']}元");
+		return false;
+	}else if(Number(money.val())>200){
+		_loading_toast._show('打赏金额不能大于200元');
+		return false;
+	}
+	if(say.val()==''){
+		_loading_toast._show('祝福语没有填写！');
+		return false;
+	}
+	var i = _meepoajax._querystring('i');
+			var j = _meepoajax._querystring('j');
+			var post_url = './index.php?i='+i+'&j='+j+'&c=entry&do=oauth_wechatpay&m=meepo_online';
+			$.ajax({
+				type:'post',
+				data:{'gift_number':'1','money':money.val(),'type':'redpack','content':say.val(),'listid':'{$listid}','category_id':'{$categoryid}','oauth_openid':'{$user['oauth_openid']}','topenid':'{$user['openid']}'},
+				url:post_url,
+				dataType:"json",
+				//async:false,
+				success: function(json){
+					if(json.errno=='1'){
+					  window.location.href = json.message;
+					}else{
+					  _loading_toast._show(json.message);
+					}
+				}	
+			})
+})
+});
+var _loading_toast= {
+    _center: function() {
+		var _left = ($(window).width() - $("#toast").outerWidth()) / 2 + "px";
+        $("#toast").css({
+            "top": "50%",
+            "left": _left
+        });
+    },
+    _show: function(text, fun) {
+        $("#toast").html(text);
+        _loading_toast._center();
+        $("#toast").show();
+        $("#toast").bind("resize", _loading_toast._center);
+        setTimeout(function() {
+            _loading_toast._hide(fun);
+        }, 3 * 1000);
+    },
+	_show2: function(text, fun) {
+        $("#toast").html(text);
+        _loading_toast._center();
+        $("#toast").show();
+        $("#toast").bind("resize", _loading_toast._center);
+        setTimeout(function() {
+            _loading_toast._hide(fun);
+        }, 1000);
+    },
+    _hide: function(fun) {
+        $("#toast").hide();
+        $("#toast").unbind("resize");
+        if (fun) {
+            (fun)();
+        }
+    }
+};
+var _meepoajax = {
+	_querystring : function(name){ 
+		var result = location.search.match(new RegExp("[\?\&]" + name+ "=([^\&]+)","i")); 
+		if (result == null || result.length < 1){ 
+			return "";
+		}
+		return result[1]; 
+	}
+};
+</script>
+   
+</body>
+</html>
+

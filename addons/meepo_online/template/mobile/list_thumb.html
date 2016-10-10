@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<!--
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>测试拍着玩儿第2场 方寸之间·左维版画</title>
+</head>
+<style>
+*{
+	margin:0; padding:0;
+}
+html,body{
+	width:100%; overflow:hidden
+}
+body{
+	font-size:14px; color:#333; position:relative; font-family:"微软雅黑";
+}
+h1,h2,h3,h4,h5,b,u,i,em{
+	font-size:14px; font-weight:normal; font-style:normal
+}
+ul,li,dl,dt,dd,ol{
+	list-style-type:none
+}
+img{
+	border:none
+}
+a,a:hover,a:visited,a:active,a:link{
+	text-decoration:none; border:none;
+}
+a{
+	color:#333
+}
+.cover{
+	position:relative; width:100%; height:100%; background-color:#ff0
+}
+.cover img{
+	width:100%; height:100%; float:left
+}
+.cover a{
+	position:fixed; left:0; top:0px; right:0; bottom:0 width:100%; height:100%; display:block; z-index:1000
+}
+</style>
+<body>
+<div class="cover"><img src="http://vip.wx1wx.com/public/live/20160510/160510120502_AyHnC.jpg" width="100%" height="100%"><a href="http://wzb.wx1wx.com/index.php?token=7594864bb2c499ed929e8b44aa935ba3&enter=yes"></a></div>
+<!-- wechat share -->
+
+<script language="javascript" type="text/javascript" src="http://vip.wx1wx.com/public//assets/js/jquery-1.7.2.min.js"></script>
+<script language="javascript" type="text/javascript" src="http://vip.wx1wx.com/public//assets/js/jqthumb.min.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+$(function(){
+	var w=$(window).width(),h=$(window).height();
+	$('.cover img').jqthumb({
+		width:w,
+		height:h
+	});
+})
+
+wx.config({
+	debug: false,
+	appId: 'wx55aa03250a02f354',
+	timestamp: '1462876610',
+	nonceStr: 'pvJzAJ0UGD63CMVw',
+	signature: '41676eaf1fe94400f0a62c13a6aff75c7c02678b',
+	jsApiList: [
+	  // 所有要调用的 API 都要加到这个列表中
+	  'checkJsApi',
+	  'openLocation',
+	  'getLocation',
+	  'onMenuShareTimeline',
+	  'onMenuShareAppMessage'
+	  ]
+})
+wx.ready(function () {
+    //自动执行的
+    wx.checkJsApi({
+		jsApiList: [
+		  'getLocation',
+		  'onMenuShareTimeline',
+		  'onMenuShareAppMessage'
+		],
+		success: function (res) {
+		 // alert(JSON.stringify(res));
+		  // alert(JSON.stringify(res.checkResult.getLocation));
+		  // if (res.checkResult.getLocation == false) {
+			// alert('你的微信版本太低，不支持微信JS接口，请升级到最新的微信版本！');
+			// return;
+		  // }
+		}
+    });    
+    wx.onMenuShareAppMessage({
+		title: '拍着玩儿第2场 方寸之间·左维版画',
+		desc: '一双手一个世界，左维作品拍卖。',
+		link: 'http://wzb.wx1wx.com/index.php?token=7594864bb2c499ed929e8b44aa935ba3',
+		imgUrl: 'http://vip.wx1wx.com/public/live/20160510/160510120542_4xORO.jpg',
+		trigger: function (res) {
+		// 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+		// alert('用户点击发送给朋友');
+		},
+		success: function (res) {
+		// alert('已分享');
+		},
+		cancel: function (res) {
+		// alert('已取消');
+		},
+		fail: function (res) {
+		// alert(JSON.stringify(res));
+		}
+	});
+    wx.onMenuShareTimeline({
+		title: '拍着玩儿第2场 方寸之间·左维版画',
+		link: 'http://wzb.wx1wx.com/index.php?token=7594864bb2c499ed929e8b44aa935ba3',
+		imgUrl: 'http://vip.wx1wx.com/public/live/20160510/160510120542_4xORO.jpg',
+		trigger: function (res) {
+		// 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+		// alert('用户点击分享到朋友圈');
+		},
+		success: function (res) {
+		// alert('已分享');
+		},
+		cancel: function (res) {
+		// alert('已取消');
+		},
+		fail: function (res) {
+		// alert(JSON.stringify(res));
+		}
+    });
+});
+wx.error(function (res) {
+	//alert(res.errMsg);
+});
+</script>
+</body>
+</html>
+<!---->

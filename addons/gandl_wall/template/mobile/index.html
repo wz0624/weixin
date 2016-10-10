@@ -1,0 +1,530 @@
+{php $title=$wall['topic']}
+
+{template 'inc/header'}
+	<script type="text/javascript">
+		wx.ready(function () {
+			wx.onMenuShareAppMessage({
+				title:'{if empty($wall["share_title"])}{$wall["topic"]}{else}{$wall["share_title"]}{/if}',
+				desc:'{if empty($wall["share_desc"])}秘密入口{else}{$wall["share_desc"]}{/if}',
+				imgUrl:'{$_W["attachurl"]}{if empty($wall["share_img"])}{$wall["banner"]}{else}{$wall["share_img"]}{/if}',
+				link:'{$share_url}'
+			});
+			wx.onMenuShareTimeline({
+				title:'{if empty($wall["share_title"])}{$wall["topic"]}秘密入口{else}{$wall["share_title"]}{/if}',
+				imgUrl:'{$_W["attachurl"]}{if empty($wall["share_img"])}{$wall["banner"]}{else}{$wall["share_img"]}{/if}',
+				link:'{$share_url}'
+			});
+		});
+	</script>
+		
+	<style>
+		
+
+		#wall_header{position:relative;}
+		.wall_banner .swiper-wrapper{height:auto;}
+		.wall_banner .swiper-slide{height:auto;}
+		.wall_banner{width:100%;overflow:hidden;}
+		.wall_banner img{width:100%;height:187px;}
+		.wall_info{display:block;}/*position:absolute;bottom:0px;width:100%;background:url("{MODULE_URL}/static/mobile/images/w90.png");zoom:1;*/
+		.wall_info:after{content:"";display:block;height:0;line-height:0;clear:both;visibility:hidden;}
+		.wall_info .static{width:33%;float:left;padding:3px 0;text-align:center;}
+		.wall_info .static.mid{width:34%;}
+		.wall_info .static h4{}
+		.wall_info .static em{color:#ff5454;font-size:14px;}
+		#wall_notice{background:#fee365 url("{MODULE_URL}/static/mobile/images/icon_notice.png") no-repeat 18px center;background-size:16px 16px;color:#e96a04;font-size:12px;height:36px;line-height:36px;padding:0 15px 0 40px;}
+	
+		
+		@-webkit-keyframes hintScale {
+			0% {
+				width:60px;
+			}
+			50% {
+				width:64px;
+			}
+			100% {
+				width:60px;
+			}
+		}
+		#follow_show{position:fixed;bottom:50px;left:0px;display:inline-block;}
+		#follow_show img{width:60px;-webkit-animation-name:hintScale;-webkit-animation-duration: 1s;-webkit-animation-iteration-count: infinite;animation-name:hintScale;animation-duration: 1s;animation-iteration-count:infinite;}
+		
+
+		#pieces_list{padding:0px;margin:0px;}
+		.piece:active{background:#EEEEEE;}
+		.piece.weui_cell{
+			height:auto;
+		}
+		.piece.weui_cell::before {
+			left: 0;
+		}
+		.sdleft{position:absolute;top:14px;left:10px;width:45px;overflow:hidden;}
+		.sdmain{padding:0 0 0 42px;min-height:42px;}
+		.sdavatar{display:block;width:42px;height:42px;overflow:hidden;}
+		.sdavatar img{width:42px;}
+		.sdtitle{position:relative;font-size:15px;}
+		.sdnick{color:#576b95;}
+		.sdmoney{display:inline-block;color:#ff5454;font-size:15px;padding-left:24px;background:url("{MODULE_URL}/static/mobile/images/m_add_ac.png") no-repeat left center;background-size:20px 20px;}
+		.sdmoney i{display:inline-block;width:15px;height:15px;line-height:15px;text-align:center;font-size:11px;background:#ff5454;color:#FFFFFF;border-radius:3px;}
+		.sdmoney i.pass{background:#e554ff;}
+		.sdmoney i.group{background:#54a9ff;}
+		.sdmoney.over{color:#999999;background-image:url("{MODULE_URL}/static/mobile/images/m_add_over.png")}
+		.sdwhat{margin-left:10px;font-size:15px;}
+		.sdwhat dt{padding:0 0 5px 0;}
+		.sdcont{color:#000000;display:-webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp:2;overflow: hidden;}
+
+		.sdimgs{display:block;width:176px;overflow:hidden;zoom:1;}
+		.sdimgs.cont{padding:10px 0 0 0;}
+		.sdimgs:after{content:"";display:block;height:0;line-height:0;clear:both;visibility:hidden;}
+		.sdimgs .sdimg{float:left;margin:0 4px 4px 0;width:80px;height:80px;overflow:hidden;text-align:center;}
+		.sdimgs .sdimg img{width:80px;}
+		/**.sdimgs .sdimg img{min-height:70px;width:70px;overflow:hidden; }**/
+		.sdimgs .sdimg.c1{width:164px;height:auto;max-height:200px;}
+		.sdimgs .sdimg.c1 img{width:164px;}
+		.sdtail{position:relative;height:28px;line-height:28px;color:#999999;font-size:12px;}
+		.sdviews{display:inline-block;color:#999999;font-size:12px;position:absolute;right:0px;padding-left:14px;background:url("{MODULE_URL}/static/mobile/images/icon_views.png") no-repeat left center;background-size:12px 12px;}
+		.sdtimer{position:absolute;right:0px;}
+		.sdtimer em{color:#ff5454}
+		.sdover{position:absolute;right:0px;}
+		.sdverify{position:absolute;right:0px;color:#dec30f;}
+
+		.botbar{background:#FFFFFF;overflow:hidden;}
+		.botbar .weui_btn{margin:10px;}
+	</style>
+
+	<!-- 公共变量 -->
+	<input type="hidden" id="is_user_infoed" value="{$is_user_infoed}"/>
+
+		
+	<!-- 首页 -->
+    <div class="app-page" data-page="index_page">
+
+
+	
+		<div id="app_notice"  class="app-topbar" style="height:auto;">
+			<div id="notice_location" class="weui_cells" style="display:none;">
+				<a class="weui_cell">
+					<div class="weui_cell_hd"><img src="{MODULE_URL}/static/mobile/images/icon_hint.png" style="width:20px;margin-right:5px;display:block"></div>
+					<div class="weui_cell_bd weui_cell_primary">
+						<p>在{$wall['province']}{$wall['city']}{$wall['district']}才能抢哦~</p>
+					</div>
+					<div class="weui_cell_ft">重新定位</div>
+				</a>
+			</div>
+			
+			{if $mine['rob_next_time']>time()} <!-- 如果还未到下次抢的时间 -->
+				{if $mine['follow']==1} <!-- 如果已关注 -->
+					<div id="notice_cold" class="weui_cells" >
+						<a id="btn_help" class="weui_cell" data-url="{php echo $this->createMobileUrl('qr', array('raw' => base64_encode($_W['siteroot'] . 'app/' . substr($this->createMobileUrl('index',array('cmd'=>'help','pid'=>pencode($wall['id']),'help'=>pencode($mine['id']))), 2))))}" >
+							<div class="weui_cell_hd"><img src="{MODULE_URL}/static/mobile/images/icon_hint.png" style="width:20px;margin-right:5px;display:block"></div>
+							<div class="weui_cell_bd weui_cell_primary">
+								<p>休息<span class="cold_timer" data-time="{php echo $mine['rob_next_time']-time()}" >一会儿</span>后再抢吧~</p>
+							</div>
+							<div class="weui_cell_ft"><span class="weui_btn weui_btn_mini weui_btn_primary">立即恢复</span></div>
+						</a>
+					</div>
+				{else} <!-- 如果未关注 -->
+					<div id="notice_cold" class="weui_cells" >
+						<a class="weui_cell" href="{$wall['follow_url']}">
+							<div class="weui_cell_hd"><img src="{MODULE_URL}/static/mobile/images/icon_hint.png" style="width:20px;margin-right:5px;display:block"></div>
+							<div class="weui_cell_bd weui_cell_primary">
+								<p>休息<span class="cold_timer" data-time="{php echo $mine['rob_next_time']-time()}" >一会儿</span>后再抢吧~</p>
+							</div>
+							<div class="weui_cell_ft"><span class="weui_btn weui_btn_mini weui_btn_primary">快速恢复</span></div>
+						</a>
+					</div>
+				{/if}
+			{/if}
+		</div>
+
+		<div class="app-content" style="background:#F8F8F8;padding-bottom:50px;">
+
+			<div class="app-body">
+				<div>
+					<div id="wall_header">
+						{if !empty($wall['slider']) && !empty($wall['slider']['images'])}
+							<div class="wall_banner">
+								<div class="swiper-container">
+									<div class="swiper-wrapper">
+										<div class="swiper-slide"><img data-url="rule" src="{$_W['attachurl']}{$wall['banner']}"/></div>
+										{php $i=0;}
+										{loop $wall['slider']['images'] $slider}
+										<div class="swiper-slide"><img data-url="{$wall['slider']['links'][$i]}" src="{$_W['attachurl']}{$slider}"/></div>
+										{php $i++;}
+										{/loop}
+									</div>
+									<div class="swiper-pagination"></div>
+								</div>
+							</div>
+						{else}
+							<div class="wall_banner"><img data-url="rule" src="{$_W['attachurl']}{$wall['banner']}"/></div>
+						{/if}
+					</div>
+
+					{if !empty($wall['notice'])}
+					<div id="wall_notice">
+						<marquee scrollamount="4" direction="left" style="white-space: nowrap;">
+						  {$wall['notice']}
+						</marquee>
+					</div>
+					{/if}
+
+					{if $wall['static']==1}
+					<a class="wall_info" {if $mine['admin']>0}href="{php echo $_W['siteroot'] . 'app/' . substr($this->createMobileUrl('admin',array('cmd'=>'static','pid'=>pencode($wall['id']))), 2)}"{/if}>
+						<div class="static"><em>{$wall_static_cache['money']}元</em><h4>已撒</h4></div>
+						<div class="static mid"><em>{$wall_static_cache['views']}</em><h4>人气</h4></div>
+						<div class="static"><em>{$wall_static_cache['online']}人</em><h4>在线</h4></div>
+					</a>
+					{/if}
+
+				</div>	
+
+				<div>
+					<div id="pieces_list" class="weui_cells" data-url="{php echo $_W['siteroot'] . 'app/' . substr($this->createMobileUrl('index',array('cmd'=>'pieces','pid'=>pencode($wall['id']))), 2)}" data-status="1" data-start="0"  data-more="1" >
+					</div>
+					<div id="pieces_list_load" class="list_load more"><span class="icon"></span> <span class="text">查看更多</span></div>
+
+					<script id="pieces_list_tpl" type="text/template" >
+						<%
+						 	var pieces_list_load=$('#pieces_list_load');
+							pieces_list_load.removeClass('loading');
+							if(more==1){
+								pieces_list_load.addClass('more');
+								pieces_list_load.find('.text').html('查看更多');
+							}else{
+								pieces_list_load.find('.text').html('');
+							}
+							if(!list){
+								return;
+							}
+							for(var i=0;i<list.length;i++){
+								var item = list[i];
+								var imgs = item['images'];
+						%>
+							<a  onclick="$('#toast_loading').show();" href="<%=item._url%>" class="piece weui_cell">
+								<div class="sdleft">
+									<span class="sdavatar"><img src="<%=item._user.avatar%>"/></span>
+								</div>
+								<div class="sdmain">
+									<dl class="sdwhat">
+										<dt class="sdtitle"><span class="sdnick"><%=item._user.nickname%></span> <span class="sdviews"><%=item.views%></span></dt>
+										<%
+											if(item.content){
+										%>
+											<dd class="sdcont"><%=item.content%></dd>
+										<% } %>
+										<%
+											if(imgs){
+										%>
+											<dd>
+												<ul class="sdimgs <%=(item.content?'cont':'') %>">
+													<% if(imgs.length==1){%>
+														<li class="sdimg c1" ><img src="<%=imgs[0]%>"/></li>
+													<% }else{ %>
+														<% for(var j=0;j<imgs.length;j++){ %>
+															<li class="sdimg c3" ><img src="<%=imgs[j]%>"/> </li>
+													<%	   }
+													   } 
+													 %>
+												</ul>
+											</dd>
+										<% } %>
+										<dd class="sdtail">
+											<% if(item.status==1){%>
+												<span class="sdmoney"><%=item.total_amount/100%>元 <% if(item.model==2){%><i class="pass">令</i><% } %> <% if(item.model==3){%><i class="group">团</i><% } %> <% if(item.top_level>0){%><i>顶</i><% } %> </span> 
+												<% if(item.op==-1){%>
+													<span class="sdverify" >实付<%=item.pay/100%>元 待审核</span>
+												<% }else{ %>
+													<span class="sdtimer" data-time="<%=item.rob_start_time-now%>"></span>
+												<% } %>
+											<% }else if(item.status==2){ %>
+												<span class="sdmoney over"><%=item.total_amount/100%>元</span>
+												<span class="sdover">已抢完</span>
+											<% }else{ %>
+												<span class="sdmoney over"><%=item.total_amount/100%>元</span>
+												<span class="sdover">未付款</span>
+											<% } %>
+										</dd>
+									</dl>
+								</div>
+							</a>
+						<%  } %>
+					</script>
+				</div>
+
+				<div class="app-botblank"></div>
+
+			</div>
+
+			{if ($mine['follow']!=1) && !empty($wall['follow_show'])} <!-- 如果没关注 且 设置了关注引导图片 -->
+			<a id="follow_show" href="{$wall['follow_url']}"><img src="{$_W['attachurl']}{$wall['follow_show']}"/></a>
+			{/if}
+		</div>
+
+		<!-- loading toast -->
+		<div id="toast_loading" class="weui_loading_toast" style="display:none;z-index:99999;position:fixed;">
+			<div class="weui_mask_transparent"></div>
+			<div class="weui_toast">
+				<div class="weui_loading">
+					<div class="weui_loading_leaf weui_loading_leaf_0"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_1"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_2"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_3"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_4"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_5"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_6"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_7"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_8"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_9"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_10"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_11"></div>
+				</div>
+				<p class="weui_toast_content">正在进入...</p>
+			</div>
+		</div>
+
+		<!-- 底部菜单区 -->
+		{php $bmenu='index'}
+		{template 'inc/bmenu'}
+
+
+    </div> <!-- END 首页 -->
+
+
+	<!-- 规则页 -->
+    <div class="app-page" data-page="rule_page">
+		<div class="app-topbar light">
+			<div class="app-title">规则介绍</div>
+			<div class="app-button right cross btn_back"></div>
+		</div>
+		<div class="app-content">
+			<div style="padding:0 10px 80px 10px;">
+				{$wall['detail']}
+			</div>
+		</div>
+		<!--底部悬浮按钮牛 -->
+		<div class="app-botbar">
+			<div class="botbar">
+				<a href="javascript:;" class="weui_btn weui_btn_default btn_back">返回</a>
+			</div>
+		</div>
+    </div> <!-- END 规则页 -->
+
+
+{template 'inc/script'}
+<script type="text/javascript">
+	$(function(){
+
+		App.controller('index_page', function (page) {
+			initBottomMenu(page);
+
+			var mySwiper = new Swiper ($(page).find('.swiper-container'), {
+				width:window.innerWidth,
+				watchSlidesProgress : true,
+				watchSlidesVisibility : true,
+				pagination: $(page).find('.swiper-pagination'),
+				paginationClickable: true,
+				autoplay: 2500,
+				autoplayDisableOnInteraction: false,
+				loop: true
+			});
+
+
+			
+			// 显示规则页
+			$(page).find('.wall_banner img').on('click',function(){
+				if($(this).data('url')=='rule'){
+					App.load('rule_page');
+				}else{
+					location.href=$(this).data('url');
+				}
+				//App.load('rule_page');
+			});
+
+
+			// 内容加载
+			var list=$(page).find('#pieces_list');
+			var list_load=$(page).find('#pieces_list_load');
+			var list_tpl=baidu.template($(page).find('#pieces_list_tpl').html());
+			var loadList = function(){
+				if(0==list.data('more')){
+					return;
+				}
+				list_load.removeClass('more');
+				list_load.addClass('loading');
+				list_load.find('.text').html('正在加载...');
+				$.post(list.data('url'),{
+					status:list.data('status'),
+					start:list.data('start')
+				},function(resp) {
+					if(!resp){
+						alert('加载失败，请检查网络后重试');
+						return;
+					}
+					if(resp.status!=1){
+						alert(resp.info);
+						return;
+					}
+					var data=resp.data;
+					list.data('status',data.status);
+					list.data('start',data.start);
+					list.data('more',data.more);
+					var html=list_tpl(data);
+					list.html(list.html()+html);
+				});
+			};
+
+			list_load.on('click',function(){
+				loadList();
+			});
+			loadList();
+			
+			// 开抢倒计时
+			var hot_timer_counter = function(){
+				$(page).find('.piece .sdtimer').each(function(){
+					$(this).data('time',$(this).data('time')-1);
+					if($(this).data('time')<=0){
+						$(this).html('<em>正在疯抢</em>');	
+					}else{
+						$(this).html(VP_TIME_FORMAT($(this).data('time'))+'后开抢');
+					}
+				});
+			}
+			var hot_Interval = setInterval(hot_timer_counter,1000);
+
+			/**
+			// 数据自动更新
+			// TODO
+			**/
+			
+
+			// 冷却倒计时
+			var cold_timer_counter = function(){
+				$(page).find('.cold_timer').each(function(){
+					$(this).data('time',$(this).data('time')-1);
+					if($(this).data('time')<=0){
+						$(page).find('#notice_cold').hide();
+						clearInterval(cold_Interval);
+					}else{
+						$(this).html(VP_TIME_FORMAT($(this).data('time')));
+					}
+				});
+			}
+			var cold_Interval = setInterval(cold_timer_counter,1000);
+
+			// 助力相关
+			$(page).find('#btn_help').on('click',function(){
+				swal({
+					title:'',
+					text:'让朋友扫码可立即恢复哦！',
+					imageUrl: $(this).data('url'),
+					imageSize:"160x160",
+					showCancelButton: true,
+					confirmButtonText: "扫好了",
+					cancelButtonText: "返回"
+				}, function(isConfirm){
+					if(isConfirm){
+						location.reload();
+					}
+				});
+			});
+			
+			
+			// 定位相关
+			var notice_location=$(page).find('#notice_location');
+			var mineLocation=function(){
+				notice_location.find('.weui_cell_ft').html('定位中...');
+				// 定位
+				wx.getLocation({
+					success: function (res) {
+						// 根据坐标获取所在城市并跳转
+						$.post("{php echo $_W['siteroot'] . 'app/' . substr($this->createMobileUrl('user',array('cmd'=>'location','pid'=>pencode($wall['id']))), 2)}",{
+							latitude:res.latitude,
+							longitude:res.longitude
+						},function( data ) {
+							notice_location.find('.weui_cell_ft').html('重新定位');
+							if(data.status==0){
+								swal({   
+									title:'定位失败',
+									text: data.info,
+									type: "warning",
+									showCancelButton: true,
+									confirmButtonText: "重新定位",
+									cancelButtonText: "关闭"
+								}, function(isConfirm){
+									if(isConfirm){
+										mineLocation();
+									}else{
+										notice_location.show();
+									}
+								});
+							}else{
+								if(data.data!=1){
+									notice_location.show();
+								}else{
+									notice_location.hide();
+								}
+							}
+						});
+					},
+					fail: function(){
+						notice_location.find('.weui_cell_ft').html('重新定位');
+						swal({   
+							title:'定位失败',
+							text: '请开启手机定位功能后重试',
+							type: "warning",
+							showCancelButton: true,
+							confirmButtonText: "重新定位",
+							cancelButtonText: "关闭"
+						}, function(isConfirm){
+							if(isConfirm){
+								mineLocation();
+							}else{
+								notice_location.show();
+							}
+						});
+					},
+					cancel: function(){
+						notice_location.find('.weui_cell_ft').html('重新定位');
+						swal({   
+							title:'确定放弃定位？',
+							text: '只有在{$wall["province"]}{$wall["city"]}{$wall["district"]}才能抢哦~',
+							type: "warning",
+							showCancelButton: true,
+							confirmButtonText: "重新定位",
+							cancelButtonText: "关闭"
+						}, function(isConfirm){
+							if(isConfirm){
+								mineLocation();
+							}else{
+								notice_location.show();
+							}
+						});
+					}
+				});
+			};
+			$(page).find('#notice_location a').click(function(){
+				mineLocation();
+			});
+
+
+			// 调用微信相关接口
+			wx.ready(function(){
+				// 如果当前活动限制区域且(我上次定位的区域不在活动区域或我上次定位已过期)时，需触发自动定位
+				{if (!empty($wall['province']) || !empty($wall['city']) || !empty($wall['district'])) && ($mine['in_position']!=1 || $mine['last_position_exp']<time())}
+					mineLocation();
+				{/if}
+			});
+		});
+
+		// 规则页初始化
+		App.controller('rule_page', function (page) {
+			this.transition = 'scale-in';
+			$(page).find('.btn_back').on('click',function(){
+				App.back();
+			});
+		});
+
+		App.load('index_page','fade');
+	});
+</script>
+{template 'inc/footer'}

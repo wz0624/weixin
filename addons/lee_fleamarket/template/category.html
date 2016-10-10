@@ -1,0 +1,92 @@
+{template 'common/header'}
+
+<ul class="nav nav-tabs">
+	<li{if $op == 'display'} class="active"{/if}><a href="{php echo $this->createWebUrl('category',array('op' => 'display'))}">类目管理</a></li>
+	<li{if $op == 'post'} class="active"{/if}><a href="{php echo $this->createWebUrl('category',array('op' => 'post') )}">添加类目</a></li>
+</ul>
+{if $op == 'post'}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		添加类目
+	</div>
+	<div class="panel-body">
+<form action="" class="form-horizontal form" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="id" value="{$item['id']}">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">标题</label>
+				<div class="col-sm-9">
+					<input type="text" value="{$item['name']}" class="form-control" name="name" placeHolder="请输入分类名称">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">分类ID</label>
+				<div class="col-sm-9">
+					<input type="text" value="{$item['classid']}" class="form-control" name="classid" placeHolder="请输入分类ID">
+				</div>
+			</div>			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否开启</label>
+				<div class="col-sm-9">
+					<label class="radio-inline">
+						<input type="radio" name="enabled" value="1" {if intval($item['enabled']) == '1'}checked="true"{/if}> 是
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="enabled" value="0"  {if intval($item['enabled']) == '0'}checked="true"{/if}>否
+					</label>
+				</div>
+			</div>
+			<div class="form-group">
+				 <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+				 <div class="col-sm-8">
+					<input name="submit" type="submit" value="提交" class="btn btn-primary span3" />
+					<input type="hidden" name="token" value="{$_W['token']}" />
+				 </div> 
+			</div>
+	</form>
+	</div>
+</div>
+{elseif $op == 'display'}
+<form action="" method="post" onsubmit="">
+<div style="padding:15px;">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:40px;" class="row-first">选择</th>
+					<th class="span1">分类名称</th>
+					<th class="span1">分类ID</th>
+					<th class="span2">是否开启</th>
+					<th class="span2">操作</th>
+				</tr>
+			</thead>
+			
+				{loop $row $item}
+				<tr>
+					<td class="row-first"><input type="checkbox" name="select[]" value="{$item['id']}" /></td>
+					<td class="span1"><p>{$item['name']}</p></td>
+					<td class="span1"><p>{$item['classid']}</p></td>
+					<td> {if intval($item['enabled'])==1}开启{else}未开启{/if}</td>
+					<td class="span1"><a  href="
+					{php echo $this->createWebUrl('category',array('op' => 'post','id' => $item['id']))}"><i class="fa fa-edit"></i></a>
+					</td>
+				</tr>
+				{/loop}		
+		</table>
+		{if !empty($row)}
+		<table class="table">
+			<tr>
+				<td style="width:40px;" class="row-first">
+					<input type="checkbox" onclick="selectall(this, 'select');" />		
+				</td>
+				<td class="span1">
+					<input type="submit" name="delete" value="删除" class="btn btn-primary" />		
+					<input type="hidden" name="token" value="{$_W['token']}" />		
+
+				</td>
+			</tr>
+		</table>
+		{/if}
+		{$pager}
+	</div>
+</form>
+{/if}
+{template 'common/footer'}

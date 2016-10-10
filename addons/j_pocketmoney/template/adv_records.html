@@ -1,0 +1,82 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+  <li {if $_GPC['completed']!=-1}class="active"{/if}><a href="{php echo $this->createWebUrl('record',array('rid'=>$rid));}">红包发放记录</a></li>
+  <li {if $_GPC['completed']==-1}class="active"{/if}><a href="{php echo $this->createWebUrl('record',array('completed'=>-1,'rid'=>$rid));}">未成功记录</a></li>
+  <li><a href="{php echo $this->createWebUrl('user',array('id'=>$rid));}">会员管理</a></li>
+  <li><a>共计：{$total}人</a></li>
+  <li><a>红包：{php echo $total_fee/100}元</a></li>
+  <li><a>剩余：{php echo sprintf('%.2f', ($reply['remainfee']) / 100)} 元 / {php echo sprintf('%.2f', ($reply['totalfee']) / 100)} </a></li>
+</ul>
+<script>
+require(['bootstrap'],function($){
+	$('.btn').hover(function(){
+		$(this).tooltip('show');
+	},function(){
+		$(this).tooltip('hide');
+	});
+});
+</script> 
+{if $op == 'post'}
+
+{elseif $op == 'display'}
+<div class="main">
+  <div class="category">
+    <form action="" method="post" onsubmit="return formcheck(this)">
+      <div class="panel panel-default">
+      <div class="panel-body table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th style="width:90px;"></th>
+            <th style="width:120px;">昵称</th>
+            <th>openid</th>
+            <th>城市</th>
+            <th style="width:100px;">红包金额</th>
+            <th style="width:100px;">发放状态</th>
+            <th>发放时间</th>
+            <th style="width:100px;">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+        
+        {loop $list $row}
+        <tr id="tr_{$row['id']}">
+          <td><img src="{$row['headimgurl']}" width="64" height="64" class="img-rounded" /></td>
+          <td>{$row['nickname']}</td>
+          <td>{$row['from_user']}</td>
+          <td>{$row['log']}</td>
+          <td>￥{php echo $row['fee']/100}</td>
+          <td> {if $row['completed'] == 1} <span class="label label-success">已经领取</span> {else} <span class="label label-info">领取失败</span> {/if} </td>
+          <td>{php echo date('Y-m-d H:i:s',$row['created'])}</td>
+          <td> {if $row['completed'] != 1} <a class="btn btn-default btn-sm" href="javascript:;" onclick="doSend('{$row['id']}');">再次发放</a> {/if} </td>
+          <Td><a href="{php echo $this->createWeburl('record',array('op'=>'delete','rid'=>$rid,'id'=>$row['id']))}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="删除" onclick="return confirm('确认删除此吗？删除不可恢复');return false;"><i class="fa fa-times"></i></a></Td>
+        </tr>
+        {/loop}
+          </tbody>
+        
+      </table>
+    </form>
+    {$pager} </div>
+</div>
+</div>
+</div>
+<script>
+	function doSend(rid) {
+		$('#tr_'+rid).find('td').eq(5).html('发放中');	
+		$.post('{php echo $this->createWebUrl("send")}', {'rid':rid},function(dat){
+			alert(dat);
+			if(dat.type == 'success') {
+				obj=$('#tr_'+rid).find('td');
+				obj.eq(4).html('<span class="label label-success">已经领取</span>');
+				obj.eq(5).html('');
+				obj.eq(6).html('');
+				//u.message('发放成功', location.href);
+				//alert('发放成功');
+			} else {
+				alert(dat);
+			}
+	   });
+ 	}
+</script> 
+{/if}
+{template 'common/footer'} 

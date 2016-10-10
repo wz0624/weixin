@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.012wz.com" versionCode="0.6">
+	<application setting="true">
+		<name><![CDATA[智慧投票]]></name>
+		<identifie><![CDATA[fm_photosvote]]></identifie>
+		<version><![CDATA[6.0.1]]></version>
+		<type><![CDATA[activity]]></type>
+		<ability><![CDATA[智慧投票，－分享朋友拉朋友为你的女神投上一票吧！]]></ability>
+		<description><![CDATA[智慧投票，－分享朋友拉朋友为你的女神投上一票吧！]]></description>
+		<author><![CDATA[易福源码]]></author>
+		<url><![CDATA[http://www.efwww.com/]]></url>
+	</application>
+	<platform>
+		<subscribes>
+			<message type="text" />
+			<message type="subscribe" />
+			<message type="unsubscribe" />
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+	</platform>
+	<bindings>
+		<menu>			
+			<entry title="管理中心" do="index" />
+			<entry title="模板中心" do="templates" />
+			<entry title="同步粉丝" do="getunionid" />
+		</menu>
+		<home call="gettiles"></home>
+	</bindings>
+	<install><![CDATA[install.php]]></install>
+	<uninstall><![CDATA[uninstall.php]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

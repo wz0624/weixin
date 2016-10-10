@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.012wz.com" versionCode="0.6">
+	<application setting="true">
+		<name><![CDATA[幸运砸金蛋]]></name>
+		<identifie><![CDATA[we7_egg]]></identifie>
+		<version><![CDATA[3.9.2]]></version>
+		<type><![CDATA[services]]></type>
+		<ability><![CDATA[幸运砸金蛋]]></ability>
+		<description><![CDATA[]]></description>
+		<author><![CDATA[易福源码]]></author>
+		<url><![CDATA[http://www.efwww.com/]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+	</platform>
+	<bindings>
+    <cover>
+
+    </cover>
+		<menu>
+
+							</menu>
+		<home call="getHomeTiles">
+		</home>
+		<profile>
+
+		</profile>
+	</bindings>
+	<install><![CDATA[
+
+DROP TABLE IF EXISTS `ims_egg_award`;
+CREATE TABLE `ims_egg_award` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `rid` int(10) unsigned NOT NULL COMMENT '规则ID',
+  `title` varchar(50) NOT NULL COMMENT '奖品名称',
+  `total` int(11) NOT NULL COMMENT '数量',
+  `probalilty` varchar(5) NOT NULL COMMENT '概率单位%',
+  `description` varchar(100) NOT NULL DEFAULT '' COMMENT '描述',
+  `inkind` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否是实物',
+  `activation_code` text,
+  `activation_url` varchar(200) NOT NULL COMMENT '激活地址',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `ims_egg_reply`;
+CREATE TABLE `ims_egg_reply` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `rid` int(10) unsigned NOT NULL COMMENT '规则ID',
+  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '活动标题',
+  `picture` varchar(100) NOT NULL COMMENT '活动图片',
+  `description` varchar(100) NOT NULL COMMENT '活动描述',
+  `rule` text NOT NULL COMMENT '规则',
+  `periodlottery` smallint(10) unsigned NOT NULL DEFAULT '1' COMMENT '0为无周期',
+  `maxlottery` tinyint(3) unsigned NOT NULL COMMENT '最大抽奖数',
+  `default_tips` varchar(100) NOT NULL COMMENT '默认提示信息',
+  `hitcredit` int(11) NOT NULL COMMENT '中奖奖励积分',
+  `misscredit` int(11) NOT NULL COMMENT '未中奖奖励积分',
+  `starttime` int(10) unsigned NOT NULL COMMENT '开始时间',
+  `endtime` int(10) unsigned NOT NULL COMMENT '结束时间',
+  `maxaward` tinyint(3) NOT NULL DEFAULT '0' COMMENT '中奖次数限制',
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `ims_egg_winner`;
+CREATE TABLE `ims_egg_winner` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0',
+  `rid` int(10) unsigned NOT NULL COMMENT '规则ID',
+  `aid` int(10) unsigned NOT NULL COMMENT '奖品ID',
+  `uid` int(10) unsigned NOT NULL DEFAULT '0',
+  `isaward` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `award` varchar(100) NOT NULL DEFAULT '' COMMENT '奖品名称',
+  `description` varchar(500) NOT NULL DEFAULT '' COMMENT '中奖信息描述',
+  `credit` int(10) unsigned NOT NULL DEFAULT '0',
+  `from_user` varchar(50) NOT NULL COMMENT '用户唯一身份ID',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0未领奖，1不需要领奖，2已领奖',
+  `createtime` int(10) unsigned NOT NULL COMMENT '获奖日期',
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `uid` (`uid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+    ]]></install>
+	<uninstall><![CDATA[
+DROP TABLE IF EXISTS `ims_egg_winner`;
+DROP TABLE IF EXISTS `ims_egg_reply`;
+
+    ]]></uninstall>
+	<upgrade><![CDATA[update.php]]></upgrade>
+</manifest>

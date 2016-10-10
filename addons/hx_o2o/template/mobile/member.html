@@ -1,0 +1,69 @@
+{template 'header'}
+<style>body{background:#eaf1f0}.member .avatar{background-color:#6FCBC3;position:relative}.member .avatar img{display:block;margin:0 auto}.member .avatar .info{width:100%;position:absolute;top:20%;left:0}.member .avatar .info img{width:60px;height:60px;border-radius:50%;margin:0 auto}.member .avatar .info span{display:block;width:100%;text-align:center;color:#009688;margin-top:10px;text-shadow:1px 1px 1px #fff}.member .collection{margin:0}.member .collection li.collection-item{padding-left:0;padding-right:0}.member .collection a{color:#632714}.member .collection a i{color:#b9a093}</style>
+<header>
+    <span>个人中心</span>
+</header>
+<section class="member">
+    <div class="avatar">
+        <img src="{php echo tomedia($bg_img)}" class="responsive-img">
+        <div class="info">
+            <img src="{$_W['fans']['tag']['avatar']}" class="responsive-img">
+            <span>{$_W['fans']['tag']['nickname']}</span>
+        </div>
+    </div>
+    <ul class="collection with-header">
+        <li class="collection-item">
+            <a href="{php echo $this->createMobileUrl('orderlist')}" class="collection-item waves-effect waves-teal">
+                <i class="fa fa-reorder" style="color: #ff9800"></i>&nbsp;&nbsp;我的订单<i class="fa fa-angle-right fa-lg right"></i>
+            </a>
+        </li>
+        <li class="collection-item">
+            <a href="{php echo $this->createMobileUrl('orderlist',array('type'=>2))}" class="collection-item waves-effect waves-teal">
+                <i class="fa fa-tags" style="color: #2196f3"></i>&nbsp;&nbsp;我的护理疗程<i class="fa fa-angle-right fa-lg right"></i>
+            </a>
+        </li>
+        <li class="collection-item">
+            <a href="{php echo url('activity/token/mine');}" class="collection-item waves-effect waves-teal">
+                <i class="fa fa-money" style="color: #009688"></i>&nbsp;我的优惠券<i class="fa fa-angle-right fa-lg right"></i>
+            </a>
+        </li>
+        <li class="collection-item">
+            <a href="{php echo $this->createMobileUrl('address')}" class="collection-item waves-effect waves-teal">
+                <i class="fa fa-map-marker" style="color: #f44336"></i>&nbsp;&nbsp;&nbsp;我的地址<i class="fa fa-angle-right fa-lg right"></i>
+            </a>
+        </li>
+        <li class="collection-item">
+            <a href="{php echo url('mc');}" class="collection-item waves-effect waves-teal">
+                <i class="fa fa-credit-card" style="color: #29b2ac"></i>&nbsp;&nbsp;&nbsp;我的钱包<i class="fa fa-angle-right fa-lg right"></i>
+            </a>
+        </li>
+    </ul>
+    <div class="split_line"></div>
+    <ul class="collection with-header">
+        <li class="collection-item">
+            <a href="tel:{$tel}" class="collection-item waves-effect waves-teal" style="color: #2196f3">
+                <i class="fa fa-phone" style="color: #f00;"></i>&nbsp;&nbsp;客服电话：{$tel}</i>
+            </a>
+        </li>
+    </ul>
+    <div class="split_line"></div>
+    <ul class="collection with-header">
+        <li class="collection-item">
+            <a href="javascript:void(0)" class="collection-item waves-effect waves-teal" id="logout">
+                <i class="fa fa-sign-out"></i>&nbsp;&nbsp;退出登录</i>
+            </a>
+        </li>
+    </ul>
+</section>
+<div class="split_line"></div>
+<script type="text/javascript">
+    $('#logout').click(function()
+    {
+        alert_choose('小主确定要退出登录吗？', function()
+        {
+            window.location.href = '{php echo url('mc/home/login_out');}';
+        })
+    })
+</script>
+{php $sub_active = 'my';}
+{template 'footer'}

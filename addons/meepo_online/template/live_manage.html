@@ -1,0 +1,1135 @@
+{template 'common/header'}
+{template 'nav'}
+<style>
+.editable-click, a.editable-click {
+    color: #000 !important;
+    border-bottom:none !important;
+    text-decoration: none;
+}
+.editable-input.editable-has-buttons {
+    width: auto;
+    max-width: 100px;
+}
+.st-sort-ascent:before {
+    content: '\25B2';
+}
+</style>
+<!-- 项目管理 -->
+{if $op=='list'}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		项目管理
+	</div>
+	<div class="panel-body">
+		<table  class="table table-striped">
+			<thead>
+				<tr>
+					<th style="width:100px;">所属分类</th>
+					<th style="width:50px;">排序</th>
+					<th style="width:100px;">精选状态</th>
+					<th style="width:200px;">直播名称</th>
+					<th style="width:80px;">引导图</th>
+					<th style="width:80px;">缩略图</th>
+					<th style="width:150px;">观看/评论/点赞</th>
+					
+					<th style="width:150px;">起止时间</th>
+					
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{loop $lists $row}
+				<tr>
+				{php $category_name = pdo_fetchcolumn("SELECT `title` FROM ".tablename($this->category_table)." WHERE id=:id",array(':id'=>$row['categoryid']));}
+					<td>
+					{$category_name}
+					</td>
+					<td>
+					{$row['displayorder']}
+					</td>
+					<td>
+					<a href="javascript:;" onclick="jinxuan_live('{$row['id']}','{$row['is_best']}')" class="btn {if $row['is_best']==0}btn-default{else}btn-success{/if}">{if $row['is_best']==0}未精选{else}精选{/if}</a>
+					</td>
+					<td>
+						{$row['title']}
+					</td>
+					<td>
+					{if !empty($row['open_img'])}
+						<img style="width:50px;height:50px;" src="{php echo tomedia($row['open_img'])}"/>
+					{else}
+					无
+					{/if}
+					</td>
+					<td>
+						<img style="width:50px;height:50px;" src="{php echo tomedia($row['img'])}"/>
+					</td>
+					<td>
+					  {php echo $row['live_persons']+$row['say_user']}/{$row['pinglun']}/{$row['zan']}
+					</td>
+					<td style="height:auto;">
+					<div>
+						{php echo date('Y-m-d H:i:s',$row['start_time'])}
+					</div>
+					<div>{php echo date('Y-m-d H:i:s',$row['end_time'])}</div>
+					</td>
+					
+					
+					
+					
+					<td style="overflow:visible">
+						<div class="dropdown list_manage">
+							<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" style="display:block; max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; " aria-expanded="false"><i class="fa fa-cogs fa-fw"></i> 直播管理<b class="caret"></b></a>
+							<ul class="dropdown-menu" style="min-width:110px">
+							 <li><a href="{php echo $this->createWebUrl('live_manage',array('op'=>'post','id'=>$row['id']))}"><i class="fa fa-cogs fa-fw"></i>编辑直播</a></li>
+							 
+							 <li><a href="{php echo $this->createWebUrl('list_fans',array('listid'=>$row['id']))}"><i class="fa fa-times"></i>粉丝管理</a></li>
+							 <li><a href="{php echo $this->createWebUrl('pinglun',array('listid'=>$row['id']))}"><i class="fa fa-times"></i>评论管理</a></li>
+							  <li><a href="{php echo $this->createWebUrl('zan',array('listid'=>$row['id']))}"><i class="fa fa-times"></i>点赞管理</a></li>
+							  <li><a href="{php echo $this->createWebUrl('dashang',array('listid'=>$row['id']))}"><i class="fa fa-group"></i>打赏记录</a></li>
+							  <li><a href="{php echo $this->createWebUrl('gift_record',array('listid'=>$row['id']))}"><i class="fa fa-group"></i>送礼记录</a></li>
+							  <li><a href="{php echo $this->createWebUrl('shake_record',array('listid'=>$row['id']))}"><i class="fa fa-group"></i>摇一摇记录</a></li>
+							  <li><a href="{php echo $this->createWebUrl('share',array('listid'=>$row['id']))}"><i class="fa fa-times"></i>分享记录</a></li>
+							  <li><a href="{php echo $this->createWebUrl('list_menu',array('listid'=>$row['id']))}"><i class="fa fa fa-cog"></i>直播菜单</a></li>
+							  <li><a href="{php echo $this->createWebUrl('gift',array('listid'=>$row['id']))}"><i class="fa fa-group"></i>礼物设置</a></li>
+							  <li><a href="{php echo $this->createWebUrl('shake_award',array('listid'=>$row['id']))}"><i class="fa fa-group"></i>摇一摇奖品</a></li>
+							  
+							 <li><a href="{php echo $this->createWebUrl('live_manage',array('op'=>'del','id'=>$row['id']))}" onclick="return confirm('删除将无法恢复，确认吗？');return false;"><i class="fa fa-times" ></i>删除直播</a></li>
+							</ul>
+						</div>
+						<style>
+
+						.list_manage ul{margin:0;padding:0;width:50px}
+						.list_manage ul li{margin:0;padding:0;width:50px}
+						</style>
+					</td>
+				</tr>
+			{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+	<div class="panel-footer">
+		<a href="{php echo $this->createWebUrl('live_manage',array('op'=>'post'))}" class="btn btn-sm btn-success">
+			<i class="glyphicon glyphicon-plus"></i>新增直播
+		</a>
+	</div>
+</div>
+{elseif $op=='post'}
+<style>
+#myTab a{margin:5px !important;}
+</style>
+<form action="" method="post" class="form-horizontal" role="form" id="form1" >
+<input type="hidden" name="id" value="{$list['id']}"> 
+<div class="panel panel-default">	
+	<div class="panel-body">
+			
+				<div class="container-fluid" style="background-color: rgb(238, 238, 238);padding:10px;margin:2px;" id="myTab" >
+					<a class="btn btn-success" href="#tab_basic">基本设置</a>
+					<a class="btn btn-default" href="#tab_style">直播风格设置</a>
+					<a class="btn btn-default" href="#tab_type">类型设置</a>
+					<a class="btn btn-default" href="#tab_imgcover">直播引导设置</a>
+					<a class="btn btn-default" href="#tab_pay">授权观看设置</a>
+					<a class="btn btn-default" href="#tab_look">观看端设置</a>
+					<a class="btn btn-default" href="#tab_yuyue">直播预约设置</a>
+					<a class="btn btn-default" href="#tab_pz">互动设置</a>
+					<a class="btn btn-default" href="#tab_dashang_gift">打赏与礼物设置</a>
+					<a class="btn btn-default" href="#tab_advs">广告设置</a>
+					
+					
+					<a class="btn btn-default" href="#tab_share">分享设置</a>
+				</div>
+			
+			
+			<div class="tab-content">
+				  <div class="tab-pane  active" id="tab_basic">
+					  <div class="panel panel-default">
+						  <div class="panel-body">
+								   <div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">直播分类</label>
+										<div class="col-xs-3 col-sm-2 col-lg-9">
+											<select name="categoryid" class="form-control">
+												<option value="0">请选择分类</option>
+												{loop $categorys $row}
+												<option value="{$row['id']}" {if $list['categoryid']==$row['id']}selected{/if}>{$row['title']}</option>
+												{/loop}
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">直播起止时间</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											{php echo tpl_form_field_daterange('ac_times',array('start'=>date('Y-m-d H:i:s',empty($list['start_time'])?time():$list['start_time']),'end'=>date('Y-m-d H:i:s',empty($list['end_time'])?time()+3600*5:$list['end_time'])),true);}
+											<span class="help-block">直播起止时间</strong></span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">是否显示</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<label class="radio-inline">
+												<input type="radio" name="isshow" value="1"  {if $list['isshow'] == '1'}checked="true"{/if}>是
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="isshow" value="0"   {if 
+												$list['isshow'] == '0'}checked="true"{/if}>否
+											</label>
+											<span class="help-block">是否显示</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">排序序号</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$list['displayorder']}" class="form-control" name="displayorder">
+											<span class="help-block">排序序号</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">直播标题</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$list['title']}" class="form-control" name="title">
+											<span class="help-block">直播标题</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">直播介绍</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											{php echo tpl_ueditor('content',$list['content'])}
+											<span class="help-block">直播介绍</span>
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">视频高度</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<div class="input-group">
+												<div class="input-group-addon">高度</div>
+												<input type="text" class="form-control" name="player_height" value="{$list['player_height']}">
+												<div class="input-group-addon">px</div>
+											</div>
+											<span class="help-block">180左右的整数</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">直播浮动人数</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<div class="input-group">
+												<div class="input-group-addon">人数</div>
+												<input type="text" class="form-control" name="live_persons" value="{$list['live_persons']}">
+												<div class="input-group-addon">人</div>
+											</div>
+											<span class="help-block"></span>
+										</div>
+									</div>
+						  </div>
+					</div>
+			     </div><!--tab_basic end-->
+				   <div class="tab-pane" id="tab_style">
+					  <div class="panel panel-default">
+							<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">直播logo</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											{php echo tpl_form_field_image('live_logo', $list['live_logo']);}
+											<span class="help-block">直播logo 规格200*26</span>
+										</div>
+									</div>
+						  <div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">直播顶部背景</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											{php echo tpl_form_field_image('top_bj', $list['top_bj']);}
+											<span class="help-block">直播顶部背景 规格360*49</span>
+										</div>
+									</div>
+						  <div class="panel-body">
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">直播页主色调</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											{php echo tpl_form_field_color('main_color',$list['main_color']);}
+											<span class="help-block">直播页主色调</span>
+										</div>
+									</div>
+									
+						  </div>
+					</div>
+			     </div><!--tab_style end-->
+				<div class="tab-pane" id="tab_type">
+					  <div class="panel panel-default">
+						  <div class="panel-body">
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">直播未开始类型</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<label class="radio-inline">
+												<input type="radio" name="no_start_type" value="1" 
+												{if $list['no_start_type'] == '1'}checked="true"{/if} onclick="no_start_type_change1()" >第三方直播
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="no_start_type" value="2" 
+												{if $list['no_start_type'] == '2'}checked="true"{/if} onclick="no_start_type_change2()">第三方点播
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="no_start_type" value="3"  
+												{if $list['no_start_type'] == '3'}checked="true"{/if} onclick="no_start_type_change3()">第三方视频[仅支持优酷、土豆、腾讯等]
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="no_start_type" value="4"  
+												{if $list['no_start_type'] == '4'}checked="true"{/if} onclick="no_start_type_change4()">本地视频
+											</label>
+											<span class="help-block">直播结束后自动跳转到哪种直播、避免显示直播已结束的尴尬</span>
+										</div>
+									</div>
+									<div class="form-group no_start_yt_iframe" style="{if $list['no_start_type']=='3'}display:block{else}display:none{/if}" >
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">第三方视频[支持优酷、土豆、腾讯等]iframe</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$list['no_start_yt_iframe']}" class="form-control" name="no_start_yt_iframe">
+											<span class="help-block">第三方视频[支持优酷、土豆、腾讯等等]iframe类调用方式、需要你将width改成100%,height改成视频高度</span>
+										</div>
+									</div>
+									<div class="form-group no_start_local_media" style="{if $list['no_start_type']=='4'}display:block{else}display:none{/if}">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">本地视频连接</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											{php echo tpl_form_field_audio('no_start_local_media',$list['no_start_local_media'])}
+											<span class="help-block">本地视频连接<strong></strong></span>
+										</div>
+									</div>
+									<div class="form-group no_start_activity_id" style="{if $list['no_start_type']=='1'}display:block{else}display:none{/if}">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">第三方播放id</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$list['no_start_activity_id']}" class="form-control" name="no_start_activity_id">
+											<span class="help-block">第三方播放id</span>
+										</div>
+									</div>
+									<div class="form-group no_start_activity_uu" style="{if  $list['no_start_type']=='2'}display:block{else}display:none{/if}">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">乐视云点播uu</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$list['no_start_activity_uu']}" class="form-control" name="no_start_activity_uu">
+											<span class="help-block">乐视云点播uu</span>
+										</div>
+									</div>
+									<div class="form-group no_start_activity_vu" style="{if  $list['no_start_type']=='2'}display:block{else}display:none{/if}">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">乐视云点播vu</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$list['no_start_activity_vu']}" class="form-control" name="no_start_activity_vu">
+											<span class="help-block">乐视云点播vu</span>
+										</div>
+									</div>
+								   <div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">直播类型</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<label class="radio-inline">
+												<input type="radio" name="type" value="1" onclick="type_change1()" 
+												{if $list['type'] == '1'}checked="true"{/if}>第三方直播
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="type" value="2" onclick="type_change2()"  
+												{if $list['type'] == '2'}checked="true"{/if}>第三方点播
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="type" value="3" onclick="type_change3()"  
+												{if $list['type'] == '3'}checked="true"{/if}>第三方视频[仅支持优酷、土豆、腾讯等]
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="type" value="4" onclick="type_change4()"  
+												{if $list['type'] == '4'}checked="true"{/if}>本地视频
+											</label>
+											<span class="help-block">播放类型、本地视频指的是本地上传视频或视频连接</span>
+										</div>
+									</div>
+									<div class="form-group yt_iframe" style="{if $list['type']=='3'}display:block{else}display:none{/if}" >
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">第三方视频[支持优酷、土豆、腾讯等]iframe</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$list['yt_iframe']}" class="form-control" name="yt_iframe">
+											<span class="help-block">第三方视频[支持优酷、土豆、腾讯等等]iframe类调用方式、需要你将width改成100%,height改成视频高度</span>
+										</div>
+									</div>
+									<div class="form-group local_media" style="{if $list['type']=='4'}display:block{else}display:none{/if}">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">本地视频连接</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											{php echo tpl_form_field_audio('local_media',$list['local_media'])}
+											<span class="help-block">本地视频连接<strong></strong></span>
+										</div>
+									</div>
+									<div class="form-group activity_id" style="{if $list['type']=='1'}display:block{else}display:none{/if}">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">第三方播放id</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$list['activity_id']}" class="form-control" name="activity_id">
+											<span class="help-block">第三方播放id</span>
+										</div>
+									</div>
+									<div class="form-group activity_uu" style="{if  $list['type']=='2'}display:block{else}display:none{/if}">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">乐视云点播uu</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$list['activity_uu']}" class="form-control" name="activity_uu">
+											<span class="help-block">乐视云点播uu</span>
+										</div>
+									</div>
+									<div class="form-group activity_vu" style="{if  $list['type']=='2'}display:block{else}display:none{/if}">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">乐视云点播vu</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$list['activity_vu']}" class="form-control" name="activity_vu">
+											<span class="help-block">乐视云点播vu</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">直播结束后自动跳转类型</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<label class="radio-inline">
+												<input type="radio" name="end_type" value="1" 
+												{if $list['end_type'] == '1'}checked="true"{/if} onclick="end_type_change1()">第三方直播
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="end_type" value="2" 
+												{if $list['end_type'] == '2'}checked="true"{/if} onclick="end_type_change2()">第三方点播
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="end_type" value="3"  
+												{if $list['end_type'] == '3'}checked="true"{/if} onclick="end_type_change3()">第三方视频[仅支持优酷、土豆、腾讯等]
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="end_type" value="4"  
+												{if $list['end_type'] == '4'}checked="true"{/if} onclick="end_type_change4()">本地视频
+											</label>
+											<span class="help-block">直播结束后自动跳转到哪种直播、避免显示直播已结束的尴尬</span>
+										</div>
+									</div>
+									<div class="form-group end_yt_iframe" style="{if $list['end_type']=='3'}display:block{else}display:none{/if}" >
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">第三方视频[支持优酷、土豆、腾讯等]iframe</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$list['end_yt_iframe']}" class="form-control" name="end_yt_iframe">
+											<span class="help-block">第三方视频[支持优酷、土豆、腾讯等等]iframe类调用方式、需要你将width改成100%,height改成视频高度</span>
+										</div>
+									</div>
+									<div class="form-group end_local_media" style="{if $list['end_type']=='4'}display:block{else}display:none{/if}">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">本地视频连接</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											{php echo tpl_form_field_audio('end_local_media',$list['end_local_media'])}
+											<span class="help-block">本地视频连接<strong></strong></span>
+										</div>
+									</div>
+									<div class="form-group end_activity_id" style="{if $list['end_type']=='1'}display:block{else}display:none{/if}">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">第三方播放id</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$list['end_activity_id']}" class="form-control" name="end_activity_id">
+											<span class="help-block">第三方播放id</span>
+										</div>
+									</div>
+									<div class="form-group end_activity_uu" style="{if  $list['end_type']=='2'}display:block{else}display:none{/if}">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">乐视云点播uu</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$list['end_activity_uu']}" class="form-control" name="end_activity_uu">
+											<span class="help-block">乐视云点播uu</span>
+										</div>
+									</div>
+									<div class="form-group end_activity_vu" style="{if  $list['type']=='2'}display:block{else}display:none{/if}">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">乐视云点播vu</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$list['end_activity_vu']}" class="form-control" name="end_activity_vu">
+											<span class="help-block">乐视云点播vu</span>
+										</div>
+									</div>
+						  </div>
+					</div>
+			     </div><!--tab_type end-->
+				 <div class="tab-pane" id="tab_imgcover">
+					  <div class="panel panel-default">
+						  <div class="panel-body">
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">直播引导图</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											{php echo tpl_form_field_image('open_img', $list['open_img']);}
+											<span class="help-block">直播引导图 350*563 不上传将直接跳转到直播页面</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 control-label">点击引导图转跳链接</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											{php echo tpl_form_field_link('open_img_url',$list['open_img_url']);}
+											<span class="help-block">点击引导图转跳链接、不填写即为跳转到直播页</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">引导图倒计时时间</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<div class="input-group">
+												<div class="input-group-addon">时间</div>
+												<input type="text" class="form-control" name="thumb_time" value="{$list['thumb_time']}">
+												<div class="input-group-addon">秒</div>
+											</div>
+											<span class="help-block">引导图倒计时时间</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">引导图倒计时文字颜色设置</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											{php echo tpl_form_field_color('djs_txt_color',$list['djs_txt_color']);}
+											<span class="help-block">引导图倒计时文字颜色设置、不含秒数字体颜色、注意：文字颜色请参考引导图主色调去设置、默认为白色</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">直播缩略图</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											{php echo tpl_form_field_image('img', $list['img']);}
+											<span class="help-block">直播缩略图 720*420</span>
+										</div>
+									</div>
+						  </div>
+					</div>
+			     </div><!--tab_imgcover end-->
+				 
+				 <div class="tab-pane" id="tab_dashang_gift">
+					  <div class="panel panel-default">
+						  <div class="panel-body">
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">是否开启打赏</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<label class="radio-inline">
+												<input type="radio" name="dashang_show" value="1"  {if $list['dashang_show'] == '1'}checked="true"{/if}>是
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="dashang_show" value="0"   {if 
+												$list['dashang_show'] == '0'}checked="true"{/if}>否
+											</label>
+											<span class="help-block">是否开启打赏</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">打赏最低金额设置</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<div class="input-group">
+												<div class="input-group-addon">金额</div>
+												<input type="text" class="form-control" name="dashang_limit" value="{$list['dashang_limit']}">
+												<div class="input-group-addon">元</div>
+											</div>
+											<span class="help-block">最小值为0.01</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">打赏成功在线通知设置</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<label class="radio-inline">
+												<input type="radio" name="dashang_flower" value="1"  {if $list['dashang_flower'] == '1'}checked="true"{/if}>开启提示并播放音乐	</label>
+											<label class="radio-inline">
+												<input type="radio" name="dashang_flower" value="2"   {if 
+												$list['dashang_flower'] == '2'}checked="true"{/if}>开启提示不播放音乐
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="dashang_flower" value="0"   {if 
+												$list['dashang_flower'] == '0'}checked="true"{/if}>不开启
+											</label>
+											<span class="help-block">打赏成功在线通知设置</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">打赏成功在线通知背景音乐</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											{php echo tpl_form_field_audio('dashang_music',$list['dashang_music'])}
+											<span class="help-block">打赏成功在线通知背景音乐</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">是否送礼</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<label class="radio-inline">
+												<input type="radio" name="gift_show" value="1"  {if $list['gift_show'] == '1'}checked="true"{/if}>是
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="gift_show" value="0"   {if 
+												$list['gift_show'] == '0'}checked="true"{/if}>否
+											</label>
+											<span class="help-block">是否开启送礼</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">是否显示送礼明细</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<label class="radio-inline">
+												<input type="radio" name="gift_pay_detail" value="1"  {if $list['gift_pay_detail'] == '1'}checked="true"{/if}>是
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="gift_pay_detail" value="0"   {if 
+												$list['gift_pay_detail'] == '0'}checked="true"{/if}>否
+											</label>
+											<span class="help-block">是否显示送礼明细</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">送礼成功在线通知提示</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<label class="radio-inline">
+												<input type="radio" name="gift_flower" value="1"  {if $list['gift_flower'] == '1'}checked="true"{/if}>开启提示并播放音乐
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="gift_flower" value="2"  {if $list['gift_flower'] == '2'}checked="true"{/if}>开启提示不播放音乐
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="gift_flower" value="0"   {if 
+												$list['gift_flower'] == '0'}checked="true"{/if}>不开启
+											</label>
+											<span class="help-block">送礼成功在线通知提示</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">送礼成功提示背景音乐</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											{php echo tpl_form_field_audio('gift_music',$list['gift_music'])}
+											<span class="help-block">送礼成功提示背景音乐</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">新人进来在线通知提示</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<label class="radio-inline">
+												<input type="radio" name="newjoin_flower" value="1"  {if $list['newjoin_flower'] == '1'}checked="true"{/if}>开启提示并播放音乐
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="newjoin_flower" value="2"  {if $list['newjoin_flower'] == '2'}checked="true"{/if}>开启提示不播放音乐
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="newjoin_flower" value="0"   {if 
+												$list['newjoin_flower'] == '0'}checked="true"{/if}>不开启
+											</label>
+											<span class="help-block">新人进来在线通知提示</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">新人进入直播间提示音乐</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											{php echo tpl_form_field_audio('newjoin_music',$list['newjoin_music'])}
+											<span class="help-block">新人进入直播间提示音乐</span>
+										</div>
+									</div>
+									
+						  </div>
+					</div>
+			     </div><!--tab_dashang_gift end-->
+				 <div class="tab-pane" id="tab_pz">
+					  <div class="panel panel-default">
+						  <div class="panel-body">
+								<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">是否准许评论</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<label class="radio-inline">
+												<input type="radio" name="cansay" value="0"  {if $list['cansay'] == '0'}checked="true"{/if}>是
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="cansay" value="1"   {if 
+												$list['cansay'] == '1'}checked="true"{/if}>否
+											</label>
+											<span class="help-block">是否准许评论</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">评论是否审核</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<label class="radio-inline">
+												<input type="radio" name="status" value="1"  {if $list['status'] == '1'}checked="true"{/if}>是
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="status" value="0"   {if 
+												$list['status'] == '0'}checked="true"{/if}>否
+											</label>
+											<span class="help-block">评论是否审核</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">点赞模式</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<label class="radio-inline">
+												<input type="radio" name="zan_style" value="1"  {if $list['zan_style'] == '1'}checked="true"{/if}>每人只能赞一次
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="zan_style" value="0"   {if 
+												$list['zan_style'] == '0'}checked="true"{/if}>随意点赞
+											</label>
+											<span class="help-block">评论是否审核</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">是否开启摇一摇</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<label class="radio-inline">
+												<input type="radio" name="shake_show" value="1"  {if $list['shake_show'] == '1'}checked="true"{/if}>是
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="shake_show" value="0"   {if 
+												$list['shake_show'] == '0'}checked="true"{/if}>否
+											</label>
+											<span class="help-block">是否开启摇一摇</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">摇一摇背景图</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											{php echo tpl_form_field_image('shake_bg_img', $list['shake_bg_img']);}
+											<span class="help-block">摇一摇背景图 640*688</span>
+										</div>
+									</div>
+									<div class="form-group" style="display:none">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">摇一摇是否必须填写信息</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<label class="radio-inline">
+												<input type="radio" name="shake_must_address" value="1"  {if $list['shake_must_address'] == '1'}checked="true"{/if}>是
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="shake_must_address" value="0"   {if 
+												$list['shake_must_address'] == '0'}checked="true"{/if}>否
+											</label>
+											<span class="help-block">摇一摇是否必须填写真实姓名、联系方式、以及收货地址</span>
+										</div>
+									</div>
+						  </div>
+					</div>
+			     </div><!--tab_pz end-->
+				 <div class="tab-pane" id="tab_share">
+					  <div class="panel panel-default">
+						  <div class="panel-body">
+								<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">分享标题</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$list['share_title']}" class="form-control" name="share_title">
+											<span class="help-block">分享标题</span>
+										</div>
+								</div>
+								<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">分享内容</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$list['share_content']}" class="form-control" name="share_content">
+											<span class="help-block">分享内容</span>
+										</div>
+								</div>
+								<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">分享图</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											{php echo tpl_form_field_image('share_img', $list['share_img']);}
+											<span class="help-block">分享图</span>
+										</div>
+								</div>
+						  </div>
+					</div>
+			     </div><!--tab_share end-->
+				 
+				 <div class="tab-pane" id="tab_advs">
+					  <div class="panel panel-default">
+						  
+						  <div class="panel-body">
+						  <ul class="list-group" id="adv_lists">
+						  {if !empty($list['advs'])}
+						  {php $advs = iunserializer($list['advs']);}
+						  {loop $advs $row}
+								<li class="list-group-item ng-scope" id="adv_box_{$row['adv_id']}">
+								<input type="hidden" name="adv_id[]" value="{$row['adv_id']}" />
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">广告类型</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<label class="radio-inline">
+												<input type="radio" name="{$row['adv_id']}adv_type" value="1"  {if $row['adv_type']=='1'}checked="true"{/if} onclick="change_adv1(this)">文字广告
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="{$row['adv_id']}adv_type" value="2"   {if $row['adv_type']=='2'}checked="true"{/if}onclick="change_adv2(this)">图片广告
+											</label>
+											<span class="help-block">广告类型</span>
+										</div>
+									</div>
+									
+									<div class="form-group adv_text" {if $row['adv_type']!='1'}style="display:none"{/if}>
+										<label class="col-xs-12 col-sm-3 col-md-2 control-label">广告文字</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input class="form-control" type="text" value="{$row['adv_text']}" name="adv_text[]">
+											<span class="help-block">广告文字、不要超过20个汉字</span>
+										</div>
+									</div>
+									<div class="form-group adv_img" {if $row['adv_type']!='2'}style="display:none"{/if}>
+											<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">广告图片</label>
+											<div class="col-sm-8 col-lg-9 col-xs-12">
+												{php echo tpl_form_field_image('adv_img[]',$row['adv_img']);}
+												<span class="help-block">广告图片、规格:320 * 35</span>
+											</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 control-label">广告链接地址</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											{php echo tpl_form_field_link('adv_url[]',$row['adv_url']);}
+											<span class="help-block">广告链接地址</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-offset-2 col-md-offset-2 col-lg-offset-1 col-xs-12 col-sm-10 col-md-10 col-lg-11">
+											<a href="javascript:;" class="btn btn-danger" onclick="delete_box({$row['adv_id']})" >删除</a>
+										</div>
+									</div>
+								</li>
+						 {/loop}
+						 {/if}
+						  </ul>
+						  </div>
+						  <div class="panel-footer">
+								<a href="javascript:;" class="btn btn-success adv_add">添加广告</a>
+						  </div>
+					</div>
+			     </div><!--tab_pay end-->
+				 <div class="tab-pane" id="tab_pay">
+					  <div class="panel panel-default">
+						  <div class="panel-body">
+								   <div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">授权观看设置</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<label class="radio-inline">
+												<input type="radio" name="need_pay" value="1" onclick="look_change1()" 
+												{if $list['need_pay'] == '1'}checked="true"{/if}>付费观看
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="need_pay" value="2" onclick="look_change2()" 
+												{if $list['need_pay'] == '2'}checked="true"{/if}>密码观看
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="need_pay" value="3" onclick="look_change4()" 
+												{if $list['need_pay'] == '3'}checked="true"{/if}>填写资料观看
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="need_pay" value="0" onclick="look_change3()"  
+												{if $list['need_pay'] == '0'}checked="true"{/if}>随便看
+											</label>
+											<span class="help-block">1 观看方式、如果选择付费观看、请设置直播仅限微信观看,2 如果选择了、填写资料观看、请设置相关填写项目</span>
+										</div>
+									</div>
+									<div class="form-group pay_money" style="{if $list['need_pay']=='1'}display:block{else}display:none{/if}">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">观看费用</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<div class="input-group">
+												<div class="input-group-addon">金额</div>
+												<input type="text" class="form-control" name="pay_money" value="{$list['pay_money']}">
+												<div class="input-group-addon">元</div>
+											</div>
+											<span class="help-block">请填写整数、选择此方式请选择仅限微信观看</span>
+										</div>
+									</div>
+									<div class="form-group need_code" style="{if $list['need_pay']=='2'}display:block{else}display:none{/if}">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">观看密码</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$list['look_code']}" class="form-control" name="look_code">
+											<span class="help-block">观看密码</span>
+										</div>
+									</div>
+									
+						  </div>
+					</div>
+			     </div><!--tab_pay end-->
+				 <div class="tab-pane" id="tab_look">
+					  <div class="panel panel-default">
+						  <div class="panel-body">
+								   <div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">观看端设置</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<label class="radio-inline">
+												<input type="radio" name="look_type" value="1" 
+												{if $list['look_type'] == '1'}checked="true"{/if}>仅限微信端
+											</label>
+											
+											<label class="radio-inline">
+												<input type="radio" name="look_type" value="0"  
+												{if $list['look_type'] == '0'}checked="true"{/if}>不限制
+											</label>
+											<span class="help-block">观看端设置</span>
+										</div>
+									</div>
+									
+						  </div>
+					</div>
+			     </div><!--tab_look end-->
+				 <div class="tab-pane" id="tab_yuyue">
+					  <div class="panel panel-default">
+						  <div class="panel-body">
+								<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">是否开启预约</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<label class="radio-inline">
+												<input type="radio" name="yuyue_show" value="1"  {if $list['yuyue_show'] == '1'}checked="true"{/if}>是
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="yuyue_show" value="0"   {if 
+												$list['yuyue_show'] == '0'}checked="true"{/if}>否
+											</label>
+											<span class="help-block">是否开启预约</span>
+										</div>
+								</div>	
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">预约是否需要填写手机号码</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<label class="radio-inline">
+												<input type="radio" name="put_mobile" value="1"  {if $list['put_mobile'] == '1'}checked="true"{/if}>是
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="put_mobile" value="0"   {if 
+												$list['put_mobile'] == '0'}checked="true"{/if}>否
+											</label>
+											<span class="help-block">预约是否需要填写手机号码</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">填写手机号码是否需要验证</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<label class="radio-inline">
+												<input type="radio" name="sms_mobile" value="1"  {if $list['sms_mobile'] == '1'}checked="true"{/if}>需要
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="sms_mobile" value="0"   {if 
+												$list['sms_mobile'] == '0'}checked="true"{/if}>不需要
+											</label>
+											<span class="help-block">填写手机号码是否需要验证</span>
+										</div>
+									</div>	
+						  </div>
+					</div>
+			     </div><!--yuyue end-->
+	       </div><!--tab-content end-->
+    </div>
+</div>
+
+	<div class="form-group">
+			<div class="col-sm-12">
+				<input name="submit" type="submit" value="提交" class="btn btn-success" />
+				<input type="hidden" name="row_id" value="{$list['id']}" />
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			</div>
+			</div>
+	</div>
+</form>
+<div id="adv_html" style="display: none">	
+	
+	<div class="form-group adv_text">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">广告文字</label>
+		<div class="col-sm-8 col-lg-9 col-xs-12">
+			<input class="form-control" type="text" value="" name="adv_text[]">
+			<span class="help-block">广告文字</span>
+		</div>
+	</div>
+	<div class="form-group adv_img" style="display:none">
+			<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">广告图片</label>
+			<div class="col-sm-8 col-lg-9 col-xs-12">
+				{php echo tpl_form_field_image('adv_img[]', '');}
+				<span class="help-block">广告图片、规格:320 * 50</span>
+			</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-2 col-md-2 control-label">广告链接地址</label>
+		<div class="col-sm-8 col-lg-9 col-xs-12">
+			{php echo tpl_form_field_link('adv_url[]','');}
+			<span class="help-block">广告链接地址</span>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$('.adv_add').bind('click', function(){
+		var adv_index = new Date().getTime();
+		var content = '<li class="list-group-item ng-scope" id="adv_box_'+adv_index+'">';
+		content += '<input type="hidden" name="adv_id[]" value="'+adv_index+'" />';
+		content += '<div class="form-group">';
+		content += '<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">广告类型</label>';
+		content += '<div class="col-sm-8 col-lg-9 col-xs-12">';
+			content += '<label class="radio-inline">';
+		content += '<input type="radio" name="'+adv_index+'adv_type" value="1"  onclick="change_adv1(this)" checked="true" >文字广告</label>';
+			content += '<label class="radio-inline">';
+		content += '<input type="radio" name="'+adv_index+'adv_type" value="2" onclick="change_adv2(this)">图片广告</label>';
+			content += '<span class="help-block">广告类型</span>';
+		content += '</div>';
+		content += '</div>';
+		content += $("#adv_html").html();
+		content += '<div class="form-group">';
+		content += '<div class="col-sm-offset-2 col-md-offset-2 col-lg-offset-1 col-xs-12 col-sm-10 col-md-10 col-lg-11">';
+				content += '<a href="javascript:;" class="btn btn-danger" onclick="delete_box('+adv_index+')">删除</a>';
+			content += '</div>';
+		content += '</div>';
+		content += '</li>';
+		
+		$('#adv_lists').append(content);
+		$("body").scrollTop(document.body.clientHeight);
+});
+function delete_box(id){
+	if(!confirm("删除将无法恢复、确认删除么？"))return false;
+	if(id){
+		$("#adv_box_"+id).remove();
+	}else{
+		alert('id不存在');
+	}
+}
+$(function () {
+		window.optionchanged = false;
+		$('#myTab a').click(function (e) {
+			e.preventDefault();//阻止a链接的跳转行为
+			$(this).tab('show');//显示当前选中的链接及关联的content
+			$(this).addClass("btn btn-success").siblings().removeClass("btn-success").addClass("btn btn-default")
+		})
+	});
+	
+</script>
+<script>
+function change_adv1(obj){
+	$(obj).parent().parent().parent().siblings('.adv_img').hide();
+	//$(obj).parent().parent().parent('.adv_text').show();
+	$(obj).parent().parent().parent().siblings('.adv_text').show();
+}
+function change_adv2(obj){
+	$(obj).parent().parent().parent().siblings('.adv_img').show();
+	//$(obj).parent().parent().parent('.adv_text').show();
+	$(obj).parent().parent().parent().siblings('.adv_text').hide();
+}
+function type_change1()
+{
+	$(".yt_iframe").hide();
+	$(".local_media").hide();
+	$(".activity_id").show();
+	$(".activity_uu").hide();
+	$(".activity_vu").hide();
+}
+
+function type_change2()
+{
+		
+	$(".yt_iframe").hide();
+	$(".local_media").hide();
+	$(".activity_id").hide();
+	$(".activity_uu").show();
+	$(".activity_vu").show();
+}
+function type_change3()
+{
+	$(".yt_iframe").show();
+	$(".local_media").hide();
+	$(".activity_id").hide();
+	$(".activity_uu").hide();
+	$(".activity_vu").hide();
+}
+function type_change4()
+{
+	$(".yt_iframe").hide();
+	$(".local_media").show();
+	$(".activity_id").hide();
+	$(".activity_uu").hide();
+	$(".activity_vu").hide();
+}
+function change_menu1()
+{
+	
+	$(".menu_button").hide();
+	$(".menu_comment").hide();
+	$(".menu_shake").hide();
+	$(".menu_content").hide();
+	$(".menu_html").show();
+	
+}
+function end_type_change1()
+{
+	$(".end_yt_iframe").hide();
+	$(".end_local_media").hide();
+	$(".end_activity_id").show();
+	$(".end_activity_uu").hide();
+	$(".end_activity_vu").hide();
+}
+
+function end_type_change2()
+{
+		
+	$(".end_yt_iframe").hide();
+	$(".end_local_media").hide();
+	$(".end_activity_id").hide();
+	$(".end_activity_uu").show();
+	$(".end_activity_vu").show();
+}
+function end_type_change3()
+{
+	$(".end_yt_iframe").show();
+	$(".end_local_media").hide();
+	$(".end_activity_id").hide();
+	$(".end_activity_uu").hide();
+	$(".end_activity_vu").hide();
+}
+function end_type_change4()
+{
+	$(".end_yt_iframe").hide();
+	$(".end_local_media").show();
+	$(".end_activity_id").hide();
+	$(".end_activity_uu").hide();
+	$(".end_activity_vu").hide();
+}
+function no_start_type_change1()
+{
+	$(".no_start_yt_iframe").hide();
+	$(".no_start_local_media").hide();
+	$(".no_start_activity_id").show();
+	$(".no_start_activity_uu").hide();
+	$(".no_start_activity_vu").hide();
+}
+
+function no_start_type_change2()
+{
+		
+	$(".no_start_yt_iframe").hide();
+	$(".no_start_local_media").hide();
+	$(".no_start_activity_id").hide();
+	$(".no_start_activity_uu").show();
+	$(".no_start_activity_vu").show();
+}
+function no_start_type_change3()
+{
+	$(".no_start_yt_iframe").show();
+	$(".no_start_local_media").hide();
+	$(".no_start_activity_id").hide();
+	$(".no_start_activity_uu").hide();
+	$(".no_start_activity_vu").hide();
+}
+function no_start_type_change4()
+{
+	$(".no_start_yt_iframe").hide();
+	$(".no_start_local_media").show();
+	$(".no_start_activity_id").hide();
+	$(".no_start_activity_uu").hide();
+	$(".no_start_activity_vu").hide();
+}
+function look_change1()
+{
+	
+	$(".need_code").hide();
+	$(".pay_money").show();
+	
+}
+function look_change2()
+{
+	
+	$(".need_code").show();
+	$(".pay_money").hide();
+	
+}
+function look_change3()
+{
+	
+	$(".need_code").hide();
+	$(".pay_money").hide();
+	
+}
+function look_change4()
+{
+	
+	$(".need_code").hide();
+	$(".pay_money").hide();
+	
+}
+</script>
+{/if}
+<script>
+function jinxuan_live(a,b){
+	if(a!='' && b!==''){
+		$.ajax({
+		  type:'post',
+		  url:"{php echo $this->createWebUrl('live_manage',array('op'=>'jingxuan'))}",
+		  data:{'id':a,'is_best':b},
+		  dataType:"json",
+		  success:function(json){
+				if(json.errno=='0'){
+					 window.location.reload(); 
+				}else{
+					alert('fail');
+				}
+				
+		  }
+		});
+	}
+}
+</script>
+{template 'common/footer'}

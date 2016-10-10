@@ -1,0 +1,93 @@
+{template 'header'}
+<style>section{padding:0 .75rem}section h6{color:#632714;padding:1rem 0;border-bottom:1px solid #dbc5ba;margin:0;margin-bottom:10px}.detail_intro{padding-top:.75rem}.detail_intro h6{font-weight:700;color:#632714}.detail_intro p{color:#b9a093} .selling_price{color:#f45e4e}.title{margin-bottom:5px;padding:4px 0;border-bottom:1px solid #dbc5ba}.payment .row{height:28px;line-height:28px;margin-bottom:10px;cursor:pointer}.payment .row .s2{height:28px;text-align:center;display:table}.payment img{display:block;width:28px;height:28px}.payment .row .s2 i{font-size:1.5rem;vertical-align:middle;display:table-cell;color:#DCDCDC}.payment .row .s2 i.fa-check-circle{color:#30AA9F}</style>
+<header>
+    <a href="javascript:history.back();" class="waves-effect waves-teal btn-flat go_back"><i class="fa fa-angle-left"></i></a>
+    <span>确认订单</span>
+</header>
+<div class="split_line"></div>
+
+<section class="detail_intro">
+    <div class="row">
+        <div class="col s12">
+            <h6>购买{$category['name']}</h6>
+            <p>{$product['name']}<span class="selling_price right">￥{$product['price']}</span></p>
+        </div>
+    </div>
+</section>
+<div class="split_line"></div>
+
+<section class="payment" id="payment">
+    <h6>支付方式</h6>
+        <div class="row" sign="2">
+            <div class="col s2">
+                <img src="{IMG_PATH}online_pay.png" class="responsive-img" />
+            </div>
+            <div class="col s8">
+                <span>在线支付</span>
+            </div>
+            <div class="col s2">
+                <i class="fa fa-check-circle"></i>
+            </div>
+        </div>
+        <input type="hidden" name='payment' value="2">
+        <div class="row" sign="0">
+            <div class="col s2">
+                <img src="{IMG_PATH}offline_pay.png" class="responsive-img" />
+            </div>
+            <div class="col s8">
+                <span>到店支付</span>
+            </div>
+            <div class="col s2">
+                <i class="fa fa-circle-thin"></i>
+            </div>
+        </div>
+    </section>
+<div class="split_line"></div>
+<section>
+    <div class="row">
+        <div class="col s12">
+            <a href="javascript:void(0)" class="waves-effect waves-light btn teal lighten-2" style="width:100%;margin-top:2rem" id="to-pay">
+                <i class="fa fa-chevron-circle-right"></i> 确认支付
+            </a>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    $('#payment').find('.row').click(function()
+    {
+        var sign = $(this).attr('sign');
+        $(this).find('.fa').addClass('fa-check-circle').removeClass('fa-circle-thin');
+        $(this).siblings().find('.fa').addClass('fa-circle-thin').removeClass('fa-check-circle');
+        $('input[name=payment]').val(sign);
+    })
+    $('#to-pay').click(function()
+    {
+        alert_choose('确认下单吗？', function()
+        {
+            ajax('{php echo $this->createMobileUrl('order',array('op'=>'combocheck','itemid'=>$itemid))}', {"payment": $('input[name=payment]').val()}, function(result)
+            {
+                if (result.status == -1)
+                {
+                    window.location.href = '/site/login';
+                }
+                else if (result.status == 1)
+                {
+                    if (result.paytype == 2) {
+                        window.location.href = '{php echo $this->createMobileUrl('pay')}&orderid=' + result.orderid;
+                    }else{
+                        alert_confirm("操作成功！", function()
+                        {
+                            window.location.href = '{php echo $this->createMobileUrl('orderlist',array('op'=>'detail'))}&orderid=' + result.orderid;
+                        })
+                    }
+                }
+                else
+                {
+                    alert_modal(result.message);
+                }
+            })
+        })
+    })
+</script>
+{template 'footer'}

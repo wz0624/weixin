@@ -1,0 +1,83 @@
+{template 'common/header'}
+<script>
+require(['jquery','util'], function($, util){
+	$(function(){
+		var editor = util.editor($('#text')[0]);
+	}); 
+});
+</script>
+<div class="panel panel-default">
+  <div class="panel-body">
+   添加商品
+  </div>
+</div>
+<form class="form-horizontal" action="" method="post" >
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">页面标题</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="inputEmail3" placeholder="请输入页面标题" name="title">
+    </div>
+  </div>
+    <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">需要推广的宝贝地址</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="inputEmail3" placeholder="请输入推广的链接" name="address">
+      <small><font color="red">请填写正确的宝贝地址,这里不做校验！！</font></small>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">需要关注公众号的地址</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="inputEmail3" placeholder="请输入需要关注公众号的链接" name="lian">
+      <small><font color="red">请填写正确的关注公众号地址,这里不做校验！！</font></small>
+    </div>
+  </div>
+    <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">第一页面广告图片</label>
+    <div class="col-sm-10">
+    {php echo tpl_form_field_image('remark');}
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">第二页面广告图片</label>
+    <div class="col-sm-10">
+    {php echo tpl_form_field_image('remark1');}
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">第三页面广告图片</label>
+    <div class="col-sm-10">
+    {php echo tpl_form_field_image('remark2');}
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">第四页面广告图片</label>
+    <div class="col-sm-10">
+    {php echo tpl_form_field_image('remark3');}
+    </div>
+  </div>
+      <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">内容编辑</label>
+    <div class="col-sm-10">
+   <textarea id="text" name="text"></textarea>
+    </div>
+  </div>
+ 
+   <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+         <div class="checkbox">
+            <label>
+               <input type="checkbox" name="checkbox"> 显示
+            </label>
+            <small><font color="red">如果勾选的话,这个宝贝就会在手机端显示（只会显示最新添加的一个宝贝）。</font></small>
+         </div>
+      </div>
+   </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      	<input class="btn btn-default" type="submit" value="提交" name="submit" id="submit"/>
+      <input type="hidden" name="token" value="{$_W['token']}"/>
+    </div>
+  </div>
+</form>
+{template 'common/footer'}

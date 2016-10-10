@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta  charset="utf-8">
+<meta  name="viewport"  content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes">
+<title>{$_W['account']['name']}微招聘求职</title>
+<link type="text/css" rel="stylesheet" href="../addons/amouse_weijob/style/css/jquery.mmenu.all.css?v=20150419">
+<link  type="text/css"  rel="stylesheet"  href="../addons/amouse_weijob/style/css/base.css?v=20150419">
+<link  type="text/css"  rel="stylesheet"  href="../addons/amouse_weijob/style/css/index.css?v=20150419">
+<script  type="text/javascript"  src="../addons/amouse_weijob/style/js/jquery.min.js?v=20150419"></script>
+<script type="text/javascript" src="../addons/amouse_weijob/style/js/jquery.mmenu.min.all.js?v=20150419"></script>
+<script type="text/javascript" src="../addons/amouse_weijob/style/js/jquery.infinitescroll.js?v=20150419"></script>
+<style>
+    .head{text-align: left;padding-top: 0px;height: 50px;line-height: 50px;background-image: none;}
+    .head a.job-back{width: 80px;height: 50px;background: url("../addons/amouse_weijob/style/images/icon_job_back.png") left center no-repeat;background-size: 11px 15px;}
+    .search {
+        background: #fff;
+        padding: 10px;
+        overflow: hidden;
+    }
+    .search li {
+        position: relative;
+    }
+    .search li .input_box {
+        background: #fff;
+        border: 1px solid #ccc;
+        padding: 0 100px 0 8px;
+        height: 48px;
+    }
+    .search li .input_box .inp_search {
+        margin: 0;
+        line-height: 20px;
+        font-size: 14px;
+        width: 100%;
+        -webkit-appearance: none;
+        outline: none;
+        padding: 14px 0;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        display: block;
+        color: #999;
+    }
+    .search li .search_btn {
+        background: url("../addons/amouse_weijob/style/images/icon_search.png") no-repeat center;
+        position: absolute;
+        background-size: 50%;
+        padding: 13px;
+        width: 50px;
+        height: 50px;
+        top: 10px;
+        right: 50px;
+    }
+    html, body, div, span, applet, object, iframe, h1, button, input, textarea, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+        margin:0;
+        padding:0;
+        border:0;
+        font-size:100%;
+        font:inherit;
+        vertical-align:baseline;
+        font-family:"Microsoft Yahei", Verdana, Arial, Helvetica, sans-serif;
+    }
+    .job_sort{
+        position: absolute;
+        right:0;
+        width: 50px;
+        height: 50px;
+        top: 0px;
+        text-align:center;
+        background:#0261bf;
+        color:#fff
+    }
+    .cd-popup-container p{
+        position: relative;display: inline-block;text-align:center;
+    }
+    .select{
+        width:100%;height:100%;position:absolute;top:0;left:0;opacity: 0;
+    }
+</style>
+</head>
+<body  style="">
+{php include_once IA_ROOT . '/addons/amouse_weijob/model.php'}
+{php $companyset = search_company()}
+<nav id="menu_left" class="mm-menu mm-horizontal mm-ismenu">
+	<ul class="mm-list mm-panel mm-opened mm-current" id="mm-m0-p0">
+		<li>
+            <a href="{php echo $this->createMobileUrl('companyset',array('from_user'=>$openid),true)}">
+                公司信息/联系人信息
+            </a>
+		</li>
+		<li>
+			<a {if empty($companyset)}href="{php echo $this->createMobileUrl('companysearch',array('from_user'=>$openid),true)}"{else}href="{php echo $this->createMobileUrl('publish',array('from_user'=>$openid),true)}"{/if}>发布岗位</a>
+		</li>
+		<li>
+            <a href="{php echo $this->createMobileUrl('myPublish',array('from_user'=>$openid),true)}">
+                我的发布
+            </a>
+		</li>
+        <li>
+            <a href="{php echo $this->createMobileUrl('publishJob',array('from_user'=>$openid),true)}">
+                发布求职
+            </a>
+        </li>
+	</ul>
+</nav>
+<nav  id="menu_right"  class="mm-menu mm-vertical mm-ismenu mm-right">
+	<ul class="mm-list mm-panel mm-opened mm-current" id="mm-m0-p0">
+		<li>
+            <a href="{php echo $this->createMobileUrl('myPublish',array('from_user'=>$openid),true)}">
+			<a href="{php echo $this->createMobileUrl('myResume',array('from_user'=>$openid),true)}">我的简历</a>
+		</li>
+		<li>
+            <a href="{php echo $this->createMobileUrl('resumeRecod',array('from_user'=>$openid),true)}">投简记录</a>
+		</li>
+	</ul>
+</nav>
+	<div>
+		<div  class="head" style="text-align: center;">
+			<a  href="#menu_left" style="margin-left:10px"  class="job-back"><span style="line-height:50px;padding-left:15px;color: white;font-size: 15px;">我要发布</span></a>
+			<h2>微招聘求职</h2>
+			<a  href="#menu_right"  style="margin-right:10px" class="right-pic"><span style="padding-right:15px;">我的简历</span></a>
+		</div>
+		<div  class="contents">
+			<div  class="ctn-search">
+				<div  class="search-input clearfix">
+					<input id="search_box" type="text"  name="keyword"  value="{$_GPC['keyword']}"  placeholder="请输入职位名称"  class="job-search">		
+					<a  class="job-search-btn" onclick="data_get();"  href="javascript:void(0);"></a>
+					<br/>
+					<div style="color:#688fd0;margin-top:10px" >岗位类型：
+                        <a href="javascript:void(0);" onclick="data_get(0)">全职</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a onclick="data_get(1)" href="javascript:void(0);" >兼职</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a onclick="data_get(2)" href="javascript:void(0);" >实习</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a onclick="data_get(3)" href="javascript:void(0);" >求职</a>
+                    </div>
+				</div>
+			</div>
+			<div  class="job-lists">
+				<h2  class="job-lists-tit clearfix">
+					<span  class="fl">热门职位</span>
+				</h2>
+				{php $list = search_joball()}
+				<ul  class="clearfix job-item" id="container">
+				{loop $item $v}
+					<li>
+                        <a href="{php echo $this->createMobileUrl('job',array('from_user'=>$openid,'id'=>$v['id'],'hits'=>$v['hits']),true)}" class="clearfix">
+						<p  class="fl job-item-tit">{$v['jobname']}({$v['type']})</p>
+						<span style="text-align:center;font-size:14px;float:right;position: relative;right: 8%;top: 3px;">浏览 {$v['hits']}<br/><br/>{$v['createtime']}</span>
+						
+						<p  class="fl job-item-intro">
+							<span  class="fl salary">
+							薪资：{if $v['offer']==0}{php echo '面议'}{else}{$v['offer']}{/if}
+                            </span>
+							<span  class="fl place">{$v['workplace']}</span>
+							<span  class="fl company-name last">{$v['title']}</span>
+						</p>
+					</a>
+					</li>	
+				{/loop}
+				</ul>
+					<a class="see-more" href="{php echo murl('entry//search',array('m'=>'amouse_weijob'),true)}&page=2" style="display:none">
+
+                    </a>
+			</div>
+		</div>
+		<div  class="footer"  style="display:none">
+		</div>
+	</div>
+	<div  id="mm-blocker" style="opacity: 0;"></div>
+	{php $cover = search_cover()}
+<script type="text/javascript">
+
+var all_page_curr=2;
+var all_position_prov="";
+var all_position_city="";
+var all_position_dist="";
+var all_position_pcate="";
+var all_position_ccate="";
+var all_position_type="";
+var all_position_title="";
+//左右滑动菜单
+$(document).ready(function(){
+	$("#menu_left").mmenu();
+	$("#menu_right").mmenu({
+		position	: 'right',
+		slidingSubmenus:false
+	});
+	infinitescroll();
+});
+
+var _renderItem = function(n) {
+	var newElement='<li><a class="clearfix" href="{php echo murl('entry//job',array('m'=>'amouse_weijob'),true)}&id=';
+		newElement+=n['id']+'">';
+		if(n["type"] == 0){
+			newElement+='<p class="fl job-item-tit">'+n["jobname"]+'(全职)</p>';
+		}else if(n["type"] == 1){
+			newElement+='<p class="fl job-item-tit">'+n["jobname"]+'(兼职)</p>';
+		}else if(n["type"] ==2){
+			newElement+='<p class="fl job-item-tit">'+n["jobname"]+'(实习)</p>';
+		}
+		newElement+='<span style="text-align: center;font-size:14px;float:right;position: relative;right: 8%;top: 3px;">浏览' +n["hits"]+'<br/><br/>'+n['createtime']+'</span><p class="fl job-item-intro"><span class="fl salary">薪资：';
+		if(n["offer"] == 0){newElement += '面议';}else{newElement += n["offer"];}
+		newElement+='</span><span class="fl place">'+n["workplace"]+'</span><span class="fl company-name last">'+n["company_name"]+'</span></p></a></li>';
+	return newElement;
+}
+function infinitescroll(){
+	console.log(all_position_title);
+	$(".job-item").infinitescroll({
+		loading:{
+			msgText:"加载中...",
+			finishedMsg:"没有新数据了...",
+			img:'../addons/amouse_weijob/style/images/loading.gif'
+		},
+		navSelector:"a.see-more:first",
+		nextSelector:"a.see-more:first",
+		itemSelector:".job-item li",
+		extraScrollPx: 200,
+		dataType:"json",
+		debug:true,
+		prov:all_position_prov,
+		city:all_position_city,
+		dist:all_position_dist,
+		pcate:all_position_pcate,
+		ccate:all_position_ccate,
+		type:all_position_type,
+		title:all_position_title,
+		all_page:all_page_curr,
+		appendCallback:false
+
+	},function(response){
+		//console.log(response);
+		var jsondate=response.data;
+		for(var i=0;i<jsondate.length;i++){
+			var item=_renderItem(jsondate[i]);
+			$(".job-item").append(item);
+		}
+	});
+}
+function data_get(type){
+    all_position_title=$("#search_box").val();
+    all_position_type = type;
+	$(".job-lists .job-lists-tit").css("display","none");
+	$(".job-item").empty();
+    var ajaxurl = "{php echo murl('entry//search',array('m'=>'amouse_weijob'),true)}";
+	$.ajax({
+		url:ajaxurl,
+		type:"get",
+		dataType:"json",
+		data:{type:all_position_type,title:all_position_title,page:1},
+		success:function(data){
+			if(type!=3){
+                if(data.status>0){
+                    all_page_curr=2;
+                    var src='';
+                    $.each(data.data,function(i,n){
+                        src+='<li><a class="clearfix" href="{php echo murl('entry//job',array('m'=>'amouse_weijob'),true)}&id=';
+                        src+=n['id']+'&from_user='+n['from_user']+'">';
+                        if(n["type"] == 0){
+                            src+='<p class="fl job-item-tit">'+n["jobname"]+'(全职)</p>';
+                        }else if(n["type"] == 1){
+                            src+='<p class="fl job-item-tit">'+n["jobname"]+'(兼职)</p>';
+                        }else if(n["type"] == 2){
+                            src+='<p class="fl job-item-tit">'+n["jobname"]+'(实习)</p>';
+                        }
+                        src += '<span style="text-align: center;font-size:14px;float:right;position: relative;right: 8%;top: 3px;">浏览' +n["hits"]+'<br/><br/>'+n['createtime']+'</span><p class="fl job-item-intro"><span class="fl salary">薪资：';
+                        if(n["offer"] == 0){src += '面议';}else{src += n["offer"];}
+                        src+='</span><span class="fl place">'+n["workplace"]+'</span><span class="fl company-name last">'+n["company_name"]+'</span></p></a></li>';
+                    })
+                    $(".job-item").html(src);
+                    infinitescroll();
+                }else{
+                    var nosrc='<div class="no-data"><img src="../addons/amouse_weijob/style/images/no_data.png"><p>未搜索到相关职位信息</p></div>';
+                    $(".job-item").html(nosrc);
+                }
+            }else{
+                console.log(data);
+                if(data.status>0){
+                    all_page_curr=2;
+                    var src='';
+                    $.each(data.data,function(i,n){
+                        src+='<li><a class="clearfix" href="{php echo murl('entry//apply',array('m'=>'amouse_weijob'),true)}&id=';
+                        src+=n['id']+'&from_user='+n['from_user']+'">';
+                        src+='<p class="fl job-item-tit">'+n["work"]+'|'+n['name'] +'(求职)</p>';
+                        src += '<span style="text-align: center;font-size:14px;float:right;position: relative;right: 8%;top: 3px;">浏览' +n["hits"]+'<br/><br/>'+n['createtime']+'</span><p class="fl job-item-intro"><span class="fl salary">学历：';
+                        src += n['edu'];
+                        src+='</span> 期望薪资<span class="fl company-name last">'+n["salary"]+'</span></p></a></li>';
+                    })
+                    $(".job-item").html(src);
+                    infinitescroll();
+                }else{
+                    var nosrc='<div class="no-data"><img src="../addons/amouse_weijob/style/images/no_data.png"><p>未搜索到相关职位信息</p></div>';
+                    $(".job-item").html(nosrc);
+                }
+            }
+
+			infinitescroll();
+		}
+	});
+}
+</script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+    <?php
+            $jssdk = new JSSDK();
+    $signPackage = $jssdk->GetSignPackage();
+    ?>
+    wx.config({
+        debug: false,
+        appId: '<?php echo $signPackage["appId"];?>',
+        timestamp: '<?php echo $signPackage["timestamp"];?>',
+        nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+        signature: '<?php echo $signPackage["signature"];?>',
+        jsApiList: ['checkJsApi',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ',
+            'onMenuShareWeibo']
+    });
+
+    wx.ready(function () {
+        var shareData = {
+            title: "{$cover['title']}",
+            desc: "{$cover['description']}\n点击查看更多信息",
+            link: "{$linkUrl}",
+            imgUrl: "{$shareimg}",
+            trigger: function (res) {},
+            complete: function (res) {},
+            success: function (res) {
+            },
+            cancel: function (res) {
+            },
+            fail: function (res) {
+            }
+        };
+        wx.onMenuShareAppMessage(shareData);
+        wx.onMenuShareQQ(shareData);
+        wx.onMenuShareWeibo(shareData);
+        wx.onMenuShareTimeline(shareData);
+    });
+</script>
+
+
+
+<!--<script language='javascript'>
+    <?php
+       $jssdk = new JSSDK();
+       $signPackage=$jssdk->GetSignPackage();
+       $_shareimg= !empty($cover['thumb']) ? $_W['attachurl'].$cover['thumb'] : 'http://'.$_SERVER['HTTP_HOST'] . '../addons/amouse_weijob/icon.jpg';
+    ?>
+    wx.config({
+        debug: false,
+        appId: '<?php echo $signPackage["appId"];?>',
+        timestamp: <?php echo $signPackage["timestamp"];?>,
+        nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+        signature: '<?php echo $signPackage["signature"];?>',
+        jsApiList: [
+        'onMenuShareAppMessage',
+        'onMenuShareTimeline',
+        'onMenuShareWeibo',
+        'onMenuShareQQ',
+        'onMenuShareQZone']
+    });
+
+    var shareMeta = {
+        title: "{$cover['title']}",
+        desc: "{$cover['description']}\n点击查看更多信息",
+        link: "{$linkUrl}",
+        imgUrl: "{$shareimg}"
+    };
+    wx.ready(function(){
+        wx.onMenuShareTimeline(shareMeta);
+        wx.onMenuShareAppMessage(shareMeta);
+        wx.onMenuShareWeibo(shareMeta);
+        wx.onMenuShareQQ(shareMeta);
+        wx.onMenuShareQZone(shareMeta);
+    });
+</script>-->
+</body>
+</html>

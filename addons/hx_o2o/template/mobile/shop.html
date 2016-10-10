@@ -1,0 +1,91 @@
+{template 'header'}
+{if $operation == 'display'}
+	<style>.site_wrap img{display:block;margin:0 auto}.shop_list .row{padding-top:20px}.shop_list .row .img{text-align:center;position:relative;cursor:pointer;margin-bottom:10px;}.shop_list .row .img i{position:absolute;font-size:1.5rem;color:#DCDCDC}.shop_list .row .img i.fa-check-circle{color:#30AA9F}.shop_list .row .img img{width:76px;height:76px;border-radius:50%}.shop_list .row .img .distance{display:block;width:60px;font-size:12px;background:#b2ebf2;border-radius:4px;color:#009688;margin:0 auto}.shop_list .row .info .title{width: 100%;}.shop_list .row .info .title .right{color:#f45e4e;text-align:right}.shop_list .row .info a h6{margin:0}.shop_list .row .info .title span{color:#632714;float:left;height: 30px;}.shop_list .row .info .title .fa-angle-right{color:#b9a093;margin-left:5px}.shop_list .row .info .title p{clear:both;color:#b9a093;text-align:left;font-size:12px;margin-bottom:0}</style>
+	<header>
+        <a href="{php echo $this->createMobileUrl('main')}" class="waves-effect waves-teal btn-flat go_back"> <i class="fa fa-angle-left"></i>
+        </a>
+        <span>门店查询</span>
+    </header>
+    <div class="site_wrap">
+        <img class="responsive-img" src="{php echo tomedia($shoplist_thumb)}">
+    </div>
+    <div class="row" style="margin-top:30px;">
+        <div class="col s12">
+            <select name="city" id="city" class="browser-default">
+                <option value="" disabled selected>请选选择城市</option>
+                {loop $citys $city}
+                <option value="{$city['city']}">{$city['city']}</option>
+                {/loop}
+            </select>
+        </div>
+    </div>
+<section class="shop_list" id="shop_list"></section>
+<script type="text/javascript">
+	$('#city').change(function()
+    {
+        var city = $(this).find('option:selected').val();
+        ajax('{php echo $this->createMobileUrl('shop',array('op'=>'getlist'))}', {"city": city}, function(result)
+            {
+                if (result.status == 1)
+                {
+                    var data = result.data,
+                    str  = '';
+                    $.each(data, function(k)
+                    {
+                        str +='<div class="row">' + 
+					            '<div class="col s4 img">' + 
+					                '<input type="hidden" name="shopid" value="' + (data[k].id) + '" choosed="0">' + 
+					                '<img src="' + (data[k].thumb_sm) + '" class="responsive-img">' + 
+					            '</div>' + 
+					            '<div class="col s8 info">' + 
+					                '<a href="' + (data[k].url) + '" class="waves-effect waves-teal title">' + 
+					                    '<h6>' + 
+					                        '<span>' + (data[k].name) + '</span>' + 
+					                        '<span class="right">' + 
+					                        	(data[k].score_html) + 
+					                        	(data[k].score) + 
+					                        	'分' +
+					                        '<i class="fa fa-angle-right fa-lg"></i>' + 
+					                        '</span>' + 
+					                    '</h6>' + 
+					                    '<p>' + (data[k].description) + '<br/>' + (data[k].address) + (data[k].tel) + '</p>' + 
+					                '</a>' + 
+					            '</div>' + 
+					        '</div>' + 
+					        '<div class="split_line" style="clear:both;"></div>'
+                    })
+                    $('#shop_list').html(str);
+                }
+                else
+                {
+                    tips(result.message);
+                }
+            }, 'GET');
+    });
+</script>
+{php $sub_active = 'shop';}
+{php $_share['title'] = "门店查询";$_share['imgUrl'] = tomedia($shoplist_thumb);$_share['desc'] = '';}
+{template 'footer'}
+{else if $operation == 'detail'}
+<style>.site_wrap img{display:block;margin:0 auto}.content{width:100%;margin:10px auto} .content div{margin: 10px;}</style>
+<header>
+    <a href="javascript:history.back();" class="waves-effect waves-teal btn-flat go_back"> <i class="fa fa-angle-left"></i></a>
+    <span>{$shop['name']}</span>
+</header>
+<div class="site_wrap">
+    <img class="responsive-img" src="{php echo tomedia($shop['thumb'])}">
+</div>
+<section class="content">
+	<div>{$shop['content']}</div>
+</section>
+<div class="mr_bottom"></div>
+<div class="row fixed_bottom_next">
+    <div class="col s12">
+        <a href="tel:{$shop['tel']}" class="waves-effect waves-light btn teal lighten-2" id="checkout-order">
+            <i class="fa fa-phone-square"></i> 电话预约
+        </a>
+    </div>
+</div>
+{php $_share['title'] = $shop['name'];$_share['imgUrl'] = tomedia($shop['thumb_sm']);$_share['desc'] = $shop['description'];}
+{template 'js_footer'}
+{/if}

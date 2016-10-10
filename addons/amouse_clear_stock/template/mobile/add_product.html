@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>{if $set['copyright']}{$set['copyright']}{else}{$_W['account']['name']}{/if}</title>
+    <link rel="stylesheet" href="{AMOUSE_CLEAR_STOCK_RES}css/foundation.css?version=20160101"/>
+    <link rel="stylesheet" href="{AMOUSE_CLEAR_STOCK_RES}css/main.css?version=20160101"/>
+    <script type="text/javascript" src="{AMOUSE_CLEAR_STOCK_RES}js/jquery.js?version=20160101"></script>
+    <script src="{AMOUSE_CLEAR_STOCK_RES}js/foundation.js?version=20160101"></script>
+    <style>
+        ul {
+            margin: 0.6rem;
+        }
+    </style>
+</head>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+    {php $signPackage=getSignPackage($weid,$set);}
+    jssdk="getSignPackage";
+    wx.config({
+        debug: false,
+        appId: '<?php echo $signPackage["appId"];?>',
+        timestamp: '<?php echo $signPackage["timestamp"];?>',
+        nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+        signature: '<?php echo $signPackage["signature"];?>',
+        jsApiList: [
+            'checkJsApi',
+            'chooseImage',
+            'previewImage',
+            'uploadImage',
+            'downloadImage'
+        ]
+    });
+</script>
+<body>
+
+<div class="body">
+    <div class="dialog" id="tip">
+        <div class="dialog-cnt">
+            <div class="dialog-bd"><h3>提示</h3>
+
+                <p class="text"></p><a class="button correct-btn" id="alert_ok">确&nbsp;&nbsp;定</a></div>
+        </div>
+    </div>
+    <form action="" method="post" id="codeform" enctype="multipart/form-data">
+
+        <ul class="upinfo">
+            <li class="">货源名称(必填)：<input type="text" maxlength='15' id="product_name" name="product_name" placeholder="填写货源名称" value="{$product['title']}"/></li>
+            <li class="">清货价(必填)：<input type="number" maxlength='6' id="clear_price" name="clear_price" placeholder="填写清货价" value="{$product['clear_price']}"/></li>
+            <li class="">市场价(选填)：<input type="number" maxlength='6' id="price" name="price" placeholder="填写市场价格" value="{$product['price']}"/></li>
+            <li class="">货源介绍(必填)：<textarea name="detail" id="detail" maxlength='200' placeholder="填写货源介绍&参数" style="min-height:50px;">{$product['detail']}</textarea></li>
+            <li class="">货源分类：(必选)
+                <select name='type' id="pcateid">
+                    {loop $categorys $category}
+                    <option value="{$category['id']}" {if $product['pcateid']==$category['id']} selected="selected"{/if}>{$category['name']}</option>
+                    {/loop}
+                </select>
+            </li>
+        </ul>
+        <ul class="upinfo">
+            <li class="">
+                <p><b>货源Logo主图(必须上传)：</b></p>
+                <div id="showimg" class="face">
+                <span>
+                    <img id="imglogo" src="{if $product['logo']}{php echo tomedia($product['logo'])}{else}{AMOUSE_CLEAR_STOCK_RES}images/initial.jpg{/if}"
+                         style='width:100px' class='qcimg'>
+                </span>
+                    <input type='hidden' id='logo' name='logo' value="{$product['logo']}"/>
+                </div>
+
+                <p><b>货源图片1(必须上传)：</b></p>
+
+                <div id="showimg_pic1">
+                <span><img id="imghead1" src="{if $product['thumb1']}{php echo tomedia($product['thumb1'])}{else}{AMOUSE_CLEAR_STOCK_RES}images/initial.jpg{/if}"
+                           style='width:100px' class='qcimg'></span>
+                    <input type='hidden' id='thumb1' name='thumb1' value="{$product['thumb1']}"/>
+                </div>
+
+                <p><b>货源图片2(必须上传)：</b></p>
+                <div id="showimg_pic2">
+                <span><img id="imghead2" src="{if $product['thumb2']}{php echo tomedia($product['thumb2'])}{else}{AMOUSE_CLEAR_STOCK_RES}images/initial.jpg{/if}"
+                           style='width:100px' class='qcimg'></span>
+                    <input type='hidden' id='thumb2' name='thumb2' value="{$product['thumb2']}"/>
+                </div>
+
+                <p><b>货源图片3：</b></p>
+                <div id="showimg_pic3">
+                <span><img id="imghead3" src="{if $product['thumb3']}{php echo tomedia($product['thumb3'])}{else}{AMOUSE_CLEAR_STOCK_RES}images/initial.jpg{/if}"
+                           style='width:100px' class='qcimg'></span>
+                    <input type='hidden' id='thumb3' name='thumb3' value="{$product['thumb3']}"/>
+                </div>
+            </li>
+
+            <li><p style='color:red'><b>4张图片不能重复&违法内容必删</b></p>
+
+                <p style='color:red'><b>勿重复发布相同的产品否者将被屏蔽</b></p>
+
+                <p style='color:red'><b>编辑和发布可能需要审核才会展示在首页</b></p>
+            </li>
+        </ul>
+
+        <input type="hidden" name="stockid" id="stockid" value="{$product['id']}"/>
+
+        <div class="small-12 columns publish">
+            <a class="upbtn button btn btn-publish" href="javascript:void(0)" id="ajaxSaveBtn"> 立即发布货源</a>
+        </div>
+    </form>
+    <div style="padding:58px;"></div>
+
+</div>
+
+{template 'bottom_bar'}
+
+<script>
+    function getCookie(name) {
+        var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+        if (arr = document.cookie.match(reg))
+            return unescape(arr[2]);
+        else
+            return null;
+    }
+    var $free_vip = getCookie('free_vip');
+    $('.free_vip1').click(function () {
+        if ($free_vip == '') {
+            $('#alert_ok').attr("href", '/index.php?m=Invite');
+            $('#alert_ok').text('分享到朋友圈成为脉客');
+            new_alert('您还不是脉客或者已到期！分享指定文章到朋友圈即可成为脉客');
+            return false;
+        }
+    });
+</script>
+<script>
+    $(document).foundation();
+    alert_ok = null;
+    function new_alert(msg, cb) {
+        alert_ok = cb;
+        $('#tip .text').html(msg);
+        $('#tip').show();
+    }
+    old_alert = window.alert;
+    window.alert = new_alert;
+    $('#alert_ok').click(function () {
+        if (alert_ok) {
+            alert_ok();
+        }
+        $('#tip').hide();
+    });
+</script>
+
+<script>
+
+    var localIds =  [];
+    $('.face').click(function () {
+        wx.chooseImage({
+            count: 1,
+            success: function (res) {
+                localIds = res.localIds;
+                onImageDone();
+            }
+        });
+    });
+
+    var localIds2 =  [];
+    $('#showimg_pic1').click(function () {
+        wx.chooseImage({
+            count: 1,
+            success: function (res) {
+                localIds2 = res.localIds;
+                onImageDone2();
+            }
+        });
+    });
+    var localIds3 =  [];
+    $('#showimg_pic2').click(function () {
+        wx.chooseImage({
+            count: 1,
+            success: function (res) {
+                localIds3 = res.localIds;
+                onImageDone3();
+            }
+        });
+    });var localIds4 =  [];
+    $('#showimg_pic3').click(function () {
+        wx.chooseImage({
+            count: 1,
+            success: function (res) {
+                localIds4 = res.localIds;
+                onImageDone4();
+            }
+        });
+    });
+
+    function onImageDone(){
+        if (localIds.length == 0) {
+            alert('请先使用 chooseImage 接口选择图片');
+            return;
+        }
+        for(var k in localIds){
+            var localId = localIds[k];
+            wx.uploadImage({
+                localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
+                isShowProgressTips: 1, // 默认为1，显示进度提示
+                success: function (res) {
+                    $.ajax({
+                        type : "POST",
+                        url : "{$upload_url}&mediaId="+res.serverId,
+                        data : {serverId:res.serverId},
+                        dataType : "json",
+                        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                        success : function(data){
+                            if(data && data.success === 0){
+                                $('#imglogo').attr('src',data.picid);
+                                $('#logo').attr('value',data.picid);
+                            }else{
+                                alert("保存失败，请重新!");
+                            }
+                        },
+                        error : function(data){
+                            alert("抱歉,服务器繁忙");
+                        }
+                    });
+                }
+            });
+        }
+    }
+    function onImageDone2(){
+        if (localIds2.length == 0) {
+            alert('请先使用 chooseImage 接口选择图片');
+            return;
+        }
+        for(var k in localIds2){
+            var localId = localIds2[k];
+            wx.uploadImage({
+                localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
+                isShowProgressTips: 1, // 默认为1，显示进度提示
+                success: function (res) {
+                    $.ajax({
+                        type : "POST",
+                        url : "{$upload_url}&mediaId="+res.serverId,
+                        data : {serverId:res.serverId},
+                        dataType : "json",
+                        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                        success : function(data){
+                            if(data && data.success === 0){
+                                $('#imghead1').attr('src',data.picid);
+                                $('#thumb1').attr('value',data.picid);
+                            }else{
+                                alert("保存失败，请重新!");
+                            }
+                        },
+                        error : function(data){
+                            alert("抱歉,服务器繁忙");
+                        }
+                    });
+                }
+            });
+        }
+    }
+    function onImageDone3(){
+        if (localIds3.length == 0) {
+            alert('请先使用 chooseImage 接口选择图片');
+            return;
+        }
+        for(var k in localIds3){
+            var localId = localIds3[k];
+            wx.uploadImage({
+                localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
+                isShowProgressTips: 1, // 默认为1，显示进度提示
+                success: function (res) {
+                    $.ajax({
+                        type : "POST",
+                        url : "{$upload_url}&mediaId="+res.serverId,
+                        data : {serverId:res.serverId},
+                        dataType : "json",
+                        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                        success : function(data){
+                            if(data && data.success === 0){
+                                $('#imghead2').attr('src',data.picid);
+                                $('#thumb2').attr('value',data.picid);
+                            }else{
+                                alert("保存失败，请重新!");
+                            }
+                        },
+                        error : function(data){
+                            alert("抱歉,服务器繁忙");
+                        }
+                    });
+                }
+            });
+        }
+    }
+    function onImageDone4(){
+        if (localIds4.length == 0) {
+            alert('请先使用 chooseImage 接口选择图片');
+            return;
+        }
+        for(var k in localIds4){
+            var localId = localIds4[k];
+            wx.uploadImage({
+                localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
+                isShowProgressTips: 1, // 默认为1，显示进度提示
+                success: function (res) {
+                    $.ajax({
+                        type : "POST",
+                        url : "{$upload_url}&mediaId="+res.serverId,
+                        data : {serverId:res.serverId},
+                        dataType : "json",
+                        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                        success : function(data){
+                            if(data && data.success === 0){
+                                $('#imghead3').attr('src',data.picid);
+                                $('#thumb3').attr('value',data.picid);
+                            }else{
+                                alert("保存失败，请重新!");
+                            }
+                        },
+                        error : function(data){
+                            alert("抱歉,服务器繁忙");
+                        }
+                    });
+                }
+            });
+        }
+    }
+    $(function () {
+        $("#ajaxSaveBtn").click(function () {
+            if ($.trim($("input[name=product_name]").val()) == "") {
+                new_alert("请填写货源名称");
+                return false
+            }
+            if ($("input[name=clear_price]").val() == "") {
+                new_alert("请填写清货价格");
+                return false
+            }
+            if ($("input[name=price]").val() == "") {
+                new_alert("请填写市场价格");
+                return false
+            }
+            if ($("#detail").val() == "") {
+                new_alert("请填写货源介绍");
+                return false
+            }
+            var clear_price = $.trim($("input[name=clear_price]").val());
+            var price = $.trim($("input[name=price]").val());
+            alert(clear_price); alert(price);
+
+            if (price < clear_price) {
+                new_alert('清货价要小于市场价');
+                return false
+            }
+
+            if($('#logo').val() == ''){
+                new_alert('请必须上传货源Logo主图。');
+                return false;
+            }
+            if($('#thumb1').val() == ''){
+                new_alert('请必须上传货源图片1。');
+                return false;
+            }
+            if($('#thumb2').val() == ''){
+                new_alert('请必须上传货源图片2。');
+                return false;
+            }
+            var stockid=$('#stockid').val();
+            var $btn = $("#ajaxSaveBtn");
+            if($btn.hasClass("disabled")) return;
+            var url = "{php echo $this->createMobileUrl('AjaxStock')}";
+            var submitData = {
+                product_name: $("input[name='product_name']").val(),
+                clear_price: $("input[name='clear_price']").val(),
+                price: $("input[name='price']").val(),
+                pcateid: $('#pcateid').val() ,
+                logo: $('#logo').val() ,
+                stockid:stockid,
+                thumb1: $('#thumb1').val() ,
+                thumb2: $('#thumb2').val() ,
+                thumb3: $('#thumb3').val() ,
+                detail: $("textarea[name='detail']").val()
+            };
+
+            $.post(url, submitData, function (res) {
+                alert(res.code);
+                if(res && res.code==200){
+                    new_alert('货源信息提交成功，请等待审核。', function () {
+                        window.location = '{php echo $this->createMobileUrl('myproduct',array(),true)}';
+                    });
+                }else{
+                    $btn.removeClass("disabled");
+                    new_alert(res.msg);
+                }
+            }, 'json');
+            return false;
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+        WeixinJSBridge.call('hideOptionMenu');
+    });
+</script>
+<!--<div style="display:none;">
+    <script src="http://s11.cnzz.com/stat.php?id=1257185828&web_id=1257185828" language="JavaScript"></script>
+</div>-->
+</body>
+</html>

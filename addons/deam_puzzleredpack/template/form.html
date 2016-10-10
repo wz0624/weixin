@@ -1,0 +1,30 @@
+<div class="panel panel-default">
+    <div class="panel-heading">回复设置</div>
+    <div class="panel-body">
+    <input type="hidden" name="reply_id" value="{$activity['id']}" />
+    	<div class="form-group">
+            <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">关联活动</label>
+            <div class="col-sm-8 col-xs-12">
+               <select class="form-control" name="actid" autocomplete="off">
+               {loop $getact $v}
+               <option value="{$v['id']}">{$v['id']}.{$v['send_name']}</option>
+               {/loop}
+               </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">活动回复图文标题</label>
+            <div class="col-sm-8 col-xs-12">
+                <input type="text" class="form-control" placeholder="" name="actitle" value="{$activity['title']}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">活动回复图文图片</label>
+            <div class="col-sm-8 col-xs-12">
+               {php echo tpl_form_field_image('img',$activity['image']);}
+            </div>
+        </div>
+        
+    </div>
+</div>
+

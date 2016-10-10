@@ -1,0 +1,560 @@
+{template 'weheader'}
+{if $reside}
+<script src="{TEMPLATE_WEUI}js/city-picker.min.js"></script>
+{/if}
+
+<style>
+.m-time .dayu-sub-title {color: #f2f2f2;padding:0 10px;font-size: 12px;text-indent:2em;}
+.dayu-header {padding: 25px 0;}
+.dayu-title {text-align: center;font-size: 25px;color: #3cc51f;font-weight: 400;margin: 0;}
+.dayu-sub-title {color: #888;padding:0 10px;font-size: 14px;text-indent:2em;}
+.dayu-content-padded {padding: 15px;}
+.dayu-second-title {text-align: center;font-size: 24px;color: #3cc51f;font-weight: 400;margin: 0 15%;}
+.m-title{width:90%;margin:0 auto;}
+
+.weui_textarea_counter span {font-size:12px;}
+.weui_label{font-size:12px;}
+.weui_label span, .weui_cell_hd span{color: #E64340;}
+.weui_input, .weui_select{font-weight:300;padding-left: 15px;}
+
+.weui-popup-container{z-index:9999;}
+.weui_cell_select .weui_cell_td {padding-left: 1em;}
+.weui_cell_select .weui_cell_hd .weui_select {line-height:45px;padding:0 25px 0 5px;color: #555;}
+
+.weui_msg .weui_extra_area {margin-bottom: 5px;}
+.weui_extra_area {z-index:0;}
+.record .weui_cells:first-child {margin-top:30px;}
+.record .weui_cells {margin:0;}
+.record img{width:1.2rem;height:1.2rem;}
+.weui_cells_form .weui_cell_ft {font-size: 12px;}
+
+.weui_panel:after {height: 0px;border-top: 0px solid #E5E5E5;}
+.weui_tab_bd {padding-bottom: 15px;}
+</style>
+    <div class="weui_tab_bd">
+	{if $activity['isthumb']}
+	<div class="m-box">
+		<div class="m-img" style="background-image:url({$activity['thumb']});"></div>
+		<div class="m-masker"> 
+			<div class="m-title">{$activity['title']}<br>
+				<a href="javascript:;" data-target="#popup" class="open-popup m-time">
+					{if $activity['description']}<p class="dayu-sub-title">{$activity['description']}<span class="f11"><i class="icon icon-40 f11"></i>详情 >></span></p>{/if}
+				</a>
+			</div>
+		</div> 
+	</div>
+	{else}	
+	<header class="dayu-header">
+		<h1 class="dayu-title">{$activity['title']}</h1>
+		<a href="javascript:;" data-target="#popup" class="open-popup">
+			{if $activity['description']}<p class="dayu-sub-title">{$activity['description']}<span class="f11"><i class="icon icon-40 f11"></i>详情 >></span></p>{/if}
+		</a>
+	</header>
+	{/if}
+	<div id="popup" class="weui-popup-container">
+		<div class="weui-popup-modal">
+			<section>
+				<h3>{$activity['title']}</h3>
+				<div class="weui-popup-bd">{php echo htmlspecialchars_decode($activity['content'])}</div>
+			</section>
+			<p class='p'><a href="javascript:;" class="weui_btn bg-blue close-popup">关闭</a></p>
+		</div>
+	</div>
+	{if $activity['isthumbs']}
+	<div class="m-box">
+		<div class="m-img" style="background-image:url({$activity['thumb']});"></div>
+		<div class="m-masker"> 
+			<div class="m-title">{$activity['title']}<br><span class="m-time">{php echo date('Y-m-d', $activity['starttime'])} - {php echo date('Y-m-d', $activity['endtime'])}</span> 
+		</div>
+		</div> 
+	</div>
+	{/if}
+
+<!--	<form method="post" action="{php echo $this->createMobileUrl('index')}"  enctype="multipart/form-data" >	-->
+<form action="{php echo $this->createMobileUrl('dayu_yuyuepay', array('weid' => $_W['uniacid'], 'id' => $reid))}" class="" enctype="multipart/form-data" method="POST" id="form">
+<input type="hidden" name="repeat" value="<?php echo md5(sha1(time())); ?>">
+	{if $activity['is_addr']==1}
+       <div class="weui_panel weui_panel_access">
+            <div class="weui_panel_bd">
+                <a href="javascript:void(0);" class="weui_media_box weui_media_appmsg">
+                    <div class="weui_media_hd">
+                        <img class="weui_media_appmsg_thumb" src="{if !empty($fans['tag']['avatar'])}{$fans['tag']['avatar']}{else}resource/images/noavatar_middle.gif{/if}" alt="">
+                    </div>
+                    <div class="weui_media_bd">
+                        <h4 class="weui_media_title">{$address['username']}<span class="f14" style="margin-left:10px;">{$address['mobile']}</span></h4>
+                        <p class="weui_media_desc">{$address['province']} {$address['city']} {$address['district']} {$address['address']}</p>
+                    </div>
+                </a>
+            </div>
+			{if !empty($address)}
+            <a class="weui_panel_ft" href="{php echo $this->createMobileUrl('address', array('from'=>'dayu_yuyuepay','pcate'=>$_GPC['pcate'],'returnurl' => $returnUrl))}">管理联系方式</a>
+			{else}
+            <a class="weui_panel_ft f-orange" href="{php echo $this->createMobileUrl('address',array('from'=>'dayu_yuyuepay','returnurl'=> $returnUrl))}">添加联系方式</a>
+			{/if}
+        </div>  
+	{/if}
+<div class="weui_cells weui_cells_form">
+	{if $activity['is_addr']==0}
+    <div class="weui_cell">
+        <div class="weui_cell_hd"><label class="weui_label">姓名<span>*</span></label></div>
+        <div class="weui_cell_bd weui_cell_primary">
+            <input class="weui_input" id="member" name="member" type="text" value="{$userinfo['realname']}" placeholder="请输入姓名">
+        </div>
+    </div>
+    <div class="weui_cell">
+        <div class="weui_cell_hd"><label class="weui_label">手机<span>*</span></label></div>
+        <div class="weui_cell_bd weui_cell_primary">
+            <input class="weui_input" id="mobile" name="mobile" type="tel" pattern="[0-9]*" value="{$userinfo['mobile']}" placeholder="请输入手机号">
+        </div>
+    </div>
+	{/if}
+
+		<div class="weui_cell weui_cell_select weui_select_after">
+			<div class="weui_cell_hd"><label class="weui_label">{$activity['xmname']}<span>*</span></label></div>
+			<div class="weui_cell_bd weui_cell_primary">
+				<select class="weui_select" name="xmid" id="xmid" onchange="fetchgetjs(this)">
+					<option value="" label="请选择{$activity['xmname']}"></option>
+				{loop $xms $xm}
+					<option value="{$xm['id']}" label="{$xm['title']}">{$xm['title']}</option>
+				{/loop}
+				</select>
+			</div>
+		</div>
+		{if !empty($activity['is_num'])}
+		<div class="weui_cell">
+			<div class="weui_cell_hd"><label class="weui_label">{$activity['numname']}<span class="f-red">*</span></label></div>
+			<div class="weui_cell_bd weui_cell_primary tright" style="padding-right:10px">
+			{if !empty($activity['is_num'])}
+			<span class="iconfont f14 f-orange" name="jsids" id="jsids"></span>
+			{else}
+			<span name="jsid" id="jsid"></span>
+			{/if}
+			</div>
+			<div class="weui_cell_ft">
+				<a class="number-selector number-selector-sub needsclick">-</a>
+				<input pattern="[0-9]*" class="number-input" name="num" style="width: 60px;" value='1' data-min="1" data-max="500" data-step="1">
+				<a class="number-selector number-selector-plus needsclick">+</a>
+			</div>
+			<div class="weui_cell_ft" style="display: none;"> 0 </div>
+		</div>
+		
+<script>
+</script>
+<script>
+    $(function(){
+        $('<audio id="chatAudio"><source src="http://www.helloweba.com/demo/notifysound/notify.ogg" type="audio/ogg"><source src="notify.mp3" type="http://www.helloweba.com/demo/notifysound/audio/mpeg"><source src="notify.wav" type="http://www.helloweba.com/demo/notifysound/audio/wav"></audio>').appendTo('body');//载入声音文件
+        $(".needsclick").click(function(){
+            $("#chatAudio")[0].play();
+        });
+    });
+		$('.number-selector-plus').click(function(){
+			upDownOperation( $(this) );
+		});
+		$('.number-selector-sub').click(function(){
+			upDownOperation( $(this) );
+		});
+		function upDownOperation(element)
+		{
+//	$.getJSON('{php echo $this->createMobileUrl('getprice')}', {'xmid' : $(obj).val()}, function(s){
+			var _input = element.parent().find('input'),
+            _value = _input.val(),
+            _step = _input.attr('data-step') || 1;    //检测当前操作的元素是否有disabled，有则去除
+			element.hasClass('disabled') && element.removeClass('disabled');	//检测当前操作的元素是否是操作的添加按钮（.input-num-up）‘是’ 则为加操作，‘否’ 则为减操作
+			
+			if ( element.hasClass('number-selector-plus') )
+			{
+				var _new_value = parseInt( parseFloat(_value) + parseFloat(_step) ),
+                _max = _input.attr('data-max') || false,
+                _down = element.parent().find('.number-selector-sub');	//若执行‘加’操作且‘减’按钮存在class='disabled'的话，则移除‘减’操作按钮的class 'disabled'
+				_down.hasClass('disabled') && _down.removeClass('disabled');
+				if (_max && _new_value >= _max) {
+					_new_value = _max;
+					element.addClass('disabled');
+				}
+			} else {
+				var _new_value = parseInt( parseFloat(_value) - parseFloat(_step) ),
+					_min = _input.attr('data-min') || false,
+					_up = element.parent().find('.number-selector-plus');	//若执行‘减’操作且‘加’按钮存在class='disabled'的话，则移除‘加’操作按钮的class 'disabled'
+					_up.hasClass('disabled') && _up.removeClass('disabled');
+            if (_min && _new_value <= _min) {
+                _new_value = _min;
+                element.addClass('disabled');
+            }
+		}
+			_input.val( _new_value );
+//	});
+		}
+</script>
+		{/if}
+	{if $activity['is_time']==0}
+		<div class="weui_cell">
+			<div class="weui_cell_hd"><label for="" class="weui_label">{$activity['yuyuename']}<span>*</span></label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input class="weui_input" type="text" name="yuyuetime" value="" placeholder="点击选择{$activity['yuyuename']}" id="restime" />
+				</div>              
+		</div>
+    <script>
+      $("#restime").datetimePicker();
+    </script>
+	{elseif $activity['is_time']==2}
+    <div class="weui_cell">
+        <div class="weui_cell_hd"><label class="weui_label">{$activity['yuyuename']}<span>*</span></label></div>
+        <div class="weui_cell_bd weui_cell_primary">
+            <input class="weui_input" name="restime" id="restime" type="text" value="{$srvtime}" readonly>
+        </div>
+    </div>
+	{/if}
+		<div class="weui_cell weui_cell_select weui_select_after">
+			<div class="weui_cell_hd"><label class="weui_label">支付方式<span>*</span></label></div>
+			{if empty($activity['is_num'])}
+			<div class="weui_cell_bd tright">
+			<span name="jsid" id="jsid" class="iconfont f14 f-orange"></span>
+			</div>
+			{/if}
+			<div class="weui_cell_bd weui_cell_primary">
+				<select class="weui_select" name="paytype">
+					<option value="1" label="在线支付">在线支付</option>
+					{if $activity['pay'] == 1}
+					<option value="9" label="线下付款">线下付款</option>
+					{/if}
+				</select>
+			</div>
+		</div>
+
+		
+</div>
+
+<div class="weui_cells weui_cells_form">
+				{loop $ds $fields}
+				
+		{if $fields['type'] == 'text'}
+	<div class="weui_cell">
+		<div class="weui_cell_hd"><label class="weui_label">{$fields['title']}{if $fields['essential']}<span>*</span>{/if}</label></div>
+		<div class="weui_cell_bd weui_cell_primary">
+		{if $fields['bind'] == 'birth'}
+			<input class="weui_input" name="field_{$fields['refid']}_{$fields['bind']}" type="text" value="{$profile['birthyear']}-{$profile['birthmonth']}-{$profile['birthday']}" placeholder="{$fields['tixing']}" {if $fields['essential']}required{/if}>
+		{else}
+			<input class="weui_input" name="field_{$fields['refid']}_{$fields['bind']}" type="text" value="{$fields['default']}" placeholder="{$fields['tixing']}" {if $fields['essential']}required{/if}>
+		{/if}
+		</div>
+	</div>
+		{/if}
+		
+		{if $fields['type'] == 'email'}
+	<div class="weui_cell">
+		<div class="weui_cell_hd"><label class="weui_label">{$fields['title']}{if $fields['essential']}<span>*</span>{/if}</label></div>
+		<div class="weui_cell_bd weui_cell_primary">
+			<input class="weui_input" type="text" name="field_{$fields['refid']}_{$fields['bind']}" value="{$fields['default']}" placeholder="{$fields['tixing']}" {if $fields['essential']}required{/if}>
+		</div>
+	</div>
+		{/if}
+				
+		{if $fields['type'] == 'number'}
+	<div class="weui_cell">
+		<div class="weui_cell_hd"><label class="weui_label">{$fields['title']}{if $fields['essential']}<span>*</span>{/if}</label></div>
+		<div class="weui_cell_bd weui_cell_primary">
+			<input class="weui_input" type="number" name="field_{$fields['refid']}_{$fields['bind']}" value="{$fields['default']}" pattern="[0-9]*" placeholder="{$fields['tixing']}">
+		</div>
+	</div>
+		{/if}
+				
+		{if $fields['type'] == 'textarea'}
+        <div class="weui_cell">
+            <div class="weui_cell_bd weui_cell_primary">
+			<textarea class="weui_textarea" name="field_{$fields['refid']}_{$fields['bind']}" rows="3" placeholder="{$fields['tixing']}">{$fields['default']}</textarea>
+                <div class="weui_textarea_counter"><span id='textarea_num'>限200字</span></div>
+            </div>
+        </div>
+          <script>
+$(function(){
+	$(".weui_textarea").on("input paste" , function(){
+				var num_left=$(this).val().length;
+				if((200-num_left)<0){
+					$("#textarea_num").text("超出"+(num_left-200)+"字");
+					$("#textarea_num").css("color","#E44443");
+				}else{
+					$("#textarea_num").text((num_left)+"字");
+					$("#textarea_num").css("color","#999999");
+				}
+			});
+
+})
+</script> 
+		{/if}
+				
+		{if $fields['type'] == 'radio'}
+		<div class="weui_cells_title"><label class="weui_label">{$fields['title']}{if $fields['essential']}<span class="f-red">*</span>{/if}</label></div>
+		<div class="weui_cells weui_cells_radio">
+			{php $i=1;}
+			{loop $fields['options'] $v}
+			<label class="weui_cell weui_check_label" for="r{$fields['refid']}{$i}">
+				<div class="weui_cell_bd weui_cell_primary"><p>{$v}</p></div>
+				<div class="weui_cell_ft">
+					<input type="radio" class="weui_check" name="field_{$fields['refid']}_{$fields['bind']}" id="r{$fields['refid']}{$i}" value="{$v}">
+					<span class="weui_icon_checked"></span>
+				</div>
+			</label>
+				{php $i++;}
+			{/loop}
+		</div>
+		{/if}
+				
+		{if $fields['type'] == 'checkbox'}
+		<div class="weui_cells_title"><label class="weui_label">{$fields['title']}{if $fields['essential']}<span class="f-red">*</span>{/if}</label></div>
+		<div class="weui_cells weui_cells_checkbox">
+			{php $i=1;}
+			{loop $fields['options'] $v}
+			<label class="weui_cell weui_check_label" for="c{$fields['refid']}{$i}">
+				<div class="weui_cell_hd">
+					<input type="checkbox" class="weui_check" name="field_{$fields['refid']}_{$fields['bind']}[]" id="c{$fields['refid']}{$i}" value="{$v}">
+					<i class="weui_icon_checked"></i>
+				</div>
+				<div class="weui_cell_bd weui_cell_primary"><p>{$v}</p></div>
+			</label>
+				{php $i++;}
+			{/loop}
+		</div>
+		{/if}
+						
+		{if $fields['type'] == 'select'}
+		<div class="weui_cell weui_cell_select weui_select_after">
+			<div class="weui_cell_hd"><label class="weui_label">{$fields['title']}{if $fields['essential']}<span>*</span>{/if}</label></div>
+			<div class="weui_cell_bd weui_cell_primary">
+				<select class="weui_select" name="field_{$fields['refid']}_{$fields['bind']}">
+				{loop $fields['options'] $v}
+					<option value="{$v}" {if $v == $fields['default']} selected="selected"{/if}>{$v}</option>
+				{/loop}
+				</select>
+			</div>
+		</div>
+		{/if}
+
+		{if $fields['type'] == 'image'}
+</div>
+
+    <div class="weui_cells weui_cells_form">
+        <div class="weui_cell">
+            <div class="weui_cell_bd weui_cell_primary">
+                <div class="weui_uploader">
+                    <div class="weui_uploader_hd weui_cell">
+                        <div class="weui_cell_bd weui_cell_primary">{$fields['title']}{if $fields['essential']}<span class="f-red">*</span>{/if}</div>
+                        <div class="weui_cell_ft"></div>
+                    </div>
+                    <div class="weui_uploader_bd">
+                        <ul class="weui_uploader_files">   
+                            <input type="hidden" name="field_{$fields['refid']}_{$fields['bind']}" accept="image/*" capture="camera" value="" />
+                            <image class="weui_uploader_file weui_uploader_status" id="show{$fields['refid']}" src="{php echo tomedia($fields['image'])}" />
+                        </ul>
+                        <div class="weui_uploader_input_wrp" id="{$fields['refid']}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+          var btn = document.getElementById('{$fields['refid']}');
+          //定义images用来保存选择的本地图片ID，和上传后的服务器图片ID
+          var images = {
+              localId: [],
+              serverId: []
+          };
+          btn.onclick = function(){
+              wx.chooseImage({
+                   success:function(res){
+
+                        images.localId = res.localIds;
+                        var i = 0, length = images.localId.length;
+
+                        document.getElementById('show{$fields['refid']}').src = images.localId;
+					var wxUpload = function() {
+                        wx.uploadImage({
+                            localId: images.localId[i], // 需要上传的图片的本地ID，由chooseImage接口获得
+                            isShowProgressTips: 1, // 默认为1，显示进度提示
+                            success: function (res) {
+                                //将上传成功后的serverId保存到serverid
+                                images.serverId.push(res.serverId);
+                                //(serverId 即 media_id,公众号此后可根据该media_id来获取多媒体)将上传的图片通过AJAX远程提交给php下载到本地服务器
+                                $.get("{php echo $this->createMobileUrl('upload', array('id' => $reid))}", { media_id: res.serverId, time: "2pm" },
+                                function(data){
+                                    $('input[name="field_{$fields['refid']}_{$fields['bind']}"]').val(data);
+                                });                 
+
+                                i++;
+                                if(i < length){
+                                    wxUpload();
+                                }
+                            },
+							fail: function (res) {
+								alert(JSON.stringify(res));
+							}
+                        });
+						
+					};
+					wxUpload();
+
+                   }
+              });
+  
+          }
+</script>
+<div class="weui_cells weui_cells_form">
+		{/if}
+		
+		{if $fields['type'] == 'calendar'}
+		<div class="weui_cell">
+			<div class="weui_cell_hd"><label for="" class="weui_label">{$fields['title']}{if $fields['essential']}<span>*</span>{/if}</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+				{if $fields['bind'] == 'birth'}
+					<input class="weui_input" name="field_{$fields['refid']}_{$fields['bind']}" type="text" value="{$profile['birthyear']}-{$profile['birthmonth']}-{$profile['birthday']}" placeholder="{$fields['tixing']}" id="{$fields['refid']}">
+<script>
+      $("#{$fields['refid']}").calendar({
+        value: ['{$profile['birthyear']}-{$profile['birthmonth']}-{$profile['birthday']}']
+      });
+</script>
+				{else}
+					<input class="weui_input" name="field_{$fields['refid']}_{$fields['bind']}" type="text" value="" placeholder="{$fields['tixing']}" id="{$fields['refid']}">
+<script>
+      $("#{$fields['refid']}").calendar({
+        value: ['{$time}']
+      });
+</script>
+				{/if}
+				</div>
+		</div>
+		{/if}
+		
+		{if $fields['type'] == 'range'}
+		<div class="weui_cell">
+			<div class="weui_cell_hd"><label for="" class="weui_label">{$fields['title']}{if $fields['essential']}<span>*</span>{/if}</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input class="weui_input" type="text" name="field_{$fields['refid']}_{$fields['bind']}" value="" placeholder="{$fields['tixing']}" id="{$fields['refid']}" />
+				</div>              
+		</div>
+    <script>
+      $("#{$fields['refid']}").datetimePicker();
+    </script>
+		{/if}
+		
+		{if $fields['type'] == 'reside'}
+		<div class="weui_cell">
+			<div class="weui_cell_hd"><label for="" class="weui_label">{$fields['title']}{if $fields['essential']}<span>*</span>{/if}</label></div>
+				<div class="weui_cell_bd weui_cell_primary">
+					<input class="weui_input" type="text" name="field_{$fields['refid']}_{$fields['bind']}" value="" placeholder="{$fields['tixing']}" id="{$fields['refid']}"/>
+				</div>
+		</div>
+    <script>
+	$("#{$fields['refid']}").cityPicker({
+		title: "{$fields['title']}"
+	});
+    </script>
+		{/if}
+		
+				{/loop}
+</div>
+	
+    <div class="weui_btn_area">
+		<input type="hidden" name="token" value="{$_W['token']}" />
+        <button class="weui_btn weui_btn_primary" name="submit" type="submit" id="showTool">立 即 提 交</button>
+    </div>
+</form>
+</div>
+<script type="text/javascript">
+	$('#form').submit(function(){
+	{if $activity['is_addr']==1}
+		{if empty($address)}
+			$.toast('联系方式不能为空', "cancel");
+			return false;
+		{/if}
+	{else}
+       var member = /^[\u4E00-\u9FA5]{1,6}$/;
+			if($.trim($(':input[name="member"]').val())=='' || !member.test($.trim($('input[name="member"]').val()))){
+					$.toast("请正确输入姓名", "cancel");
+				return false;
+			}
+       var mobile = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+			if($.trim($(':input[name="mobile"]').val())=='' || !mobile.test($.trim($('input[name="mobile"]').val()))){
+					$.toast("请输入正确的手机号码", "cancel");
+				return false;
+			}
+	{/if}
+			if($.trim($('#xmid').val())==''){
+				$.toast('请选择{$activity['xmname']}', "cancel");
+				return false;
+			}
+	{if $activity['is_time']!=1}
+			if($.trim($('#restime').val())==''){
+				$.toast('请选择{$activity['yuyuename']}', "cancel");
+				return false;
+			}
+	{/if}
+		{loop $ds $fields}
+		{if $fields['essential']}
+		{if in_array($fields['type'], array('text', 'calendar', 'email', 'radio'))}
+		if($.trim($(':text[name="field_{$fields['refid']}_{$fields['bind']}"]').val()) == '') {
+			$.toast("{$fields['title']} 不能为空", "cancel");
+			return false;
+		}
+		{/if}
+
+		{if in_array($fields['type'], array('image'))}
+		if($.trim($(':input[name="field_{$fields['refid']}_{$fields['bind']}"]').val()) == '') {
+			$.toast("{$fields['title']} 必须上传", "cancel");
+			return false;
+		}
+		{/if}
+		{if in_array($fields['type'], array('textarea'))}
+		if($.trim($('textarea[name="field_{$fields['refid']}_{$fields['bind']}"]').val()) == '') {
+			$.toast("{$fields['title']} 必须填写", "cancel");
+			return false;
+		}
+		{/if}
+		{if in_array($fields['type'], array('checkbox'))}		
+		if($(':checkbox[name="field_{$fields['refid']}_{$fields['bind']}[]"]:checked').length == 0) {
+			$.toast("{$fields['title']} 必须选择", "cancel");
+			return false;
+		}
+		{/if}
+		{if in_array($fields['type'], array('number'))}
+		var num = parseFloat($.trim($(':input[name="field_{$fields['refid']}_{$fields['bind']}"]').val()));
+		if(isNaN(num)) {
+			$.toast('{$fields['title']} 必须输入数字.');
+			return false;
+		}
+		{/if}
+		{if in_array($fields['type'], array('email'))}
+		var mail = $.trim($(':text[name="field_{$fields['refid']}_{$fields['bind']}"]').val());
+		if(!(/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/i).test(mail)) {
+			$.toast("{$fields['title']} 请正确邮箱地址", "cancel");
+			return false;
+		}
+		{/if}
+		{/if}
+		{/loop}	
+		return true;
+	});
+		
+	function fetchgetjs(obj) {
+		if (!$(obj).val()) {
+			return false;
+		}
+		$.getJSON('{php echo $this->createMobileUrl('getprice')}', {'xmid' : $(obj).val()}, function(s){
+			if (s.message.status == 0) {
+				alert(s.message.price, '', '无法获取价格');
+				return;
+			}
+			$('#rmb').empty();
+			$('#jsids').empty();
+			$('#jsid').empty();
+			if (s.message.price) {
+				for (i in s.message.price) {
+					$('#rmb').append(s.message.price[i].price);
+					$('#jsids').append('&#xe61a; '+s.message.price[i].price+' ×');
+					$('#jsid').append('&#xe61a; '+s.message.price[i].price);
+				}
+			}
+		});
+	}
+</script>
+{php $footer_off = 1;}
+{template 'footers'}

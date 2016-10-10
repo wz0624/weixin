@@ -1,0 +1,195 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	{if $do == 'post'}
+		<li class="active">
+			<a href="{php echo $this->createWebUrl('comments', array('op' => 'post'))}">
+			修改评论
+			</a>
+		</li>
+		{elseif $do == 'display'}
+		<li class="active">
+			<a href="{php echo $this->createWebUrl('comments', array('op' => 'display'))}">
+				评论列表
+			</a>
+		</li>
+	{/if}
+	
+</ul>
+<style>
+.table td span{display:inline-block;margin-top:4px;}
+.table td input{margin-bottom:0;}
+span.gi {
+    color: #d7d7d7;
+    font-weight: bold;
+    margin-right: 5px;
+}
+</style>
+{if $do == 'display'}
+<div class="panel panel-info">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body">
+		<form action="./index.php" method="get" class="form-horizontal" role="form">
+			<input type="hidden" name="c" value="site" />
+			<input type="hidden" name="a" value="entry" />
+			<input type="hidden" name="m" value="yuexiage_community" />
+			<input type="hidden" name="do" value="comments" />
+			<input type="hidden" name="op" value="display" />
+			
+			<div class="form-group col-xs-6">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">关键字</label>
+				<div class="col-xs-12 col-sm-8 col-lg-9">
+					<input class="form-control" name="keyword" id="" type="text" value="{$_GPC['keyword']}">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-xs-6">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">发布</label>
+					<div class="col-xs-12 col-sm-8 col-lg-9">
+						<select name="status" class='form-control'>
+							<option value=""  {if $_GPC['status'] == ''} selected{/if} >全部</option>
+							<option value="1" {if $_GPC['status'] == '1'} selected{/if}>发布</option>
+							<option value="0" {if $_GPC['status'] == '0'} selected{/if}>未发布</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="pull-right col-xs-12 col-sm-2 col-md-2 col-lg-2">
+					<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="table-responsive panel-body">
+		<table class="table">
+			<thead>
+				<tr>
+					<th style="width:10px">id</th>
+					<th style="width:100px;">内容</th>
+					<th style="width:50px;">状态</th>
+					<th style="width:150px; text-align:right;">操作</th>
+				
+						<th style="width:80px;">修改者</th>
+						<th style="width:150px;">修改时间</th>
+						<th style="width:80px;">发布者</th>
+						<th style="width:150px;">发布时间</th>
+						<th style="width:80px;">创建者</th>
+						<th style="width:150px;">创建时间</th>
+					
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['id']}</td>
+					<td>
+						<span class="gi">{$item['html']}</span>{php echo $this->qqcode($item['commenttext']);}
+					</td>
+					<td>
+						</a>
+						{if $item['status']}
+							<span class="label label-success">已发布</span>
+						{else}
+							<span class="label label-warning">未发布</span>
+						{/if}
+					</td>
+					<td style="text-align:right; position:relative;">
+						<a href="{php echo $this->createWebUrl('comments', array('op' => 'post','id' => $item['id']))}" title="编辑">编辑</a>&nbsp;-&nbsp;
+						{if $item['status'] == '0'}
+						<a  href="{php echo $this->createWebUrl('comments', array('op' => 'publish','id' => $item['id'],'publish'=>1))}" title="发布">发布</a>
+						{else}
+						<a  href="{php echo $this->createWebUrl('comments', array('op' => 'publish','id' => $item['id'],'publish'=>0))}" title="取消发布">取消发布</a>
+						{/if}
+					</td>
+					
+						<td>
+							{$item['modify']}
+						</td>
+						<td>
+							{php echo $item['lastmodified']?date("Y-m-d H:i:s",$item['lastmodified']):'';}
+						</td>
+						<td>
+							{$item['published']}
+						</td>
+						<td>
+							{php echo $item['lastpublished']?date("Y-m-d H:i:s",$item['lastpublished']):'';}
+						</td>
+						<td>
+							{$item['createname']}
+						</td>
+						<td>
+							{php echo $item['commentdate'];}
+						</td>
+					
+				</tr>
+				{/loop}
+			</tbody>
+		</table>
+	</div>
+</div>
+{$pager}
+{elseif $do == 'post'}
+<div class="clearfix">
+<form class="form-horizontal form" action="" method="post" enctype="multipart/form-data">
+	<div class="panel panel-default">
+		<div class="panel-heading">评论管理</div>
+		<div class="panel-body">
+			<input type="hidden" name="id" value="{$item[id]}">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">发布</label>
+				<div class="col-sm-8 col-xs-12">
+					<label class="radio-inline">
+						<input type="radio" name="status" value="1" {if $item['status'] == 1} checked{/if} > 发布
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="status" value="0" {if $item['status'] == 0} checked{/if} > 不发布
+					</label>
+				</div>
+			</div>
+
+			<style>
+				.tabslist .label-primary{
+					padding: 5px;
+					margin: 5px;
+				}
+				.tabslist .label-primary a{
+					padding: 5px;
+					margin: 5px;
+					color:#fff;
+				}
+				.tabslist .label-primary a:hover{
+					color:#666;
+				}
+			</style>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">简介</label>
+				<div class="col-sm-8 col-xs-12">
+					<textarea class="form-control content" id="commenttext" name="commenttext" rows="4" maxlength="50">{$item['commenttext']}</textarea>
+					<div class="col-xs-12 col-sm-12 help-block">您还可以使用表情和链接。
+						<a class="emotion-triggers" id="emotion"  href="javascript:;"><i class="fa fa-github-alt"></i> 表情</a> 
+					</div>
+				</div>
+				<script>
+					require(['jquery','util'], function($, util){
+						$(function(){
+							util.emotion($('#emotion'), $('#commenttext'));
+						});
+					});
+				</script>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-12">
+			<input name="submit" type="submit" value="提交" class="btn btn-primary col-lg-1">
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</div>
+</form>
+</div>
+{/if}
+{template 'common/footer'}

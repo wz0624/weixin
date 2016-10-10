@@ -1,0 +1,63 @@
+{template 'common/header'}
+<div class="main">
+	<form class="form-horizontal form" method="post">
+		
+		<div class="panel panel-default">
+			<div class="panel-heading">微信连WIFI设置</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">店面名称:</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" name="media[name]" value="{$media['name']}" placeholder="请输入店面名称"/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">SSID:</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" name="media[ssid]" value="{$media['ssid']}" placeholder="请输入SSID(网络名称)"/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">shopid:</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" name="media[shopid]" value="{$media['shopid']}" placeholder="请输入Shopid"/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">appId:</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" name="media[appid]" value="{$media['appid']}" placeholder="请输入appid"/>
+					</div>
+				</div>
+
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">secretKey:</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" name="media[secretkey]" value="{$media['secretkey']}" placeholder="请输入secretKey:" />
+					</div>
+				</div>
+
+
+				<div style="color:black;">					
+					<strong>参考教程:</strong>
+					<span><a href="http://www.012wz.com/blog/wifi-ros-hotspot-jiaocheng.html" target="_blank">http://www.012wz.com/blog/wifi-ros-hotspot-jiaocheng.html</a></span>
+				</div>				
+
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input name="token" type="hidden" value="{$_W['token']}" />
+			<input name="media[id]" type="hidden" value="{$media['id']}" />
+			<input type="submit" class="btn btn-primary col-lg-1" name="submit" value="确认" />
+		</div>
+	</form>
+	
+
+	
+
+</div>
+{template 'common/footer'}

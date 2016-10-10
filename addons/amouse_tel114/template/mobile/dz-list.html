@@ -1,0 +1,1155 @@
+
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<title>亮剑114便民导航-亮剑站长社区</title>
+<meta name="keywords" content="">
+<meta name="description" content="亮剑114便民导航，最专业的114便民插件">
+<link rel="stylesheet" rev="stylesheet" href="source/plugin/alj114/css/huangye-mb.css">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=2.0">
+<link rel="stylesheet" rev="stylesheet" href="source/plugin/alj114/css/mb-base.css">
+<link rel="stylesheet" rev="stylesheet" href="source/plugin/alj114/css/mb-index.css">
+<style type="text/css">
+.t-header {
+height: 50px;
+}
+.t-header .lj {
+height: 23px;
+margin: 14px 0px 11px 16px;
+display: inline-block;
+}
+.t-header .home {
+width: 23px;
+height: 23px;
+margin: 16px 20px 11px 16px;
+float: left;
+background-size: 23px 23px;
+background-image: url('source/plugin/alj114/images/home.png');
+background-position: 0px 0px;
+background-repeat: no-repeat;
+display: inline-block;
+}
+.pageNav2 .current a, .pageNav2 .current {
+cursor: default;
+border: 1px solid #FF7300;
+background-color: #FF7300;
+background-image: -webkit-gradient(linear,left top,left bottom,from(#FF7300),to(#FF7300));
+color: #fff;
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+<header class="t-header t-quick-hidden" style="background-color:#FF7300;text-align: center;">
+<a href="./" alt="首页" style="display:block;float:left;">
+<div class="home"></div>
+</a>
+<a href="plugin.php?id=alj114&amp;mobile=2" alt="电话114" style="text-align: center;" class="lj">
+<div style="font-size:16px;color:#fff;">电话114</div>
+</a>
+<style type="text/css">
+.t-header .icon {
+width: 33px;
+height: 23px;
+margin: 13px 20px 11px 16px;
+float: right;
+color:#fff;
+display: inline-block;
+}
+.swipe-box {
+    width:100%;
+    height:130px;
+    margin:5px auto;
+    overflow: hidden;
+
+}
+.swipe-box > .swipe {
+    width:100%;
+    height:130px;
+}
+.swipe-box > .swipe img {
+   border:1px solid #eee;
+}
+* {
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+.cmBtn.cmBtnSuccess {
+color: #fff;
+background-color: #66a826;
+background-image: -webkit-linear-gradient(top,#66a826,#66a826);
+background-image: -moz-linear-gradient(top,#66a826,#66a826);
+background-image: linear-gradient(to bottom,#66a826,#66a826);
+
+font-family: Verdana,Arial;
+height: 28px;
+margin: 13px 7px 11px 16px;
+float: right;
+color: #fff;
+display: inline-block;
+}
+
+.cmBtn {
+height: 28px;
+line-height: 28px;
+padding-left: 7px;
+padding-right: 7px;
+font-size: 13px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+}
+</style>
+<a href="plugin.php?id=alj114&amp;act=add&amp;mobile=2" class="cmBtn cmBtnSuccess">
+免费发布
+</a>
+</header>
+<!-- 图片尺寸 304X80 -->
+<div class="swipe-box">
+    <div id="slider" class="swipe">
+        <div class="swipe-wrap">
+                     
+            <figure>
+                <div class="wrap">
+                    <div class="image">
+                        <a href="http://addon.discuz.com/?@alj114.plugin" title="123">
+                            <img src="source/plugin/alj114/images/114_1.jpg" alt="123" width="100%" height="125">
+                        </a>
+                    </div>
+                </div>
+            </figure>
+                     
+            <figure>
+                <div class="wrap">
+                    <div class="image">
+                        <a href="http://addon.discuz.com/?@alj114.plugin" title="123">
+                            <img src="source/plugin/alj114/images/114_2.jpg" alt="123" width="100%" height="125">
+                        </a>
+                    </div>
+                </div>
+            </figure>
+             
+                                </div>
+    </div>
+</div>
+<div class="content">
+<div class="searchbar po_re">
+<form name="inputStyle" id="bmsearch" method="post" action="plugin.php?id=alj114">
+<input type="text" name="keyword" style="height: 32px;" id="" class="s_ipt" value="">
+<input type="submit" id="" class="s_btn po_ab" value="搜索">
+</form>
+</div>
+
+<div class="filter">
+<ul class="clearfix">
+<li><a href="javascript:void(0);" id="show_categories">全部分类<em></em></a></li>
+<li><a href="javascript:void(0);" id="show_district">全部地区<em></em></a></li>
+</ul>
+</div>
+
+
+<div class="float-navbox" id="navbox_categories" style="display: none;overflow-y:auto;">
+<div class="inner" id="list_nav_2013" style="min-height:600px;">
+<a href="plugin.php?id=alj114&amp;region=&amp;region1=&amp;mobile=2">全部</a><div class="hd"><a href="#">急救举报</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region=&amp;region1=&amp;typeid=1&amp;mobile=2" data-id="1" id="s_1">急救举报</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=&amp;region1=&amp;typeid=1&amp;subtypeid=4&amp;mobile=2" data-id="1" id="s_1">急救举报</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">政务公开</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region=&amp;region1=&amp;typeid=2&amp;mobile=2" data-id="2" id="s_2">政务公开</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=&amp;region1=&amp;typeid=2&amp;subtypeid=5&amp;mobile=2" data-id="2" id="s_2">政务公开</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">便民电话</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region=&amp;region1=&amp;typeid=3&amp;mobile=2" data-id="3" id="s_3">便民电话</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=&amp;region1=&amp;typeid=3&amp;subtypeid=6&amp;mobile=2" data-id="3" id="s_3">便民电话</a></li>
+    </ul>
+</div>
+</div>
+</div>
+
+<div class="float-navbox" id="navbox_district" style="display: none;overflow-y:auto;">
+<div class="inner" id="list_nav_district_2013" style="min-height:500px;">
+<a href="plugin.php?id=alj114&amp;typeid=&amp;subtypeid=&amp;mobile=2">全部</a><div class="hd"><a href="#">北京市</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=1&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="1" id="s_1">北京市</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=1&amp;region1=37&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="1" id="s_1">东城区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=1&amp;region1=38&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="1" id="s_1">西城区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=1&amp;region1=39&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="1" id="s_1">崇文区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=1&amp;region1=40&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="1" id="s_1">宣武区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=1&amp;region1=41&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="1" id="s_1">朝阳区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=1&amp;region1=42&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="1" id="s_1">丰台区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=1&amp;region1=43&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="1" id="s_1">石景山区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=1&amp;region1=44&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="1" id="s_1">海淀区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=1&amp;region1=45&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="1" id="s_1">门头沟区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=1&amp;region1=46&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="1" id="s_1">房山区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=1&amp;region1=47&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="1" id="s_1">通州区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=1&amp;region1=48&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="1" id="s_1">顺义区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=1&amp;region1=49&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="1" id="s_1">昌平区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=1&amp;region1=50&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="1" id="s_1">大兴区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=1&amp;region1=51&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="1" id="s_1">怀柔区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=1&amp;region1=52&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="1" id="s_1">平谷区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=1&amp;region1=53&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="1" id="s_1">密云县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=1&amp;region1=54&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="1" id="s_1">延庆县</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">天津市</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=2&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="2" id="s_2">天津市</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=2&amp;region1=55&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="2" id="s_2">和平区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=2&amp;region1=56&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="2" id="s_2">河东区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=2&amp;region1=57&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="2" id="s_2">河西区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=2&amp;region1=58&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="2" id="s_2">南开区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=2&amp;region1=59&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="2" id="s_2">河北区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=2&amp;region1=60&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="2" id="s_2">红桥区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=2&amp;region1=61&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="2" id="s_2">塘沽区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=2&amp;region1=62&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="2" id="s_2">汉沽区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=2&amp;region1=63&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="2" id="s_2">大港区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=2&amp;region1=64&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="2" id="s_2">东丽区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=2&amp;region1=65&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="2" id="s_2">西青区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=2&amp;region1=66&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="2" id="s_2">津南区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=2&amp;region1=67&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="2" id="s_2">北辰区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=2&amp;region1=68&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="2" id="s_2">武清区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=2&amp;region1=69&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="2" id="s_2">宝坻区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=2&amp;region1=70&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="2" id="s_2">宁河县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=2&amp;region1=71&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="2" id="s_2">静海县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=2&amp;region1=72&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="2" id="s_2">蓟县</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">河北省</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=3&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="3" id="s_3">河北省</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=3&amp;region1=73&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="3" id="s_3">石家庄市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=3&amp;region1=74&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="3" id="s_3">唐山市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=3&amp;region1=75&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="3" id="s_3">秦皇岛市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=3&amp;region1=76&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="3" id="s_3">邯郸市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=3&amp;region1=77&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="3" id="s_3">邢台市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=3&amp;region1=78&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="3" id="s_3">保定市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=3&amp;region1=79&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="3" id="s_3">张家口市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=3&amp;region1=80&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="3" id="s_3">承德市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=3&amp;region1=81&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="3" id="s_3">衡水市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=3&amp;region1=82&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="3" id="s_3">廊坊市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=3&amp;region1=83&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="3" id="s_3">沧州市</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">山西省</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=4&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="4" id="s_4">山西省</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=4&amp;region1=84&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="4" id="s_4">太原市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=4&amp;region1=85&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="4" id="s_4">大同市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=4&amp;region1=86&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="4" id="s_4">阳泉市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=4&amp;region1=87&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="4" id="s_4">长治市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=4&amp;region1=88&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="4" id="s_4">晋城市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=4&amp;region1=89&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="4" id="s_4">朔州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=4&amp;region1=90&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="4" id="s_4">晋中市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=4&amp;region1=91&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="4" id="s_4">运城市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=4&amp;region1=92&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="4" id="s_4">忻州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=4&amp;region1=93&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="4" id="s_4">临汾市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=4&amp;region1=94&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="4" id="s_4">吕梁市</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">内蒙古自治区</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=5&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="5" id="s_5">内蒙古自治区</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=5&amp;region1=95&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="5" id="s_5">呼和浩特市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=5&amp;region1=96&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="5" id="s_5">包头市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=5&amp;region1=97&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="5" id="s_5">乌海市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=5&amp;region1=98&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="5" id="s_5">赤峰市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=5&amp;region1=99&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="5" id="s_5">通辽市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=5&amp;region1=100&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="5" id="s_5">鄂尔多斯市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=5&amp;region1=101&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="5" id="s_5">呼伦贝尔市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=5&amp;region1=102&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="5" id="s_5">巴彦淖尔市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=5&amp;region1=103&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="5" id="s_5">乌兰察布市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=5&amp;region1=104&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="5" id="s_5">兴安盟</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=5&amp;region1=105&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="5" id="s_5">锡林郭勒盟</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=5&amp;region1=106&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="5" id="s_5">阿拉善盟</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">辽宁省</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=6&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="6" id="s_6">辽宁省</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=6&amp;region1=107&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="6" id="s_6">沈阳市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=6&amp;region1=108&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="6" id="s_6">大连市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=6&amp;region1=109&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="6" id="s_6">鞍山市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=6&amp;region1=110&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="6" id="s_6">抚顺市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=6&amp;region1=111&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="6" id="s_6">本溪市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=6&amp;region1=112&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="6" id="s_6">丹东市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=6&amp;region1=113&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="6" id="s_6">锦州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=6&amp;region1=114&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="6" id="s_6">营口市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=6&amp;region1=115&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="6" id="s_6">阜新市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=6&amp;region1=116&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="6" id="s_6">辽阳市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=6&amp;region1=117&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="6" id="s_6">盘锦市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=6&amp;region1=118&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="6" id="s_6">铁岭市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=6&amp;region1=119&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="6" id="s_6">朝阳市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=6&amp;region1=120&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="6" id="s_6">葫芦岛市</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">吉林省</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=7&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="7" id="s_7">吉林省</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=7&amp;region1=121&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="7" id="s_7">长春市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=7&amp;region1=122&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="7" id="s_7">吉林市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=7&amp;region1=123&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="7" id="s_7">四平市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=7&amp;region1=124&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="7" id="s_7">辽源市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=7&amp;region1=125&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="7" id="s_7">通化市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=7&amp;region1=126&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="7" id="s_7">白山市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=7&amp;region1=127&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="7" id="s_7">松原市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=7&amp;region1=128&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="7" id="s_7">白城市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=7&amp;region1=129&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="7" id="s_7">延边朝鲜族自治州</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">黑龙江省</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=8&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="8" id="s_8">黑龙江省</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=8&amp;region1=130&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="8" id="s_8">哈尔滨市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=8&amp;region1=131&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="8" id="s_8">齐齐哈尔市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=8&amp;region1=132&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="8" id="s_8">鸡西市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=8&amp;region1=133&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="8" id="s_8">鹤岗市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=8&amp;region1=134&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="8" id="s_8">双鸭山市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=8&amp;region1=135&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="8" id="s_8">大庆市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=8&amp;region1=136&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="8" id="s_8">伊春市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=8&amp;region1=137&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="8" id="s_8">佳木斯市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=8&amp;region1=138&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="8" id="s_8">七台河市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=8&amp;region1=139&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="8" id="s_8">牡丹江市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=8&amp;region1=140&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="8" id="s_8">黑河市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=8&amp;region1=141&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="8" id="s_8">绥化市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=8&amp;region1=142&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="8" id="s_8">大兴安岭地区</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">上海市</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=9&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="9" id="s_9">上海市</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=9&amp;region1=143&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="9" id="s_9">黄浦区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=9&amp;region1=144&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="9" id="s_9">卢湾区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=9&amp;region1=145&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="9" id="s_9">徐汇区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=9&amp;region1=146&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="9" id="s_9">长宁区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=9&amp;region1=147&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="9" id="s_9">静安区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=9&amp;region1=148&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="9" id="s_9">普陀区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=9&amp;region1=149&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="9" id="s_9">闸北区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=9&amp;region1=150&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="9" id="s_9">虹口区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=9&amp;region1=151&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="9" id="s_9">杨浦区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=9&amp;region1=152&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="9" id="s_9">闵行区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=9&amp;region1=153&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="9" id="s_9">宝山区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=9&amp;region1=154&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="9" id="s_9">嘉定区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=9&amp;region1=155&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="9" id="s_9">浦东新区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=9&amp;region1=156&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="9" id="s_9">金山区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=9&amp;region1=157&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="9" id="s_9">松江区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=9&amp;region1=158&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="9" id="s_9">青浦区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=9&amp;region1=159&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="9" id="s_9">南汇区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=9&amp;region1=160&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="9" id="s_9">奉贤区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=9&amp;region1=161&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="9" id="s_9">崇明县</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">江苏省</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=10&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="10" id="s_10">江苏省</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=10&amp;region1=162&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="10" id="s_10">南京市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=10&amp;region1=163&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="10" id="s_10">无锡市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=10&amp;region1=164&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="10" id="s_10">徐州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=10&amp;region1=165&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="10" id="s_10">常州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=10&amp;region1=166&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="10" id="s_10">苏州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=10&amp;region1=167&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="10" id="s_10">南通市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=10&amp;region1=168&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="10" id="s_10">连云港市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=10&amp;region1=169&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="10" id="s_10">淮安市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=10&amp;region1=170&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="10" id="s_10">盐城市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=10&amp;region1=171&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="10" id="s_10">扬州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=10&amp;region1=172&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="10" id="s_10">镇江市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=10&amp;region1=173&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="10" id="s_10">泰州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=10&amp;region1=174&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="10" id="s_10">宿迁市</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">浙江省</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=11&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="11" id="s_11">浙江省</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=11&amp;region1=175&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="11" id="s_11">杭州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=11&amp;region1=176&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="11" id="s_11">宁波市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=11&amp;region1=177&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="11" id="s_11">温州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=11&amp;region1=178&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="11" id="s_11">嘉兴市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=11&amp;region1=179&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="11" id="s_11">湖州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=11&amp;region1=180&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="11" id="s_11">绍兴市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=11&amp;region1=181&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="11" id="s_11">舟山市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=11&amp;region1=182&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="11" id="s_11">衢州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=11&amp;region1=183&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="11" id="s_11">金华市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=11&amp;region1=184&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="11" id="s_11">台州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=11&amp;region1=185&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="11" id="s_11">丽水市</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">安徽省</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=12&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="12" id="s_12">安徽省</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=12&amp;region1=186&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="12" id="s_12">合肥市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=12&amp;region1=187&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="12" id="s_12">芜湖市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=12&amp;region1=188&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="12" id="s_12">蚌埠市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=12&amp;region1=189&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="12" id="s_12">淮南市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=12&amp;region1=190&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="12" id="s_12">马鞍山市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=12&amp;region1=191&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="12" id="s_12">淮北市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=12&amp;region1=192&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="12" id="s_12">铜陵市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=12&amp;region1=193&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="12" id="s_12">安庆市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=12&amp;region1=194&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="12" id="s_12">黄山市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=12&amp;region1=195&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="12" id="s_12">滁州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=12&amp;region1=196&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="12" id="s_12">阜阳市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=12&amp;region1=197&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="12" id="s_12">宿州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=12&amp;region1=198&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="12" id="s_12">巢湖市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=12&amp;region1=199&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="12" id="s_12">六安市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=12&amp;region1=200&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="12" id="s_12">亳州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=12&amp;region1=201&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="12" id="s_12">池州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=12&amp;region1=202&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="12" id="s_12">宣城市</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">福建省</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=13&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="13" id="s_13">福建省</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=13&amp;region1=203&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="13" id="s_13">福州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=13&amp;region1=204&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="13" id="s_13">厦门市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=13&amp;region1=205&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="13" id="s_13">莆田市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=13&amp;region1=206&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="13" id="s_13">三明市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=13&amp;region1=207&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="13" id="s_13">泉州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=13&amp;region1=208&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="13" id="s_13">漳州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=13&amp;region1=209&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="13" id="s_13">南平市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=13&amp;region1=210&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="13" id="s_13">龙岩市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=13&amp;region1=211&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="13" id="s_13">宁德市</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">江西省</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=14&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="14" id="s_14">江西省</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=14&amp;region1=212&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="14" id="s_14">南昌市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=14&amp;region1=213&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="14" id="s_14">景德镇市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=14&amp;region1=214&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="14" id="s_14">萍乡市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=14&amp;region1=215&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="14" id="s_14">九江市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=14&amp;region1=216&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="14" id="s_14">新余市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=14&amp;region1=217&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="14" id="s_14">鹰潭市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=14&amp;region1=218&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="14" id="s_14">赣州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=14&amp;region1=219&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="14" id="s_14">吉安市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=14&amp;region1=220&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="14" id="s_14">宜春市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=14&amp;region1=221&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="14" id="s_14">抚州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=14&amp;region1=222&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="14" id="s_14">上饶市</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">山东省</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=15&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="15" id="s_15">山东省</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=15&amp;region1=223&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="15" id="s_15">济南市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=15&amp;region1=224&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="15" id="s_15">青岛市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=15&amp;region1=225&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="15" id="s_15">淄博市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=15&amp;region1=226&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="15" id="s_15">枣庄市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=15&amp;region1=227&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="15" id="s_15">东营市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=15&amp;region1=228&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="15" id="s_15">烟台市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=15&amp;region1=229&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="15" id="s_15">潍坊市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=15&amp;region1=230&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="15" id="s_15">济宁市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=15&amp;region1=231&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="15" id="s_15">泰安市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=15&amp;region1=232&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="15" id="s_15">威海市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=15&amp;region1=233&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="15" id="s_15">日照市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=15&amp;region1=234&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="15" id="s_15">莱芜市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=15&amp;region1=235&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="15" id="s_15">临沂市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=15&amp;region1=236&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="15" id="s_15">德州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=15&amp;region1=237&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="15" id="s_15">聊城市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=15&amp;region1=238&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="15" id="s_15">滨州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=15&amp;region1=239&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="15" id="s_15">菏泽市</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">河南省</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=16&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="16" id="s_16">河南省</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=16&amp;region1=240&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="16" id="s_16">郑州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=16&amp;region1=241&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="16" id="s_16">开封市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=16&amp;region1=242&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="16" id="s_16">洛阳市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=16&amp;region1=243&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="16" id="s_16">平顶山市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=16&amp;region1=244&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="16" id="s_16">安阳市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=16&amp;region1=245&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="16" id="s_16">鹤壁市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=16&amp;region1=246&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="16" id="s_16">新乡市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=16&amp;region1=247&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="16" id="s_16">焦作市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=16&amp;region1=248&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="16" id="s_16">濮阳市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=16&amp;region1=249&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="16" id="s_16">许昌市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=16&amp;region1=250&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="16" id="s_16">漯河市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=16&amp;region1=251&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="16" id="s_16">三门峡市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=16&amp;region1=252&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="16" id="s_16">南阳市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=16&amp;region1=253&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="16" id="s_16">商丘市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=16&amp;region1=254&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="16" id="s_16">信阳市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=16&amp;region1=255&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="16" id="s_16">周口市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=16&amp;region1=256&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="16" id="s_16">驻马店市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=16&amp;region1=257&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="16" id="s_16">济源市</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">湖北省</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=17&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="17" id="s_17">湖北省</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=17&amp;region1=258&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="17" id="s_17">武汉市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=17&amp;region1=259&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="17" id="s_17">黄石市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=17&amp;region1=260&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="17" id="s_17">十堰市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=17&amp;region1=261&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="17" id="s_17">宜昌市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=17&amp;region1=262&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="17" id="s_17">襄樊市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=17&amp;region1=263&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="17" id="s_17">鄂州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=17&amp;region1=264&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="17" id="s_17">荆门市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=17&amp;region1=265&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="17" id="s_17">孝感市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=17&amp;region1=266&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="17" id="s_17">荆州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=17&amp;region1=267&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="17" id="s_17">黄冈市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=17&amp;region1=268&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="17" id="s_17">咸宁市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=17&amp;region1=269&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="17" id="s_17">随州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=17&amp;region1=270&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="17" id="s_17">恩施土家族苗族自治州</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=17&amp;region1=271&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="17" id="s_17">仙桃市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=17&amp;region1=272&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="17" id="s_17">潜江市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=17&amp;region1=273&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="17" id="s_17">天门市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=17&amp;region1=274&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="17" id="s_17">神农架林区</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">湖南省</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=18&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="18" id="s_18">湖南省</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=18&amp;region1=275&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="18" id="s_18">长沙市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=18&amp;region1=276&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="18" id="s_18">株洲市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=18&amp;region1=277&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="18" id="s_18">湘潭市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=18&amp;region1=278&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="18" id="s_18">衡阳市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=18&amp;region1=279&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="18" id="s_18">邵阳市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=18&amp;region1=280&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="18" id="s_18">岳阳市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=18&amp;region1=281&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="18" id="s_18">常德市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=18&amp;region1=282&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="18" id="s_18">张家界市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=18&amp;region1=283&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="18" id="s_18">益阳市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=18&amp;region1=284&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="18" id="s_18">郴州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=18&amp;region1=285&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="18" id="s_18">永州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=18&amp;region1=286&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="18" id="s_18">怀化市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=18&amp;region1=287&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="18" id="s_18">娄底市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=18&amp;region1=288&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="18" id="s_18">湘西土家族苗族自治州</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">广东省</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=19&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="19" id="s_19">广东省</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=19&amp;region1=289&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="19" id="s_19">广州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=19&amp;region1=290&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="19" id="s_19">韶关市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=19&amp;region1=291&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="19" id="s_19">深圳市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=19&amp;region1=292&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="19" id="s_19">珠海市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=19&amp;region1=293&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="19" id="s_19">汕头市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=19&amp;region1=294&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="19" id="s_19">佛山市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=19&amp;region1=295&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="19" id="s_19">江门市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=19&amp;region1=296&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="19" id="s_19">湛江市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=19&amp;region1=297&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="19" id="s_19">茂名市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=19&amp;region1=298&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="19" id="s_19">肇庆市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=19&amp;region1=299&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="19" id="s_19">惠州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=19&amp;region1=300&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="19" id="s_19">梅州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=19&amp;region1=301&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="19" id="s_19">汕尾市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=19&amp;region1=302&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="19" id="s_19">河源市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=19&amp;region1=303&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="19" id="s_19">阳江市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=19&amp;region1=304&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="19" id="s_19">清远市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=19&amp;region1=305&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="19" id="s_19">东莞市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=19&amp;region1=306&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="19" id="s_19">中山市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=19&amp;region1=307&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="19" id="s_19">潮州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=19&amp;region1=308&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="19" id="s_19">揭阳市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=19&amp;region1=309&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="19" id="s_19">云浮市</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">广西壮族自治区</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=20&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="20" id="s_20">广西壮族自治区</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=20&amp;region1=310&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="20" id="s_20">南宁市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=20&amp;region1=311&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="20" id="s_20">柳州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=20&amp;region1=312&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="20" id="s_20">桂林市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=20&amp;region1=313&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="20" id="s_20">梧州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=20&amp;region1=314&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="20" id="s_20">北海市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=20&amp;region1=315&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="20" id="s_20">防城港市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=20&amp;region1=316&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="20" id="s_20">钦州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=20&amp;region1=317&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="20" id="s_20">贵港市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=20&amp;region1=318&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="20" id="s_20">玉林市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=20&amp;region1=319&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="20" id="s_20">百色市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=20&amp;region1=320&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="20" id="s_20">贺州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=20&amp;region1=321&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="20" id="s_20">河池市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=20&amp;region1=322&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="20" id="s_20">来宾市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=20&amp;region1=323&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="20" id="s_20">崇左市</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">海南省</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=21&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="21" id="s_21">海南省</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=21&amp;region1=324&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="21" id="s_21">海口市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=21&amp;region1=325&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="21" id="s_21">三亚市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=21&amp;region1=326&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="21" id="s_21">五指山市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=21&amp;region1=327&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="21" id="s_21">琼海市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=21&amp;region1=328&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="21" id="s_21">儋州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=21&amp;region1=329&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="21" id="s_21">文昌市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=21&amp;region1=330&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="21" id="s_21">万宁市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=21&amp;region1=331&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="21" id="s_21">东方市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=21&amp;region1=332&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="21" id="s_21">定安县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=21&amp;region1=333&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="21" id="s_21">屯昌县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=21&amp;region1=334&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="21" id="s_21">澄迈县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=21&amp;region1=335&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="21" id="s_21">临高县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=21&amp;region1=336&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="21" id="s_21">白沙黎族自治县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=21&amp;region1=337&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="21" id="s_21">昌江黎族自治县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=21&amp;region1=338&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="21" id="s_21">乐东黎族自治县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=21&amp;region1=339&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="21" id="s_21">陵水黎族自治县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=21&amp;region1=340&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="21" id="s_21">保亭黎族苗族自治县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=21&amp;region1=341&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="21" id="s_21">琼中黎族苗族自治县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=21&amp;region1=342&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="21" id="s_21">西沙群岛</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=21&amp;region1=343&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="21" id="s_21">南沙群岛</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=21&amp;region1=344&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="21" id="s_21">中沙群岛的岛礁及其海域</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">重庆市</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=22&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="22" id="s_22">重庆市</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=345&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">万州区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=346&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">涪陵区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=347&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">渝中区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=348&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">大渡口区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=349&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">江北区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=350&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">沙坪坝区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=351&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">九龙坡区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=352&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">南岸区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=353&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">北碚区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=354&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">双桥区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=355&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">万盛区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=356&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">渝北区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=357&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">巴南区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=358&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">黔江区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=359&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">长寿区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=360&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">綦江县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=361&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">潼南县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=362&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">铜梁县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=363&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">大足县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=364&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">荣昌县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=365&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">璧山县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=366&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">梁平县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=367&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">城口县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=368&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">丰都县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=369&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">垫江县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=370&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">武隆县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=371&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">忠县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=372&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">开县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=373&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">云阳县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=374&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">奉节县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=375&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">巫山县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=376&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">巫溪县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=377&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">石柱土家族自治县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=378&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">秀山土家族苗族自治县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=379&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">酉阳土家族苗族自治县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=380&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">彭水苗族土家族自治县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=381&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">江津市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=382&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">合川市</a></li>
+     <li><a href="plugin.php?id=alj114&aamp;region=22&amp;region1=383&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">永川市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=22&amp;region1=384&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="22" id="s_22">南川市</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">四川省</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=23&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="23" id="s_23">四川省</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=23&amp;region1=385&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="23" id="s_23">成都市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=23&amp;region1=386&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="23" id="s_23">自贡市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=23&amp;region1=387&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="23" id="s_23">攀枝花市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=23&amp;region1=388&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="23" id="s_23">泸州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=23&amp;region1=389&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="23" id="s_23">德阳市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=23&amp;region1=390&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="23" id="s_23">绵阳市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=23&amp;region1=391&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="23" id="s_23">广元市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=23&amp;region1=392&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="23" id="s_23">遂宁市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=23&amp;region1=393&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="23" id="s_23">内江市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=23&amp;region1=394&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="23" id="s_23">乐山市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=23&amp;region1=395&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="23" id="s_23">南充市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=23&amp;region1=396&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="23" id="s_23">眉山市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=23&amp;region1=397&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="23" id="s_23">宜宾市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=23&amp;region1=398&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="23" id="s_23">广安市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=23&amp;region1=399&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="23" id="s_23">达州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=23&amp;region1=400&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="23" id="s_23">雅安市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=23&amp;region1=401&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="23" id="s_23">巴中市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=23&amp;region1=402&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="23" id="s_23">资阳市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=23&amp;region1=403&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="23" id="s_23">阿坝藏族羌族自治州</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=23&amp;region1=404&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="23" id="s_23">甘孜藏族自治州</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=23&amp;region1=405&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="23" id="s_23">凉山彝族自治州</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">贵州省</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=24&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="24" id="s_24">贵州省</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=24&amp;region1=406&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="24" id="s_24">贵阳市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=24&amp;region1=407&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="24" id="s_24">六盘水市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=24&amp;region1=408&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="24" id="s_24">遵义市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=24&amp;region1=409&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="24" id="s_24">安顺市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=24&amp;region1=410&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="24" id="s_24">铜仁地区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=24&amp;region1=411&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="24" id="s_24">黔西南布依族苗族自治州</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=24&amp;region1=412&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="24" id="s_24">毕节地区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=24&amp;region1=413&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="24" id="s_24">黔东南苗族侗族自治州</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=24&amp;region1=414&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="24" id="s_24">黔南布依族苗族自治州</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">云南省</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=25&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="25" id="s_25">云南省</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=25&amp;region1=415&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="25" id="s_25">昆明市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=25&amp;region1=416&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="25" id="s_25">曲靖市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=25&amp;region1=417&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="25" id="s_25">玉溪市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=25&amp;region1=418&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="25" id="s_25">保山市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=25&amp;region1=419&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="25" id="s_25">昭通市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=25&amp;region1=420&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="25" id="s_25">丽江市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=25&amp;region1=421&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="25" id="s_25">思茅市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=25&amp;region1=422&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="25" id="s_25">临沧市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=25&amp;region1=423&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="25" id="s_25">楚雄彝族自治州</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=25&amp;region1=424&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="25" id="s_25">红河哈尼族彝族自治州</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=25&amp;region1=425&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="25" id="s_25">文山壮族苗族自治州</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=25&amp;region1=426&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="25" id="s_25">西双版纳傣族自治州</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=25&amp;region1=427&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="25" id="s_25">大理白族自治州</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=25&amp;region1=428&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="25" id="s_25">德宏傣族景颇族自治州</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=25&amp;region1=429&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="25" id="s_25">怒江傈僳族自治州</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=25&amp;region1=430&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="25" id="s_25">迪庆藏族自治州</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">西藏自治区</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=26&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="26" id="s_26">西藏自治区</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=26&amp;region1=431&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="26" id="s_26">拉萨市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=26&amp;region1=432&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="26" id="s_26">昌都地区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=26&amp;region1=433&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="26" id="s_26">山南地区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=26&amp;region1=434&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="26" id="s_26">日喀则地区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=26&amp;region1=435&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="26" id="s_26">那曲地区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=26&amp;region1=436&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="26" id="s_26">阿里地区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=26&amp;region1=437&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="26" id="s_26">林芝地区</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">陕西省</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=27&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="27" id="s_27">陕西省</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=27&amp;region1=438&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="27" id="s_27">西安市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=27&amp;region1=439&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="27" id="s_27">铜川市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=27&amp;region1=440&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="27" id="s_27">宝鸡市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=27&amp;region1=441&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="27" id="s_27">咸阳市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=27&amp;region1=442&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="27" id="s_27">渭南市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=27&amp;region1=443&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="27" id="s_27">延安市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=27&amp;region1=444&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="27" id="s_27">汉中市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=27&amp;region1=445&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="27" id="s_27">榆林市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=27&amp;region1=446&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="27" id="s_27">安康市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=27&amp;region1=447&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="27" id="s_27">商洛市</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">甘肃省</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=28&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="28" id="s_28">甘肃省</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=28&amp;region1=448&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="28" id="s_28">兰州市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=28&amp;region1=449&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="28" id="s_28">嘉峪关市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=28&amp;region1=450&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="28" id="s_28">金昌市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=28&amp;region1=451&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="28" id="s_28">白银市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=28&amp;region1=452&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="28" id="s_28">天水市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=28&amp;region1=453&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="28" id="s_28">武威市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=28&amp;region1=454&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="28" id="s_28">张掖市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=28&amp;region1=455&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="28" id="s_28">平凉市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=28&amp;region1=456&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="28" id="s_28">酒泉市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=28&amp;region1=457&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="28" id="s_28">庆阳市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=28&amp;region1=458&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="28" id="s_28">定西市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=28&amp;region1=459&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="28" id="s_28">陇南市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=28&amp;region1=460&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="28" id="s_28">临夏回族自治州</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=28&amp;region1=461&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="28" id="s_28">甘南藏族自治州</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">青海省</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=29&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="29" id="s_29">青海省</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=29&amp;region1=462&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="29" id="s_29">西宁市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=29&amp;region1=463&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="29" id="s_29">海东地区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=29&amp;region1=464&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="29" id="s_29">海北藏族自治州</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=29&amp;region1=465&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="29" id="s_29">黄南藏族自治州</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=29&amp;region1=466&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="29" id="s_29">海南藏族自治州</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=29&amp;region1=467&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="29" id="s_29">果洛藏族自治州</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=29&amp;region1=468&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="29" id="s_29">玉树藏族自治州</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=29&amp;region1=469&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="29" id="s_29">海西蒙古族藏族自治州</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">宁夏回族自治区</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=30&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="30" id="s_30">宁夏回族自治区</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=30&amp;region1=470&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="30" id="s_30">银川市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=30&amp;region1=471&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="30" id="s_30">石嘴山市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=30&amp;region1=472&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="30" id="s_30">吴忠市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=30&amp;region1=473&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="30" id="s_30">固原市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=30&amp;region1=474&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="30" id="s_30">中卫市</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">新疆维吾尔自治区</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=31&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="31" id="s_31">新疆维吾尔自治区</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=31&amp;region1=475&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="31" id="s_31">乌鲁木齐市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=31&amp;region1=476&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="31" id="s_31">克拉玛依市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=31&amp;region1=477&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="31" id="s_31">吐鲁番地区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=31&amp;region1=478&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="31" id="s_31">哈密地区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=31&amp;region1=479&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="31" id="s_31">昌吉回族自治州</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=31&amp;region1=480&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="31" id="s_31">博尔塔拉蒙古自治州</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=31&amp;region1=481&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="31" id="s_31">巴音郭楞蒙古自治州</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=31&amp;region1=482&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="31" id="s_31">阿克苏地区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=31&amp;region1=483&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="31" id="s_31">克孜勒苏柯尔克孜自治州</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=31&amp;region1=484&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="31" id="s_31">喀什地区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=31&amp;region1=485&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="31" id="s_31">和田地区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=31&amp;region1=486&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="31" id="s_31">伊犁哈萨克自治州</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=31&amp;region1=487&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="31" id="s_31">塔城地区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=31&amp;region1=488&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="31" id="s_31">阿勒泰地区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=31&amp;region1=489&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="31" id="s_31">石河子市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=31&amp;region1=490&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="31" id="s_31">阿拉尔市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=31&amp;region1=491&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="31" id="s_31">图木舒克市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=31&amp;region1=492&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="31" id="s_31">五家渠市</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">台湾省</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=32&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="32" id="s_32">台湾省</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=32&amp;region1=493&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="32" id="s_32">台北市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=32&amp;region1=494&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="32" id="s_32">高雄市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=32&amp;region1=495&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="32" id="s_32">基隆市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=32&amp;region1=496&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="32" id="s_32">台中市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=32&amp;region1=497&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="32" id="s_32">台南市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=32&amp;region1=498&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="32" id="s_32">新竹市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=32&amp;region1=499&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="32" id="s_32">嘉义市</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=32&amp;region1=500&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="32" id="s_32">台北县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=32&amp;region1=501&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="32" id="s_32">宜兰县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=32&amp;region1=502&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="32" id="s_32">桃园县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=32&amp;region1=503&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="32" id="s_32">新竹县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=32&amp;region1=504&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="32" id="s_32">苗栗县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=32&amp;region1=505&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="32" id="s_32">台中县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=32&amp;region1=506&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="32" id="s_32">彰化县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=32&amp;region1=507&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="32" id="s_32">南投县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=32&amp;region1=508&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="32" id="s_32">云林县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=32&amp;region1=509&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="32" id="s_32">嘉义县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=32&amp;region1=510&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="32" id="s_32">台南县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=32&amp;region1=511&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="32" id="s_32">高雄县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=32&amp;region1=512&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="32" id="s_32">屏东县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=32&amp;region1=513&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="32" id="s_32">澎湖县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=32&amp;region1=514&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="32" id="s_32">台东县</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=32&amp;region1=515&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="32" id="s_32">花莲县</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">香港特别行政区</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=33&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="33" id="s_33">香港特别行政区</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=33&amp;region1=516&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="33" id="s_33">中西区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=33&amp;region1=517&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="33" id="s_33">东区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=33&amp;region1=518&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="33" id="s_33">九龙城区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=33&amp;region1=519&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="33" id="s_33">观塘区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=33&amp;region1=520&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="33" id="s_33">南区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=33&amp;region1=521&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="33" id="s_33">深水埗区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=33&amp;region1=522&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="33" id="s_33">黄大仙区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=33&amp;region1=523&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="33" id="s_33">湾仔区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=33&amp;region1=524&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="33" id="s_33">油尖旺区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=33&amp;region1=525&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="33" id="s_33">离岛区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=33&amp;region1=526&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="33" id="s_33">葵青区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=33&amp;region1=527&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="33" id="s_33">北区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=33&amp;region1=528&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="33" id="s_33">西贡区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=33&amp;region1=529&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="33" id="s_33">沙田区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=33&amp;region1=530&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="33" id="s_33">屯门区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=33&amp;region1=531&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="33" id="s_33">大埔区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=33&amp;region1=532&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="33" id="s_33">荃湾区</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=33&amp;region1=533&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="33" id="s_33">元朗区</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">澳门特别行政区</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=34&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="34" id="s_34">澳门特别行政区</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=34&amp;region1=534&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="34" id="s_34">澳门特别行政区</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">海外</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=35&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="35" id="s_35">海外</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=535&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">美国</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=536&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">加拿大</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=537&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">澳大利亚</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=538&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">新西兰</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=539&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">英国</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=540&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">法国</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=541&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">德国</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=542&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">捷克</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=543&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">荷兰</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=544&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">瑞士</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=545&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">希腊</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=546&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">挪威</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=547&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">瑞典</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=548&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">丹麦</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=549&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">芬兰</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=550&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">爱尔兰</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=551&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">奥地利</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=552&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">意大利</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=553&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">乌克兰</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=554&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">俄罗斯</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=555&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">西班牙</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=556&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">韩国</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=557&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">新加坡</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=558&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">马来西亚</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=559&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">印度</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=560&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">泰国</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=561&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">日本</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=562&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">巴西</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=563&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">阿根廷</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=564&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">南非</a></li>
+     <li><a href="plugin.php?id=alj114&amp;region=35&amp;region1=565&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="35" id="s_35">埃及</a></li>
+    </ul>
+</div>
+<div class="hd"><a href="#">其他</a></div>
+<div class="bd">
+  <ul class="clearfix">
+   <li><a href="plugin.php?id=alj114&amp;region1=&amp;region2=&amp;region=36&amp;typeid=&amp;subtypeid=&amp;rid=&amp;mobile=2" data-id="36" id="s_36">其他</a></li> -----------
+     <li><a href="plugin.php?id=alj114&amp;region=36&amp;region1=566&amp;typeid=&amp;subtypeid=&amp;mobile=2" data-id="36" id="s_36">其他</a></li>
+    </ul>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="fullbg" id="fullbg1" style="display: none;"><i class="pull"></i></div>
+<div class="fullbg" id="fullbg2" style="display: none;"><i class="pull"></i></div>
+<div class="mod_02">
+
+<div class="bd list_huangye">
+<ul>
+<div class="bdK clearfix">
+<ul><li class="istopnone">
+<a href="#" class="link">
+<p class="tit"> 石家庄大学生服务站</p>
+<p class="txt">电话：15076123519</p>
+<p class="txt" title="">地址：</p>
+<p class="txt" title="石家庄大学生综合信息服务交流平台" >介绍：石家庄大学生综合信息服务交流平台</p>
+</a>
+<a href="tel:15076123519" class="toPhone po_ab">致电：15076123519</a>
+</li>
+<li class="istopnone">
+<a href="http://www.dzx30.com" class="link">
+<p class="tit"> 测试电话</p>
+<p class="txt">电话：13333333333</p>
+<p class="txt" title="测试地址测试地址测试地址测试地址测试地址">地址：测试地址测试地址测试地址测试地址测试地址</p>
+<p class="txt" title="测试" >介绍：测试</p>
+</a>
+<a href="tel:13333333333" class="toPhone po_ab">致电：13333333333</a>
+</li>
+<li class="istopnone">
+<a href="http://www.mbo50.com" class="link">
+<p class="tit"> sdffd</p>
+<p class="txt">电话：13888888888</p>
+<p class="txt" title="222">地址：222</p>
+<p class="txt" title="奇才" >介绍：奇才</p>
+</a>
+<a href="tel:13888888888" class="toPhone po_ab">致电：13888888888</a>
+</li>
+<li class="istopnone">
+<a href="http://www.mbo50.com" class="link">
+<p class="tit"> sdffd</p>
+<p class="txt">电话：13888888888</p>
+<p class="txt" title="222">地址：222</p>
+<p class="txt" title="奇才" >介绍：奇才</p>
+</a>
+<a href="tel:13888888888" class="toPhone po_ab">致电：13888888888</a>
+</li>
+<li class="istopnone">
+<a href="http://www.dzx30.com" class="link">
+<p class="tit"> 报警电话</p>
+<p class="txt">电话：999999</p>
+<p class="txt" title="测试地址测试地址测试地址测试地址测试地址">地址：测试地址测试地址测试地址测试地址测试地址</p>
+<p class="txt" title="测试1234567890测试1234567890测试1234567890测试1234567890测试1234567890测试1234567890测试1234567890测试1234567890测试1234567890测试1234567890测试1234567890" >介绍：测试1234567890测试1234567890测试1234567890测试1234567890测试12345 ...</p>
+</a>
+<a href="tel:999999" class="toPhone po_ab">致电：999999</a>
+</li>
+<style type="text/css">
+.brand_id{
+position: absolute;
+display: block;
+top: 92px;
+right: 15px;
+background-color: #5bc0de;
+    border-color: #46b8da;
+border-radius: 3px;
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 2px 6px;
+color: #ffffff;
+}
+.official{
+position: absolute;
+display: block;
+top: 65px;
+right: 15px;
+background-color: #5cb85c;
+    border-color: #4cae4c;
+border-radius: 3px;
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 2px 6px;
+color: #ffffff;
+}
+.toPhone{right: 22px;}
+</style>
+</ul>
+</div>
+</ul>
+</div>
+</div>
+</div>
+
+</div>
+<script src="source/plugin/alj114/js/jquery-2.1.1.min.js" type="text/javascript"></script>
+<script src="source/plugin/alj114/js/wap_common.js" type="text/javascript"></script>
+<script>
+$.fn.fixed = function(){
+var b = $(this),w_h = parseInt($(window).height()/2);
+$(window).bind("scroll",function(){
+var d = $(document).scrollTop();
+if(w_h<d){
+b.show()
+}else{
+b.hide();
+}
+});
+b.click(function(event){
+event.preventDefault();
+$("html,body").animate({scrollTop: 0},300);
+});
+}
+$('#returnTOP').fixed();
+</script>
+<script>
+(function($){
+IDC.showMore($('#show_categories'),$('#navbox_categories'),$('#fullbg1'));
+IDC.showMore($('#show_district'),$('#navbox_district'),$('#fullbg2'));
+IDC.listNav($('#list_nav_2013'));
+IDC.listNav($('#list_nav_district_2013'));
+})(jQuery);
+function bianminUrl(){
+var url_obj = {'colname':''};
+if(url_obj['colname'] !== '' && url_obj['colname'] !== '0'){
+$('#s_'+url_obj['colname']).addClass('selected').parents('.bd').addClass('open').prev('.hd').addClass('hd_open');
+}
+}
+bianminUrl();
+</script>
+<script src="source/plugin/alj114/js/jquery.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var jq = jQuery.noConflict();
+</script>
+<style type="text/css">
+.pages {
+padding: 10px;
+text-align: center;
+margin-top: 1px;
+clear: both;
+}
+.pages a {
+padding-left: 10px;
+}
+.grey { color:#9C9C9C; }
+a.grey:link, a.grey:visited, a.grey:hover { color:#9C9C9C; text-decoration:none; }
+/*----- page -----*/
+.page { text-align:center; margin:20px 10px; }	 
+.page a { border:1px solid #D7D7D7; border-radius:5px; padding:5px 9px; background:#FFF; } 
+.page select{ border: 1px solid #CCC; height: 28px;}
+</style>
+<div class="pages"><div class="pg"><strong>1</strong><a href="plugin.php?id=alj114&rid&typeid=&subtypeid=&amp;page=2&amp;mobile=2">2</a><a href="plugin.php?id=alj114&rid&typeid=&subtypeid=&amp;page=3&amp;mobile=2">3</a><a href="plugin.php?id=alj114&rid&typeid=&subtypeid=&amp;page=4&amp;mobile=2">4</a><a href="plugin.php?id=alj114&rid&typeid=&subtypeid=&amp;page=21&amp;mobile=2" class="last">.. 21</a><label><input type="text" name="custompage" class="px" size="2" title="输入页码，按回车快速跳转" value="1" onkeydown="if(event.keyCode==13) {window.location='plugin.php?id=alj114&rid&typeid=&subtypeid=&amp;page='+this.value;; doane(event);}" /><span title="共 21 页"> / 21 页</span></label><a href="plugin.php?id=alj114&rid&typeid=&subtypeid=&amp;page=2&amp;mobile=2" class="nxt">下一页</a></div></div>
+<script type="text/javascript">
+function dopages() {
+var prevpage = $('div.pg .prev').prop('href');
+var nextpage = $('div.pg .nxt').prop('href');
+var lastpage = $('div.pg label span').text().replace(/[^\d]/g, '') || 0;
+var curpage = $('div.pg input').val() || 1;
+
+//alert(lastpage);
+if(!lastpage) {
+prevpage = $('div.pg .pgb a').prop('href');
+}
+
+var prevpagehref = nextpagehref = '';
+if(prevpage == undefined) {
+prevpagehref = 'javascript:;" class="grey';
+} else {
+prevpagehref = prevpage;
+}
+if(nextpage == undefined) {
+nextpagehref = 'javascript:;" class="grey';
+} else {
+nextpagehref = nextpage;
+}
+
+var selector = '';
+if(lastpage) {
+selector += '<a id="select_a" style="margin:0 2px;padding:1px 0 0 0;border:0;display:inline-block;position:relative;width:100px;height:31px;line-height:27px;background:url(source/plugin/alj114/images/pic_select.png) no-repeat;text-align:left;text-indent:20px;">';
+selector += '<select id="dumppage" style="position:absolute;left:0;top:0;height:27px;opacity:0;width:100px;">';
+for(var i=1; i<=lastpage; i++) {
+selector += '<option value="'+i+'" '+ (i == curpage ? 'selected' : '') +'>&#31532;'+i+'&#39029;</option>';
+}
+selector += '</select>';
+selector += '<span>&#31532;'+curpage+'&#39029;</span>';
+}
+
+$('div.pg').removeClass('pg').addClass('page').html('<a href="'+ prevpagehref +'">&#19978;&#19968;&#39029;</a>'+ selector +'<a href="'+ nextpagehref +'">&#19979;&#19968;&#39029;</a>');
+$('#dumppage').on('change', function() {
+var href = (prevpage || nextpage);
+window.location.href = href.replace(/page=\d+/, 'page=' + $(this).val());
+});
+}
+dopages();
+</script>
+<link rel="stylesheet" href="source/plugin/alj114/css/sj/plugin.css" />
+
+<script src="source/plugin/alj114/js/sj/jquery.plugin.js" type="text/javascript"></script>
+<script src="source/plugin/alj114/js/sj/swipe.js" type="text/javascript"></script>
+<script>
+jq(document).ready(function() {
+    Swipe(document.getElementById('slider'), {
+        auto: 5000,
+        continuous: true
+    });
+});
+</script>
+</article>
+
+<div id="mask" style="display:none;"></div>
+<div class="footer">
+<div>
+<a href="home.php?mod=space&amp;uid=55212&amp;do=profile&amp;mycenter=1&amp;mobile=2">zombieszy</a> , <a href="member.php?mod=logging&amp;action=logout&amp;formhash=4f9dc7ed&amp;mobile=2" title="退出" class="dialog">退出</a>
+</div>
+    <div>
+<a href="http://114.dzx30.com/plugin.php?id=alj114&mobile=1&simpletype=no">标准版</a> |  
+<a href="javascript:;" style="color:#D7D7D7;">触屏版</a> | 
+<a href="http://114.dzx30.com/plugin.php?id=alj114&mobile=no">电脑版</a> | 
+<a href="http://www.discuz.net/mobile.php?platform=ios">客户端</a>
+    </div>
+<p>&copy; Comsenz Inc.</p>
+</div>
+</body>
+</html>

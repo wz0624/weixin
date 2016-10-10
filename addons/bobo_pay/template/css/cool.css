@@ -1,0 +1,160 @@
+@import url('base.css');
+@import url('box.css');
+@import url('color.css');
+@import url('spe.css');
+@import url('self.css');
+body, div, ul, li, h1, p, span, input, select, map, area, textarea {
+	-webkit-tap-highlight-color: rgba(240,240,240,0);
+	-webkit-tap-highlight-color: transparent;
+	
+	outline: medium;
+}
+.slider_cur {
+	margin-top: -2em;
+	z-index: 9999999;
+	position: absolute;
+	right: 0.5em
+}
+#zv_Loading {
+	display: none;
+}
+#zv_main {
+	z-index: 100000;
+	background: #000000;
+	opacity: 0;
+	filter: alpha(opacity=0);
+	position: fixed;
+	top: 0px;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	display: none;
+}
+.zvmainp {
+	position: absolute;
+	z-index: 9999;
+	top: 0px;
+	overflow: hidden;
+}
+.zvmainy {
+	background: none
+}
+
+@-webkit-keyframes ball_moveG{
+0%{
+-webkit-transform:rotate(0deg)}
+100%{
+-webkit-transform:rotate(360deg)}
+}
+@-moz-keyframes ball_moveG{
+0%{
+-moz-transform:rotate(0deg)}
+100%{
+-moz-transform:rotate(360deg)}
+}
+@-o-keyframes ball_moveG{
+0%{
+-o-transform:rotate(0deg)}
+100%{
+-o-transform:rotate(360deg)}
+}
+@-ms-keyframes ball_moveG{
+0%{
+-ms-transform:rotate(0deg)}
+100%{
+-ms-transform:rotate(360deg)}
+}
+#loadbg {
+	background: url(../image/loading.png) no-repeat center;
+	background-size: 3em;
+	text-align: center;
+	position: absolute;
+	bottom: 0.5em;
+	width: 5em;
+	height: 5em;
+	-webkit-animation-name: ball_moveG;
+	-webkit-animation-duration: 2s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+	-moz-animation-name: ball_moveG;
+	-moz-animation-duration: 2s;
+	-moz-animation-iteration-count: infinite;
+	-moz-animation-timing-function: linear;
+	-o-animation-name: ball_moveG;
+	-o-animation-duration: 2s;
+	-o-animation-iteration-count: infinite;
+	-o-animation-timing-function: linear;
+	-ms-animation-name: ball_moveG;
+	-ms-animation-duration: 2s;
+	-ms-animation-iteration-count: infinite;
+	-ms-animation-timing-function: linear;
+}
+#loadingimgboxtxt {
+	position: absolute;
+	bottom: 0.5em;
+	color: #ffffff;
+	text-align: center;
+	margin: 0 auto;
+	width: 100%;
+	font-size: 0.8em
+}
+#loadingimgbox {
+	text-align: center;
+	margin: 0 auto;
+}
+#loadingimg {
+	width: 2em;
+	text-align: center;
+	margin: 0 auto;
+	margin-top: 0.95em
+}
+#Loadbox {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	width: 5em;
+	height: 5em;
+	z-index: 999999;
+	display: none;
+}
+.LoadBoxList {
+	position: relative;
+	border-radius: 0.6em;
+	top: -50%;
+	left: -50%;
+	width: 100%;
+	height: 100%;
+	background: #000000;
+	/*box-shadow: 0 0 0.2em #4d4d4d;
+	 -webkit-box-shadow: 0 0 0.2em #4d4d4d;
+	 -moz-box-shadow: 0 0 0.2em #4d4d4d;*/
+	opacity: 0.8;
+	filter: alpha(opacity=80);
+}
+#content{ display:none}
+.c-00877b {
+	background: #035f57
+}
+@-webkit-keyframes fadeIn {
+0% {
+opacity: 0;
+}
+25% {
+opacity: 0.25;
+}
+50% {
+opacity: 0.5;
+}
+75% {
+opacity: 0.75;
+}
+100% {
+opacity: 1;
+}
+}
+.fadeIn{
+	-webkit-animation-name: fadeIn; /*动画名称*/
+	-webkit-animation-duration: 0.2s; /*动画持续时间*/
+	-webkit-animation-iteration-count: 1; /*动画次数*/
+	-webkit-animation-delay: 0s; /*延迟时间*/
+}

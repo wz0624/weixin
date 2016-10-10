@@ -1,0 +1,39 @@
+{template 'common/header'}
+<div class="row">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+		首页广告轮播管理
+		</div>
+		<div class="panel-body">
+			<div class="form-group col-md-6">
+				<label>模块分享标题</label>
+				<input type="text" class="form-control" id="share_title" value="{$_W['jiakao_share_title']}">
+				<br>
+				<button class="btn btn-info" onclick="save(this)"><span class="glyphicon glyphicon-floppy-disk"></span>保存</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="../addons/jiakao_system/common/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	// 世界上最美的就是，你
+	function save(obj) {
+		var val = $("#share_title").val();
+		$.ajax({
+			type:'post',
+			data:{'key':'share_title','val':val},
+			url : "{php echo $this->createWebUrl('ad_settings_ajax')}",
+			success:function(data) {
+				if(data.res == 100) {
+					alert("保存成功");
+					window.location.href='';
+				}else{
+					alert("保存失败"+data.msg);
+				}
+
+			}
+
+		})
+	}
+</script>
+{template 'footer'}

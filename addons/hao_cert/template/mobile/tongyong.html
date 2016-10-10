@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>专业办证30年</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <link rel="stylesheet" href="../addons/hao_cert/template/style/haocert.css">
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <link href="{$_W['siteroot']}app/resource/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{$_W['siteroot']}app/resource/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{$_W['siteroot']}app/resource/css/animate.css" rel="stylesheet">
+    <link href="{$_W['siteroot']}app/resource/css/common.css" rel="stylesheet">
+    <link href="{$_W['siteroot']}app/resource/css/app.css" rel="stylesheet">
+    <link href="{$_W['siteroot']}app/index.php?i=2&c=utility&a=style&" rel="stylesheet">
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="{$_W['siteroot']}app/resource/js/require.js"></script>
+    <script src="{$_W['siteroot']}app/resource/js/app/config.js"></script>
+    <script type="text/javascript" src="{$_W['siteroot']}app/resource/js/lib/jquery-1.11.1.min.js"></script>
+</head>
+<style type="text/css">
+.ct:before {
+    content: "";
+    display: block;
+    background: url('../addons/hao_cert/template/images/bg.gif') no-repeat;
+    background-size: 100%;
+    width: 280px;
+    height: 40px;
+    margin: 33px auto 0;
+}
+.ct{
+    background:url('../addons/hao_cert/template/images/bg2.jpg') no-repeat;
+    background-size:100%;
+    min-height:100%;
+    overflow:hidden;
+}
+.input-group{
+    position: absolute;
+    margin-right:150px;
+    margin-top:-70px;
+    opacity:0;
+    z-index:9999999;
+}
+.input-group .form-control{
+    opacity:0;
+}
+.input-group .input-group-btn .btn{
+    padding: 24px 12px;
+}
+.help-block {
+    margin-top:-67px;
+    display:block; 
+    text-align:center;
+    margin-bottom:70px;
+}
+.help-block img{
+    width:70px;
+    height:70px;
+    z-index: 99999;
+}
+</style>
+<body>
+<div class="mask" style="display:none;"></div>
+<div class="ct">
+    <h3>{$typename}</h3>
+    <form action="{php echo $this->createMobileUrl('tongyong')}" method="post" onsubmit="return sub_driver();">
+        <input type="text" name="name" placeholder="输入您的名字">
+        <input type="text" name="sex" placeholder="输入您的性别">
+        <input type="text" name="age" placeholder="输入您的年龄">
+        <input type="text" name="rank" placeholder="输入您的编号">
+        <input type="hidden" name="typename" value="{$typename}" />
+        <div id="upload" style="text-align:center; width:100%;padding-top: 10px;position:relative;"><image src="../addons/hao_cert/template/images/upimage.jpg" width="65" height="65" style="vertical-align:middle;" /></div>
+        {php echo tpl_form_field_image('image', $img);}
+        <input type="submit" name="submit" value="生成证件" />
+        <input type="hidden" value="{$_W['token']}" name="token" />
+        <a id="share" href="javascript:void(0);">分享给好友&gt;&gt;</a>
+        <a href="javascript:void(0);" style="padding-top:10px;color:red;text-decoration:none">声明:请上传JPG/JPEG格式的图片</span>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function(){
+        $('.help-block').children('img').attr('src','');
+    });
+    $('.input-group .input-group-btn .btn').click(function(){
+        $('#upload').css('opacity','0');
+    });
+    function sub_driver(){
+        $name = $('input[name="name"]').val();
+        $sex = $('input[name="sex"]').val();
+        $age = $('input[name="age"]').val();
+        $rank = $('input[name="rank"]').val();
+        $image = $('input[name="image"]').val();
+        if($name == '' || $sex == '' || $age == '' || $rank == '' || $image == ''){
+            alert('请填写完上述内容');
+            return false;
+        }
+        return true;
+    }
+    $('#share').click(function(){
+        $('.mask').attr('style','');
+    });
+    $('.mask').click(function(){
+        $('.mask').hide();
+    });
+</script>
+<div id="qq-sendUrl-btn"></div>
+</body>
+</html>

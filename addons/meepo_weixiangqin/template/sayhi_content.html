@@ -1,0 +1,114 @@
+{template 'common/header'}
+{php load()->func('tpl');}
+<script type="text/javascript" src="../addons/meepo_weixiangqin/template/jquery-1.7.2.min.js"></script>
+<script>
+	function selectall(obj, name){
+		$('input[name="'+name+'[]"]:checkbox').each(function() {
+			$(this).attr("checked", $(obj).attr('checked') ? true : false);
+		});
+	}
+	
+</script>
+<ul class="nav nav-tabs">
+	<li {if $_GPC['do']=='sayhi_content' && $op=='list'}class="active"{/if}><a href="{php echo $this->createWebUrl('sayhi_content')}">打招呼语列表</a></li>
+	<li {if $_GPC['do']=='sayhi_content' && $op=='post'}class="active"{/if}><a href="{php echo $this->createWebUrl('sayhi_content',array('op'=>'post'))}">打招呼语添加</a></li>
+	<li><a href="{php echo $this->createWebUrl('photolist')}">图片管理</a></li>
+	<li><a href="{php echo $this->createWebUrl('payrecord')}">充值记录</a></li>
+	<li><a href="{php echo $this->createWebUrl('baoyuerecord')}">包月记录</a></li>
+	<li><a href="{php echo $this->createWebUrl('Exchangerecord')}">兑换记录</a></li>
+	<li><a href="{php echo $this->createWebUrl('tjapply')}">推荐记录</a></li>
+    <li><a href="{php echo $this->createWebUrl('set')}">基本设置</a></li>
+	<li><a href="{php echo $this->createWebUrl('flower_record')}">送花记录</a></li>
+	<li><a href="{php echo $this->createWebUrl('sayhi_record')}">打招呼记录</a></li>
+	<li><a href="{php echo $this->createWebUrl('share_record')}">分享记录</a></li>
+	<li ><a href="{php echo $this->createWebUrl('quxiao')}">取消关注列表</a></li>
+</ul>
+{if $op=='list'}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		打招呼暗号
+	</div>
+	<div class="panel-body">
+		<div class="main" id="table-list">
+			<form action="" method="post" onsubmit="">
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead class="navbar-inner">
+						<tr>
+							
+							<th style="width:20%;">暗号内容<i></i></th>
+							<th class="row-hover" style="width:20%">新建时间<i></i></th>
+							
+							<th style="width:20%;">操作<i></i></th>
+							
+						</tr>
+						</thead>
+						<tbody>
+						{loop $lists $row}
+						<tr>
+							
+							<td class="row-hover">
+								{$row['content']}
+							</td>
+							<td>
+					            <div style="margin-bottom:10px;">{php echo date('Y-m-d', $row['createtime']);}</div>
+								<div>{php echo date('H:i:s', $row['createtime']);}</div>
+							</td>
+							<td style="font-size:12px; color:#666;">
+							<a href="{php echo $this->createWebUrl('sayhi_content', array('op' => 'post', 'id' =>$row['id']))}"class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="编辑" ><i class="fa fa-edit"></i>编辑</a>
+								<a href="{php echo $this->createWebUrl('sayhi_content', array('op' => 'del', 'id' => $row['id']))}"class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="删除" onclick="return confirm('删除将无法恢复，确认吗？');return false;"><i class="fa fa-times"></i>删除</a>
+								
+							</td>
+							
+						</tr>
+						{/loop}
+						</tbody>
+					</table>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{elseif $op=='post'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" onsubmit='return formcheck()'>
+		<input type="hidden" name="id" value="{$list['id']}" />
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				打招呼暗号
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>暗号内容</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id='content' name="content" class="form-control" value="{$list['content']}" />
+						<span class="help-block">暗号内容</span>
+					</div>
+				</div>
+				
+				
+			</div>
+		</div>
+<div class="form-group col-sm-12">
+	<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+	<input type="hidden" name="token" value="{$_W['token']}" />
+	</div>
+	</form>
+</div>
+
+<script language='javascript'>
+	function formcheck() {
+		if ($("#content").val()=='') {
+			alert("请填写暗号内容!");
+			return false;
+		}
+		return true;
+	}
+</script>
+{/if}
+<script>
+
+</script>
+
+
+{template 'common/footer'}

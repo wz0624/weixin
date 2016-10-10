@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="{$stonefish_member_res}signin/css/main.css" media="all" />
+<link rel="stylesheet" type="text/css" href="{$stonefish_member_res}signin/css/dialog.css" media="all" />
+<script type="text/javascript" src="{$stonefish_member_res}signin/js/jquery_min.js"></script>
+<script type="text/javascript" src="{$stonefish_member_res}signin/js/main.js"></script>
+<title>{$_W['account']['childname']}签到奖励</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<!-- Mobile Devices Support @begin -->
+<meta content="application/xhtml+xml;charset=UTF-8" http-equiv="Content-Type">
+<meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+<meta content="no-cache" http-equiv="pragma">
+<meta content="0" http-equiv="expires">
+<meta content="telephone=no, address=no" name="format-detection">
+<meta name="apple-mobile-web-app-capable" content="yes" /> <!-- apple devices fullscreen -->
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<!-- Mobile Devices Support @end -->
+</head>
+<body onselectstart="return true;" ondragstart="return false;">
+<div class="container integral integral_record">
+	<header>
+		<label>签到奖励</label>
+	</header>
+	<div class="body">
+		<section class="p_10">
+			<table class="table_record">
+				<thead>
+				<tr>
+					<td style="width:45%;text-align:center;">时间</td>
+					<td style="width:30%;">奖励类型</td>
+					<td style="width:25%;">积分</td>
+				</tr>
+				</thead>
+				<tbody>
+					{loop $prize $item}
+					<tr>
+						<td>{php echo date("m月d日 H:i:s",$item['sign_time']); }</td>
+						<td style="text-align:center;">{$item['prizetype']}</td>
+						<td style="text-align:center;">+{$item['signcredit']} {$item['signtype']}</td>
+					</tr>
+					{/loop}
+				</tbody>
+			</table>
+		</section>
+	</div>
+	<footer>
+		<nav class="nav_add_addr">
+			<ul class="tbox">
+				<li><a href="{php echo $this->createMobileUrl('signin')}" class="icons icons_before">&nbsp;</a></li>
+			</ul>
+		</nav>
+	</footer>
+</div>
+{template 'jssdkhide'}
+</body>
+</html>

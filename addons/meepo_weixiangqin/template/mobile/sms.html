@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0, maximum-scale=1.0,user-scalable=0">
+<meta name="format-detection" content="telephone=no"/>
+<title>身份验证</title>
+<link href="resource/css/bootstrap.min.css" rel="stylesheet">
+<link href="resource/css/common.min.css" rel="stylesheet">
+<script src="{MEEPORES}/static/friend/js/jquery.js" ></script>
+<script src="{MEEPORES}/static/friend/js/swiper-3.3.1.min.js" ></script>
+<link rel="stylesheet" href="{MEEPORES}/static/friend/css/swiper-3.3.1.min.css" />
+<style>
+	body{background:#fff;}
+	.panel{margin:.5em; border:none;}
+	.panel-info>.panel-heading {background: -webkit-gradient(linear, 0 0, 100% 0, from(#ebebeb), to(#f3f9fa), color-stop(30%, #f5f9f9)); color:#666666; border:none;}
+	a{color:#666666;}a:hover{color: #3ebacc;}
+	.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus{color: #3ebacc;}
+	.actions{margin:.8em auto;}
+	.nav.nav-tabs{margin-bottom:.8em;}
+	.btn.btn-primary{background: #56c6d6; color: #FFF; border: 0;}
+	/**/
+#poptip { display:block;position: fixed; top:30%;left:50%;width:160px;margin-left:-80px;height: 80px;background:#000; opacity: 0.7;filter:alpha(opacity=0.7); color:#fff;z-index: 999;  border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;}
+#poptip_content { display:block;position: fixed; top:30%;left:50%;width:160px;margin-left:-80px; height: 27px; color:#fff;text-align:center;font-size:14px;z-index: 9909;text-align:center;line-height:80px}
+ul,li{margin:0;padding:0;list-style-type:none; }
+.flower_news{ 
+	background-color:#fff;
+    text-align: center;
+    height: 40px;
+	width:100%;
+	border-bottom:1px solid rgba(0,0,0,0.1);
+	}
+.flower_li li{float:left;height:40px;line-height:40px;color:#000;font-size:12px;}
+.flower_avatar{margin-left:20px;}
+.flower_words{padding-left:10px;}
+.flower_time{padding-left:5px;display:none}
+.flower_news img{width:30px;height:30px;border-radius:100%;}
+#toast {
+    display: none;
+    position: fixed;
+    padding: 9px 15px;
+    background-color: #333;
+    z-index: 8000;
+    border-radius: 5px;
+	font-size: 16px;
+    color: #ffffff;
+    line-height: 20px;
+    text-align: center;
+	
+}
+</style>
+<div class="panel panel-info ng-container"  style="margin:0">
+	<div class="panel-body">
+	
+		<ul class="nav nav-tabs" role="tablist">
+			
+				
+				<li class="active"><a>手机验证</a></li>
+				<li style="float:right"><a id="timeRight" style="color:red"></a></li>
+		</ul>
+		<div class="tab-content">
+			
+			
+				<div class="tab-pane animated active" id="code">
+					<div class="form-group has-feedback">
+						<label class="control-label sr-only"></label>
+						<input  type="number" name="mobile" class="form-control" placeholder="请输入您的手机号" id="mobile" maxlength="11">
+						
+					</div>
+					
+					<div class="form-group">
+						<button class="btn btn-warning btn-block btn-sender" onclick="settime()">获取验证码</button>
+					</div>
+					<div class="form-group has-feedback">
+						<label class="control-label sr-only"></label>
+						<input  type="number" class="form-control" id="yzm" maxlength="6" placeholder="请输入验证码">
+						
+					</div>
+					{if $res['telephoneconfirm']!=1}
+					
+					<div class="form-group has-feedback" >
+						<label class="radio-inline">
+							<input type="radio" name="gender" value="1" id="xh" {if $res['gender'] == '1'}checked="true"{/if}> 男
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="gender" value="2" id="xh"  {if $res['gender'] == '2'}checked="true"{/if}>女
+						</label>
+						<span class="help-block" style="color:red">注意：提交成功后、此项不可修改</span>
+					</div>
+					{/if}
+					<div class="form-group has-feedback">
+						<label class="control-label sr-only"></label>
+						<input  type="text" class="form-control" id="wechat" placeholder="请输入你的微信号">
+						
+					</div>
+					
+				</div>
+			
+		</div>
+		<button type="submit" class="btn btn-primary btn-block" onclick="login2();">确定</button>
+
+	
+	</div>
+</div>
+<div id="footer" style="text-align:center;height:30px;line-height:30px;border-bottom:1px solid rgba(0,0,0,0.1);">{if empty($cfg['sms_words'])}温馨提示:请认真填写以上信息{else}{$cfg['sms_words']}{/if}</div>
+<script src="{MEEPORES}/static/friend/js/swiper-3.3.1.min.js" ></script>
+<link rel="stylesheet" href="{MEEPORES}/static/friend/css/swiper-3.3.1.min.css" />
+	<div class="swiper-container" id="data_Swiper2" style="max-height:160px;min-height:40px;overflow:hidden;">
+		  <div class="swiper-wrapper">
+		   {if !empty($flowers[0]) && !empty($sayhis[0]) && !empty($messages[0])}
+			  <ul class="swiper-slide" >
+				   <li  class="scroll_li">
+					  <div class="flower_news">
+						  <ul class="flower_li">
+							  <li class="flower_avatar"><img src="{if preg_match('/http:(.*)/',$flowers[0]['from_user']['avatar'])}{$flowers[0]['from_user']['avatar']} {else if preg_match('/images(.*)/',$flowers[0]['from_user']['avatar'])} {$_W['attachurl']}{$flowers[0]['from_user']['avatar']}     {else}{MEEPORES}/static/friend/images/cdhn80.jpg{/if}" class="flower_avatar_img" /></li>
+							  <li class="flower_words">{php echo cutstr($flowers[0]['from_user']['nickname'],5, true)}给{php echo cutstr($flowers[0]['to_user'],5, true)}送了{$flowers[0]['flower_num']}朵花！</li>
+							  <li class="flower_time">{php echo date('m-d H:i:s', $flowers[0]['createtime']);}</li>
+						  </ul>
+					  </div>  
+				  </li>
+				  <li  class="scroll_li">
+					  <div class="flower_news">
+						  <ul class="flower_li">
+							  <li class="flower_avatar"><img src="{if preg_match('/http:(.*)/',$sayhis[0]['from_user']['avatar'])}{$sayhis[0]['from_user']['avatar']} {else if preg_match('/images(.*)/',$sayhis[0]['from_user']['avatar'])} {$_W['attachurl']}{$sayhis[0]['from_user']['avatar']}     {else}{MEEPORES}/static/friend/images/cdhn80.jpg{/if}" class="flower_avatar_img" /></li>
+							  <li class="flower_words">{php echo cutstr($sayhis[0]['from_user']['nickname'],5,true)}给{php echo cutstr($sayhis[0]['to_user'],5,true)}打招呼了！</li>
+							  <li class="flower_time">{php echo date('m-d H:i:s', $sayhis[0]['createtime']);}</li>
+						  </ul>
+					  </div>  
+				  </li>
+				  <li  class="scroll_li">
+					  <div class="flower_news">
+						  <ul class="flower_li">
+							  <li class="flower_avatar"><img src="{if preg_match('/http:(.*)/',$message[0]['senderavatar'])}{$message[0]['senderavatar']} {else if preg_match('/images(.*)/',$message[0]['senderavatar'])} {$_W['attachurl']}{$message[0]['senderavatar']}     {else}{MEEPORES}/static/friend/images/cdhn80.jpg{/if}" class="flower_avatar_img" /></li>
+							  <li class="flower_words">{php echo cutstr($message[0]['sendernickname'],5,true)}与{php echo cutstr($messages[0]['to_user'],5,true)}正聊得火热</li>
+							  <li class="flower_time">{php echo date('m-d H:i:s', $message[0]['stime']);}</li>
+						  </ul>
+					  </div>  
+				  </li>
+				  <li  class="scroll_li">
+					  <div class="flower_news">
+						  <ul class="flower_li">
+							  <li class="flower_avatar"><img src="{if preg_match('/http:(.*)/',$user[0]['avatar'])}{$user[0]['avatar']} {else if preg_match('/images(.*)/',$user[0]['avatar'])} {$_W['attachurl']}{$user[0]['avatar']}     {else}{MEEPORES}/static/friend/images/cdhn80.jpg{/if}" class="flower_avatar_img" /></li>
+							  <li class="flower_words">{php echo cutstr($user[0]['nickname'],5,true)}成功注册了会员！</li>
+							  <li class="flower_time">{php echo date('m-d H:i:s', $user[0]['time']);}</li>
+						  </ul>
+					  </div>  
+				  </li>
+			  </ul>
+			  {/if}
+			  {if !empty($flowers[1]) && !empty($sayhis[1]) && !empty($messages[1])}
+			  <ul class="swiper-slide" >
+				   <li  class="scroll_li">
+					  <div class="flower_news">
+						  <ul class="flower_li">
+							  <li class="flower_avatar"><img src="{if preg_match('/http:(.*)/',$flowers[1]['from_user']['avatar'])}{$flowers[1]['from_user']['avatar']} {else if preg_match('/images(.*)/',$flowers[1]['from_user']['avatar'])} {$_W['attachurl']}{$flowers[1]['from_user']['avatar']}     {else}{MEEPORES}/static/friend/images/cdhn80.jpg{/if}" class="flower_avatar_img" /></li>
+							  <li class="flower_words">{php echo cutstr($flowers[1]['from_user']['nickname'],5,true)}给{php echo  cutstr($flowers[1]['to_user'],5,true)}送了{$flowers[1]['flower_num']}朵花！</li>
+							  <li class="flower_time">{php echo date('m-d H:i:s', $flowers[1]['createtime']);}</li>
+						  </ul>
+					  </div>  
+				  </li>
+				  <li  class="scroll_li">
+					  <div class="flower_news">
+						  <ul class="flower_li">
+							  <li class="flower_avatar"><img src="{if preg_match('/http:(.*)/',$sayhis[1]['from_user']['avatar'])}{$sayhis[1]['from_user']['avatar']} {else if preg_match('/images(.*)/',$sayhis[1]['from_user']['avatar'])} {$_W['attachurl']}{$sayhis[1]['from_user']['avatar']}     {else}{MEEPORES}/static/friend/images/cdhn80.jpg{/if}" class="flower_avatar_img" /></li>
+							  <li class="flower_words">{php echo cutstr($sayhis[1]['from_user']['nickname'],5,true)}给{php echo cutstr($sayhis[1]['to_user'],5,true)}打招呼了！</li>
+							  <li class="flower_time">{php echo date('m-d H:i:s', $sayhis[1]['createtime']);}</li>
+						  </ul>
+					  </div>  
+				  </li>
+				  <li  class="scroll_li">
+					  <div class="flower_news">
+						  <ul class="flower_li">
+							  <li class="flower_avatar"><img src="{if preg_match('/http:(.*)/',$message[1]['senderavatar'])}{$message[1]['senderavatar']} {else if preg_match('/images(.*)/',$message[1]['senderavatar'])} {$_W['attachurl']}{$message[1]['senderavatar']}     {else}{MEEPORES}/static/friend/images/cdhn80.jpg{/if}" class="flower_avatar_img" /></li>
+							  <li class="flower_words">{php echo cutstr($message[1]['sendernickname'],5,true)}与{php echo cutstr($messages[1]['to_user'],5,true)}正聊得火热</li>
+							  <li class="flower_time">{php echo date('m-d H:i:s', $message[1]['stime']);}</li>
+						  </ul>
+					  </div>  
+				  </li>
+				  <li  class="scroll_li">
+					  <div class="flower_news">
+						  <ul class="flower_li">
+							  <li class="flower_avatar"><img src="{if preg_match('/http:(.*)/',$user[1]['avatar'])}{$user[1]['avatar']} {else if preg_match('/images(.*)/',$user[1]['avatar'])} {$_W['attachurl']}{$user[1]['avatar']}     {else}{MEEPORES}/static/friend/images/cdhn80.jpg{/if}" class="flower_avatar_img" /></li>
+							  <li class="flower_words">{php echo cutstr($user[1]['nickname'],5,true)}成功注册了会员！</li>
+							  <li class="flower_time">{php echo date('m-d H:i:s', $user[1]['time']);}</li>
+						  </ul>
+					  </div>  
+				  </li>
+			  </ul>
+			 {/if}
+			 {if !empty($flowers[2]) && !empty($sayhis[2]) && !empty($messages[2])}
+			  <ul class="swiper-slide" >
+				   <li  class="scroll_li">
+					  <div class="flower_news">
+						  <ul class="flower_li">
+							  <li class="flower_avatar"><img src="{if preg_match('/http:(.*)/',$flowers[2]['from_user']['avatar'])}{$flowers[2]['from_user']['avatar']} {else if preg_match('/images(.*)/',$flowers[2]['from_user']['avatar'])} {$_W['attachurl']}{$flowers[2]['from_user']['avatar']}     {else}{MEEPORES}/static/friend/images/cdhn80.jpg{/if}" class="flower_avatar_img" /></li>
+							  <li class="flower_words">{php echo cutstr($flowers[2]['from_user']['nickname'],5,true)}给{php echo cutstr($flowers[2]['to_user'],5,true)}送了{$flowers[2]['flower_num']}朵花！</li>
+							  <li class="flower_time">{php echo date('m-d H:i:s', $flowers[2]['createtime']);}</li>
+						  </ul>
+					  </div>  
+				  </li>
+				  <li  class="scroll_li">
+					  <div class="flower_news">
+						  <ul class="flower_li">
+							  <li class="flower_avatar"><img src="{if preg_match('/http:(.*)/',$sayhis[2]['from_user']['avatar'])}{$sayhis[2]['from_user']['avatar']} {else if preg_match('/images(.*)/',$sayhis[2]['from_user']['avatar'])} {$_W['attachurl']}{$sayhis[2]['from_user']['avatar']}     {else}{MEEPORES}/static/friend/images/cdhn80.jpg{/if}" class="flower_avatar_img" /></li>
+							  <li class="flower_words">{php echo cutstr($sayhis[2]['from_user']['nickname'],5,true)}给{php echo cutstr($sayhis[2]['to_user'],5,true)}打招呼了！</li>
+							  <li class="flower_time">{php echo date('m-d H:i:s', $sayhis[2]['createtime']);}</li>
+						  </ul>
+					  </div>  
+				  </li>
+				  <li  class="scroll_li">
+					  <div class="flower_news">
+						  <ul class="flower_li">
+							  <li class="flower_avatar"><img src="{if preg_match('/http:(.*)/',$message[2]['senderavatar'])}{$message[2]['senderavatar']} {else if preg_match('/images(.*)/',$message[2]['senderavatar'])} {$_W['attachurl']}{$message[2]['senderavatar']}     {else}{MEEPORES}/static/friend/images/cdhn80.jpg{/if}" class="flower_avatar_img" /></li>
+							  <li class="flower_words">{php echo cutstr($message[2]['sendernickname'],5,true)}与{php echo cutstr($messages[2]['to_user'],5,true)}正聊得火热</li>
+							  <li class="flower_time">{php echo date('m-d H:i:s', $message[2]['stime']);}</li>
+						  </ul>
+					  </div>  
+				  </li>
+				  <li  class="scroll_li">
+					  <div class="flower_news">
+						  <ul class="flower_li">
+							  <li class="flower_avatar"><img src="{if preg_match('/http:(.*)/',$user[2]['avatar'])}{$user[2]['avatar']} {else if preg_match('/images(.*)/',$user[2]['avatar'])} {$_W['attachurl']}{$user[2]['avatar']}     {else}{MEEPORES}/static/friend/images/cdhn80.jpg{/if}" class="flower_avatar_img" /></li>
+							  <li class="flower_words">{php echo cutstr($user[2]['nickname'],5,true)}成功注册了会员！</li>
+							  <li class="flower_time">{php echo date('m-d H:i:s', $user[2]['time']);}</li>
+						  </ul>
+					  </div>  
+				  </li>
+			  </ul>
+			  {/if}
+		  </div>
+	</div>
+	<div id="footer" style="text-align:center;height:30px;line-height:30px">©{$_W['account']['name']}版权所有</div>
+<script>
+var percent_number_step = $.animateNumber.numberStepFactories.append(' 人在线')
+	$('#timeRight').animateNumber(
+	  {
+		number: {$all_num},
+		easing: 'easeInQuad',
+		numberStep: percent_number_step
+	  },
+	  5000
+	);
+$("#data_Swiper2").swiper({
+				direction : 'vertical',
+                speed: 400,
+                autoplay:4000,
+                loop:true,
+                autoplayDisableOnInteraction:false
+            });
+</script>
+<div id="toast"></div>
+<script>
+var detail_countdown=60; 
+var detail_timer;
+function settime() {  
+    var button = $(".btn-sender");
+	var mobile = $("input[name='mobile']").val();
+	var telreg = /^1[3|4|5|7|8][0-9]\d{8}$|^\d{8}$/;
+	if(mobile.length==0){
+			
+			 _loading_toast._show('请先填写手机号码！');
+			return;
+	}else if(!telreg.test(mobile)){
+			 _loading_toast._show('请填写正确的手机号码！');
+			return;
+	}else{  
+        button.attr("disabled", "true");  
+        button.text("倒计时" + detail_countdown + "秒");  
+        detail_timer = window.setInterval(SetRemainTime, 1000);
+		$.post("{php echo $this->createMobileUrl('smssend')}", {mobile:mobile}).success(function(dat){
+			if(dat == '1') {
+				_loading_toast._show('短信验证码成功发送到您的手机！');
+			} else if(dat=='over'){
+				_loading_toast._show('此手机已注册过、请更换其他手机号！');
+				clearInterval(window.detail_timer);//停止计时器  
+				button.removeAttr("disabled");//启用按钮  
+				button.html("重新发送验证码");       
+			}else {
+			    clearInterval(window.detail_timer);//停止计时器  
+				button.removeAttr("disabled");//启用按钮  
+				button.html("重新发送验证码");       
+				alert('短信发送失败！');
+			}
+		});
+    } 
+} 
+//timer处理函数  
+function SetRemainTime() {  
+  var button = $(".btn-sender");
+    if (detail_countdown == 0) {
+        clearInterval(window.detail_timer);//停止计时器  
+        button.removeAttr("disabled");//启用按钮  
+        button.html("重新发送验证码");       
+    }  
+    else {  
+        detail_countdown--;  
+       button.text("倒计时"+detail_countdown+ "秒");  
+    }  
+}
+function login2(){
+
+  var mobile = $('#mobile').val();
+  var yzm = $('#yzm').val();
+  var wechat = $('#wechat').val();
+  var gender = $('input[name="gender"]:checked').val();
+  var check = '1';
+  if(mobile==''){
+	_loading_toast._show('请输入你的手机号');
+	check = '2';
+	return;
+  }
+  if(yzm==''){
+	_loading_toast._show('请输入验证码');
+	check = '2';
+	return;
+  }
+ {if $res['telephoneconfirm']!=1}
+  if(typeof(gender) == "undefined"){
+	_loading_toast._show('请选择你的性别');
+	check = '2';
+	return;
+  }
+  {/if}
+  if(wechat==''){
+	_loading_toast._show('请输入你的微信号');
+	check = '2';
+	return;
+  }
+  
+  //tip('加载中...');
+  if(check == '1'){
+       $.ajax({
+				type : "POST",
+				url: '{php echo $this->createMobileUrl('smspost')}',
+				data:{'mobile':mobile,'yzm':yzm,'gender':gender,'wechat':wechat},
+				dataType:'JSON',
+				success: function (data) {
+					if (data.error == 0) {
+						_loading_toast._show('验证成功');
+						   window.location.href="{php echo $this->createMobileUrl('alllist')}"; 
+					} else {
+						_loading_toast._show(data.message);
+						
+					}
+				}   
+			});
+  }
+}
+function tip(msg,autoClose){
+	var div = $("#poptip");
+	var content =$("#poptip_content");
+	if(div.length<=0){
+		div = $("<span id='poptip'></span>").appendTo(document.body);
+		content =$("<span id='poptip_content'>" + msg + "</span>").appendTo(document.body);
+	}else{
+		content.html(msg);
+		content.show(); 
+		div.show();
+	}
+	if(autoClose) {
+		setTimeout(function(){
+			content.hide();
+			div.hide();
+		},2000);
+	}
+   }
+	function tip_close(){
+		$("#poptip").hide();
+		$("#poptip_content").hide();
+	}
+var _loading_toast= {
+    _center: function() {
+		var _left = ($(window).width() - $("#toast").outerWidth()) / 2 + "px";
+        $("#toast").css({
+            "top": "50%",
+            "left": _left
+        });
+    },
+    _show: function(text, fun) {
+        $("#toast").html(text);
+        _loading_toast._center();
+        $("#toast").show();
+        $("#toast").bind("resize", _loading_toast._center);
+        setTimeout(function() {
+            _loading_toast._hide(fun);
+        }, 2 * 1000);
+    },
+    _hide: function(fun) {
+        $("#toast").hide();
+        $("#toast").unbind("resize");
+        if (fun) {
+            (fun)();
+        }
+    }
+};
+</script>
+</body></html>

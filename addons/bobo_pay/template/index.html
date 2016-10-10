@@ -1,0 +1,64 @@
+{template 'common/header'}
+<script>
+
+</script>
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1" >
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				支付宝收款配置
+			</div>
+			<div class="panel-body">
+			
+			<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>收款支付宝账号</label>
+					<div class="col-sm-9 col-xs-12">
+						<input id="company_seller_email" type="text" name="company_seller_email" class="form-control" value="{$set_info['company_seller_email']}" />
+						<span>收款支付宝账号</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>合作者身份pid</label>
+					<div class="col-sm-9 col-xs-12">
+						<input id="pid" type="text" name="pid" class="form-control" value="{$set_info['pid']}" />
+						<span>支付宝合作者身份pid</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>校验密钥key</label>
+					<div class="col-sm-9 col-xs-12">
+						<input id="key" name="key" class="form-control" value="{$set_info['key']}" />
+						<span>支付宝校验密钥key</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>订单号前缀</label>
+					<div class="col-sm-9 col-xs-12">
+						<input id="out_order_prefix" name="out_order_prefix" class="form-control" value="{$set_info['out_order_prefix']}" />
+						<span>订单前缀，如：AABBCC，不可为汉字</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>订单主题</label>
+					<div class="col-sm-9 col-xs-12">
+						<input id="out_order_subject" name="out_order_subject" class="form-control" value="{$set_info['out_order_subject']}" />
+						<span>订单主题：如：XX企业产品订单</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>订单描述</label>
+					<div class="col-sm-9 col-xs-12">
+						<input id="body" name="body" class="form-control" value="{$set_info['body']}" />
+						<span>订单描述：如：XX企业产品订单，很好的产品</span>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+{template 'common/footer'}

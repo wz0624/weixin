@@ -1,0 +1,186 @@
+{template 'common/header'}
+{template 'nav'}
+{template 'list_nav'}
+<style>
+.editable-click, a.editable-click {
+    color: #000 !important;
+    border-bottom:none !important;
+    text-decoration: none;
+}
+.editable-input.editable-has-buttons {
+    width: auto;
+    max-width: 100px;
+}
+.st-sort-ascent:before {
+    content: '\25B2';
+}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body">
+		<form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+			<input type="hidden" name="c" value="site" />
+			<input type="hidden" name="a" value="entry" />
+			<input type="hidden" name="m" value="meepo_online" />
+			<input type="hidden" name="do" value="pinglun" />
+            
+            <input type="hidden" name="listid" value="{$listid}" />
+           
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">粉丝昵称</label>
+				<div class="col-xs-12 col-sm-8 col-lg-8">
+					<input class="form-control" name="nickname" id="" type="text" value="{$_GPC['nickname']}" placeholder="请输入粉丝昵称">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input class="btn btn-primary" id="" type="submit" value="搜索">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<!-- 项目管理 -->
+<div class="panel panel-default">
+	<div class="panel-heading">
+		评论管理<br><br>
+		<a class="btn {if $status=='1'}btn-success{else}btn-default{/if}" title="已审核" href="{php echo $this->createWebUrl('pinglun',array('status'=>'1','listid'=>$listid))}">
+			已审核
+		</a>
+		<a class="btn {if $status=='0'}btn-success{else}btn-default{/if}" title="待审核" href="{php echo $this->createWebUrl('pinglun',array('status'=>'2','listid'=>$listid))}">
+			待审核
+		</a>
+		<a class="btn {if $live['cansay']=='0'}btn-danger{else}btn-success{/if}" title="发言开关" href="{php echo $this->createWebUrl('pinglun',array('op'=>'cansay','listid'=>$listid,'cansay'=>$live['cansay']))}">
+			{if $live['cansay']=='1'}准许评论{else}禁止评论{/if}
+		</a>
+		<a class="btn {if $live['status']=='0'}btn-success{else}btn-danger{/if}" title="审核状态" href="{php echo $this->createWebUrl('pinglun',array('op'=>'status','listid'=>$listid,'status'=>$live['status']))}">
+			{if $live['status']=='1'}关闭审核{else}开启审核{/if}
+		</a>
+		<a class="btn btn-danger" title="清空评论记录" href="{php echo $this->createWebUrl('pinglun',array('op'=>'reset','listid'=>$listid))}" onclick="return confirm('清空将无法恢复，确认吗？');return false;">
+			清空评论记录
+		</a>
+	</div>
+	<div class="panel-body">
+		<table  class="table table-striped">
+			<thead>
+				<tr>
+					<th style="width:50px;">楼数</th>
+					<th style="width:200px;">评论粉丝</th>
+					<th style="width:400px;">评论内容</th>
+					<th style="width:100px;">状态</th>
+					<th style="width:150px;">评论时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{loop $lists $key $row}
+				<tr id="box_{$row['id']}">
+					<td>
+					{php echo ($total-$key-(($pindex - 1) * $psize))}
+					</td>
+					<td>
+						<div>
+							<img src="{$row['avatar']}" width=40px height=40px />
+							<div>{$row['nickname']}</div>
+						</div>
+					</td>
+					<td>
+						{if $row['type']=='0'}{$row['content']}{else}<font color=red>{if $row['type']=='redpack'}打赏红包、{else}礼物、{/if} </font>{$row['content']}、数量<font color=red>{$row['num']}</font>、消费<font color=red>{$row['money']}</font>元{/if}
+					</td>
+					<td>
+						{if $row['status']=='1'}已审核{else}待审核{/if}
+					</td>
+					<td>{php echo date('Y-m-d H:i:s',$row['createtime'])}</td>
+					
+					<td style="overflow:visible">
+						{if $status=='0'}
+						<button class="btn btn-success" title="通过" onclick="pass_content('{$listid}','{$row['id']}')">
+							通过
+						</button>
+						{/if}
+						<button class="btn {if $row['cansay']=='0'}btn-danger{else}btn-success{/if}"  onclick="forbiden('{$listid}','{$row['id']}','{$row['openid']}')" id="forbiden_{$row['id']}" >
+							{if $row['cansay']=='0'}禁言{else}解禁{/if}
+						</button>
+						<button class="btn btn-danger" title="删除" onclick="del('{$listid}','{$row['id']}')">
+							删除
+						</button>
+						
+					</td>
+				</tr>
+			{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+	
+</div>
+<script>
+
+function myrefresh() 
+{ 
+       window.location.reload(); 
+} 
+function pass_content(a,b){
+	if(a!='' && b!=''){
+		$.ajax({
+		  type:'post',
+		  url:"{php echo $this->createWebUrl('pinglun',array('op'=>'ajax'))}",
+		  data:{'ajax_type':'pass','listid':a,'id':b},
+		  async:false,
+		  cache:false,
+		  dataType:"json",
+		  success:function(json){
+				if(json.errno==0){
+					if($('#box_'+b).length > 0){
+						 $('#box_'+b).remove();
+					}
+				}
+				if($("table tbody tr").length==0){
+						 myrefresh();
+				}
+		  }
+		  });
+	}
+}
+function forbiden(a,b,c){
+	if(a!='' && b!='' && c!=''){
+		$.ajax({
+		  type:'post',
+		  url:"{php echo $this->createWebUrl('pinglun',array('op'=>'ajax'))}",
+		  data:{'ajax_type':'forbide','listid':a,'id':b,'openid':c},
+		  async:false,
+		  cache:false,
+		  dataType:"json",
+		  success:function(json){
+				if(json.errno==0){
+					 window.location.reload(); 
+				}
+		  }
+		});
+	}
+}
+function del(a,b){
+	if(a!='' && b!=''){
+		$.ajax({
+		  type:'post',
+		  url:"{php echo $this->createWebUrl('pinglun',array('op'=>'ajax'))}",
+		  data:{'ajax_type':'del','listid':a,'id':b},
+		  async:false,
+		  cache:false,
+		  dataType:"json",
+		  success:function(json){
+				if(json.errno==0){
+					if($('#box_'+b).length > 0){
+						 $('#box_'+b).remove();
+					}
+				}
+				if($("table tbody tr").length==0){
+						 myrefresh();
+				}
+		  }
+		  });
+	}
+}
+</script>
+{template 'common/footer'}

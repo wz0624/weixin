@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta  charset="utf-8">
+<meta  name="viewport"  content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=no">
+<title>基本信息</title>
+<link type="text/css" rel="stylesheet" href="../addons/amouse_weijob/style/css/jquery.mmenu.all.css?v=20150419">
+<link  type="text/css"  rel="stylesheet"  href="../addons/amouse_weijob/style/css/base.css?v=20150419">
+<link  type="text/css"  rel="stylesheet"  href="../addons/amouse_weijob/style/css/resume.css?v=20150419">
+<style>
+    .head{text-align: left;padding-top: 0px;height: 50px;line-height: 50px;background-image: none;}
+    .head a.job-back{width: 80px;height: 50px;background: url("../addons/amouse_weijob/style/images/icon_job_back.png") left center no-repeat;background-size: 11px 15px;}
+    .photoList{margin:15px 10px;padding-top:5px;}
+    .photoList li{float:left;margin:0 0 15px 15px;position:relative;}
+    .photoList .on,.maskLay{width:60px;height:60px;}
+    .photoCut{width:60px;height:60px;overflow:hidden;}
+    .photoCut img{min-width:80px;max-width:80px;}
+    .photoList .on{background:#d9d9d9 url(../addons/amouse_weijob/style/images/sprBg.png?t={timestamp}) no-repeat -244px -4px;margin-right:0;cursor:pointer;}
+    .dImg{width:31px;height:27px;margin-top:50%;margin-left:50%;}
+    .cBtn{width:25px;height:25px;background:url(../addons/amouse_weijob/style/images/sprBg.png?t={timestamp}) no-repeat;background-size:400px auto;-webkit-background-size:400px auto;text-indent:-9999px;position:absolute;}
+    .cBtn{right:-10px;top:-10px;}
+    .cBtnOn{ background-image:url(../addons/amouse_weijob/style/images/sprBg.png?t={timestamp});background-position:-25px 0;}
+    .maskLay{position:absolute;left:0;top:0;-moz-opacity:0.6;opacity: 0.6;background-color:#000;}
+    .progress{width:34px;height:4px;padding:2px 2px 0;position:absolute;left:9px;top:25px;border:2px solid #eaebeb;-moz-border-radius:0.6rem;-webkit-border-radius:0.6rem;border-radius:0.6rem;}
+    .proBar{height:2px;background-color:#eaebeb;}
+</style>
+</head>
+<body>
+    {php include_once IA_ROOT . '/addons/amouse_weijob/model.php'}
+    {php $companyset = search_company()}
+	<nav id="menu_left" class="mm-menu mm-horizontal mm-ismenu">
+		<ul class="mm-list mm-panel mm-opened mm-current" id="mm-m0-p0">
+			<li>
+                <a href="{php echo $this->createMobileUrl('index',array('from_user'=>$from_user),true)}"> 首页</a>
+			</li>
+			<li>
+                <a href="{php echo $this->createMobileUrl('companyset',array('from_user'=>$from_user),true)}">
+                    公司信息/联系人信息
+                </a>
+			</li>
+			<li>
+				<a {if empty($companyset)}href="{php echo $this->createMobileUrl('companysearch',array('from_user'=>$from_user),true)}"{else}href="{php echo $this->createMobileUrl('publish',array('from_user'=>$from_user),true)}"{/if}>发布岗位</a>
+			</li>
+			<li>
+				<a {if empty($companyset)}href="{php echo $this->createMobileUrl('companysearch',array('from_user'=>$from_user),true)}"{else}href="{php echo $this->createMobileUrl('mypublish',array('from_user'=>$from_user),true)}"{/if}>我的发布</a>
+			</li>
+		</ul>
+	</nav>
+	<div>
+		<div  class="head" style="text-align: center;">
+		<a  href="#menu_left" style="margin-left:10px" class="job-back"><span style="color:white;font-size:15px;">返回</span></a>
+			基本信息
+		<a  href="{php echo $this->createMobileUrl('mypublish',array('from_user'=>$from_user),true)}"  class="right-pic" style="margin-right:10px"><span style="padding-right:15px;">发布记录</span>
+        </a>
+		</div>
+		<div  class="contents">
+		<div  class="resume-tabs">
+		<form action="" method="post" enctype="multipart/form-data" id="myform" name="myform">
+		    <input type="hidden" name="id" value="{$item['id']}">
+            <input type="hidden" name="from_user" value="{$from_user}">
+                <p  class="clearfix form-item" style="padding-top:20px">
+                    <label><span  class="red-color">*</span>公司名称</label>
+                    <input  type="text"  name="companyname"  value="{$item['title']}">
+                    <label class="error"></label>
+                </p>
+                <p  class="clearfix form-item">
+                    <label>公司简称</label>
+                    <input  type="text"  name="shortname"  value="{$item['short']}">
+                </p>
+
+                <p  class="clearfix form-item">
+                    <label  for="person_age"><span  class="red-color">*</span>联系人</label>
+                    <input  type="text"  name="link_man"  value="{$item['linkman']}">
+                    <label class="error"></label>
+                </p>
+                <p  class="clearfix form-item">
+                    <label><span  class="red-color">*</span>邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱</label>
+                    <input  type="text"  id="email" onChange="checkMail('email')"  name="company_email"  value="{$item['email']}" >
+                    <label class="error"></label>
+                    <a style="margin-left:30%">如果没有邮箱请填写“无”</a>
+                </p>
+                <p  class="clearfix form-item">
+                    <label><span  class="red-color">*</span>手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机</label>
+                    <input  type="text"  name="company_mobile"  value="{$item['phone']}">
+                    <label class="error"></label>
+                </p>
+                <p  class="clearfix form-item">
+                    <label>固定电话</label>
+                    <input  type="text"  name="company_phone"  value="{$item['tel']}">
+                </p>
+                <p  class="clearfix form-item">
+                    <label>Q&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Q</label>
+                    <input  type="text"  name="company_qq"  value="{$item['qq']}">
+                </p>
+
+                <p  class="clearfix form-item">
+                    <label><span  class="red-color">*</span>公司地址</label>
+                    <input  type="text"  name="address"  value="{$item['address']}">
+                    <label class="error"></label>
+                </p>
+                <p  class="clearfix form-item">
+                    <label>公司坐标</label>
+                    <input  type="text" name="sign"  {if empty($item['lng'])}value=""{else}value="{php echo $item['lng'].','.$item['lat']}"{/if}/>
+                </p>
+                <p class="clearfix form-item">
+                <a style="margin-left:30%" href="http://api.map.baidu.com/lbsapi/getpoint/index.html">点此查看公司坐标，粘贴进输入框即可</a>
+                </p>
+                <p  class="clearfix form-item">
+                    <label>公司简介</label>
+                    <textarea  name="content"  type="text">{$item['content']}</textarea>
+                </p>
+
+                <p  class="clearfix form-item">
+                    <label>Logo：</label>
+                    <input type="file" id="file" name="file" accept="image/*">
+                    <input type='hidden' id='pic_url' name='thumb' value="{if empty($item['thumb'])}{else}{$_W['attachurl']}{$item['thumb']}{/if}"/>
+                    <span id="img"></span>
+                </p>
+                <p class="clearfix form-item">
+                    <label>&nbsp;&nbsp; </label>
+                    <img  id="fileimg" width="120px;" class="hl-bdrs-16 fileimg" src="{if empty($item['thumb'])}../addons/amouse_weijob/icon.jpg{else}{$_W['attachurl']}{$item['thumb']}{/if}"  class="margin-left:30%;" align="center">
+                </p>
+
+                <p  class="clearfix form-item">
+                    <label>公司营业执照：</label>
+                    <input type="file" id="file1" name="file" accept="image/*">
+                    <input type='hidden' id='pic_url1' name='thumb1' value="{if empty($item['thumb1'])}{else}{$_W['attachurl']}{$item['thumb1']}{/if}"/>
+                    <span id="img1"></span>
+                </p>
+                <p class="clearfix form-item">
+                    <label>&nbsp;&nbsp; </label>
+                    <img  id="fileimg1" width="120px;" class="hl-bdrs-16 fileimg" src="{if empty($item['thumb1'])}../addons/amouse_weijob/icon.jpg{else}{$_W['attachurl']}{$item['thumb1']}{/if}"  class="margin-left:30%;" align="center">
+                </p>
+
+                <button type="submit"  class="submit" name="submit" value="保存">保存</button>
+                <input type="hidden" name="token" value="{$_W['token']}" />
+               <!-- <input type="hidden" name="token" value="{$_W['token']}" />
+                <input class="submit" name="submit" id="sub1" type="submit" value="保存">-->
+            </form>
+		</div>
+			
+		</div>
+	</div>
+	<div  class="footer"></div>
+	<div  id="mm-blocker"  style="opacity: 0;"></div>
+</body>
+<script type="text/javascript" src="../addons/amouse_weijob/style/js/jquery.js?v=20140519"></script>
+<script type="text/javascript" src="../addons/amouse_weijob/style/js/resume-company.js?v=20150419"></script>
+<script type="text/javascript" src="../addons/amouse_weijob/style/js/zepto.min.js"></script>
+<script type="text/javascript" src="../addons/amouse_weijob/style/js/zepto.form.js"></script>
+<script type="text/javascript" src="../addons/amouse_weijob/style/js/jquery.mmenu.min.all.js?v=20150419"></script>
+<script type="text/javascript" src="../addons/amouse_weijob/style/js/alert.js?v=20150419"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#menu_left").mmenu();
+    });
+</script>
+<script>
+function checkMail(str){
+    var strReg="";
+    var r;
+    var strText=document.all(str).value;
+    if(strText == "无"){
+    }else{
+        strReg=/^\w+((-\w+)|(\.\w+))*\@{1}\w+\.{1}\w{2,4}(\.{0,1}\w{2}){0,1}/ig;
+        r=strText.search(strReg);
+        if(r==-1) {
+            alert("邮箱格式错误!");
+            document.all(str).focus();
+        }
+    }
+}
+</script>
+<script type="text/javascript">
+    //图片上传
+    var btn = $("body");
+    $("#file").wrap('<form method="post" id="formUpload" action="{php echo $this->createMobileUrl('UploadImage');}" enctype="multipart/form-data"></form>');
+    $("#file").change(function(){
+        document.getElementById('fileimg').style.display = 'none';
+        document.getElementById('img').innerHTML = '正在上传，请耐心等候...';
+        $("#formUpload").ajaxSubmit({
+            dataType:  'json',
+            beforeSend: function() {
+            },
+            uploadProgress: function(event, position, total, percentComplete) {
+            },
+            success: function(data) {
+                if(data.error==1) {
+
+                }else{
+                    var pic_url = data.filename;
+                    $('#fileimg').attr('src','{$_W['attachurl']}'+pic_url);
+                    $('#pic_url').attr('value',pic_url);
+                    document.getElementById('fileimg').style.display = 'block';
+                    document.getElementById('img').innerHTML = '';
+                }
+            },
+            error:function(xhr){
+                btn.html("上传失败了");
+            }
+        });
+    });
+
+    $("#file1").wrap('<form method="post" id="formUpload1" action="{php echo $this->createMobileUrl('UploadImage');}" enctype="multipart/form-data"></form>');
+    $("#file1").change(function(){
+        document.getElementById('fileimg1').style.display = 'none';
+        document.getElementById('img1').innerHTML = '正在上传，请耐心等候...';
+        $("#formUpload1").ajaxSubmit({
+            dataType:  'json',
+            beforeSend: function() {
+            },
+            uploadProgress: function(event, position, total, percentComplete) {
+
+            },
+            success: function(data) {
+                if(data.error==1) {
+                }else{
+                    var pic_url = data.filename;
+                    $('#fileimg1').attr('src','{$_W['attachurl']}'+pic_url);
+                    $('#pic_url1').attr('value',pic_url);
+                    document.getElementById('fileimg1').style.display = 'block';
+                    document.getElementById('img1').innerHTML = '';
+                }
+            },
+            error:function(xhr){
+                btn.html("上传失败了");
+            }
+        });
+    });
+
+
+</script>
+</html>

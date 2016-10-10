@@ -1,0 +1,75 @@
+<nav class="bar bar-tab">
+    <!--<a class="tab-item external {if $_GPC['do'] == 'index'}active{/if}" href="{php echo $this->createMobileUrl('index');}">
+      <span class="icon icon-home"></span>
+      <span class="tab-label">首页</span>
+    </a>
+    <a class="tab-item external {if $_GPC['do'] == 'allgoods'}active{/if}" href="{php echo $this->createMobileUrl('allgoods');}">
+      <span class="icon icon-app"></span>
+      <span class="tab-label">全部商品</span>
+    </a>
+    <a class="tab-item external {if $_GPC['template'] == 'newannounce'}active{/if}" href="{php echo $this->createMobileUrl('jump',array('template' => 'newannounce'));}">
+      <span class="icon icon-gift"></span>
+      <span class="tab-label">最新揭晓</span>
+    </a>
+    <a class="tab-item external {if $_GPC['do'] == 'cart'}active{/if}" href="{php echo $this->createMobileUrl('cart',array('op'=>'cart_detail'));}">
+      <span class="icon icon-cart"></span>
+      <span class="tab-label">购物车</span>
+      <span class="badge" id="count">{$myCart_num}</span>
+    </a>
+    <a class="tab-item external {if $_GPC['do'] == 'person'}active{/if}" href="{php echo $this->createMobileUrl('person');}">
+      <span class="icon icon-me"></span>
+      <span class="tab-label">个人中心</span>
+    </a>-->
+</nav>
+<style>
+#c_main_menu{margin:0;width:100%;padding:5px 0;position:fixed;bottom:0;border-top:1px solid #DCDCDE;background:#000;z-index:9999;    height: 2.5rem;box-sizing: border-box!important;}
+#c_main_menu li{text-align:center;width:20%;float:left;position:relative}
+#c_main_menu li span{display:block;width:22px;height:24px;margin:2px auto 0}
+#c_main_menu li a{color:#333}
+#c_main_menu li b{font-weight:normal;font-size:12px;color:#fff}
+#c_main_menu li .c_index{background:url({WELIAM_INDIANA_STATIC}img/icon/account_icon_index.png) no-repeat;background-position:-400px -12px;background-size:auto 36px;width:36px;height:24px}
+#c_main_menu li .c_new_know{background:url({WELIAM_INDIANA_STATIC}img/icon/account_icon_index.png) no-repeat;background-position:-1184px -11px;background-size:auto 36px;width:36px;height:24px}
+#c_main_menu li .c_all_good{background:url({WELIAM_INDIANA_STATIC}img/icon/account_icon_index.png) no-repeat;background-position:-638px -15px;background-size:auto 38px;width:36px;height:24px}
+#c_main_menu li .c_cart_bag{background:url({WELIAM_INDIANA_STATIC}img/icon/account_icon_index.png) no-repeat;background-position:-1067px -12px;background-size:auto 38px;width:36px;height:24px}
+#c_main_menu li .c_publish{background:url({WELIAM_INDIANA_STATIC}img/icon/account_icon_index.png) no-repeat;background-position:-896px -14px;background-size:auto 40px;width:36px;height:24px}
+#c_main_menu .c_menu_this .c_index{background:url({WELIAM_INDIANA_STATIC}img/icon/account_icon_index.png) no-repeat;background-position:-500px -12px;background-size:auto 36px;width:36px;height:24px}
+#c_main_menu .c_menu_this .c_new_know{background:url({WELIAM_INDIANA_STATIC}img/icon/account_icon_index.png) no-repeat;background-size:40px;background-position:-1254px -11px;background-size:auto 36px;width:36px;height:24px}
+#c_main_menu .c_menu_this .c_all_good{background:url({WELIAM_INDIANA_STATIC}img/icon/account_icon_index.png) no-repeat;background-position:-783px -16px;background-size:auto 40px;width:36px;height:24px}
+#c_main_menu .c_menu_this .c_cart_bag{background:url({WELIAM_INDIANA_STATIC}img/icon/account_icon_index.png) no-repeat;background-position:-1164px -12px;background-size:auto 38px;width:36px;height:24px}
+#c_main_menu .c_menu_this .c_publish{background:url({WELIAM_INDIANA_STATIC}img/icon/account_icon_index.png) no-repeat;background-position:-959px -14px;background-size:auto 38px;width:36px;height:24px}
+#c_main_menu .c_menu_this b{color:#dd2726}
+.c_total_num{display:block;width:16px;height:16px;border-radius:50%;background:#dd2726;color:#fff;text-align:center;position:absolute;top:-4px;right:12px;font-size:10px;line-height:16px;font-style:normal}
+</style>
+<ul id="c_main_menu">
+  <li id="nav_index" {if $_GPC['do'] == 'index'}class="c_menu_this"{/if}>
+    <a href="{php echo $this->createMobileUrl('index');}">
+      <span class="c_index"></span>
+      <b>夺宝</b>
+    </a>
+  </li>
+  <li id="nav_goods" {if $_GPC['do'] == 'allgoods'}class="c_menu_this"{/if}>
+    <a href="{php echo $this->createMobileUrl('allgoods');}">
+      <span class="c_all_good"></span>
+      <b>全部商品</b>
+    </a>
+  </li>
+  <li id="nav_publish" {if $_GPC['template'] == 'newannounce'}class="c_menu_this"{/if}>
+    <a href="{php echo $this->createMobileUrl('jump',array('template' => 'newannounce'));}">
+      <span class="c_publish"></span>
+      <b>最新揭晓</b>
+    </a>
+  </li>
+  <li id="nav_cart" {if $_GPC['do'] == 'cart'}class="c_menu_this"{/if}>
+    <a href="{php echo $this->createMobileUrl('cart',array('op'=>'cart_detail'));}">
+      <span class="c_cart_bag"></span>
+      <b>购物车</b>
+      <i class="c_total_num" id="c_total_num">{php echo m('goods')->getCartNumber(m('user')->getOpenid())}</i>
+    </a>
+  </li>
+  <li id="nav_member" {if $_GPC['do'] == 'person'}class="c_menu_this"{/if}>
+    <a href="{php echo $this->createMobileUrl('person');}">
+      <span class="c_new_know"></span>
+      <b>我的夺宝</b>
+    </a>
+  </li>
+</ul>

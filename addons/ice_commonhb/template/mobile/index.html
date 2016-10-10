@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>验证码普通红包</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="../addons/ice_commonhb/css/all1.css" />
+		<link rel="stylesheet" href="../addons/ice_commonhb/css/style1.css" />
+		<link rel="stylesheet" href="../addons/ice_commonhb/css/buttons.css" />
+	    <link rel="stylesheet" href="../addons/ice_commonhb/css/widget_menu.css" />
+	    <link rel="stylesheet" href="../addons/ice_commonhb/css/font-awesome.min.css" />
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.4.2.min.js"></script>
+
+	</head>
+	<body>
+	<!--顶部-->
+		<div class="header">
+            <div class="headlogo">
+            	    	<img {if $settings['logoImg']}src="{$settings['logoImg']}"{else}src="../addons/ice_commonhb/img/headlogo.png"{/if} />
+            </div>
+            <div class="do">
+                <img src="../addons/ice_commonhb/img/renxing1.png" />
+            </div>
+            <div class="clr"></div>
+		</div>
+
+
+    <!-- 主体 -->
+		<div id="wrapper" class="wrapper">
+			<div id="scroller">
+            <ul id="index" class="list">
+		<div class="main">
+			<div class="show11">				
+             <img src="../addons/ice_commonhb/img/bb6.png" />
+			</div>			
+			<div class="shuoming">
+				输入验证码，兑换红包！
+			</div>
+		</div>
+          <div class="yzm">
+			<div class="form-group">
+				<input type="text" id = "code"  placeholder="请输入验证码"  class="form-control" style=" text-align:center" onresize="" />
+			</div>
+           </div>
+           <div class="clr"></div>			
+			
+		   <div class="footer1">
+			<div style="height: 8px;width: 100%;"></div>
+			<div class="btn">
+
+			    <a href="javascript:void(0)" onclick = "sendCode()" data-toggle="modal"   data-toggle="modal" class="button11">{if $settings['buttontext']}{$settings['buttontext']}{else}开红包{/if}</a>
+			</div>
+
+		   </div>
+	     </ul>
+	    </div>	    
+	    </div>
+	    
+	    <div data-role="widget" data-widget="menu_4" class="menu_4">
+        <div class="widget_wrap">
+				<ul  id="menu_4_ul" style="z-index:9999;">
+
+
+                <li>
+                    <a href="{php echo $this->createMobileUrl('myhb')}" data-fx="Modulefx">
+                        <span class="icon iconfont">&#xe604;</span>
+                        <p>我的红包</p>
+                    </a>
+                </li>                
+
+                
+                <li class="li3">
+                    <a href="{php echo $this->createMobileUrl('index')}" data-fx="Modulefx">
+                        <span class="icon iconfont">&#xe601;</span>
+                        <p>首页</p>
+                    </a>
+                </li>
+                
+
+                
+                <li>
+                    <a href="{php echo $this->createMobileUrl('hbrule')}" data-fx="Modulefx">
+                        <span class="icon iconfont">&#xe600;</span>
+                        <p>游戏规则</p>
+                    </a>
+                </li>
+
+
+            </ul>
+          </div>
+         </div>
+            <script>
+                var menu_4 = (function () {
+                    var isTouch = "ontouchstart" in window;
+                    var menu = {
+                        handleEvent: function (evt) {
+                            console.log(evt);
+                        }
+                    };
+                    menu.init = function (id) {
+                        var ul = document.getElementById(id);
+                        lis = ul.querySelectorAll("li");
+                        lis[Math.floor(lis.length / 2)].classList.add("li3");
+                        if (isTouch) {
+                            menu.ul = document.getElementById(id);
+                            menu.ul.addEventListener("touchstart", menu, false);
+                            return menu;
+                        }
+                    }
+                    return menu;
+                })().init("menu_4_ul");
+            </script>		
+			
+		<script type="text/javascript">
+			var picwidth = $(".user_img").css("width");
+			$(".user_img").css("height", picwidth);
+		</script>
+
+		 <script type = "text/javascript">
+		if(!is_weixin()){
+			alert('请使用微信访问该页面！');
+			window.opener=null;
+			window.open('','_self');
+			window.close();
+		}
+		</script>
+		 <script type = "text/javascript">
+		function sendCode(){
+			
+			var code = $("#code").val();
+            var totaltitle = "{$settings['totaltitle']}";
+            if(totaltitle == null || '' == totaltitle){
+                totaltitle = "您已领取过本红包!";
+            }
+			var url = "{php echo $this->createMobileUrl('code', array());}";
+			//var successurl1 = "{php echo $this->createMobileUrl('BindSubmit', array());}";
+			//var successurl2 = "{php echo $this->createMobileUrl('CheckSubmit', array());}";
+	        $.ajax({
+	            cache: true,  
+	            type: "POST",
+	            url: url, // 提交的URL 
+	            data : { "code" : code },
+	            async: false,
+	            success: function (result) {
+	            	var res = result.split(',');
+	            	res1 = res[0];
+	            	res2 = res[1];
+	               if(res1 == "OK")
+	               {
+	            	//   alert("恭喜你中奖");
+	            	   var str = "codeid="+res2;
+	            	   var posturl = "{php echo $this->createMobileUrl('show');}".replace("#wechat_redirect", "") + "&"+ str + "#wechat_redirect";
+	            	   window.location.href = posturl;
+	               }else {
+	            	   if(res2 == "UNHAS"){
+	            	   alert("验证码不正确或者已经使用！");
+	            	   }else if(res2 == "UNSUB"){
+	            		   alert("您还未关注！请先关注再参加！");
+	            		   window.location.href = "{php echo $settings['guideurl']}";
+	            		   return ;
+	            	   }else if(res2 == "0"){
+	            		   alert("由于系统问题您的红包未能正常发放，请联系客服！");
+	            	   }else if(res2 == "UNBEGIN"){
+	            		   alert("红包活动还未开始！");
+	            		   return; 
+	            	   }else if(res2 == "OVER"){
+	            		   alert("红包活动已经结束！");
+	            		   return;
+	            	   }else if(res2 == "UNSUBSEND"){
+	            		   alert("需要关注才能发送红包！关注后请联系客服！");
+	            		   window.location.href = "{php echo $settings['guideurl']}";
+	            		   return;
+	            	   }else if(res2 == "TOTAL"){
+
+                           alert(totaltitle);
+                           return;
+                       }
+	               }
+	            }
+	        });
+			
+		}
+		</script>
+		<script type="text/javascript">
+		// $("input").focus(function(){
+		// $(".menu_4 .widget_wrap").css("display","none");	
+		// });
+
+		// //失去焦点；
+		// $("input").blur(function(){
+  //       $(".menu_4 .widget_wrap").css("display","block");
+  //       });
+		</script>
+
+<script>
+   var timer, windowInnerHeight;
+    function eventCheck(e) {
+        if (e) { //blur,focus事件触发的
+            //$('#code').html('android键盘' + (e.type == 'focus' ? '弹出' : '隐藏') + '--通过' + e.type + '事件');
+            if (e.type == 'focus') {//如果是点击事件启动计时器监控是否点击了键盘上的隐藏键盘按钮，没有点击这个按钮的事件可用，keydown中也获取不到keyCode值
+                setTimeout(function () {//由于键盘弹出是有动画效果的，要获取完全弹出的窗口高度，使用了计时器
+                    windowInnerHeight = window.innerHeight;//获取弹出android软键盘后的窗口高度
+                    timer = setInterval(function () { eventCheck() }, 100);
+                }, 500);
+            $(".menu_4 .widget_wrap").css("display","none");	   
+            }
+            else {
+            	clearInterval(timer);
+            $(".menu_4 .widget_wrap").css("display","block");
+            };
+        }
+        else { //计时器执行的，需要判断窗口可视高度，如果改变说明android键盘隐藏了
+            if (window.innerHeight > windowInnerHeight) {
+                $(".menu_4 .widget_wrap").css("display","block");            	
+                clearInterval(timer);
+                //$('#code').html('android键盘隐藏--通过点击键盘隐藏按钮');
+            }
+        }
+    }
+    $('input').focus(eventCheck).blur(eventCheck);
+</script>
+		
+	</body>
+</html>

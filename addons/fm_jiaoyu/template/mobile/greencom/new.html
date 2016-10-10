@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{$school['title']}</title>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+<link rel="stylesheet" href="{MODULE_URL}public/mobile/css/weixin.css?{php echo time()}">
+<link type="text/css" rel="stylesheet" href="{OSSURL}public/mobile/css/mGrzxTeacher.css?v=4.8" />
+<link type="text/css" rel="stylesheet" href="{OSSURL}public/mobile/css/greenStyle.css?v=4.80120" />
+<link type="text/css" rel="stylesheet" href="{OSSURL}public/mobile/css/pageContent.css?v=4.80120" />
+
+</head>
+<body>
+<div class="all">
+
+<div id="titlebar" class="header mainColor">
+	<div class="l"><a class="backOff" href="javascript:history.go(-1);"></a></div>
+	<div class="m">
+     <span style="font-size: 18px">文章详情</span>   
+	</div>
+	</div>
+<div id="titlebar_bg" class="_header"></div>
+		<div class="content">
+			<br/>{php echo htmlspecialchars_decode($item['content'])}<br/>
+			{if !empty($picarr['p1'])}<br/><img src="{$_W['attachurl']}{$picarr['p1']}" alt="" />{/if}
+			{if !empty($picarr['p2'])}<br/><img src="{$_W['attachurl']}{$picarr['p2']}" alt="" />{/if}
+			{if !empty($picarr['p3'])}<br/><img src="{$_W['attachurl']}{$picarr['p3']}" alt="" />{/if}
+			{if !empty($picarr['p4'])}<br/><img src="{$_W['attachurl']}{$picarr['p4']}" alt="" />{/if}
+			{if !empty($picarr['p5'])}<br/><img src="{$_W['attachurl']}{$picarr['p5']}" alt="" />{/if}
+			{if !empty($picarr['p6'])}<br/><img src="{$_W['attachurl']}{$picarr['p6']}" alt="" />{/if}
+			{if !empty($picarr['p7'])}<br/><img src="{$_W['attachurl']}{$picarr['p7']}" alt="" />{/if}
+			{if !empty($picarr['p8'])}<br/><img src="{$_W['attachurl']}{$picarr['p8']}" alt="" />{/if}
+			{if !empty($picarr['p9'])}<br/><img src="{$_W['attachurl']}{$picarr['p9']}" alt="" />{/if}			
+		</div>
+		<div class="commentBox">
+			<div class="readAndPraise">
+				<span class="commentBoxRead" style="float: left; color: #999999;margin-right: 10px;">阅读{$item['click']}</span>
+			</div>
+			<!--div class="commentBoxPraise">
+				<a href="javascript:void(0);" onclick="praiseYezs(this,$item['id'])">
+					<img class="m_r_5" alt src="{OSSURL}public/mobile/img/ico_unpraise.png" style="-webkit-touch-callout: none; -webkit-user-select: none;">
+				</a>
+			</div-->			
+		</div>
+		<div class="campusDiv" style="padding-bottom:55px;">
+			<div class="campusTop">
+				<div class="campusLogo">
+					<img id="imgpath" alt="" src="{php echo tomedia($school['logo']);}" />
+				</div>
+				<div class="campusInfo">
+					<div class="info"><span>地址：{$school['address']}</span></div>
+					<div class="info"><span>电话：{$school['tel']}</span></div>
+					<!-- <div class="info">微信号：<span>weixiaotong</span></div> -->
+				</div>
+				<div class="cl"></div>
+			</div>
+			<div class="campusBottom">
+				<div class="tips">扫一扫下方二维码，关注校园</div>
+				<img id="qrcodeurl" alt="" src="{if !empty($school['qroce'])}{php echo tomedia($school['qroce']);}{else}{$_W['attachurl']}qrcode_{$_W['acid']}.jpg?{php echo time()}{/if}">
+			</div>			
+		</div>
+	</div>
+	 {php include $this->template('footer');}	
+</body>
+
+</html>

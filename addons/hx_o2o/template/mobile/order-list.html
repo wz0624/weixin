@@ -1,0 +1,91 @@
+{template 'header'}
+<style>.order_list .item{padding:.75rem 0}.order_list .item .title{height:36px;line-height:36px;border-bottom:1px solid #dbc5ba;color:#b9a093;margin:0 .75rem}.order_list .item .title .status{background:#9e9e9e;font-size:12px;color:#fff;padding:2px 8px;border-radius:0 3px 3px 3px;margin-left:5px}.order_list .item .title .cancel{background:#f44336}.order_list .item .title .paided{background:#f57c00}.order_list .item .title .confirm{background:#40c4ff}.order_list .item .title .serving{background:#ba68c8}.order_list .item .title .bereviews{background:#00bcd4}.order_list .item .title .finish{background:#4caf50}.order_list .item .title .amount{float:right;color:#f45e4e}.order_list .item .title .amount strong{font-size:1.25rem}.order_list .item .row{margin:10px 0}.order_list .item .row .img{text-align:center}.order_list .item .row .img img{display:block;width:78px;height:78px;margin:0 auto;border-radius:50%}.order_list .item .row .img span{display:block;width:100%;height:22px;line-height:22px;margin-top:10px;font-size:12px;color:#632714}.order_list .item .row .info ul{margin:0}.order_list .item .row .info ul li{color:#632714}.order_list .item .row .info .time{width:100%;height:auto;margin:10px 0}.order_list .item .row .info .time span{display:block;width:100%;height:20px;line-height:20px;font-size:13px;color:#b9a093;text-align:right}.order_list .item .row .info .see_info{height:28px;line-height:28px;font-size:13px}.order_list .item .row .info .see_info i{font-size:12px}.empty_orders{text-align: center}.empty_orders p{color: #b9a093}</style>
+    <header>
+    <a href="javascript:history.back();" class="waves-effect waves-teal btn-flat go_back"><i class="fa fa-angle-left"></i></a>
+    <span>{if $type == 2}我的护理疗程{else}我的订单{/if}</span>
+</header>
+
+<section class="order_list">
+    <ul class="tabs z-depth-1" id="tabs">
+        <li class="tab col s3"><a href="#tabs0">待支付</a></li>
+        <li class="tab col s3"><a href="#tabs1" class="active">进行中</a></li>
+        <li class="tab col s3"><a href="#tabs2">已完成</a></li>
+        <li class="tab col s3"><a href="#tabs3">已取消</a></li>
+    </ul>
+    <div>
+        <div id="tabs0" class="col s12 item"></div>
+        <div id="tabs1" class="col s12 item"></div>
+        <div id="tabs2" class="col s12 item"></div>
+        <div id="tabs3" class="col s12 item"></div>
+    </div>
+</section>
+<section style="display:none" id="load-more-wrap">
+    <div class="row load_mare">
+        <div class="col s12 center-align">
+            <a href="javascript:void(0)" class="waves-effect waves-light btn teal lighten-2" id="load-more" inx="0">
+                <i class="fa fa-refresh"></i> 加载更多
+            </a>
+        </div>
+    </div>
+    <div class="mr_bottom"></div>
+</section>
+
+<script type="text/javascript">
+    var page = [1, 1, 1, 1];
+
+    getContents(1);
+
+    $('#tabs').find('li').click(function()
+    {
+        var inx = $(this).index();
+        getContents(inx);
+        $('#tabs' + (inx)).siblings().empty();
+        $('#load-more').attr('inx', inx);
+
+        for (var i = 0; i < 4; ++i)
+        {
+            if (i == inx)
+                continue;
+            page[i] = 1;
+        }
+    });
+
+    $('#load-more').click(function()
+    {
+        var inx = parseInt($(this).attr('inx'));
+        getContents(inx);
+    })
+
+    function getContents(inx)
+    {
+        ajax('{php echo $this->createMobileUrl('orderlist',array('op'=>'getorder','type'=>$type))}', {"status": inx, "page": page[inx]}, function(result)
+        {
+            if (result.status == 1)
+            {
+                ++page[inx];
+                var o = $('#tabs' + (inx));
+                o.append(result.html);
+                if (o.find('.row').length < 5)
+                {
+                    $('#load-more-wrap').hide();
+                }
+                else
+                {
+                    $('#load-more-wrap').show();
+                }
+            }
+            else if (result.status == -1)
+            {
+                $('#tabs' + (inx + 1)).append(result.html);
+                $('#load-more-wrap').hide();
+            }
+            else
+            {
+                tips(result.message);
+                $('#load-more-wrap').hide();
+            }
+        }, 'GET');
+    }
+</script>
+{php $sub_active = 'my';}
+{template 'footer'}

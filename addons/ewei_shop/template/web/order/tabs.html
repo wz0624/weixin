@@ -1,0 +1,81 @@
+<ul class="nav nav-tabs" >
+      {ifp 'order.view.status0|order.view.status1|order.view.status2|order.view.status3|order.view.status4|order.view.status_1'}
+    <li {if $operation == 'display' && $status == '' && $_GPC['refund']!='1'}class="active"{/if}>
+        <a href="{php echo $this->createWebUrl('order', array('op' => 'display'))}">全部订单(<span id="status_all">-</span>)</a>
+    </li>
+    {/if}
+
+    {ifp 'order.view.status0'}
+    <li {if $operation == 'display' && $status == '0'}class="active"{/if}>
+        <a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => 0))}">待付款(<span id="status_0">-</span>)</a>
+    </li>
+    {/if}
+    
+    {ifp 'order.view.status1'}
+    <li {if $operation == 'display' && $status == '1'} class="active"{/if}>
+        <a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => 1))}">待发货(<span id="status_1">-</span>)</a>
+    </li>
+    {/if}
+    
+    {ifp 'order.view.status2'}
+    <li {if $operation == 'display' && $status == '2'}class="active"{/if}>
+        <a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => 2))}">待收货(<span id="status_2">-</span>)</a>
+    </li>
+    {/if}
+    
+    {ifp 'order.view.status3'}
+    <li {if $operation == 'display' && $status == '3'}class="active"{/if}>
+        <a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => 3))}">已完成(<span id="status_3">-</span>)</a>
+    </li>
+    {/if}
+    
+     {ifp 'order.view.status_1'}
+    <li {if $operation == 'display' && $status == '-1'}class="active"{/if}>
+        <a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => -1))}">已关闭(<span id="status__1">-</span>)</a>
+    </li>
+    {/if}
+      
+    
+    {ifp 'order.view.status4'}
+     <li {if $operation == 'display' && $status== '4'}class="active"{/if}>
+        <a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => 4))}">维权申请(<span id="status_4">-</span>)</a>
+    </li>
+    {/if}
+     
+    {ifp 'order.view.status5'}
+    <li {if $operation == 'display' && $status == '5'}class="active"{/if}>
+        <a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => 5))}">完成维权(<span id="status_5">-</span>)</a>
+    </li>
+    {/if}
+    
+    {if $operation == 'detail'}
+    <li class="active">
+        <a href="#">订单详情</a>
+    </li>
+    {/if}
+    {if $operation == 'export'}
+    <li class="active">
+        <a href="#">自定义导出</a>
+    </li>
+    {/if}
+</ul>
+<script language="javascript">
+    $(function(){
+     $.ajax({
+          'url' : "{php echo $this->createWebUrl('order/list',array('op'=>'totals'))}",
+          cache:false,
+          dataType:'json',
+          success : function(ret){
+             var result = ret.result;
+             $('#status_all').html( result.all);
+             $('#status_0').html( result.status0);
+             $('#status_1').html( result.status1);
+             $('#status_2').html( result.status2);
+             $('#status_3').html( result.status3);
+             $('#status_4').html( result.status4);
+             $('#status_5').html( result.status5);
+             $('#status__1').html( result.status_1);
+          }
+     });
+    })
+</script>

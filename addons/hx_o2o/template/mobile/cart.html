@@ -1,0 +1,212 @@
+{template 'header'}
+<style>body{background-color:#eaf1f0}.cart_list{background:#fff}.cart_list .row{padding-top:20px}.cart_list .row .check{height:80px;text-align:center;display:table;cursor:pointer}.cart_list .row .check i{vertical-align:middle;display:table-cell;font-size:1.8rem}.cart_list .row .check i.fa-check-circle{color:#30AA9F}.cart_list .row .check i.fa-circle-thin{color:#DCDCDC}.cart_list .row .info{cursor:pointer}.cart_list .row .info img{display:block;width:80px;height:80px;border-radius:2px;float:left;margin-right:10px}.cart_list .row .info div{width:100%;height:80px;position:relative}.cart_list .row .info div span{color:#632714}.cart_list .row .info div strong{display:block;height:14px;line-height:14px;color:#f45e4e;position:absolute;bottom:0;left:90px;z-index:1}.cart_list .row .operate{height:76px;position:relative}.cart_list .row .operate .trash{width:24px;height:24px;line-height:24px;position:absolute;top:0;right:.75rem;box-shadow:none}.cart_list .row .operate .trash i{width:24px;height:24px;line-height:24px;font-size:1rem}.cart_list .row .operate .quantity{width:100%;height:24px;position:absolute;bottom:0;right:.75rem;text-align:right}.cart_list .row .operate .quantity a{width:24px;height:24px;line-height:24px;box-shadow:none}.cart_list .row .operate .quantity a i{width:24px;height:24px;line-height:24px;font-size:.75rem}.cart_list .row .operate .quantity span{display:inline-block;height:24px;line-height:24px;padding:0 5px;color:#26a69a;font-weight:500}.checkout_cart{width:100%;margin-bottom:0;position:fixed;bottom:0;left:0;z-index:10}.checkout_cart .col{padding:0}.checkout_cart .col .btn{width:100%;border-radius:0;height:48px;line-height:48px}.checkout_cart .col .total_price{text-align:left;color:#f45e4e;background:#f5fcfc}.checkout_cart .col .total_price span{font-size:1.5rem}.empty_cart{text-align:center}.empty_cart p{color:#b9a093}</style>
+<header>
+    <a href="{php echo $this->createMobileUrl('main')}" class="waves-effect waves-teal btn-flat go_back"><i class="fa fa-angle-left"></i></a>
+    <span>我的购物车</span>
+</header>
+{if !empty($list)}
+    <section class="cart_list" id="cart_list">
+        {loop $list $row}
+        <div class="row">
+            <div class="col s2 check">
+                <i class="fa fa-check-circle"></i>
+                <input type="hidden" name="choose" value="{$row['productid']}" choosed="1">
+                <input type="hidden" name="single_purchased" value="2">
+            </div>
+            <div class="col s7 info">
+                <div>
+                    <img src="{php echo tomedia($row['product']['thumb'])}" class="responsive-img">
+                    <span class="product_name">{$row['product']['name']}</span>
+                    <strong class="selling_price">￥{$row['product']['price']}</strong>
+                </div>
+            </div>
+            <div class="col s3 operate">
+                <a href="javascript:void(0)" class="btn-floating waves-effect waves-light red trash" cart_id="{$row['id']}"><i class="fa fa-trash"></i></a>
+                <div class="quantity">
+                    <a href="javascript:void(0)" class="btn-floating waves-effect waves-light minus" cart_id="{$row['id']}"><i class="fa fa-minus"></i></a>
+                    <span class="number">{$row['total']}</span>
+                    <a href="javascript:void(0)" class="btn-floating waves-effect waves-light plus" cart_id="{$row['id']}"><i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="split_line"></div>
+        {/loop}
+    </section>  
+<div class="mr_bottom"></div>
+<div class="row checkout_cart">
+    <div class="col s7">
+        <span class="waves-effect waves-light btn cyan lighten-5 total_price">合计: ￥<span id="total-price">{$totalprice}</span></span>
+    </div>
+    <div class="col s5">
+        <a href="javascript:void(0)" class="waves-effect waves-light btn teal lighten-2" id="checkout-cart">
+            <i class="fa fa-calendar-check-o"></i> 预约时间
+        </a>
+    </div>
+</div>
+<script type="text/javascript">
+    $('.check, .info').click(function()
+    {
+        var input = $(this).parent().find('input[name=choose]');
+
+        if (input.attr('choosed') == 1)
+        {
+            input.attr('choosed', 0).prev().removeClass('fa-check-circle').addClass('fa-circle-thin');
+            change_total_price();
+        }
+        else
+        {
+            input.attr('choosed', 1).prev().removeClass('fa-circle-thin').addClass('fa-check-circle');
+            change_total_price();
+        }
+            
+    })
+
+    $('.trash').click(function()
+    {
+        var o = $(this),
+        item = o.parents('.row');
+        alert_choose('小主, 您确认把 <span style="color: #632714">' + item.find('.product_name').html() + ' x' + item.find('.number').html() + '</span> 移出购物车吗？', function()
+        {
+            ajax('{php echo $this->createMobileUrl('mycart',array('op'=>'remove'))}', {"cart_id": o.attr('cart_id')}, function(result)
+            {
+                if (result.status == 1)
+                {
+                    item.hide('slow', function()
+                    {
+                        $(this).next().remove();
+                        $(this).remove();
+                        change_total_price();
+                    })
+                }
+                else
+                    alert_modal(result.message);
+            });
+        })
+    })
+
+    $('.plus').click(function()
+    {
+        var o = $(this).prev(),
+        quantity = parseInt(o.html()) + 1;
+        ajax('{php echo $this->createMobileUrl('mycart',array('op'=>'update'))}', {"cart_id": $(this).attr('cart_id'), "quantity": quantity}, function(result)
+        {
+            if (result.status == 1)
+            {
+                o.html(quantity);
+                change_total_price();
+            }
+            else
+                alert_modal(result.message);
+        });
+    })
+
+    $('.minus').click(function()
+    {
+        var o = $(this).next(),
+        quantity = parseInt(o.html()) - 1;
+        if (quantity < 1)
+            return;
+
+        ajax('{php echo $this->createMobileUrl('mycart',array('op'=>'update'))}', {"cart_id": $(this).attr('cart_id'), "quantity": quantity}, function(result)
+        {
+            if (result.status == 1)
+            {
+                o.html(quantity);
+                change_total_price();
+            }
+            else
+                alert_modal(result.message);
+        });
+    })
+
+    $('#checkout-cart').click(function()
+    {
+        var items = $('#cart_list').find('.row'),
+            len   = items.length,
+            data  = [];
+
+        var purchaseds = 0;
+        for (var i = 0; i < len; ++i)
+        {
+            var o = items.eq(i).find('input[name=choose]');
+            if (o.attr('choosed') == 1)
+            {
+                var quantity = parseInt(items.eq(i).find('.number').html());
+                var single_purchased = parseInt(items.eq(i).find('input[name=single_purchased]').val());
+                purchaseds += quantity * single_purchased;
+                data.push({
+                    "product_id": o.val(),
+                    "quantity": items.eq(i).find('.number').html()
+                });
+            }
+            else
+                continue;
+        }
+        
+        if (data.length < 1)
+        {
+            alert_modal('小主, 您还没有选择购买的服务!');
+            return;
+        }
+
+        if(purchaseds <2 )
+        {
+            alert_modal('小主, 您选择的商品不可单点, 请再购买一些, 或者和其他商品一起购买');
+            return;
+        }
+        
+        ajax('{php echo $this->createMobileUrl('mycart',array('op'=>'checkout','from'=>'cart'))}', {"products": data}, function(result)
+        {
+             if (result.status == 1 && result.orderid > 0)
+                window.location.href = '{php echo $this->createMobileUrl('appointment')}&orderid=' + result.orderid;
+            else
+                alert_modal('检出购物车商品失败');
+        });
+    })
+
+    function change_total_price()
+    {
+        var items = $('#cart_list').find('.row'),
+            len   = items.length;
+
+        if (len > 0)
+        {
+            var total_price = 0;
+            for (var i = 0; i < len; ++i)
+            {
+                var input = items.eq(i).find('input[name=choose]');
+                if(input.attr('choosed') == 1)
+                {
+                    var price = parseFloat(items.eq(i).find('.selling_price').html().substr(1)),
+                        quantity = parseInt(items.eq(i).find('.number').html());
+                    total_price += price * quantity;
+                }
+                else
+                {
+                    continue;
+                }
+                
+            }
+            $('#total-price').html(total_price);
+        }
+        else
+        {
+            window.location.reload();
+        }
+    }
+</script>
+</body>
+</html>
+{else}
+<section class="empty_cart">
+        <img class="responsive-img" src="{IMG_PATH}success.png">
+        <p>亲, 您的购物车空空如也哦～</p>
+        <p>
+            <a href="{php echo $this->createMobileUrl('main')}" class="waves-effect waves-light btn teal lighten-2">
+                <i class="fa fa-shopping-cart"></i> 赶紧去逛逛吧！
+            </a>
+        </p>
+    </section>
+    {php $sub_active = 'cart';}
+    {template 'footer'}
+{/if}

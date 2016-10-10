@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no, email=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="MobileOptimized" content="640">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="full-screen" content="yes">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="browsermode" content="application">
+    <meta name="x5-page-mode" content="app">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title>朋友圈</title>
+    <meta name="viewport" content="width=480,maximum-scale=1.0, user-scalable=no">
+    <script src="{RES}mobile/js/zepto.min.js"></script>
+    <link rel="stylesheet" href="{RES}mobile/css/test_2.css">
+    <script src="{RES}mobile/js/data3.js?v=1"></script>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="pages">
+            <section class="page index">
+                <div id="Main">
+                    <div class="TopBgArea">
+                        <img src="{$bg}" width="100%">
+                    </div>
+                    <!-- <div class="TopShadowBox"></div> -->
+                    <div class="TopUserArea">
+                        <table width="100%" border="0px" cellpadding="0" cellspacing="0" bordercolor="#000" style="border-collapse: collapse">
+                            <tbody>
+                                <tr>
+                                    <td valign="top" align="right">
+                                        <div id="TopUserNameId" class="TopUserName">
+                                            <label class="mynickname"></label>
+                                        </div>
+                                    </td>
+                                    <td width="32%" align="center">
+                                        <div id="TopUserImgId" class="TopUserImg">
+                                            <img src="" class="myavatar">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="CommentPage" style="">
+                        <div id="CommentListAreaId" class="CommentListArea"></div>
+                        <div class="BtnArea">
+                            <div id="BtnReplayId" class="BtnReplay">
+                                <a class="full" href="{$follow_url}">生成朋友圈</a>
+                            </div>
+                            <div id="BtnShareId" class="BtnShare" data-box="share">
+                                <a class="full" href="#">惊呆小伙伴</a>
+                            </div>
+                            <div class="BottomD"><a href="{if !empty($reply['copyrighturl'])}{$reply['copyrighturl']}{else}#{/if}" style="font-size: 1rem;color: #993636;">{if empty($reply['copyright'])}{$_W['account']['name']}{else}{$reply['copyright']}{/if}</a></div>
+                        </div>
+                    </div>
+                    <div style="width: 100%; height: 60px;"></div>
+                </div>
+                <!--Main-->
+            </section>
+        </div>
+        <div class="mask hide">
+            <div class="box box_share hide"></div>
+        </div>
+    </div>
+    <div style="display: none;">
+        <pre id="user">{"openid":"{$openid}","gender":"{$sex}","headimgurl":"{$headimgurl}","nickname":"{$nickname}","number":{$number}}</pre>
+    </div>
+
+    {php echo register_jssdk(false);}
+    <script>
+        var BASE_IMG_URL = "{RES}mobile/images/";
+        var AD_URL = "{$ad_url}";
+        var AD_NICKNAME = "{$ad_nickname}";
+        var AD_DESC = "{$ad_desc}";
+        var LOGO_IMG_URL = "{$logo}";
+        var QRCODE_IMG_URL = "{$qrcode}";
+        var user = {
+            nickname: "",
+            avatar: "",
+            gender: ""
+        }
+
+        $(document).ready(function () {
+            var userData = $.parseJSON($("#user").text());
+            if (userData) {
+                var nickname = userData.nickname,
+                    avatar = userData.headimgurl,
+                    gender = userData.gender;
+
+                user.nickname = nickname != "" ? nickname : "";
+                user.avatar = avatar != "" ? avatar : "";
+                user.gender = gender != "" ? gender : "男";
+
+                // 随机数 1-4
+                var rd = 1;
+                if (userData.number) {
+                    rd = parseInt(userData.number);
+                }
+
+                //console.log(user);
+                if (window.localStorage) {
+                    var stroge = window.localStorage;
+                }
+
+                if (gender === "女") {
+                    rd = rd + 4;
+                }
+
+                var fn = "getData" + rd + "()";
+
+                var data = eval(fn);
+
+                var htmlstr = '';
+                for (key in data.timeline) {
+                    if (key == 4) {
+                        htmlstr += getLi(data.ad);
+                    } else {
+                        htmlstr += getLi(data.timeline[key]);
+                    }
+                }
+
+                $("#CommentListAreaId").append(htmlstr);
+                $(".mynickname").html(user.nickname);
+                $(".myavatar").attr("src", user.avatar);
+
+                wx.ready(function () {
+                    sharedata = {
+                        title: '{$share_title}',
+                        desc: '{$share_desc}',
+                        link: '{$share_url}',
+                        imgUrl: '{$share_image}',
+                        success: function(){
+                            var url = "{php echo $this->createMobileUrl('share', array('id' => $id), true)}";
+                            $.ajax
+                            ({
+                                url: url,
+                                type:'POST',
+                                data: {},
+                                dataType:'json',
+                                error: function () {
+//                                    alert('网络通讯异常，请稍后再试！');
+                                },
+                                success: function (result) {
+                                }
+                            });
+                        },
+                        cancel: function(){
+                            //alert('cancel');
+                        }
+                    };
+                    wx.onMenuShareAppMessage(sharedata);
+                    wx.onMenuShareTimeline(sharedata);
+                });
+            }
+        });
+    </script>
+
+
+    <script>
+        var boxs = $(".box"),
+            mask = $(".mask");
+
+        function _showBox(_boxName) {
+            var box = boxs.filter(".box_" + _boxName);
+            mask.removeClass("hide");
+            boxs.removeClass("show");
+            box.removeClass("hide");
+            setTimeout(function () {
+                mask.addClass("show");
+                box.addClass("show");
+            }, 17);
+//            _hmt.push(['_trackPageview', "/modal/" + _boxName]);
+            return box;
+        }
+
+        function _hideBox() {
+            mask.removeClass("show");
+            boxs.removeClass("show");
+            setTimeout(function () {
+                boxs.addClass("hide");
+                mask.addClass("hide");
+            }, 500)
+        }
+
+        boxs.on("click", function (e) {
+            e.stopPropagation();
+        });
+
+        mask.add(mask.find(".close")).on("click", _hideBox);
+
+        $("[data-box]").on("click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            _showBox($(this).attr("data-box"));
+        });
+
+    </script>
+</body>
+</html>

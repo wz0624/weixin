@@ -1,0 +1,350 @@
+{template 'header'}
+
+<link rel="stylesheet" href="{$_W['siteroot']}addons/yuexiage_community/images/css/swiper.min.css?{TIMESTAMP}">
+<link rel="stylesheet" type="text/css" href="{$_W['siteroot']}addons/yuexiage_community/images/css/base.css?{TIMESTAMP}">
+<link rel="stylesheet" type="text/css" href="{$_W['siteroot']}addons/yuexiage_community/images/css/index.css?{TIMESTAMP}">
+<!--[if lt IE 9]>
+    <script src="{$_W['siteroot']}addons/yuexiage_community/images/js/css3-mediaqueries.js"></script>
+<![endif]-->
+<script type="text/javascript" src="{$_W['siteroot']}addons/yuexiage_community/images/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="{$_W['siteroot']}addons/yuexiage_community/images/js/jQueryColor.js"></script>
+<script type="text/javascript" src="{$_W['siteroot']}addons/yuexiage_community/images/js/jquery.masonry.min.js"></script>
+<script type="text/javascript" src="{$_W['siteroot']}addons/yuexiage_community/images/js/jQeasing.js"></script>
+<script type="text/javascript">
+    $(function(){
+            var container = $('.waterfull ul');
+            var loading=$('#imloading');
+            // 初始化loading状态
+            loading.data("on",true);
+            /*判断瀑布流最大布局宽度，最大为1280*/
+            function tores(){
+                var tmpWid=$(window).width();
+                
+                if(tmpWid>1280){
+                    tmpWid=1280;
+                }else{
+                    var column=Math.floor(tmpWid/320);
+                    tmpWid=column*320;
+                }
+                $('.waterfull').width(tmpWid);
+
+                var Wid=$(window).width();      
+
+            }
+            tores();
+            $(window).resize(function(){
+                tores();
+            });
+            container.imagesLoaded(function(){
+              container.masonry({
+                columnWidth: 160,
+                itemSelector : '.item',
+                isFitWidth: true,//是否根据浏览器窗口大小自动适应默认false
+                isAnimated: true,//是否采用jquery动画进行重拍版
+                isRTL:false,//设置布局的排列方式，即：定位砖块时，是从左向右排列还是从右向左排列。默认值为false，即从左向右
+                isResizable: true,//是否自动布局默认true
+                animationOptions: {
+                    duration: 800,
+                    easing: 'easeInOutBack',//如果你引用了jQeasing这里就可以添加对应的动态动画效果，如果没引用删除这行，默认是匀速变化
+                    queue: false//是否队列，从一点填充瀑布流
+                }
+              });
+            });
+            /*本应该通过ajax从后台请求过来类似sqljson的数据然后，便利，进行填充，这里我们用sqlJson来模拟一下数据*/
+            $(window).scroll(function(){
+                // 计算所有瀑布流块中距离顶部最大，进而在滚动条滚动时，来进行ajax请求，方法很多这里只列举最简单一种，最易理解一种
+                if(!loading.data("on")) return;
+                var itemNum=$('#waterfull').find('.item').length;
+                var itemArr=[];
+                itemArr[0]=$('#waterfull').find('.item').eq(itemNum-1).offset().top+$('#waterfull').find('.item').eq(itemNum-1)[0].offsetHeight;
+                itemArr[1]=$('#waterfull').find('.item').eq(itemNum-2).offset().top+$('#waterfull').find('.item').eq(itemNum-1)[0].offsetHeight;
+                itemArr[2]=$('#waterfull').find('.item').eq(itemNum-3).offset().top+$('#waterfull').find('.item').eq(itemNum-1)[0].offsetHeight;
+                var maxTop=Math.max.apply(null,itemArr);
+                var desc = $(".order").val();
+                if( $(document).height() == ($(window).height()+$(document).scrollTop())){
+                    //加载更多数据
+                   var page = $(".page").val();
+                    $.post("{php echo $this->createMobileUrl('ajax_top', array('id'=>$id));}",{page: page,order:desc},function(data){
+                        if (data !="undefined" && data!="0") {
+                            var sqlJson = $.parseJSON(data);
+                            loading.data("on",false).fadeIn(800);
+                            (function(sqlJson){
+                            /*这里会根据后台返回的数据来判断是否你进行分页或者数据加载完毕这里假设大于30就不在加载数据*/
+                            
+                                var html="";
+                                for(var i in sqlJson){
+                                    html+="<li class='item'><a href='index.php?i={php echo $_GPC['i'];}&c=entry&id="+sqlJson[i].id+"&do=detail&m=yuexiage_community' class='a-img'><img src='"+sqlJson[i].thumb+"' style='width:100%'></a>";
+                                    html+="<h2 class='li-title'>"+sqlJson[i].title+"</h2>";
+                                    html+="<div class='qianm clearfloat'>";
+                                    html+="<span class='sp1'><b>"+sqlJson[i].click+"</b>浏览</span>";
+                                    html+="<span class='sp2'>"+sqlJson[i].author+"</span><span class='sp3'>"+sqlJson[i].createtime+"&nbsp;By</span></div></li>";      
+                                }
+                                /*模拟ajax请求数据时延时800毫秒*/
+                                var time=setTimeout(function(){
+                                    $(html).find('img').each(function(index){
+                                        loadImage($(this).attr('src'));
+                                    })
+                                    var $newElems = $(html).css({ opacity: 0}).appendTo(container);
+                                    $newElems.imagesLoaded(function(){
+                                        $newElems.animate({ opacity: 1},800);
+                                        container.masonry( 'appended', $newElems,true);
+                                        loading.data("on",true).fadeOut();
+                                        clearTimeout(time);
+                                    });
+                                },800)
+                          
+                            })(sqlJson);
+                            $(".page").val(++page);
+                        }else{
+                            $("#imloading").show('2000').text('就有这么多了');
+                        }
+                    });
+                }
+            });
+    });
+     function loadImage(url) {
+         var img = new Image(); 
+         //创建一个Image对象，实现图片的预下载
+          img.src = url;
+          if (img.complete) {
+             return img.src;
+          }
+          img.onload = function () {
+            return img.src;
+          };
+     };
+     loadImage('{$_W["siteroot"]}addons/yuexiage_community/images/css/images/one.jpeg');  
+
+    function playmasonry(desc){
+        var page = $(".page").val();
+            var container = $('.waterfull ul');
+            var loading=$('#imloading');
+            // 初始化loading状态
+            loading.data("on",true);
+            /*判断瀑布流最大布局宽度，最大为1280*/
+            function tores(){
+                var tmpWid=$(window).width();
+                
+                if(tmpWid>1280){
+                    tmpWid=1280;
+                }else{
+                    var column=Math.floor(tmpWid/320);
+                    tmpWid=column*320;
+                }
+                $('.waterfull').width(tmpWid);
+
+                var Wid=$(window).width();      
+
+            }
+            tores();
+            $(window).resize(function(){
+                tores();
+            });
+            container.imagesLoaded(function(){
+              container.masonry({
+                columnWidth: 160,
+                itemSelector : '.item',
+                isFitWidth: true,//是否根据浏览器窗口大小自动适应默认false
+                isAnimated: true,//是否采用jquery动画进行重拍版
+                isRTL:false,//设置布局的排列方式，即：定位砖块时，是从左向右排列还是从右向左排列。默认值为false，即从左向右
+                isResizable: true,//是否自动布局默认true
+                animationOptions: {
+                    duration: 800,
+                    easing: 'easeInOutBack',//如果你引用了jQeasing这里就可以添加对应的动态动画效果，如果没引用删除这行，默认是匀速变化
+                    queue: false//是否队列，从一点填充瀑布流
+                }
+              });
+            });
+        $.post("{php echo $this->createMobileUrl('ajax_top', array('id'=>$id));}",{page: page,order:desc},function(data){
+            if (data !="undefined" && data!="0") {
+                var sqlJson = $.parseJSON(data);
+                loading.data("on",false).fadeIn(800);
+                (function(sqlJson){
+                /*这里会根据后台返回的数据来判断是否你进行分页或者数据加载完毕这里假设大于30就不在加载数据*/
+                
+                    var html="";
+                    for(var i in sqlJson){
+                            html+="<li class='item'><a href='index.php?i={php echo $_GPC['i'];}&c=entry&id="+sqlJson[i].id+"&do=detail&m=yuexiage_community' class='a-img'><img src='"+sqlJson[i].thumb+"' style='width:100%'></a>";
+                            html+="<h2 class='li-title'>"+sqlJson[i].title+"</h2>";
+                            html+="<div class='qianm clearfloat'>";
+                            html+="<span class='sp1'><b>"+sqlJson[i].click+"</b>浏览</span>";
+                            html+="<span class='sp2'>"+sqlJson[i].author+"</span><span class='sp3'>"+sqlJson[i].createtime+"&nbsp;By</span></div></li>";      
+                        }
+                    /*模拟ajax请求数据时延时800毫秒*/
+                    var time=setTimeout(function(){
+                        $(html).find('img').each(function(index){
+                            loadImage($(this).attr('src'));
+                        })
+                        var $newElems = $(html).css({ opacity: 0}).appendTo(container);
+                        $newElems.imagesLoaded(function(){
+                            $newElems.animate({ opacity: 1},800);
+                            container.masonry( 'appended', $newElems,true);
+                            loading.data("on",true).fadeOut();
+                            clearTimeout(time);
+                        });
+                    },800)
+              
+                })(sqlJson);
+                $(".page").val(++page);
+            }else{
+                $("#imloading").show('2000').text('就有这么多了');
+            }
+        });
+    }
+
+    function getCon(desc){
+        $('.waterfull ul').html('');
+        $(".page").val('1');
+        $(".order").val(desc);
+        $(".panel-heading .row a").removeClass("active");
+        $("#"+desc).addClass("active");
+        playmasonry(desc);
+    }
+</script>
+<style>
+    .choice .panel-heading {
+        text-align: center;
+    }
+</style>
+
+
+<nav class="navbar navbar-default navbar-fixed-top">
+        <form class="navbar-form navbar-left" method="post" role="search" action="{php echo $this->createMobileUrl('community', array());}">
+            <div class="form-group">
+                     <input type="search" name="keyword" class="form-control" placeholder="搜索">
+            </div>
+        </form>
+</nav>
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            {loop $list $adv}
+            <div class="swiper-slide">
+                <a href="{if empty($adv['url'])}#{else}{$adv['url']}{/if}">
+                    <img src="{php echo tomedia($adv['thumb']);}" title="{$adv['title']}" style="width:100%"/>
+                </a>
+                <span class="title">{$adv['title']}</span>
+            </div>
+            {/loop}
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination swiper-pagination-white"></div>
+    </div>
+    <div class="panel panel-default tabs">
+        <div class="panel-heading">热门标签 <a href="{php echo $this->createMobileUrl('more', array());}" class="navbar-link pull-right"> 更多> </a></div>
+        <div class="panel-body">
+            <div class="swiper-container1">
+                <div class="swiper-wrapper">
+                    {loop $tabs_top $adv}
+                    <div class="swiper-slide">
+                        <a href="{php echo $this->createMobileUrl('tabs_list', array('id'=>$adv['id']));}">
+                            <img src="{php echo tomedia($adv['thumb']);}" title="{$adv['name']}" style="width:100%"/>
+                        </a>
+                        <span class="title">{$adv['name']}</span>
+                    </div>
+                    {/loop}
+                </div>
+                <!-- Add Pagination -->
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default choice">
+        <div class="panel-heading"> 
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-xs-4"><a id="choice" href="javascript:;" onclick="getCon('choice')">精选</a></div>
+                    <div class="col-md-4 col-xs-4"><a id="createtime" href="javascript:;" onclick="getCon('createtime')" class="active">最新</a></div>
+                    <div class="col-md-4 col-xs-4"><a id="click" href="javascript:;" onclick="getCon('click')" >最热</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="content">
+                <!-- 瀑布流样式开始 -->
+                <div class="waterfull clearfloat" id="waterfull">
+                    <ul>
+                        {loop $contents $item}
+                        <li class="item">
+                            <a href="{php echo $this->createMobileUrl('detail', array('id'=>$item['id']));}" class="a-img">
+                                <img src="{php echo tomedia($item['thumb'])}" alt="" style="width:100%">
+                            </a>
+                            <h2 class="li-title" title="{$item['title']}">
+                                {$item['title']}
+                            </h2>
+                            
+                            <div class="qianm clearfloat">
+                                <span class="sp1"><b>{$item['click']}</b>浏览</span>
+                                <span class="sp2">{$item['author']}</span>
+                                <span class="sp3">{php echo date('Y-m-d',$item['createtime']);}&nbsp;By</span>
+                            </div>
+                        </li>
+                        {/loop}
+                    </ul>
+                </div>
+                <!-- loading按钮自己通过样式调整 -->
+                <div id="imloading" style="width:150px;height:30px;line-height:30px;font-size:16px;text-align:center;border-radius:3px;opacity:0.7;background:#000;margin:10px auto 30px;color:#fff;display:none">
+                    Loading.....
+                </div>
+            </div>
+            <input type="hidden" class="page" value="2">
+            <input type="hidden" class="order" value="createtime">
+        </div>
+    </div>
+
+
+<div class="panel panel-default" style="    padding-bottom: 2px;">
+    <div class="panel-heading navbar-fixed-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-xs-4" style="    line-height: 30px;border-right: 1px solid #e5e5e5;text-align: center">
+                    <a  href="{php echo $this->createMobileUrl('community', array());}" class="hits">
+                    <i class="glyphicon glyphicon-home" style="color:#6c6c6c"></i>
+                    </a>
+                </div>
+                <div class="col-md-4 col-xs-4" style="border-right: 1px solid #e5e5e5;text-align: center">
+                    <a  href="javascript:;" class="comment" onclick="return Checkaccess()">
+                    <i class="glyphicon glyphicon-camera" style="color:#2da4fe;font-size:25px;"></i>
+                    </a>
+                </div>
+                <div class="col-md-4 col-xs-4" style="text-align: center;    line-height: 30px;">
+                    <a  href="{php echo $this->createMobileUrl('user', array('uid'=>$user['uid']));}">
+                    <i class="glyphicon glyphicon-user" style="color:#6c6c6c"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function Checkaccess(){
+        $.post("{php echo $this->createMobileUrl('Checkaccess', array());}",{type:'create'},function(data){
+            var dataset = $.parseJSON(data);
+            if(dataset.error=='4'){
+                alert("请不要频繁发帖");
+            }else if(dataset.error){
+                alert("你没有发帖权限!");
+            }
+            else if(dataset.success){
+                location.href ="{php echo $this->createMobileUrl('addcontent', array());}";
+            }
+        });
+    }
+</script>
+
+
+<script src="{$_W['siteroot']}addons/yuexiage_community/images/js/swiper.min.js"></script>
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        paginationClickable: true
+    });
+</script>
+<script>
+    var swiper = new Swiper('.swiper-container1', {
+        slidesPerView: 3,
+        spaceBetween: 5,
+        freeMode: true
+    });
+</script>
+
+{template 'footer'}
+

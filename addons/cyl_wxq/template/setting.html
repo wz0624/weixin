@@ -1,0 +1,31 @@
+{template 'common/header'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+		
+		<div class="panel panel-default">
+			<div class="panel-heading">设置</div>
+			<div class="panel-body">				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">广告图片</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_image('data[gg]', $settings['gg'])}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">广告链接</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="data[link]" class="form-control" value="{$settings['link']}" />						
+					</div>
+
+				</div>
+		<div class="form-group">
+					<div class="col-xs-12 col-sm-9 col-md-10 col-lg-10 col-sm-offset-3 col-md-offset-2 col-lg-offset-2">
+						<input name="submit" type="submit" value="提交" class="btn btn-primary" />
+						<input type="hidden" name="token" value="{$_W['token']}" />
+					</div>
+				</div>
+	</form>
+</div>
+{template 'common/footer'}

@@ -1,0 +1,93 @@
+
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<meta name="format-detection" content="telephone=no"/>
+
+
+<link href="{DZ}mobile/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{DZ}mobile/css/lift.css" />
+
+
+<script src="{DZ}mobile/js/jquery.min.js"></script>
+<script src="{DZ}mobile/js/bootstrap.min.js"></script>
+{php echo register_jssdk(false);}
+<script type="text/javascript">
+ wx.ready(function () {
+        url = 
+        sharedata = {
+            title: "今天是我活着的第{$Days}天,未来我还将拥有{$s_Days}天",
+            desc: "珍惜生活，感恩每一个遇到的朋友，生命万岁",
+            link: "{$url}",
+            imgUrl: "{$_W['siteroot']}addons/dzduocai_life/icon.jpg",
+            success: function(){
+                
+                
+
+            },
+            cancel: function(){
+                alert("分享失败，可能是网络问题，一会儿再试试？");
+            }
+        };
+        wx.onMenuShareAppMessage(sharedata);
+        wx.onMenuShareTimeline(sharedata);
+    });
+
+
+
+
+</script>
+
+<title>生命计算器</title>
+</head>
+<body class="l_list l_list2">
+    <div class="container">
+        <div class="media">
+          <div class="media-left">
+            <a href="#">
+              <img alt="64x64"  class="media-object img-circle" style="width: 64px; height: 64px;" src="{DZ}mobile/images/a2.png">
+            </a>
+          </div>
+          <div class="media-body">
+            <h5 class="media-heading text-muted">假如你能活100岁，你还能存在</h5>
+            <h3><strong>{$s_Days}天</strong>
+
+</h3>
+          </div>
+        </div>
+      </div>
+    </div> 
+    </div> <!-- E header -->
+
+
+    <div class="list_area container">
+        <ul class="list-unstyled">
+            <li class="list_first"> <h6 class="text-muted">剩下的日子里，你大约可以</h6> </li>
+            <li> 睡 <strong>{$s_Days}</strong> 次觉 </li>
+            <li> 吃 <strong>{$s_fan}</strong> 顿饭 </li>
+            <li> 洗 <strong>{$s_zao}</strong> 次澡 </li>
+            <li> 生 <strong>{$s_bing}</strong></strong> 次病 </li>
+             <li> 过 <strong>{$s_zhou}</strong> 个周末 </li>
+            <li> 放 <strong>{$s_pi}</strong> 个屁 </li>
+            <li> 做 <strong>{$s_meng}</strong> 个梦 </li>
+            <li> 吵 <strong>{$s_chaojia}</strong> 次架 </li>
+            <li> 眨 <strong>{$s_zhayan}</strong> 次眼 </li>
+            <li> 流 <strong>{$s_lei}</strong> 次泪 </li>
+            <li> 说 <strong>{$s_hang}</strong> 次谎 </li>
+            <li> 剪 <strong>{$s_zhijia}</strong> 次指甲 </li>
+            <li> 喝 <strong>{$s_shui}</strong> 杯水 </li>
+            <li> 伸 <strong>{$s_lanyao}</strong>个懒腰 </li>
+            <li> 打 <strong>{$s_haqian}</strong>次哈欠 </li>
+        </ul>
+
+        <div class="buttons text-center">
+            <a href="{php echo $this->createMobileUrl('view',array('date_time'=>$date_time))}" class="btn btn-default btn-lg"><strong>现在</strong></a>
+
+            
+        </div> <!-- E buttons -->
+   </div> <!-- E list_area -->
+
+</body>
+</html>

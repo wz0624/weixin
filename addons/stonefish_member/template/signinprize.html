@@ -1,0 +1,113 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li><a href="{php echo $this->createWebUrl('level');}">等级头衔</a></li>
+	<li><a href="{php echo $this->createWebUrl('sms');}">短信中心</a></li>
+	<li class="active"><a href="{php echo $this->createWebUrl('signin');}">签到中心</a></li>
+	<li><a href="{php echo $this->createWebUrl('message');}">消息中心</a></li>
+	<li><a href="{php echo $this->createWebUrl('feedback');}">留言中心</a></li>
+	<li><a href="{php echo $this->createWebUrl('task');}">任务中心</a></li>
+	<li><a href="{php echo $this->createWebUrl('member');}">会员中心</a></li>
+	<li><a href="{php echo $this->createWebUrl('template');}">会员模板</a></li>
+	<li><a href="{php echo $this->createWebUrl('fanslog');}">粉丝统计</a></li>	
+	<li><a href="{php echo $this->createWebUrl('memberlog');}">会员统计</a></li>
+</ul>
+<!-- 奖励记录 -->
+<div class="clearfix">
+	    <div class="alert alert-info">奖励积分(必须为整数) 注意:积分数最好控制在1－9之间。</div>
+		<div class="panel panel-default">
+		    <div class="panel-heading">
+			    <a class="btn btn-danger" href="{php echo $this->createWebUrl('signin');}"><i class="fa fa-cogs"></i> 签到配置</a>
+		    </div>
+			<div class="panel-body">
+			<div class="row-fluid">
+    			<div class="span8 control-group">
+					<a class="btn btn-default" href="{php echo $this->createWebUrl('signinrecord');}"><i class="fa fa-list"></i> 签到记录</a>
+					<a class="btn btn-primary active" href="{php echo $this->createWebUrl('signinprize');}" style="margin-left:10px;"><i class="fa fa-list"></i> 奖励记录</a>
+       		 </div>
+    		</div>
+    		</div>
+	    </div>		
+		<div class="panel panel-default" id="cardmain">
+			<div class="panel-heading">
+				奖励记录
+			</div>
+			<form method="post" class="form-horizontal" id="signinrecord">
+			<input type="hidden" name="op" value="del" />
+			<div style="position:relative">
+				<div class="panel-body table-responsive">
+					<table class="table table-hover" style="position:relative">
+						<thead class="navbar-inner">
+							<tr>
+								<th style="width:50px;">删？</th>
+								<th style="width:100px;">头像</th>
+								<th style="width:150px;">真实姓名</th>
+								<th style="width:150px;">手机号码</th>					
+								<th style="width:150px;">签到时间</th>
+								<th style="width:220px;">奖励类型</th>
+								<th style="width:120px;">积分奖励</th>
+							</tr>
+						</thead>
+						<tbody>
+							{loop $prize $row}
+							<tr>
+								<td><input type="checkbox" name="uid[]" value="{$row['id']}"></td>
+								<td><img src="{if !empty($row['avatar'])}{$row['avatar']}{else}resource/images/noavatar_middle.gif{/if}" width="48"></td>
+								<td>{$row['realname']}</td>
+								<td>{$row['mobile']}</td>
+								<td>{php echo date('Y/m/d H:i',$row['sign_time']);}</td>
+								<td>{$row['prizetype']}</td>								
+								<td>{$row['signcredit']}{$row['signtype']}</td>								
+							</tr>
+							{/loop}
+							<tr>
+								<td><input type="checkbox" name="" onclick="var ck = this.checked;$(':checkbox').each(function(){this.checked = ck});"></td>
+								<td colspan="5"><input name="token" type="hidden" value="{$_W['token']}" /><input type="submit" name="submit" class="btn btn-primary" value="删除选中的记录"></td>
+							</tr>
+						</tbody>
+					</table>
+					{$pager}
+				</div>
+			</div>
+			</form>
+		</div>
+</div>
+<div id="guanbi" class="hide">
+	<span type="button" class="pull-right btn btn-primary" data-dismiss="modal" aria-hidden="true">关闭</span>
+</div>
+<script>
+	require(['jquery', 'util'], function($, u){
+		$('.userinfo').click(function(){
+			var uid = parseInt($(this).attr('id'));
+			$.get("{php echo url('site/entry/userinfo',array('m' => 'stonefish_planting','rid' => $rid))}&uid=" + uid, function(data){
+				if(data == 'dataerr') {
+					u.message('未找到指定粉丝资料', '', 'error');
+				} else {
+					var obj = u.dialog('粉丝资料兑奖参数', data, $('#guanbi').html());
+				}
+				obj.modal('show');
+			});
+		});
+		$('#signinrecord').submit(function(){
+		    if($(":checkbox[name='uid[]']:checked").size() > 0){
+			    var check = $(":checkbox[name='uid[]']:checked");
+			    if( confirm("确认要删除选择的签到奖励记录?")){
+		            var id = new Array();
+		            check.each(function(i){
+			            id[i] = $(this).val();
+		            });
+		            $.post('{php echo $this->createWebUrl('deletesigninprize')}', {idArr:id},function(data){
+			        if (data.errno ==0){
+						location.reload();
+			        } else {
+				        alert(data.error);
+			        }
+		            },'json');
+		        }
+		    }else{
+		        u.message('没有选择签到奖励记录', '', 'error');
+		        return false;
+		    }
+	    });
+	});	
+</script>
+{template 'common/footer'}

@@ -1,0 +1,480 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li {if $op == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('list', array('op' => 'post'))}">添加活动</a></li>
+	<li {if $op == 'display'&&$_GPC['status']==0}class="active"{/if}><a href="{php echo $this->createWebUrl('list', array('op' => 'display'))}">管理活动</a></li>	
+</ul>
+{if $op == 'post'}
+
+
+
+	<!-- jQuery -->
+	<!-- Bootstrap 3 -->
+	<script src="../addons/hc_chuansong/js/bootstrap.min.js"></script>
+
+	<!-- MiniColors -->
+	<script src="../addons/hc_chuansong/js/jquery.minicolors.js"></script>
+	<link rel="stylesheet" href="../addons/hc_chuansong/css/jquery.minicolors.css">
+	<script>
+		$(document).ready( function() {
+
+            $('.demo').each( function() {
+                //
+                // Dear reader, it's actually very easy to initialize MiniColors. For example:
+                //
+                //  $(selector).minicolors();
+                //
+                // The way I've done it below is just for the demo, so don't get confused
+                // by it. Also, data- attributes aren't supported at this time...they're
+                // only used for this demo.
+                //
+				$(this).minicolors({
+					control: $(this).attr('data-control') || 'hue',
+					defaultValue: $(this).attr('data-defaultValue') || '',
+					inline: $(this).attr('data-inline') === 'true',
+					letterCase: $(this).attr('data-letterCase') || 'lowercase',
+					opacity: $(this).attr('data-opacity'),
+					position: $(this).attr('data-position') || 'bottom left',
+					change: function(hex, opacity) {
+						if( !hex ) return;
+						if( opacity ) hex += ', ' + opacity;
+						try {
+							console.log(hex);
+						} catch(e) {}
+					},
+					theme: 'bootstrap'
+				});
+
+            });
+
+		});
+	</script>
+
+
+	<style>
+		dl {
+			margin: 20px 0;
+		}
+		dt {
+			font-size: 120%;
+		}
+		dd {
+			padding: 10px 20px 20px 20px;
+		}
+		dd:last-child {
+			border-bottom: none;
+		}
+		code {
+			color: black;
+			border: none;
+			background: rgba(128, 128, 128, .1);
+		}
+		pre {
+			background: #f8f8f8;
+			border: none;
+			color: #333;
+			padding: 20px;
+		}
+		h2 {
+			margin-top: 50px;
+		}
+		h3 {
+			color: #aaa;
+		}
+	</style>
+
+	
+	
+<div class="main">
+	<form action="" method="post" class="form-horizontal form">
+		
+<div class="panel panel-default">
+<a class="close" data-dismiss="alert">×</a>
+    <div class="panel-heading">
+        活动详细设置
+    </div>
+
+
+	<div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">活动标题</label>
+            <div class="col-sm-9 col-xs-12">
+              <input type="text" value="{$item['title']}" class="span5" name="title">
+					<div class="help-block">活动标题</div>
+            </div>
+        </div>
+    </div>
+	
+	<div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">头部照片</label>
+            <div class="col-sm-9 col-xs-12">
+				{php echo tpl_form_field_image('thumb', $item['thumb'])}
+            </div>
+        </div>
+    </div>
+
+
+
+
+	<div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">中部右侧</label>
+            <div class="col-sm-9 col-xs-12">
+              <input type="text" value="{$item['str1']}" class="span5" name="str1">
+					<div class="help-block">中部右侧</div>
+            </div>
+        </div>
+    </div>
+	
+
+
+	<div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">页面标题</label>
+            <div class="col-sm-9 col-xs-12">
+              <input type="text" value="{$item['page_title']}" class="span5" name="page_title">
+					<div class="help-block">页面标题</div>
+            </div>
+        </div>
+    </div>
+	
+
+
+	<div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">活动时间</label>
+            <div class="col-sm-9 col-xs-12">
+              {php echo tpl_form_field_date('starttime', date('Y-m-d H:i:s',empty($item['starttime'])?time():$item['starttime']), true)}~
+					{php echo tpl_form_field_date('endtime', date('Y-m-d H:i:s',empty($item['endtime'])?time()+3600*240:$item['endtime']), true)}
+            </div>
+        </div>
+    </div>
+	
+
+
+	<div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">活动上限人次</label>
+            <div class="col-sm-9 col-xs-12">
+              <input type="text" value="{$item['total_nums']}" class="span5" name="total_nums">
+					<div class="help-block">活动上限人次</div>
+            </div>
+        </div>
+    </div>
+	
+
+
+	<div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">每人抽奖码上限</label>
+            <div class="col-sm-9 col-xs-12">
+              <input type="text" value="{$item['limit_nums']}" class="span5" name="limit_nums">
+					<div class="help-block">每个人的参与上限</div>
+            </div>
+        </div>
+    </div>
+	
+
+
+		<div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">报名成功图片</label>
+            <div class="col-sm-9 col-xs-12">
+				{php echo tpl_form_field_image('result_thumb', $item['result_thumb'])}
+            </div>
+        </div>
+    </div>
+	
+	<div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">候选列表图片</label>
+            <div class="col-sm-9 col-xs-12">
+				{php echo tpl_form_field_image('houxuan_thumb', $item['houxuan_thumb'])}
+            </div>
+        </div>
+    </div>
+	
+	
+	<div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">注册页面背景颜色</label>
+            <div class="col-sm-9 col-xs-12">
+				<input type="text" id="hue-demo" name="regist_color" class="form-control demo" data-control="hue" value="{$item['regist_color']}">
+            </div>
+        </div>
+    </div>
+	
+	
+	<div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">个人抽奖码页面背景颜色</label>
+            <div class="col-sm-9 col-xs-12">
+				<input type="text" id="hue-demo" name="home_color" class="form-control demo" data-control="hue" value="{$item['home_color']}">
+            </div>
+        </div>
+    </div>
+	
+
+	<div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">活动说明</label>
+            <div class="col-sm-9 col-xs-12">
+		<textarea name="desc" class="form-control richtext" cols="70" rows="100" id='jiesao'>{$item['desc']}</textarea>
+            </div>
+        </div>
+    </div>
+	<div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">是否默认活动</label>
+            <div class="col-sm-9 col-xs-12">
+				<label for="is_default0" class="radio inline"><input id="is_default0" type="radio" name="is_default" value="1" {if $item['is_default']==1} checked="true" {/if}>默认活动</label>&nbsp;&nbsp;&nbsp;
+					<label for="is_default1" class="radio inline"><input id="is_default1" type="radio" name="is_default" value="0" {if $item['is_default']==0} checked="true" {/if}>非默认</label>
+					<span class="help-block">每次只能设置一个默认活动，请注意,若设置此默认，其他将自动关闭</span>
+            </div>
+        </div>
+    </div>
+	
+	<div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">是否开启活动</label>
+            <div class="col-sm-9 col-xs-12">
+				<label for="status0" class="radio inline"><input id="status0" type="radio" name="status" value="1" {if $item['status']==1} checked="true" {/if}>开启活动</label>&nbsp;&nbsp;&nbsp;
+					<label for="status1" class="radio inline"><input id="status1" type="radio" name="status" value="0" {if $item['status']==0} checked="true" {/if}>关闭活动</label>
+					<span class="help-block">每次只能有一个活动</span>		
+            </div>
+        </div>
+    </div>
+	
+	<div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">分享口号</label>
+            <div class="col-sm-9 col-xs-12">
+				<input type="text" name="share_kouhao" class="span3" value="{$item['share_kouhao']}" />
+					<span class="help-block">分享口号： 我要白住(注意：要4个字)</span>
+            </div>
+        </div>
+    </div>
+		
+
+	
+
+	<div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">分享标题</label>
+            <div class="col-sm-9 col-xs-12">
+              <input type="text" value="{$item['share_title']}" class="span5" name="share_title">
+					<div class="help-block">分享标题</div>
+            </div>
+        </div>
+    </div>
+		
+		
+		
+	<div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">分享图片</label>
+            <div class="col-sm-9 col-xs-12">
+				{php echo tpl_form_field_image('share_thumb', $item['share_thumb'])}
+            </div>
+        </div>
+    </div>
+	
+	
+	
+	
+	<div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">分享描述</label>
+            <div class="col-sm-9 col-xs-12">
+              <input type="text" value="{$item['share_desc']}" class="span5" name="share_desc">
+					<div class="help-block">分享描述</div>
+            </div>
+        </div>
+    </div>
+	
+	
+	
+
+
+
+	<div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">分享内容</label>
+            <div class="col-sm-9 col-xs-12">
+		<textarea name="share_detail" class="form-control richtext" cols="70" rows="100" id="jiesao2">{$item['share_detail']}</textarea>
+            </div>
+        </div>
+    </div>
+		
+
+	
+	
+	
+</div>
+
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<table>
+			<tr>
+				<th></th>
+				<td>
+					<input name="submit" type="submit" value="提交" class="btn btn-primary span3">
+					<input type="hidden" name="token" value="{$_W['token']}" />
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+<script type="text/javascript">
+require(['jquery', 'util'], function($, u){
+	$(function(){
+		u.editor($('#jiesao')[0]);
+	});
+});
+require(['jquery', 'util'], function($, u){
+	$(function(){
+		u.editor($('#jiesao2')[0]);
+	});
+});
+
+</script>
+{elseif $op == 'display'}
+<div class="main">
+	<!--<div class="search">
+		<form action="site.php" method="get">
+		<input type="hidden" name="act" value="module" />
+		<input type="hidden" name="do" value="list" />
+		<input type="hidden" name="name" value="hc_chuansong" />
+		<table class="table table-bordered tb">
+			<tbody>
+				<tr>
+					<th>活动名称</th>
+					<td>
+						<input class="span6" name="keyword" id="" type="text" value="{$_GPC['keyword']}">
+					</td>
+				</tr>
+				<tr>
+				 <tr class="search-submit">
+					<td colspan="2"><button class="btn pull-right span2"><i class="icon-search icon-large"></i> 搜索</button></td>
+				 </tr>
+			</tbody>
+		</table>
+		</form>
+	</div>-->
+	<div class="category">
+		<form action="" method="post" onsubmit="return formcheck(this)">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+ 					<th style="width:60px;">编号</th>
+					<th style="width:120px;">主标题</th>
+					<th style="width:180px;">头部图片</th>
+					<th style="width:60px;">限制人数</th>
+					<th style="width:60px;">参加人数</th>
+					<th style="width:100px;">个人限制</th>
+					<th style="width:120px;">活动时间</th>
+
+					<th style="width:100px;">状态</th>
+					<th style="width:80px;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{php $i=1}
+			{loop $list $row}
+				<tr>
+ 					<td>{$row['id']}</td>
+  					<td>{$row['title']}</td>
+					<td>{if !empty($row['thumb'])}<img src="{$_W['attachurl']}{$row['thumb']}" width="100px">{else}<img src="./resource/mstyle/img/headimg.jpg" width="150px">{/if}</td>
+  					<td>{$row['total_nums']}</td>
+  					<td>{$row['join_num']}</td>
+  					<td>{$row['limit_nums']}</td>
+					<td>{php echo date('Y-m-d H:i:s',$row['starttime'])}<br>
+						{php echo date('Y-m-d H:i:s',$row['endtime'])}
+					</td>
+					<td>{if $row['is_default']==1}<span class="label label-success">默认活动</span>{else}<span class="label label-error">非默认</span>{/if}
+						{if $row['status']==1}<span class="label label-success">已开始</span>{else}<span class="label label-error">未开始</span>{/if}
+ 					</td>
+					<td>
+						<a href="{php echo $this->createWebUrl('list', array('op'=>'detail','id' => $row['id']))}">参加人数详情</a>&nbsp;&nbsp;<br>
+						<a href="{php echo $this->createWebUrl('list', array('op' => 'post', 'id' => $row['id']))}">编辑</a>&nbsp;&nbsp;
+						<a href="{php echo $this->createWebUrl('list', array('op' => 'delete', 'id' => $row['id']))}" onclick="return confirm('确认删除此活动吗？');return false;">删除</a>
+					</td>
+				</tr>
+  			{/loop}
+			</tbody>
+		</table>
+		</form>
+		{$pager}
+	</div>
+</div> 
+{elseif $op == 'detail' || $op == 'search_detail'}
+<div class="main">
+	<div class="search">
+		<form action="{php echo $this->createWebUrl('list',array('op'=>'search_detail','id'=>$id))}" method="post">
+		<table class="table table-bordered tb">
+			<tbody>
+				<tr>
+					<th>姓名</th>
+					<td>
+						<input class="span6" name="keyword" id="" type="text" value="{$_GPC['keyword']}">
+					</td>
+				</tr>
+				<tr>
+				 <tr class="search-submit">
+					<td colspan="2"><button class="btn pull-right span2"><i class="icon-search icon-large"></i> 搜索</button></td>
+				 </tr>
+			</tbody>
+		</table>
+		</form>
+	</div>
+	<div class="category">
+		<form action="" method="post" onsubmit="return formcheck(this)">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+ 					<th style="width:60px;">编号</th>
+					<th style="width:120px;">姓名</th>
+					<th style="width:180px;">电话</th>
+					<th style="width:60px;">号码</th>
+					<th style="width:100px;">创建时间</th>
+					<th style="width:120px;">状态</th>
+					<th style="width:80px;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{php $i=1}
+			{loop $list $row}
+				<tr>
+ 					<td>{$row['id']}</td>
+  					<td>{$row['realname']}</td>
+   					<td>{$row['mobile']}</td>
+  					<td>{$row['award_no']}</td>
+					<td>{php echo date('Y-m-d H:i:s',$row['create_time'])}
+					</td>
+					<td> 
+						{if $row['status']==1}<span class="label label-success">正常</span>{else}<span class="label label-error">非正常</span>{/if}
+ 					</td>
+					<td>
+						<!--a href="{php echo $this->createWebUrl('list', array('op'=>'detail','id' => $row['id']))}">参加人数详情</a>&nbsp;&nbsp;<br>
+						<a href="{php echo $this->createWebUrl('list', array('op' => 'post', 'id' => $row['id']))}">编辑</a>&nbsp;&nbsp;
+						<a href="{php echo $this->createWebUrl('list', array('op' => 'delete', 'id' => $row['id']))}" onclick="return confirm('确认删除此活动吗？');return false;">删除</a-->
+					</td>
+				</tr>
+  			{/loop}
+			</tbody>
+		</table>
+		</form>
+		{$pager}
+	</div>
+</div>  
+{/if}
+{template 'common/footer'}

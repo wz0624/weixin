@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>自定义列表 - Xui Demo</title>
+  <!-- demo -->
+  <link rel="stylesheet" type="text/css" href="/addons/cyl_phone/template/mobile/css/demo.css">
+    <!-- xui -->
+  <link rel="stylesheet" type="text/css" href="/addons/cyl_phone/template/mobile/css/xui.css"> 
+  <script type="text/javascript" src="/addons/cyl_phone/template/mobile/js/jquery.min.js"></script>
+  <script type="text/javascript" src="/addons/cyl_phone/template/mobile/js/xui.js"></script>
+  
+  <!-- xlist -->
+  
+  <script type="text/javascript">
+    $(function(){
+      $("#xlist").xlist({
+        rows:2,       //每页行数默认 20
+        //xdata:$xdata_list,    //静态数据
+        url:"{php echo $this->createMobileurl('list')}"   //后台返回数据格式参考$xdata_list
+        format:function(row){
+          row.imgText = "<img src='"+row.img+"'/>";
+        }
+      });
+    })
+  </script>
+</head>
+<body style="width:300px;">
+  <h2>自定义列表</h2>
+  <div class="demo_xlist" id="xlist">
+    <div class="xtemplate">
+      <div class="item2 clearfix">
+        {imgText}
+        <span>{name}</span>
+        <p>￥{price}</p>
+      </div>
+    </div>
+    <div class="xload">加载更多...</div>
+    <div class="xnodata">暂无数据</div>
+  </div>
+</body>
+</html>

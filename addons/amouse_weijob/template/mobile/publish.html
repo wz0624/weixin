@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta  charset="utf-8">
+<meta  name="viewport"  content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=no">
+<title>发布岗位</title>
+<link type="text/css" rel="stylesheet" href="../addons/amouse_weijob/style/css/jquery.mmenu.all.css">
+<link  type="text/css"  rel="stylesheet"  href="../addons/amouse_weijob/style/css/base.css">
+<link  type="text/css"  rel="stylesheet"  href="../addons/amouse_weijob/style/css/resume.css">
+<link type="text/css" rel="stylesheet" href="../app/resource/css/font-awesome.min.css" />
+    <script type="text/javascript" src="../app/resource/js/lib/jquery-1.11.1.min.js"></script>
+<style>
+    .head{text-align: left;padding-top: 0px;height: 50px;line-height: 50px;background-image: none;}
+    .head a.job-back{width: 80px;height: 50px;background: url("../addons/amouse_weijob/style/images/icon_job_back.png") left center no-repeat;background-size: 11px 15px;}
+select{
+    float: left;
+    width: 65%;
+    height: 35px;
+    border: 1px solid #e2e2e2;
+    border-radius: 4px;
+    line-height: 35px;
+    color: #6a6c6c;
+    margin-left: 15px;
+}
+.select{
+    width:100%;position:absolute;top:0;left:0;opacity: 0;
+}
+#city_4 span{
+    position: relative;display: inline-block;width:21%;
+}
+#city_4 input{
+    width:100%;background:#fff;
+}
+.prov-show{
+    float: left;
+    width: 100%;
+    height: 35px;
+    border: 1px solid #e2e2e2;
+    border-radius: 4px;
+    background-color: #fff;
+    line-height: 35px;
+    color: #6a6c6c;
+    margin-left: 15px;
+    text-align:center;
+    font-size:13px;
+}
+</style>
+<body  style="">
+{php include_once IA_ROOT . '/addons/amouse_weijob/model.php'}
+{php $companyset = search_company()}
+	<nav id="menu_left" class="mm-menu mm-horizontal mm-ismenu">
+		<ul class="mm-list mm-panel mm-opened mm-current" id="mm-m0-p0">
+			<li>
+				<a href="{php echo $this->createMobileUrl('index',array('from_user'=>$openid),true)}">首页</a>
+			</li>
+			<li>
+				<a href="{php echo $this->createMobileUrl('companyset',array('from_user'=>$openid),true)}">公司信息/联系人信息</a>
+			</li>
+			<li>
+				<a {if empty($companyset)}href="{php echo $this->createMobileUrl('companysearch',array('from_user'=>$openid),true)}"{else}href="{php echo $this->createMobileUrl('publish',array('from_user'=>$openid),true)}"{/if}>发布岗位</a>
+			</li>
+			<li>
+				<a {if empty($companyset)}href="{php echo $this->createMobileUrl('companysearch',array('from_user'=>$openid),true)}"{else}href="{php echo $this->createMobileUrl('mypublish',array('from_user'=>$openid),true)}"{/if}>我的发布</a>
+			</li>
+		</ul>
+	</nav>
+	<div>
+		<div  class="head" style="text-align: center;">
+		<a  href="javascript:history.back(-1);"  style="margin-left:10px" class="job-back"><span style="color:white;font-size:15px;">返回</span>
+        </a>
+
+            发布岗位
+        <a href="{php echo $this->createMobileUrl('mypublish',array('from_user'=>$from_user),true)}" class="right-pic" style="margin-right:10px">
+            <span style="padding-right:15px;">发布记录</span>
+        </a>
+		</div>
+		<div  class="contents">
+		<div  class="resume-tabs">
+		{php include_once IA_ROOT . '/addons/amouse_weijob/model.php'}
+		{php $company = search_company()}
+		<form action="" method="post" enctype="multipart/form-data" id="myform" name="myform">
+            <input type="hidden" name="id" value="{$item[id]}">
+            <input type="hidden" name="companyid" value="{$company[id]}">
+            <p  class="clearfix form-item" style="padding-top:20px">
+                <label><span  class="red-color">*</span>招聘岗位</label>
+                <input  type="text"  name="jobname"  value="{$item['jobname']}">
+                <label class="error"></label>
+            </p>
+            <p  class="clearfix form-item">
+                <label  class="mysex"  data-id="1"><span  class="red-color">*</span>岗位类型</label>
+                <label  class="person-sex">
+                    <input  type="radio"  class="resume_sex" checked="checked"  name="jobtype"  id="person_sex"  value="0"  {if $item['type'] == 0}checked="checked"{/if}>全职</label>
+                <label  class="person-sex">
+                    <input  type="radio"  class="resume_sex"  name="jobtype"  value="1"  id="person_sex" {if $item['type'] == 1}checked="checked"{/if}>兼职</label>
+                <label  class="person-sex">
+                    <input  type="radio"  class="resume_sex"  name="jobtype"  value="2"  id="person_sex" {if $item['type'] == 2}checked="checked"{/if}>实习</label>
+            </p>
+            <p  class="clearfix form-item">
+                <label>招聘人数</label>
+                <input  type="text"  name="number" placeholder="注：0为若干，默认为若干"  value="{$item['number']}">
+            </p>
+            <p  class="clearfix form-item">
+                <label  for="person_age">公司名称</label>
+                <input  type="text"  name="company_name"  value="{$from['title']}" disabled="disabled">
+            </p>
+            <p  class="clearfix form-item">
+                <label  for="person_age">联系人</label>
+                <input  type="text"  name="link_man"  value="{$from['linkman']}">
+            </p>
+            <p  class="clearfix form-item">
+                <label><span  class="red-color">*</span>邮&nbsp;&nbsp;箱</label>
+                <input  type="text"  name="company_email"  value="{$from['email']}" >
+                <label class="error"></label>
+            </p>
+            <p  class="clearfix form-item">
+                <label><span  class="red-color">*</span>手&nbsp;&nbsp;机</label>
+                <input  type="text"  name="company_mobile"  value="{$from['phone']}">
+                <label class="error"></label>
+            </p>
+            <p  class="clearfix form-item">
+                <label></span>学历要求</label>
+                <span style="position: relative;display: inline-block;width:65%;"  class="sec">
+                <span class="prov-show" style="width:100%">{if empty($item)}---请选择学历---{else}{$item['edu']}{/if}</span>
+                    <select name="edu" class="select">
+                        <option value="不限" {if $item['edu'] == '不限'} selected="selected"{/if}>不限</option>
+                        <option value="初中" {if $item['edu'] == '初中'} selected="selected"{/if}>初中</option>
+                        <option value="高中" {if $item['edu'] == '高中'} selected="selected"{/if}>高中</option>
+                        <option value="中专" {if $item['edu'] == '中专'} selected="selected"{/if}>中专</option>
+                        <option value="大专" {if $item['edu'] == '大专'} selected="selected"{/if}>大专</option>
+                        <option value="本科" {if $item['edu'] == '本科'} selected="selected"{/if}>本科</option>
+                        <option value="硕士" {if $item['edu'] == '硕士'} selected="selected"{/if}>硕士</option>
+                        <option value="博士" {if $item['edu'] == '博士'} selected="selected"{/if}>博士</option>
+                    </select>
+                </span>
+            </p>
+            <p  class="clearfix form-item">
+                <label>薪资待遇</label>
+                <input  type="text"  name="offer"  placeholder="0为面议，其他则正常" value="{$item['offer']}">
+            </p>
+            <p  class="clearfix form-item">
+                <label><span  class="red-color">*</span>工作地点</label>
+                <input  type="text"  name="workplace" value="{$item['workplace']}">
+                <label class="error"></label>
+            </p>
+            <p  class="clearfix form-item">
+                <label>工作年限</label>
+                <input  type="text"  name="workyear"  value="{$item['workyear']}">
+            </p>
+            <p  class="clearfix form-item">
+                <label><span  class="red-color">*</span>截止日期</label>
+                <input type="text"  name="endtime" id="endtime" value="{$item['endtime']}" readonly="readonly" />
+                <link rel="stylesheet" href="../addons/amouse_weijob/style/css/mobiscroll.custom-2.6.2.min.css"  />
+                <script src="../addons/amouse_weijob/style/js/mobiscroll.custom-2.6.2.min.js?v=2014060101"></script>
+                <script type="text/javascript">
+                    $(function () {
+                        var opt = {
+                            preset: 'date', //日期
+                            theme: 'ios', //皮肤样式
+                            display: 'modal', //显示方式
+                            mode: 'scroller', //日期选择模式
+                            dateFormat: 'yy-mm-dd', // 日期格式
+                            setText: '确定', //确认按钮名称
+                            cancelText: '取消',//取消按钮名籍我
+                            dateOrder: 'yymmdd', //面板中日期排列格式
+                            dayText: '日', monthText: '月', yearText: '年', //面板中年月日文字
+                            startYear:2013,
+                            endYear:2023, //结束年份
+                            display:'bottom'
+                        };
+                        $('#endtime').mobiscroll(opt);
+                    });
+                </script>
+            </p>
+            <p  class="clearfix form-item">
+                <label><span  class="red-color">*</span>岗位描述</label>
+                <textarea  name="description"  type="text" >{$item['description']}</textarea>
+                <label class="error"></label>
+            </p>
+
+            <button type="submit" onclick="sub()" class="submit" name="submit" value="添加">
+                {if empty($item)}添加{else}保存{/if}
+            </button>
+            <input type="hidden" name="token" value="{$_W['token']}" />
+        </form>
+    </div>
+
+    </div>
+</div>
+<div  class="footer"></div>
+
+<script  type="text/javascript"  src="../addons/amouse_weijob/style/js/resume-publish.jsv=20150419"></script>
+<script type="text/javascript" src="../addons/amouse_weijob/style/js/jquery.mmenu.min.all.jsv=20150419"></script>
+<script type="text/javascript" src="../addons/amouse_weijob/style/js/alert.js?v=20150419"></script>
+<script type="text/javascript">
+$(function() {
+	// 为所有的 class="sec" 下的 select 绑定 onchange 事件
+	$(".sec select").change(function() {
+		// 当选择的时候，找到当前选中的 option
+		var option = $(this).find("option:selected");
+		// 获得 value 和 对应文本
+		var selv = option.val();
+		var selt = option.text();
+		// 然后找到 select 的父节点的第0个 span，把 selt 写入到 span 中
+		$(this).parent().find("span:eq(0)").html(selt);
+	})
+});
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#menu_left").mmenu();
+    });
+    function sub(){
+        alert('本人确认以上填写信息属实，如填写虚假信息，愿意为此承担全部责任!');
+    }
+</script>
+<div  id="mm-blocker" style="opacity: 0;"></div>
+</body>
+</html>

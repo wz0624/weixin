@@ -1,0 +1,16 @@
+<div class="weui_tabbar" style="position: fixed;bottom: 0px;">
+    <a href="{php echo $this->createMobileUrl('index');}" class="weui_tabbar_item weui_bar_item_on">
+      <div class="weui_tabbar_icon">
+        <img src="{MODULE_URL}images/home.png" alt="">
+      </div>
+      <p class="weui_tabbar_label">首页</p>
+    </a>    
+    <a href="{php echo $this->createMobileUrl('member', array('uid'=>$_W['fans']['uid']));}" class="weui_tabbar_item">
+      <div class="weui_tabbar_icon">
+        <img src="{MODULE_URL}images/ren.png" alt="">
+      </div>
+      <p class="weui_tabbar_label">会员</p>
+    </a> 
+</div>
+<script src='http://libs.useso.com/js/jquery/2.1.1/jquery.min.js'></script>
+<script src='{MODULE_URL}images/weui.js'></script>

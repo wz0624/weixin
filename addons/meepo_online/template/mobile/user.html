@@ -1,0 +1,104 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>个人中心</title>
+<meta name="Keywords" content="个人中心" />
+<meta name="Description" content="个人中心" />
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/user/css/user.css?T={php echo time()}"/>
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/user/css/public.css?T={php echo time()}"/>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+</head>
+<body>
+<style>
+/*------------mall.dwt店铺信息--------------*/
+.dianpu_main{width:100%; overflow:hidden;background: #ff6a00}
+.dianpu_main dl{width:100%; overflow:hidden; position:relative; padding-top:20px;}
+.dianpu_main dl p{ position:absolute; width:50px; height:35px;background-color:rgba(27,27,27,0.5); font-size:12px; line-height:35px; text-align:center; color:#FFF; right:5px; top:10px; border-radius:4px; }
+.dianpu_main dl dt{width:100%; overflow:hidden;}
+.dianpu_main dl dt img{ display:block; margin:auto; width:20%; border-radius:50%; }
+.dianpu_main dl dd{width:100%; overflow:hidden;}
+.dianpu_main dl dd span{ display:block; width:100%; overflow:hidden; font-size:14px; color:#FFF; text-align:center; line-height:20px; margin-top:10px;}
+.dianpu_main dl dd em{ display:block; width:100%; overflow:hidden; margin-top:10px;}
+.dianpu_main dl dd em img{ display:block; margin:auto; height:20px;}
+.dianpu_main ul{width:100%; overflow:hidden;background-color:rgba(27,27,27,0.3); margin-top:20px;}
+.dianpu_main ul li{ width:25%; float:left; height:50px; border-right:1px solid #bcbbbb; margin-left:-1px;}
+.dianpu_main ul li span{ display:block; width:100%; overflow:hidden; text-align:center; font-size:12px; line-height:120%; color:#eeeeee; padding-top:10px;}
+.dianpu_main ul li strong{ display:block; width:100%; overflow:hidden; text-align:center; font-size:14px; line-height:150%; color:#fff}
+.back {
+    left: 10px;
+    top: 10px;
+}
+.update {
+    cursor: pointer;
+    border-radius: 100%;
+    background: rgba(255, 255, 255, 0.15);
+    width: 18px;
+    height: 18px;
+    padding: 8px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    text-align: center;
+}
+
+.update img {
+	    display: block;
+    width: 18px;
+    height: 18px;
+}
+.shezhiback{
+	position: absolute;
+    right: 10px;
+    top: 10px;
+}
+.shezhi {
+    cursor: pointer;
+    border-radius: 100%;
+    background: rgba(255, 255, 255, 0.15);
+    width: 18px;
+    height: 18px;
+    padding: 8px;
+    text-align: center;
+}
+
+.shezhi img {
+	display: block;
+    width: 18px;
+    height: 18px;
+}
+</style>
+<div class="dianpu_main">
+<dl>
+<a href="{php echo $this->createMobileUrl('info_update')}" class="shezhiback">
+    <div class="shezhi" style="background:rgba(0,0,0,.5);"><img src="{MODULE_URL}template/mobile/user/images/shezhi.png"></div>
+ </a>
+<dt><img src="{$user['avatar']}" alt="{$user['nickname']}"></dt>
+<dd><span>{$user['nickname']}</span>
+</dd>
+</dl>
+<ul>
+<li class="bian"><span>我的积分</span><strong>{$credit1}</strong></li>
+<li class="bian"><span>参与直播</span><strong>{if $live_nums}{$live_nums}{else}0{/if}</strong></li>
+<li class="bian"><span>打赏次数</span><strong>{if !empty($dashang_nums)}{$dashang_nums}{else}0{/if}</strong></li>
+<li><span>送礼次数</span><strong>{if !empty($gift_nums)}{$gift_nums}{else}0{/if}</strong></li>
+</ul>
+</div>
+<div class="Wallet">
+<a href="{php echo $this->createMobileUrl('my_dashang')}"><em class="Icon Icon3"></em><dl class="b"><dt>打赏记录</dt><dd>&nbsp;</dd></dl></a>
+<a href="{php echo $this->createMobileUrl('my_gift')}" style="margin-left:5px;"><em class="gift_icon"></em><dl class="b" style="margin-left:38px;"><dt>礼物记录</dt><dd>&nbsp;</dd></dl></a>
+<a href="{php echo $this->createMobileUrl('my_pinglun')}"><em class="Icon Icon4"></em><dl class="b"><dt>我的评论</dt><dd>&nbsp;&nbsp;</dd></dl></a>
+<a href="{php echo $this->createMobileUrl('my_zan')}"><em class="Icon Icon10"></em><dl><dt>我的点赞</dt><dd>&nbsp;</dd></dl></a>
+</div>
+<div class="Wallet">
+<a href="{php echo $this->createMobileUrl('my_yyy')}" style="margin-left:5px;"><em class="shake_icon"></em><dl class="b" style="margin-left:38px;"><dt>摇奖记录</dt><dd>&nbsp;</dd></dl></a>
+
+<a href="{php echo $this->createMobileUrl('my_award')}" style="margin-left:5px;"><em class="award_icon"></em><dl class="b" style="margin-left:38px;"><dt>我的奖品</dt><dd>&nbsp;</dd></dl></a>
+<a href="{php echo $this->createMobileUrl('my_live')}" style="margin-left:5px;"><em class="my_live_icon"></em><dl class="b" style="margin-left:38px;"><dt>预约记录</dt><dd>&nbsp;</dd></dl></a>
+</div>
+</div>
+{template 'user_nav'}
+</body>
+</html>

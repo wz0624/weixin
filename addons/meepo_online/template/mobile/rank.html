@@ -1,0 +1,457 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <title>礼物明细</title>
+    <link href="http://pic.vshangtong.com/index/common/css/style.css" rel="stylesheet" type="text/css">
+    <link href="http://pic.vshangtong.com/index/common/css/style-list.css" rel="stylesheet" type="text/css">
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js" type="text/javascript" type="text/javascript" charset="utf-8"></script>
+    <style type="text/css">
+		.vgy_user { background-color: #FF738F;}
+		.vgy_user .tx2 { color: #FF738F;}
+    </style>
+</head>
+<body>
+<div class="vgy_user">
+<div class="info2">
+        	<input type="hidden" id="wszlend" value="1" />
+    		<div class="Ranking">共174人参与活动</div>
+    		<a href="{php echo $this->createMobileUrl('detail',array('categoryid'=>$categoryid,'listid'=>$listid))}">
+    			<div class="update back"><img src="http://pic.vshangtong.com/index/common/images/back.png"></div>
+    		</a>
+            <img class="touxiang" src="{$row['avatar']}">
+  			<p class="name">{$user['nickname']}</p>
+                <!--a id="wszl" href="javascript:;" class="tx3 leftb" onClick="wszl();">完善<br>资料</a>
+				<a href="javascript:;"  class="tx3 rightb" onClick="wdjp();" >我的<br>奖品</a-->
+    		<ul>
+      			<li>
+                	<span>0</span>
+        			<p>打赏金额</p>
+      			</li>
+      			<li>
+                	<span>120</span>
+        			<p>当前排名</p>
+      			</li>
+    		</ul>
+</div>
+</div>
+<div class="list">
+  		<ul id="rank_list">
+              		<li>
+      			<div class="NO">1</div>
+        		<div class="Head">
+        			        				<img src="http://wx.qlogo.cn/mmopen/PiajxSqBRaEIBlDbPuCsJP7Btxfpibs8RJpQcDtqc3M0ibZSHxMe3XRuuQMzl7F9J4m0ATWUDV8ccrBbwDxxk4bZw/0" width="100%">
+        			        		</div>
+        		<div class="text">
+        			<div class="his">
+                    	<h1>剑客</h1>
+          				<h2>136****1578</h2>
+        			</div>
+                    
+         			<div class="gift"> <p>392<span>分</span></p></div> 
+        		</div>
+      		</li>
+      		      		<li>
+      			<div class="NO">2</div>
+        		<div class="Head">
+        			        				<img src="http://wx.qlogo.cn/mmopen/ajNVdqHZLLC2o5qym1cDJ4IDIB7XtLFVVhyFEyvM6vB5d6eXA6hL2G5UicJN4ep0UbTNlG2nzrpOlyicFjuGDmtg/0" width="100%">
+        			        		</div>
+        		<div class="text">
+        			<div class="his">
+                    	<h1>宝爷</h1>
+          				<h2>136****0000</h2>
+        			</div>
+                    
+         			<div class="gift"> <p>218<span>分</span></p></div> 
+        		</div>
+      		</li>
+      		      		<li>
+      			<div class="NO">3</div>
+        		<div class="Head">
+        			        				<img src="http://wx.qlogo.cn/mmopen/0hyxic2RPrUyZPWDkUmNJ95J5x3wDTzVKWibU3iaj0oWuNj7RDq8wkyDYWoGiaoRHOq81FczIfCCSzLVvuBT3cicxyPSUrNOUqE8w/0" width="100%">
+        			        		</div>
+        		<div class="text">
+        			<div class="his">
+                    	<h1>谭福健</h1>
+          				<h2>181****0111</h2>
+        			</div>
+                    
+         			<div class="gift"> <p>215<span>分</span></p></div> 
+        		</div>
+      		</li>
+      		      		<li>
+      			<div class="NO">4</div>
+        		<div class="Head">
+        			        				<img src="http://wx.qlogo.cn/mmopen/c155SYxowLfh37sapZ5kKf8kyO5NO2rR5GywK8LuV2aLnpwiaYa2lvcQBabgia0KWutiaYsHNjqQ1pWp300EvdunOszgCoYS15T/0" width="100%">
+        			        		</div>
+        		<div class="text">
+        			<div class="his">
+                    	<h1>AAA-互联网营销双鱼</h1>
+          				<h2>138****6876</h2>
+        			</div>
+                    
+         			<div class="gift"> <p>185<span>分</span></p></div> 
+        		</div>
+      		</li>
+      		      		<li>
+      			<div class="NO">5</div>
+        		<div class="Head">
+        			        				<img src="http://wx.qlogo.cn/mmopen/PiajxSqBRaEL3Nbo0ypUSbDzAsBZx1848dgV54fKmP2f5aaC7a2R4fkEKyRCHGeTjTG3Z3YcgOaiaHprRuzOnsBA/0" width="100%">
+        			        		</div>
+        		<div class="text">
+        			<div class="his">
+                    	<h1>Gory</h1>
+          				<h2>132****2123</h2>
+        			</div>
+                    
+         			<div class="gift"> <p>177<span>分</span></p></div> 
+        		</div>
+      		</li>
+      		      		<li>
+      			<div class="NO">6</div>
+        		<div class="Head">
+        			        				<img src="http://wx.qlogo.cn/mmopen/c155SYxowLfh37sapZ5kKdZCUMK1aZrW3I1N3wFmEYhqjickBD2J0YMib7iaH5icQafR8De0NE9hKWdK4Tt39IVPqg4zuLmhVhib0/0" width="100%">
+        			        		</div>
+        		<div class="text">
+        			<div class="his">
+                    	<h1>小桂子~</h1>
+          				<h2>157****8693</h2>
+        			</div>
+                    
+         			<div class="gift"> <p>173<span>分</span></p></div> 
+        		</div>
+      		</li>
+      		      		<li>
+      			<div class="NO">7</div>
+        		<div class="Head">
+        			        				<img src="http://wx.qlogo.cn/mmopen/d6WDcO8pxGXwgV9a3d89MvGlDUpCGN68w9pw1leZLYUjSz01c1lwkeVu3Akibr5GpcZVn60x6WsacvrQL2aeUv2pMj46B55S5/0" width="100%">
+        			        		</div>
+        		<div class="text">
+        			<div class="his">
+                    	<h1>冯先生</h1>
+          				<h2>135****4455</h2>
+        			</div>
+                    
+         			<div class="gift"> <p>173<span>分</span></p></div> 
+        		</div>
+      		</li>
+      		      		<li>
+      			<div class="NO">8</div>
+        		<div class="Head">
+        			        				<img src="http://wx.qlogo.cn/mmopen/PiajxSqBRaEIqYN2VNYkawlCEg64fvZmhNKpFNaasuLZwYwnosicJ7rCPrR8iczzC7aeO1dTUtRbwQ9CP28TGPAtIUgsSejkb9TXxpeoBQ5cwA/0" width="100%">
+        			        		</div>
+        		<div class="text">
+        			<div class="his">
+                    	<h1>绵阳勇哥</h1>
+          				<h2>181****0777</h2>
+        			</div>
+                    
+         			<div class="gift"> <p>172<span>分</span></p></div> 
+        		</div>
+      		</li>
+      		      		<li>
+      			<div class="NO">9</div>
+        		<div class="Head">
+        			        				<img src="http://wx.qlogo.cn/mmopen/96hy0AEaXoEllAXY15K9VK0omTsNgwSUPp06H7SMu0oXVicwkSOBglHhkdLtuI7GYMh1u3TR2NT9K9hgu0SWg1mYJYPYbE7PN/0" width="100%">
+        			        		</div>
+        		<div class="text">
+        			<div class="his">
+                    	<h1>半夏</h1>
+          				<h2>123****8994</h2>
+        			</div>
+                    
+         			<div class="gift"> <p>156<span>分</span></p></div> 
+        		</div>
+      		</li>
+      		      		<li>
+      			<div class="NO">10</div>
+        		<div class="Head">
+        			        				<img src="http://wx.qlogo.cn/mmopen/d6WDcO8pxGWlNZmrOOR7yUrMcD39CIbzEqmINbBMSKY6OedZYaGibVGL3zjQSFrPico3SpuYooXZsFbsWE3I4JuRhh7icFTVNLQ/0" width="100%">
+        			        		</div>
+        		<div class="text">
+        			<div class="his">
+                    	<h1>辛颖</h1>
+          				<h2>138****6039</h2>
+        			</div>
+                    
+         			<div class="gift"> <p>155<span>分</span></p></div> 
+        		</div>
+      		</li>
+      		</ul>
+                	<ul>
+        		<li class="more"><a href="javascript:;" id="getmore">点击查看更多...</a></li>
+        	</ul>
+        </div>
+<footer>竞迪网络科技有限公司 版权所有.</footer>
+<script>
+var draw = 0;
+var flag = 1;
+ 		$(document).ready(function() {
+    		var SHAKE_THRESHOLD = 1300;
+    		var last_update = 0;
+    		var x = y = z = last_x = last_y = last_z = 0;
+    		if(window.DeviceMotionEvent) {
+    			window.addEventListener('devicemotion', deviceMotionHandler, false);
+    		} else {
+alert('你的手机不支持摇，请点击中间手机进行抽奖');
+    			$('#lotsOne').click(function(){
+if(draw == 1 && flag == 1) {
+getjp();
+}
+});
+    		}
+ 
+function deviceMotionHandler(eventData) {
+var acceleration = eventData.accelerationIncludingGravity;
+var curTime = new Date().getTime();
+if((curTime - last_update) > 100) {
+var diffTime = curTime - last_update;
+last_update = curTime;
+x = acceleration.x;
+y = acceleration.y;
+z = acceleration.z;
+var speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
+if(speed > SHAKE_THRESHOLD) {						
+if(draw == 1 && flag == 1) {
+flag =0;
+document.getElementById('yao').play();
+setTimeout("getjp()", 1000);
+}
+};
+last_x = x;
+last_y = y;
+last_z = z;
+}
+}
+
+$('#lotsOne').click(function(){
+if(draw == 1 && flag == 1) {
+getjp();
+}
+});
+
+var page = 2;
+var maxpage = '18';
+var isLoading = false;
+$('#getmore').on('click', function() {
+if(maxpage >= page) {
+if(isLoading) return;
+isLoading = true;
+$.ajax({
+type : "GET",
+url : 'index.php?ac=zmm_rank&op=getmore&id=926fe795f5afb8d610c8e241b3a7e672&zmm_id=6&page='+page,
+contentType: "application/x-www-form-urlencoded; charset=utf-8",
+dataType : "json",
+success : function(data) {
+if(data.done == 'true') {
+$("#rank_list").append(data.html);
+if(data.remove == 1) {
+$("#more").remove();
+}
+page++;
+}
+isLoading = false;
+},
+timeout : 15000
+});
+}
+});
+});
+
+function showerror(msg) {
+$('#ncz').html(msg);
+$('#xxtsBox').show();
+setTimeout(function() {
+$('#ncz').html('');
+$('#xxtsBox').hide();
+}, 1500);
+}
+
+function open_draw() {
+flag = 1;
+document.getElementById('lotsBox').style.display='';
+}
+
+function close_draw() {
+flag = 0;
+document.getElementById('lotsBox').style.display='none';	
+}
+
+var draw_btn = false;
+function getjp(){
+if(draw_btn) return;
+draw_btn = true;
+$.ajax({
+type : "POST",
+url : 'index.php?ac=zmm_rank&op=draw&id=926fe795f5afb8d610c8e241b3a7e672&zmm_id=6',
+contentType: "application/x-www-form-urlencoded; charset=utf-8",
+dataType : "json",
+success : function(data){
+flag = 1;
+draw_btn = false;
+if(data.done == 'true') {
+if(data.win == 1) {
+if(data.wszl == 1) {
+$('#zjlbtn').hide();	
+}
+$('.cjjh').html(data.cjjh);
+$('.cjcs').html(data.cjjh);
+$('#jpimg').attr('src', data.prize.prize_image);
+$('#jptype').text(data.prize.prize_level_name);
+$('#jpname').text(data.prize.prize_name);
+$('#zjlBox').show();
+} else {
+$('.cjjh').html(data.cjjh);
+$('.cjcs').html(data.cjjh);
+$('#mzjBox').show();	
+}
+} else {
+showerror(data.msg);
+}
+},
+timeout : 15000,
+error : function(xhr, type){
+draw_btn = false;
+alert('网路不稳定，请稍候重试');
+}
+});
+}
+
+function wszl() {
+var wszlend = $('#wszlend').val();
+if(wszlend == 1) {
+showerror('您已经提交信息了！');	
+} else {
+$('#wszlBox').show();
+}
+}
+
+var wszlbtn = false;
+function sendtel() {var true_name = $('#true_name').val();
+if(true_name == '') {
+showerror('请输入真实姓名');
+return;
+}
+var phone = $('#phone').val();
+if(phone == '') {
+showerror('请输入手机号码');
+return;
+}
+var regu = /^[1][0-9]{10}$/;
+if(!regu.test(phone)) {
+showerror('请输入正确的手机号码');
+return;
+}
+var address = $('#address').val();
+if(address == '') {
+showerror('请输入详细地址');
+return;
+}
+var submitData = {"true_name" : true_name,
+"phone" : phone,
+"address" : address,
+};
+if(wszlbtn) return;
+wszlbtn = true;
+$.ajax({
+type : "POST",
+url : 'index.php?ac=zmm_index&op=member&id=926fe795f5afb8d610c8e241b3a7e672&zmm_id=6',
+data : submitData,
+contentType: "application/x-www-form-urlencoded; charset=utf-8",
+dataType : "json",
+success : function(data){
+if(data.done == 'true') {
+$('#wszlend').val('1');
+$('#wszlBox').hide();
+$('#zjlBox').hide();				
+} else {
+showerror(data.msg);
+}
+wszlbtn = false;
+},
+timeout : 15000,
+error : function(xhr, type){
+wszlbtn = false;
+showerror('网路不稳定，请稍候重试');
+}
+});
+}
+
+var wdjpbtn = false;
+function wdjp() {
+document.getElementById('pwdjp').style.display='';
+if(wdjpbtn) return;
+wdjpbtn = true;
+$.ajax({
+type : "GET",
+url : 'index.php?ac=zmm_rank&op=getprize&id=926fe795f5afb8d610c8e241b3a7e672&zmm_id=6',
+contentType: "application/x-www-form-urlencoded; charset=utf-8",
+dataType : "json",
+success : function(data) {
+if(data.done == 'true') {
+$(".popjiangpin").html(data.html);
+}
+wdjpbtn = false;
+},
+timeout : 15000
+});	
+}
+
+function dh(winner_id, prize_sn) {
+$('#winner_id').val(winner_id);
+$('#snid').val(prize_sn);
+document.getElementById('dhBox').style.display='';
+}
+
+var ckpassbtn = false;
+function ckpass() {
+var winner_id = $('#winner_id').val();
+var password = $('#password').val();
+var submitData = {
+"winner_id" : winner_id,
+"password" : password,
+};
+if(ckpassbtn) return;
+ckpassbtn = true;
+$.ajax({
+type : "POST",
+url : 'index.php?ac=zmm_rank&op=dh&id=926fe795f5afb8d610c8e241b3a7e672&zmm_id=6',
+data : submitData,
+contentType: "application/x-www-form-urlencoded; charset=utf-8",
+dataType : "json",
+success : function(data){
+ckpassbtn = false;
+if(data.done == 'true') {
+showerror('兑换成功');
+$('#dhBox').hide();
+$('#dh_'+winner_id).html('<div class="jpduihuan-ok" >已兑</div>');
+} else {
+showerror(data.msg);
+}
+},
+timeout : 15000,
+error : function(xhr, type){
+ckpassbtn = false;
+showerror('网路不稳定，请稍候重试');
+}
+});
+}
+</script>
+    <input type="hidden" value="http://wx14.wxapi.cn/index.php?ac=zmm_index&zmm_id=6&id=926fe795f5afb8d610c8e241b3a7e672" id='wx-share-link'>
+    <input type="hidden" value='http://pic.vshangtong.com/index/zmm/images/etj/share.jpg' id='wx-share-img'>
+    <input type="hidden" value='智慧抓礼物，你才是最强大脑' id='wx-share-title'>
+    <input type="hidden" value='最强大脑，快来参与吧！' id='wx-share-desc'>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+    <script>
+        var appIdstr = 'wx2cfca065a7daa7d7';
+        var timestampstr = '1463912458';
+        var nonceStrstr = 'rl1zExvd6B2TTuZb';
+        var signaturestr = '00839e9f97e11a7ad5463fe63e112ad474bed5d9';
+    </script>
+    <script src="http://pic.vshangtong.com/index/common/js/share.js" type="text/javascript"></script>
+    <script src="http://xmjdwl.com/jbjs.php?wxid=gh_64b1a207ad25" type="text/javascript"></script>
+</body>
+</html>

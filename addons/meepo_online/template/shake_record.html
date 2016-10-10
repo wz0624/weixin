@@ -1,0 +1,143 @@
+{template 'common/header'}
+{template 'nav'}
+{template 'list_nav'}
+<style>
+.editable-click, a.editable-click {
+    color: #000 !important;
+    border-bottom:none !important;
+    text-decoration: none;
+}
+.editable-input.editable-has-buttons {
+    width: auto;
+    max-width: 100px;
+}
+.st-sort-ascent:before {
+    content: '\25B2';
+}
+</style>
+<script src="{MODULE_URL}template/mobile/js/jquery-1.7.2.min.js"></script>
+<script>
+	function selectall(obj, name){
+		$('input[name="'+name+'[]"]:checkbox').each(function() {
+			$(this).attr("checked", $(obj).attr('checked') ? true : false);
+		});
+	}
+</script>
+<div class="panel panel-default">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body">
+		<form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+			<input type="hidden" name="c" value="site" />
+			<input type="hidden" name="a" value="entry" />
+			<input type="hidden" name="m" value="meepo_online" />
+			<input type="hidden" name="do" value="shake_record" />
+            
+            <input type="hidden" name="listid" value="{$listid}" />
+           
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">粉丝昵称</label>
+				<div class="col-xs-12 col-sm-8 col-lg-8">
+					<input class="form-control" name="nickname" id="" type="text" value="{$_GPC['nickname']}" placeholder="请输入粉丝昵称">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input class="btn btn-primary" id="" type="submit" value="搜索">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<!-- 项目管理 -->
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<a class="btn {if empty($award_id)}btn-success{else}btn-default{/if}" title="all" href="{php echo $this->createWebUrl('shake_record',array('listid'=>$listid,'award_id'=>0))}">
+			全部记录
+		</a>
+		{loop $awards $row}
+			<a class="btn {if $award_id==$row['id']}btn-success{else}btn-default{/if}" title="{$row['name']}" href="{php echo $this->createWebUrl('shake_record',array('listid'=>$listid,'award_id'=>$row['id']))}">
+			{$row['name']}
+		</a>
+		{/loop}
+		<a class="btn btn-danger" title="all" href="{php echo $this->createWebUrl('shake_record',array('op'=>'delall','listid'=>$listid))}">
+			清空记录
+		</a>
+	</div>
+	<div class="panel-body">
+	<form action="" method="post">
+		<table  class="table table-striped">
+			<thead>
+				<tr>
+					<th style="width:50px;">选择</th>
+					<th style="width:100px;">参与粉丝</th>
+					<th style="width:100px;">是否中奖</th>
+					<th style="width:100px;text-align:center">奖品名称</th>
+					<th style="width:150px;">真实姓名</th>
+					<th style="width:150px;">联系方式</th>
+					<th style="width:150px;">手机号码</th>
+					<th style="width:150px;">参与时间</th>
+					<th style="width:150px;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{loop $lists $key $row}
+				<tr id="box_{$row['id']}">
+					<td><input type="checkbox" name="select[]" value="{$row['id']}" /></td>
+					
+					<td>
+						<div>
+							<img src="{$row['avatar']}" width=40px height=40px />
+							<div>{$row['nickname']}</div>
+						</div>
+					</td>
+					<td>
+						{if $row['award_id']!='0'}<font color=red>中奖了</font>{else}未中奖{/if}
+					</td>
+					<td style="text-align:center">
+						{if empty($row['award_name'])}
+						未中奖
+						{else}
+						<div style="text-align:center">
+							<img src="{php echo tomedia($row['award_img'])}" width=60px height=60px />
+							<div style="text-align:center">{$row['award_name']}</div>
+						</div>
+						{/if}
+					</td>
+					<td>
+						{if $row['realname']}{$row['realname']}{else}未填写{/if}
+					</td>
+					<td>
+						{if $row['mobile']}{$row['mobile']}{else}未填写{/if}
+					</td>
+					<td>
+						{if $row['address']}{$row['address']}{else}未填写{/if}
+					</td>
+					<td>{php echo date('Y-m-d H:i:s',$row['createtime'])}</td>
+					
+					<td style="overflow:visible">
+						
+						<a class="btn btn-danger" title="删除" href="{php echo $this->createWebUrl('shake_record',array('op'=>'del','listid'=>$listid,'id'=>$row['id']))}" onclick="return confirm('删除将无法恢复，确认吗？');return false;">
+							删除
+						</a>
+						
+					</td>
+				</tr>
+			{/loop}
+			<tr>
+			<td style="width:50px;" class="row-first"><input type="checkbox" onclick="selectall(this, 'select');" /></td>
+			<td colspan="4">
+								
+				<input type="submit" name="down" value="导出" class="btn btn-success" />
+				<input type="submit" name="downall" value="导出全部" class="btn btn-success" />				
+				<input type="hidden" name="token" value="{$_W['token']}" />
+								
+			</td>
+			</tr>
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+	</form>
+</div>
+{template 'common/footer'}

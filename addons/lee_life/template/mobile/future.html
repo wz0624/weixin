@@ -1,0 +1,128 @@
+
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<meta name="format-detection" content="telephone=no"/>
+
+
+<link href="../addons/lee_life/template/mobile/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../addons/lee_life/template/mobile/css/lift.css" />
+
+<link rel="shortcut icon" href="../addons/lee_life/template/mobile/img/favicon.ico"/>
+
+<script src="../addons/lee_life/template/mobile/js/jquery.min.js"></script>
+<script src="../addons/lee_life/template/mobile/js/bootstrap.min.js"></script>
+
+<title>生命计算器</title>
+</head>
+<body class="l_list l_list2">
+	<!--音乐控制-->
+	<div class="audio-controls off"></div>
+	<!-- 背景音乐 -->
+	<audio id="audio" autoplay="autoplay" loop="loop">
+		<source src="http://a.srcdd.com/farm1/2015/0315/01/47E031F655904EB43828581E0D4145D0.mp3" type="audio/mpeg" />
+	</audio>
+    <div class="container">
+        <div class="media">
+          <div class="media-left">
+            <a href="#">
+				<img alt="64x64"  class="media-object img-circle" style="width: 64px; height: 64px;" src="../addons/lee_life/template/mobile/img/a2.png">
+            </a>
+          </div>
+          <div class="media-body">
+            <h5 class="media-heading text-muted">假如你能活100岁，你还能存在</h5>
+            <h3><strong>{$day}天</strong></h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div> <!-- E header -->
+
+
+    <div class="list_area container">
+        <ul class="list-unstyled">
+            <li class="list_first"> <h6 class="text-muted">剩下的日子里，你大约可以</h6> </li>
+            <li> 睡 <strong>{$sleep}</strong> 次觉 </li>
+            <li> 吃 <strong>{$eat}</strong> 顿饭 </li>
+            <li> 洗 <strong>{$shower}</strong> 次澡 </li>
+            <li> 生 <strong>{$sick}</strong> 次病 </li>
+			<li> 过 <strong>{$week}</strong> 个周末 </li>
+            <li> 放 <strong>{$pi}</strong> 个屁 </li>
+            <li> 做 <strong>{$dream}1</strong> 个梦 </li>
+            <li> 吵 <strong>{$chaojia}</strong> 次架 </li>
+            <li> 眨 <strong>{$zhanyan}</strong> 次眼 </li>
+            <li> 流 <strong>{$tears}</strong> 次泪 </li>
+            <li> 说 <strong>{$lie}</strong> 次谎 </li>
+            <li> 剪 <strong>{$zhijia}</strong> 次指甲 </li>
+            <li> 喝 <strong>{$water}</strong> 杯水 </li>
+        </ul>
+
+        <div class="buttons text-center">
+            <!--<a href="javascript:$('#mcover').show()" class="btn btn-default btn-lg"><strong>分享给好友</strong></a><p></p>-->
+			<a href="{$_W['account']['subscribeurl']}" class="btn btn-default btn-lg"><strong>点击关注我们</strong></a>
+        </div> <!-- E buttons -->
+   </div> <!-- E list_area -->
+   <div id="mcover" onclick="$(this).hide()"><img src="../addons/lee_life/template/mobile/img/guide.png"></div>
+   
+<script>var require = { urlArgs: 'v={php echo date('YmdH');}' };</script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="{$_W['siteroot']}app/resource/js/require.js"></script>
+<script src="{$_W['siteroot']}app/resource/js/app/config.js"></script>
+<script type="text/javascript">
+	// jssdk config 对象
+	jssdkconfig = {php echo json_encode($_W['account']['jssdkconfig']);} || {};
+	// 是否启用调试
+	jssdkconfig.debug = false;
+	
+	jssdkconfig.jsApiList = [
+		'checkJsApi',
+		'onMenuShareTimeline',
+		'onMenuShareAppMessage',
+		'onMenuShareQQ',
+		'onMenuShareWeibo',
+		'showOptionMenu'
+	];
+
+	wx.config(jssdkconfig);
+	require(['jquery', 'util'], function($, util){
+		var sharedata = {
+				title: '{$title}',
+				desc: '{$desc}',
+				link: "{$_W['siteroot']}/app/{php echo $this->createMobileUrl('index')}",
+				imgUrl: '{$imgurl}',
+				success: function(res){
+					window.location.href="{$_W['siteroot']}/app/{php echo $this->createMobileUrl('share')}";
+				},
+				cancel: function(res){
+					alert("亲，这么好的东西怎么能不分享给好朋友呢！");
+				},
+				fail: function(res){
+					alert("分享失败，可能是网络问题，一会儿再试试？");
+				}
+	    };		
+		
+		wx.ready(function () {
+			wx.showOptionMenu();
+			wx.onMenuShareAppMessage(sharedata);
+			wx.onMenuShareTimeline(sharedata);
+			wx.onMenuShareQQ(sharedata);
+			wx.onMenuShareWeibo(sharedata);
+		});
+	});
+<!-- 音频暂停播放 -->
+var audioAuto = document.getElementById('audio');
+$(".audio-controls").click(function (){
+	if (audioAuto.paused) {
+		audioAuto.play()
+		$(".audio-controls").removeClass("off")
+        }
+        else {
+		audioAuto.pause();
+		$(".audio-controls").addClass("off")
+        }
+})	
+</script>
+</body>
+</html>

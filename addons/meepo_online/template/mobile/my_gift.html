@@ -1,0 +1,121 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta name="Generator" content="ECSHOP v2.7.3" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>我的赠送记录</title>
+<meta name="Keywords" content="" />
+<meta name="Description" content="" />
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/user/css/user.css?T={php echo time()}"/>
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/user/css/public.css?T={php echo time()}"/>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+</head>
+<body>
+<header>
+      <div class="tab_nav">
+        <div class="header">
+          <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+          <div class="h-mid">我的赠送记录</div>
+          <div class="h-right">
+           
+          </div>
+        </div>
+      </div>
+</header>
+<style>
+.sc_nav ul li a.on {
+    color: #fff;
+    background: #ff6a00;
+}
+.sc_nav ul {
+    width: 90%;
+    margin: auto;
+    overflow: hidden;
+    border: 1px solid green;
+    border-radius: 3px;
+}
+.s_flow2 {
+    border-radius: 25px;
+    border: 1px solid #4cae4c;
+    margin-right: 10px;
+    background: #5cb85c;
+}
+</style>
+<div id="tbh5v0">			
+<div class="sc_nav">
+    <ul>
+      <li><a href="{php echo $this->createMobileUrl('my_gift',array('status'=>1))}" class="tab_head {if $status=='1'}on{/if}" id="goods_ka1" >赠送成功</a></li>
+      <li><a href="{php echo $this->createMobileUrl('my_gift',array('status'=>2))}" class="tab_head {if $status=='0'}on{/if}" id="goods_ka2" >赠送失败</a></li>
+     </ul>
+ </div>
+	{if $status=='1'}
+	  
+		{if empty($gift)}
+		 <div class="main" id="user_goods_ka_1">      
+		  <div id="list_0_0" class="font12">您没有赠送成功记录哦！</div>
+		</div>
+		{else}
+			<div class="main" id="user_goods_ka_1" >         
+					 <div class="shouchang">
+					 <ul>
+					 {loop $gift $row}
+						<li>
+								  <div class="imgurl"><a href="{php echo $this->createMobileUrl('detail',array('listid'=>$row['listid']))}" ><img src="{$row['gift_img']}" width="100" height="100"></a></div>
+								  <a href="{php echo $this->createMobileUrl('detail',array('listid'=>$row['listid']))}">
+								  <div class="order_info">
+									<dl>
+									  <dt>{$row['content']}</dt>
+									  <dd><strong>{$row['money']}元、数量: {$row['num']}</strong></dd>
+									  <dd style="margin-top:20px">{php echo date('Y-m-d H:i:s',$row['createtime']);}</dd>
+									</dl>
+								  </div>
+								  </a>
+								  <div class="dingdancaozuo" >
+								  <a href="javascript:;" class="s_flow2" style="color:#fff">支付成功</a>
+								  </div>
+							  </li>
+					{/loop}
+					</ul>
+				</div>
+				</div>
+		{/if}
+	
+	{/if}  
+	{if $status=='0'}
+	 
+		{if empty($gift)}
+		<div class="main" id="user_goods_ka_2" >
+		   <div id="list_0_0" class="font12">您没有赠送失败记录哦！</div>
+		 </div>
+		{else}
+			<div class="main" id="user_goods_ka_1" >         
+					 <div class="shouchang">
+					 <ul>
+					 {loop $gift $row}
+						<li>
+								  <div class="imgurl"><a href="{php echo $this->createMobileUrl('detail',array('listid'=>$row['listid']))}" ><img src="{$row['gift_img']}" width="100" height="100"></a></div>
+								  <a href="{php echo $this->createMobileUrl('detail',array('listid'=>$row['listid']))}">
+								  <div class="order_info">
+									<dl>
+									  <dt>打赏红包</dt>
+									  <dd><strong>{$row['money']}元、数量: {$row['num']}</strong></dd>
+									  <dd style="margin-top:20px">{php echo date('Y-m-d H:i:s',$row['createtime']);}</dd>
+									</dl>
+								  </div>
+								  </a>
+								  <div class="dingdancaozuo" >
+								  <a href="javascript:;" class="s_flow" style="color:#fff">支付失败</a>
+								  </div>
+							  </li>
+					{/loop}
+					</ul>
+				</div>
+				</div>
+		{/if}
+		
+	 {/if}  
+{template 'user_nav'}
+</body>
+</html>

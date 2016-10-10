@@ -1,0 +1,210 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li><a href="{php echo $this->createWebUrl('list')}">管理圈子</a></li>
+	<li><a href="{php echo $this->createWebUrl('add')}">创建圈子</a></li>
+	<li class="active"><a href="">用户管理</a></li>
+</ul>
+
+<div class="panel panel-default">
+	<nav role="navigation" class="navbar navbar-default navbar-static-top" style="margin-bottom:0;">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a href="javascript:;" class="navbar-brand">{$wall['topic']}用户</a>
+			</div>
+			<ul class="nav navbar-nav nav-btns">
+				<li {if empty($_GPC['status']) || $_GPC['status'] == '0'} class="active" {/if} >
+					<a href="{php echo $this->createWebUrl('user_list', array('wall_id' => $wall['id']))}">全部</a>
+				</li>
+				<li {if $_GPC['status'] == '2'} class="active" {/if} >
+					<a href="{php echo $this->createWebUrl('user_list', array('wall_id' => $wall['id'],'status'=>2))}">黑名单</a>
+				</li>
+				<!--
+				<li {if $_GPC['status'] == '1'} class="active" {/if}>
+					<a href="{php echo $this->createWebUrl('list',array('status'=>'1'))}">进行中</a>
+				</li>
+
+				<li {if $_GPC['status'] == '2'} class="active" {/if}>
+					<a href="{php echo $this->createWebUrl('list',array('status'=>'2'))}">未开始</a>
+				</li>
+
+				<li {if $_GPC['status'] == '3'} class="active" {/if}>
+					<a href="{php echo $this->createWebUrl('list',array('status'=>'3'))}">已结束</a>
+				</li>
+				-->
+
+
+
+			</ul>
+
+			<div>
+			  <form class="navbar-form navbar-right" role="search" action="./index.php" method="get">
+				 <input type="hidden" name="c" value="site"/>
+				 <input type="hidden" name="a" value="entry"/>
+				 <input type="hidden" name="do" value="user_list"/>
+				 <input type="hidden" name="m" value="gandl_wall"/>
+
+				 <input type="hidden" name="wall_id" value="{$wall['id']}"/>
+
+				 <div class="form-group">
+					<label>用户昵称： </label>
+					<input type="text" class="form-control" placeholder="" name="search" value="{$_GPC['search']}">
+				 </div>
+				 <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+			  </form>    
+		   </div>
+			<!--
+			<div class="nav navbar-nav">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">用户昵称/openid</label>
+					<div class="col-sm-6 col-md-8 col-lg-8 col-xs-12">
+						<input type="text" class="form-control" name="username" value="{$_GPC['username']}" />
+					</div>
+					<div class="pull-right col-xs-12 col-sm-3 col-md-2 col-lg-2">
+						<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+					</div>
+				</div>
+			</div>
+			-->
+
+		</div>
+	</nav>
+
+
+	<div class="panel-body table-responsive" style="overflow:visible;">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:5%;">ID</th>
+					<th style="width:20%;">用户</th>
+					<th style="width:8%;"><a href="{php echo $this->createWebUrl('user_list', array('sort'=>'money','wall_id' => $wall['id']))}">余额</a></th>
+					<th style="width:8%;"><a href="{php echo $this->createWebUrl('user_list', array('sort'=>'money_out','wall_id' => $wall['id']))}">提现</a></th>
+					<th style="width:8%;"><a href="{php echo $this->createWebUrl('user_list', array('sort'=>'rob_total','wall_id' => $wall['id']))}">抢到</a></th>
+					<th style="width:8%;">撒出</th>
+					<th style="width:8%;">关注</th>
+					<th style="width:8%;">加速</th>
+					<th style="width:8%;">状态</th>
+					<th>备注</th>
+					<!--<th style="text-align:right;">操作</th>-->
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['id']}</td>
+					<td><img style="width:50px;" src="{php echo VP_AVATAR($item['_user']['avatar'])}"/> {$item['_user']['nickname']}</td>
+					<td>{php echo $item['money']/100}元</td>
+					<td>{php echo $item['money_out']/100}元</td>
+					<td>{php echo $item['rob_total']/100}元</td>
+					<td>{php echo $item['send_total']/100}元</td>
+					<td>{if $item['_fan']['follow']==1}<label class='label label-success' >已关注</label>{else}未关注{/if}</td>
+					<td>{if $item['rob_fast']>0}<label class='label label-success' >{$item['rob_fast']}秒</label>{else}0{/if}</td>
+
+					<td style="overflow:visible;">
+						{if $item['black']==1}  
+							<div class="btn-group btn-group-sm">
+								<a class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">黑名单 <span class="caret"></span></a>
+								<ul class="dropdown-menu dropdown-menu-right" role="menu">
+									<li role="presentation">
+										<a href="javascript:;" onclick="user_to_unblack('{$item['id']}','{$item['_user']['nickname']}');">取消黑名单</a>
+									</li>
+								</ul>
+							</div>
+						{else}
+							<div class="btn-group btn-group-sm">
+								<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">正常 <span class="caret"></span></a>
+								<ul class="dropdown-menu dropdown-menu-right" role="menu">
+									<li role="presentation">
+										<a href="javascript:;" onclick="user_to_black('{$item['id']}','{$item['_user']['nickname']}');">列入黑名单</a>
+									</li>
+								</ul>
+							</div>
+						{/if}
+					</td>
+					<td>{$item['black_why']}</td>
+					<!---
+					<td style="text-align:right;overflow:visible;">
+						<a href="{php echo $this->createWebUrl('delete', array('id' => $item['id']))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="删除"><i class="fa fa-times"></i></a>
+					</td>
+					-->
+				</tr>
+				{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+	</div>
+</div>
+<script type="text/javascript">
+	require(['bootstrap'],function($){
+		$('.btn').hover(function(){
+			$(this).tooltip('show');
+		},function(){
+			$(this).tooltip('hide');
+		});
+	});
+
+
+	function user_to_black(id,name) {
+		require(['jquery', 'util'], function($, u) {
+			var content =  '	<div class="form-group">';
+				content += '	<h4>列入黑名单原因：</h4>';
+                content += '	<textarea name="black_why" class="black_why form-control" rows="5"></textarea>';
+				content += '	</div>';
+
+			var footer =
+					'<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>' +
+					'<button type="button" class="btn btn-success">确定列入黑名单</button>';
+			var diaobj = u.dialog(name?name:id, content, footer);
+			diaobj.find('.btn-default').click(function() {
+				diaobj.modal('hide');
+			});
+			diaobj.find('.btn-success').click(function() {
+				$.post("{php echo $this->createWebUrl('user_edit', array('submit' => 'black'))}",{
+					id:id,
+					why:diaobj.find('.black_why').val()
+				},function(resp) {
+					if(resp.status==1){
+						alert(resp.info);
+						location.reload();
+					}else{
+						alert(resp.info);
+					}
+				});
+			});
+			diaobj.modal('show');
+		});
+	}
+
+	function user_to_unblack(id,name) {
+		require(['jquery', 'util'], function($, u) {
+			var content =  '	<div class="form-group">';
+				content += '	<h4>移出黑名单原因：</h4>';
+                content += '	<textarea name="black_why" class="black_why form-control" rows="5"></textarea>';
+				content += '	</div>';
+
+			var footer =
+					'<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>' +
+					'<button type="button" class="btn btn-success">确定移出黑名单</button>';
+			var diaobj = u.dialog(name?name:id, content, footer);
+			diaobj.find('.btn-default').click(function() {
+				diaobj.modal('hide');
+			});
+			diaobj.find('.btn-success').click(function() {
+				$.post("{php echo $this->createWebUrl('user_edit', array('submit' => 'unblack'))}",{
+					id:id,
+					why:diaobj.find('.black_why').val()
+				},function(resp) {
+					if(resp.status==1){
+						alert(resp.info);
+						location.reload();
+					}else{
+						alert(resp.info);
+					}
+				});
+			});
+			diaobj.modal('show');
+		});
+	}
+</script>
+
+{template 'common/footer'}

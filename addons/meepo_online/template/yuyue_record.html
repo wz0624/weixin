@@ -1,0 +1,63 @@
+{template 'common/header'}
+{template 'nav'}
+{template 'list_nav'}
+<style>
+.editable-click, a.editable-click {
+    color: #000 !important;
+    border-bottom:none !important;
+    text-decoration: none;
+}
+.editable-input.editable-has-buttons {
+    width: auto;
+    max-width: 100px;
+}
+.st-sort-ascent:before {
+    content: '\25B2';
+}
+</style>
+<!-- 项目管理 -->
+<div class="panel panel-default">
+	<div class="panel-heading">
+		预约管理
+	</div>
+	<div class="panel-body">
+		<table  class="table table-striped">
+			<thead>
+				<tr>
+					<th style="width:100px;">预约序号</th>
+					<th style="width:200px;">预约粉丝</th>
+					<th style="width:150px;">手机号码</th>
+					<th style="width:150px;">预约时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{loop $lists $key $row}
+				<tr id="box_{$row['id']}">
+					<td>
+					{$row['id']}
+					</td>
+					<td>
+						<div>
+							<img src="{$row['avatar']}" width=40px height=40px />
+							<div>{$row['nickname']}</div>
+						</div>
+					</td>
+					<td>{if !empty($row['mobile'])}{$row['mobile']}{else}未填写{/if}</td>
+					<td>{php echo date('Y-m-d H:i:s',$row['createtime'])}</td>
+					
+					<td style="overflow:visible">
+						<a class="btn btn-danger" title="删除" href="{php echo $this->createWebUrl('yuyue_record',array('op'=>'delete','listid'=>$listid,'id'=>$row['id']))}" onclick="return confirm('删除将无法恢复，确认吗？');return false;">
+							删除
+						</a>
+						
+					</td>
+				</tr>
+			{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+	
+</div>
+{template 'common/footer'}

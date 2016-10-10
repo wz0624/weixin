@@ -1,0 +1,152 @@
+{php $title=$wall['topic']}
+
+{template 'inc/header'}
+	
+	<script type="text/javascript">
+		wx.ready(function () {
+			wx.onMenuShareAppMessage({
+				title:'{if empty($wall["share_title"])}{$wall["topic"]}{else}{$wall["share_title"]}{/if}',
+				desc:'我已抢到{php echo $mine["rob_total"]/100}元钱',
+				imgUrl:'{$_W["attachurl"]}{if empty($wall["share_img"])}{$wall["banner"]}{else}{$wall["share_img"]}{/if}'
+			});
+			wx.onMenuShareTimeline({
+				title:'我已抢到{php echo $mine["rob_total"]/100}元钱',
+				imgUrl:'{$_W["attachurl"]}{if empty($wall["share_img"])}{$wall["banner"]}{else}{$wall["share_img"]}{/if}'
+			});
+		});
+	</script>
+
+	<style>
+		#robs_list{}
+		#robs_list .weui_cell:active{background-color:#ececec;}
+		#robs_list .weui_cell p{color:#000000;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}
+	</style>
+
+	<!-- 公共变量 -->
+	<input type="hidden" id="is_user_infoed" value="{$is_user_infoed}"/>
+
+		
+	<!-- 首页 -->
+    <div class="app-page" data-page="index_page">
+
+
+		<div class="app-topbar" style="display:none;height:0px;"></div>
+		<div class="app-content" style="background:#F8F8F8;padding-bottom:50px;">
+			<div class="app-body">
+				<div class="weui_cells" style="text-align:center;padding:40px 10px 10px 10px;margin-top:0px;border-top:0px none;">
+					<img src="{MODULE_URL}/static/mobile/images/income.png" style="width:64px;"/>
+					<h4 style="margin-top:20px;">我共抢到<em>{$mine['rob_times']}</em>次</h4>
+					<h2 style="margin-bottom:20px;font-size:36px;">{php echo $mine['rob_total']/100}元</h2>
+				</div>
+	
+				<div>
+					<div id="robs_list" class="weui_cells " data-url="{php echo $_W['siteroot'] . 'app/' . substr($this->createMobileUrl('user',array('cmd'=>'robs_list','pid'=>pencode($wall['id']))), 2)}" data-start="0"  data-more="1" >
+					</div>
+					<div id="robs_list_load" class="list_load more"><span class="icon"></span> <span class="text">查看更多</span></div>
+
+					<script id="robs_list_tpl" type="text/template" >
+						<%
+						 	var robs_list_load=$('#robs_list_load');
+							robs_list_load.removeClass('loading');
+							if(more==1){
+								robs_list_load.addClass('more');
+								robs_list_load.find('.text').html('查看更多');
+							}else{
+								robs_list_load.find('.text').html('');
+							}
+							if(!list){
+								return;
+							}
+							for(var i=0;i<list.length;i++){
+								var item = list[i];
+						%>
+							<a class="weui_cell"  onclick="$('#toast_loading').show();" href="<%=item._url%>">
+								<div class="weui_cell_bd weui_cell_primary">
+									<p style="width:200px;"><%=item.content%></p>
+									<h4><%=VP_TIME_FORMAT(now-item.create_time)%>前</h4>
+								</div>
+								<div class="weui_cell_ft">
+									<p><%=item.money/100%>元</p>
+								</div>
+							</a>
+						<%  } %>
+					</script>
+				</div>
+
+			</div>
+		</div>
+
+		<!-- loading toast -->
+		<div id="toast_loading" class="weui_loading_toast" style="display:none;z-index:99999;position:fixed;">
+			<div class="weui_mask_transparent"></div>
+			<div class="weui_toast">
+				<div class="weui_loading">
+					<div class="weui_loading_leaf weui_loading_leaf_0"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_1"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_2"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_3"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_4"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_5"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_6"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_7"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_8"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_9"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_10"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_11"></div>
+				</div>
+				<p class="weui_toast_content">正在进入...</p>
+			</div>
+		</div>
+
+    </div> <!-- END 首页 -->
+
+
+
+{template 'inc/script'}
+<script type="text/javascript">
+	$(function(){
+
+		App.controller('index_page', function (page) {
+
+			// 内容加载
+			var list=$(page).find('#robs_list');
+			var list_load=$(page).find('#robs_list_load');
+			var list_tpl=baidu.template($(page).find('#robs_list_tpl').html());
+			var loadList = function(){
+				if(0==list.data('more')){
+					return;
+				}
+				list_load.removeClass('more');
+				list_load.addClass('loading');
+				list_load.find('.text').html('正在加载...');
+				$.post(list.data('url'),{
+					start:list.data('start')
+				},function(resp) {
+					if(!resp){
+						alert('加载失败，请检查网络后重试');
+						return;
+					}
+					if(resp.status!=1){
+						alert(resp.info);
+						return;
+					}
+					var data=resp.data;
+					list.data('start',data.start);
+					list.data('more',data.more);
+					var html=list_tpl(data);
+					list.html(list.html()+html);
+				});
+			};
+
+			list_load.on('click',function(){
+				loadList();
+			});
+			loadList();
+
+
+		});
+
+		App.load('index_page','fade');
+	});
+</script>
+{template 'inc/footer'}

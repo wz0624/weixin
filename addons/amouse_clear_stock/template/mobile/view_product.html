@@ -1,0 +1,194 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>{if $set['copyright']}{$set['copyright']}{else}{$_W['account']['name']}{/if}</title>
+    <link rel="stylesheet" href="{AMOUSE_CLEAR_STOCK_RES}css/foundation.css?version=20160101"/>
+    <link rel="stylesheet" href="{AMOUSE_CLEAR_STOCK_RES}css/main.css?version=20160101"/>
+    <script src="{AMOUSE_CLEAR_STOCK_RES}js/modernizr.js?version=20160101"></script>
+    <script src="{AMOUSE_CLEAR_STOCK_RES}js/jquery.js?version=20160101"></script>
+    <script src="{AMOUSE_CLEAR_STOCK_RES}js/foundation.min.js?version=20160101"></script>
+    <script src="{AMOUSE_CLEAR_STOCK_RES}js/main.js?version=20160101"></script>
+    <link rel="stylesheet" href="{AMOUSE_CLEAR_STOCK_RES}css/product.css?version=20160101"/>
+    <link rel="stylesheet" href="{AMOUSE_CLEAR_STOCK_RES}css/detail.css?version=20160101"/>
+</head>
+<>
+<div class="wrapper">
+    <div class="content">
+
+        <div class="dialog" id="tip">
+            <div class="dialog-cnt">
+                <div class="dialog-bd"><h3>提示</h3>
+                    <p class="text"></p><a class="button correct-btn" id="alert_ok">确&nbsp;&nbsp;定</a></div>
+            </div>
+        </div>
+
+        {template 'nav_bar'}
+
+
+        <div class="goods" style="margin-top:43px;">
+            <div class="row goods-list">
+                <div class="small-12 medium-12 columns goods-center">
+                    <div class="goods-detail">
+                        <div class="goods-img"><img src="{php echo strpos($sg['logo'],'http://')===FALSE?tomedia($sg['logo']):$sg['logo']}" /></div>
+                        <div class="goods-intro row">
+                            <div class="small-6 medium-6 columns"><p>{$sg['title']}</p></div>
+                            <div class="small-6 medium-6 columns"><p class="integration">清货价：￥{$sg['clear_price']}</p>
+
+                                <p class="integration2"><strike>市场价：￥{$sg['price']}</strike></p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="intro-list box"><p class="subtitle">货源介绍</p>
+
+            <div class="line"></div>
+            <div class="row">
+                <div class="small-9 columns"><p>卖家所在地: {$sg['location_p']}{$sg['location_c']}</p><p>卖家微信号: {$sg['wechatno']}</p>
+                    <div class='line'></div>
+                    <p style="min-height: 30px; ">
+                        {$sg['detail']}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="intro-list box"><p class="subtitle">货源图片</p>
+
+            <div class="line"></div>
+            <div class="row">
+                <div class="columns right-icon">
+                    <img style="" src="{php echo strpos($sg['thumb1'],'http://')===FALSE?tomedia($sg['thumb1']):$sg['thumb1']}">
+                    <img  src="{php echo strpos($sg['thumb2'],'http://')===FALSE?tomedia($sg['thumb2']):$sg['thumb2']}"><br>
+                   {if $sg['thumb3']} <img  src="{php echo strpos($sg['thumb3'],'http://')===FALSE?tomedia($sg['thumb3']):$sg['thumb3']}"><br>{/if}
+                    <br>
+
+                    <p>1. 商品由用户自发上传，购买时请联系卖家
+                    <p>2. 联系卖家时注明：来自{if $set['copyright']}{$set['copyright']}{else}{$_W['account']['name']}{/if}</p>
+                    <p>3. 价格和质量请自行甄别</p>
+                    <p>4. 买卖双方入产生纠纷，{if $set['copyright']}{$set['copyright']}{else}{$_W['account']['name']}{/if}一概不负责</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="dialog" id="qrcode">
+            <div class="back"><a onclick="hide()"><img src="{AMOUSE_CLEAR_STOCK_RES}images/back.png" alt=""/></a></div>
+            <div class="dialog-cnt">
+                <div class="dialog-bd"><img class="qrcode-img" src="" alt="正在加载二维码图片……"/>
+
+                    <div>
+                        <p style="color: white;font-size: 1.2em;">1. 长按识别二维码联系卖家</p>
+                        <p style="color: white;font-size: 1.2em;">2. 添加时注明：来自{if $set['copyright']}{$set['copyright']}{else}{$_W['account']['name']}{/if}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row fans">
+            <div class="small-12 columns publish">
+                <div class='fan-list' data-qrcode="{php echo strpos($sg['qrcode'],'http://')===FALSE?tomedia($sg['qrcode']):$sg['qrcode']}" data-id="{$sg['cid']}">
+                    <a class="button btn addit">联系卖家</a><a
+                        class="button btn" href="{php echo $this->createMobileUrl('product',array('pid'=>0),true)}">返回</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+    $(document).foundation();
+    alert_ok = null;
+    function new_alert(msg, cb) {
+        alert_ok = cb;
+        $('#tip .text').html(msg);
+        $('#tip').show();
+    }
+    old_alert = window.alert;
+    window.alert = new_alert;
+    $('#alert_ok').click(function () {
+        if (alert_ok) {
+            alert_ok();
+        }
+        $('#tip').hide();
+    });
+    </script>
+
+    <script>
+        $('.addit').click(function (e) {
+            e.stopPropagation();
+            var $item = $(this).parents('.fan-list');
+            var nickname = $item.find('.fan-name').text();
+            currentItem = $item.attr('data-id');
+            if (nickname.indexOf('话费') == -1) {
+                show($item.attr('data-qrcode'));
+            } else {
+                alert('话费类诈骗频繁出现。提醒您谨慎交友，警惕私下交易，谨防上当。', function () {
+                    show($item.attr('data-qrcode'));
+                });
+            }
+            return false;
+        });
+        $touch = false;
+        $('#qrcode .qrcode-img').on('touchstart', function (e) {
+            if (currentItem) {
+                window.touchTimeout = setTimeout(function () {
+                    if (!$touch) {
+                        var getUrl ="{$view_url}&pk="+currentItem+ "&_=" +Math.random();
+                        var result=AjaxReturn(getUrl,'get');
+                        if(result.code==200) { }
+                    }
+                    $touch = true;
+                }, 3);
+            }
+        }).on('touchend', function (e) {
+            clearTimeout(window.touchTimeout);
+        });
+    </script>
+
+    <!--footer-->
+    {template 'bottom_bar'}
+
+
+    <script>
+        function getCookie(name) {
+            var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+            if (arr = document.cookie.match(reg))
+                return unescape(arr[2]);
+            else
+                return null;
+        }
+        /*var $free_vip = getCookie('free_vip');
+        $('.free_vip1').click(function () {
+            if ($free_vip == '') {
+                $('#alert_ok').attr("href", '/index.php?m=Invite');
+                $('#alert_ok').text('分享到朋友圈成为脉客');
+                new_alert('您还不是脉客或者已到期！分享指定文章到朋友圈即可成为脉客');
+                return false;
+            }
+        });*/
+    </script>
+
+<script>
+    wx.ready(function () {
+        shareMeta = {
+            imgUrl:"{php echo strpos($sg['logo'],'http://')===FALSE?tomedia($sg['logo']):$sg['logo']}",
+            desc : "{$sg['detail']}",
+            title : "{$sg['title']}",
+            success: function(){
+            },
+            cancel: function(){
+            }
+        };
+        wx.onMenuShareTimeline(shareMeta);
+        wx.onMenuShareAppMessage(shareMeta);
+        wx.onMenuShareQQ(shareMeta);
+        wx.onMenuShareQZone(shareMeta);
+    });
+</script>
+    <!-- 统计代码 -->
+
+</body>
+</html>

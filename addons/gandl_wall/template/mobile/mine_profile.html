@@ -1,0 +1,176 @@
+{php $title='发布者身份'}
+
+{template 'inc/header'}
+	<script type="text/javascript">
+	</script>
+
+	<style>
+		#avatar_upload_cell{display:inline-block;width:80px;height:80px;border-radius:5px;overflow:hidden;}
+		#avatar_upload_cell img{width:80px;}
+	</style>
+
+	<!-- 公共变量 -->
+	<input type="hidden" id="is_user_infoed" value="{$is_user_infoed}"/>
+
+		
+	<!-- 首页 -->
+    <div class="app-page" data-page="index_page">
+
+
+		<div class="app-topbar" style="display:none;height:0px;"></div>
+		<div class="app-content" style="background:#F8F8F8;">
+			<div class="app-body">
+				
+				<form id="profile_form" class="weui_cells weui_cells_form" action="{php echo $_W['siteroot'] . 'app/' . substr($this->createMobileUrl('user',array('cmd'=>'profile','pid'=>pencode($wall['id']))), 2)}" method="post" style="margin-top:0px;border-top:0px none;">
+					<input type="hidden" name="submit" value="save"/>
+
+					<div class="weui_cell" style="text-align:center;padding:30px 10px 30px 10px;">
+						<span id="avatar_upload_cell"><img id="avatar_upload" src="{if empty($mine['avatar'])}{MODULE_URL}/static/mobile/images/avatar_upload.png{else}{php echo VP_IMAGE_URL($mine['avatar'])}{/if}" /></span>
+						<input id="avatar_val" type="hidden" name="avatar" value="{$mine['avatar']}"/>
+					</div>
+
+					<div class="weui_cell">
+						<div class="weui_cell_hd"><label class="weui_label">名称</label></div>
+						<div class="weui_cell_bd weui_cell_primary">
+							<input class="weui_input" type="text" name="nickname" placeholder="发布时作为您的名称显示" value="{$mine['nickname']}"/>
+						</div>
+					</div>
+					<div class="weui_cell weui_cell_select weui_select_after">
+						<div class="weui_cell_hd">
+							类型
+						</div>
+						<div class="weui_cell_bd weui_cell_primary">
+							<select class="weui_select" name="who">
+								<option value="0" {if $mine['who']==0}selected{/if}>未知</option>
+								<option value="1" {if $mine['who']==1}selected{/if}>个人微信号</option>
+								<option value="2" {if $mine['who']==2}selected{/if}>订阅号</option>
+								<option value="3" {if $mine['who']==3}selected{/if}>认证订阅号</option>
+								<option value="4" {if $mine['who']==4}selected{/if}>服务号</option>
+								<option value="5" {if $mine['who']==5}selected{/if}>认证服务号</option>
+							</select>
+						</div>
+					</div>
+					<div class="weui_cell">
+						<div class="weui_cell_hd"><label class="weui_label">主页</label></div>
+						<div class="weui_cell_bd weui_cell_primary">
+							<input class="weui_input" type="text" name="home"  placeholder="用户点击名称时跳转到该地址" value="{$mine['home']}"/>
+						</div>
+					</div>
+
+				</form>
+				
+				<div class="weui_btn_area">
+					<a class="weui_btn weui_btn_primary" href="javascript:" id="btn_save">保存</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- loading toast -->
+		<div id="toast_loading" class="weui_loading_toast" style="display:none;z-index:99999;position:fixed;">
+			<div class="weui_mask_transparent"></div>
+			<div class="weui_toast">
+				<div class="weui_loading">
+					<div class="weui_loading_leaf weui_loading_leaf_0"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_1"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_2"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_3"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_4"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_5"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_6"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_7"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_8"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_9"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_10"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_11"></div>
+				</div>
+				<p class="weui_toast_content">正在保存...</p>
+			</div>
+		</div>
+
+
+		<!-- 底部菜单区 -->
+		{php $bmenu='mine'}
+		{template 'inc/bmenu'}
+
+
+    </div> <!-- END 首页 -->
+
+
+
+{template 'inc/script'}
+<script type="text/javascript">
+	$(function(){
+
+		App.controller('index_page', function (page) {
+			initBottomMenu(page);
+
+			var toast_loading=$(page).find('#toast_loading');
+
+			// 添加图片
+			var avatar_upload=$(page).find('#avatar_upload');
+			var avatar_val=$(page).find('#avatar_val');
+			avatar_upload.on('click',function(){
+				wx.chooseImage({
+					count:1,
+					success: function (res) {
+						if(res.localIds){
+							for (var i in res.localIds){
+								avatar_upload.attr('src',res.localIds[i]);
+								avatar_val.val(-1);// -1表示正在上传
+								wx.uploadImage({
+									localId:res.localIds[i],
+									isShowProgressTips:0,
+									success: function (res) {
+										avatar_val.val(res.serverId);
+									},
+									fail: function () {
+										avatar_val.val('');
+									}
+								});
+							}
+						}
+					}
+				});
+			});
+
+
+			/** 执行保存 **/
+			var wait=0;
+			var form = $(page).find('#profile_form');
+			function doPost(){
+				// 判断头像是否正在上传中，则需要等待完成后再保存(对用户透明)
+				if(avatar_val.val()==-1){
+					wait++;
+					setTimeout(doPost,1000);//间隔1秒等待图片上传
+				}else{
+					$.post(form.attr('action'), form.serialize(),function(resp) {
+						toast_loading.hide();
+						if(resp.status==0){
+							alert(resp.info);
+						}else{
+							swal({   
+								title: resp.info,
+								type: "success",
+								confirmButtonText: "确定"
+							});
+						}
+					});
+				}
+			}
+
+			// 发布
+			$(page).find('#btn_save').on('click',function(){
+				toast_loading.show();
+				doPost();
+			});
+
+
+
+			
+
+		});
+
+		App.load('index_page','fade');
+	});
+</script>
+{template 'inc/footer'}

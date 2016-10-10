@@ -1,0 +1,114 @@
+{template 'common/header'}
+
+<div class="panel panel-default">
+	<form class="form-horizontal form" action="" method="post">
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 col-lg-1 control-label">难度选择</label>
+				<div class="col-sm-3">
+					<input type="radio" name="level" value="0" {if $item['level'] == 0}checked{/if} />				
+					简单&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="level" value="1" {if $item['level'] == 1}checked{/if} />				
+					普通&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="level" value="2" {if $item['level'] == 2}checked{/if} />				
+					困难
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 col-lg-1 control-label">简单积分</label>
+				<div class="col-sm-3">
+					<input type="text" name="easycredit" value="{$item['easycredit']}" class="form-control" placeholder="每通关一次简单关卡能获得的积分数"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 col-lg-1 control-label">普通积分</label>
+				<div class="col-sm-3">
+					<input type="text" value="{$item['normalcredit']}" class="form-control" name="normalcredit" placeholder="每通关一次普通关卡能获得的积分数"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 col-lg-1 control-label">困难积分</label>
+				<div class="col-sm-3">
+					<input type="text" name="hardcredit" value="{$item['hardcredit']}" class="form-control" placeholder="每通关一次困难关卡能获得的积分数"/>
+				</div>
+			</div>
+			<!--
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 col-lg-1 control-label">明牌时间</label>
+				<div class="col-sm-3">
+					<input type="text" name="showtime" value="{$item['showtime']}" class="form-control" placeholder="单位：秒"/>	
+				</div>
+			</div>
+			-->
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 col-lg-1 control-label">游戏次数</label>
+				<div class="col-sm-3">
+					<input type="text" name="gametimes" value="{$item['gametimes']}" class="form-control" placeholder="每天限制用户的游戏次数，0点更新"/>	
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 col-lg-1 control-label">游戏限时</label>
+				<div class="col-sm-3">
+					<input type="text" name="gametime" value="{$item['gametime']}" class="form-control" placeholder="单位：秒"/>	
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 col-lg-1 control-label">翻翻图片1</label>
+				<div class="col-sm-3">
+					{php echo tpl_form_field_image('picture1', $item['picture1'])}
+					<div class="help-block">建议135*135</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 col-lg-1 control-label">翻翻图片2</label>
+				<div class="col-sm-3">
+					{php echo tpl_form_field_image('picture2', $item['picture2'])}
+					<div class="help-block">建议135*135</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 col-lg-1 control-label">翻翻图片3</label>
+				<div class="col-sm-3">
+					{php echo tpl_form_field_image('picture3', $item['picture3'])}
+					<div class="help-block">建议135*135</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 col-lg-1 control-label">翻翻图片4</label>
+				<div class="col-sm-3">
+					{php echo tpl_form_field_image('picture4', $item['picture4'])}
+					<div class="help-block">建议135*135</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 col-lg-1 control-label">翻翻图片5</label>
+				<div class="col-sm-3">
+					{php echo tpl_form_field_image('picture5', $item['picture5'])}
+					<div class="help-block">建议135*135</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 col-lg-1 control-label">翻翻背景图</label>
+				<div class="col-sm-3">
+					{php echo tpl_form_field_image('ffpicture', $item['ffpicture'])}
+					<div class="help-block">建议135*135</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 col-lg-1 control-label">是否显示</label>
+				<div class="col-sm-3">
+					<input type="radio" name="isopen" value="1" {if $item['isopen'] == 1}checked{/if} />				
+					显示&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="isopen" value="0" {if $item['isopen'] == 0}checked{/if} />				
+					不显示
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="hidden" name="token" value="{$_W['token']}" />
+			<input type="hidden" name="id" value="{$item['id']}" />
+			<input type="submit" class="btn btn-primary col-lg-1" name="submit" value="提交" />
+		</div>
+	</form>
+</div>
+{template 'common/footer'}

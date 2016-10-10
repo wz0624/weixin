@@ -1,0 +1,81 @@
+{php $title=$wall['topic']}
+
+{template 'inc/header'}
+	<script type="text/javascript">
+		wx.ready(function () {
+			wx.onMenuShareAppMessage({
+				title:'{if empty($wall["share_title"])}{$wall["topic"]}{else}{$wall["share_title"]}{/if}',
+				desc:'{if empty($wall["share_desc"])}秘密入口{else}{$wall["share_desc"]}{/if}',
+				imgUrl:'{$_W["attachurl"]}{if empty($wall["share_img"])}{$wall["banner"]}{else}{$wall["share_img"]}{/if}',
+				link:'{$share_url}'
+			});
+			wx.onMenuShareTimeline({
+				title:'{if empty($wall["share_title"])}{$wall["topic"]}秘密入口{else}{$wall["share_title"]}{/if}',
+				imgUrl:'{$_W["attachurl"]}{if empty($wall["share_img"])}{$wall["banner"]}{else}{$wall["share_img"]}{/if}',
+				link:'{$share_url}'
+			});
+		});
+	</script>
+		
+	<style>
+
+	</style>
+
+	<!-- 公共变量 -->
+	<input type="hidden" id="is_user_infoed" value="{$is_user_infoed}"/>
+
+		
+	<!-- 首页 -->
+    <div class="app-page" data-page="index_page">
+
+
+		<div class="app-topbar light" style="-webkit-box-shadow:0 1px 1px -1px rgba(0, 0, 0, 0.5);"><div class="app-title app-toptab"><a href="{php echo $_W['siteroot'] . 'app/' . substr($this->createMobileUrl('index',array('cmd'=>'rank_piece','pid'=>pencode($wall['id']))), 2)}">土豪榜</a><a class="ac" href="{php echo $_W['siteroot'] . 'app/' . substr($this->createMobileUrl('index',array('cmd'=>'rank_rob','pid'=>pencode($wall['id']))), 2)}">抢钱榜</a></div></div>
+		<div class="app-content" style="background:#F8F8F8;padding-bottom:50px;">
+			<div class="app-body">
+				
+
+				<div>
+					<div id="pieces_list" class="weui_cells" style="margin-top:0px" >
+						{php $rank=0;}
+						{loop $list $item}
+						{php $rank++;}
+							<div class="weui_cell">
+								<div class="weui_cell_hd"><img src="{php echo VP_AVATAR($item['_user']['avatar'],'m')}" style="width:40px;margin-right:5px;display:block"></div>
+								<div class="weui_cell_bd weui_cell_primary">
+									<p>{$item['_user']['nickname']}</p>
+									<h4>第{$rank}名</h4>
+								</div>
+								<div class="weui_cell_ft" style="color:#86d750">{php echo $item['rob_total']/100}元</div>
+							</div>
+						{/loop}
+
+					</div>
+				</div>
+
+				<div class="app-botblank"></div>
+			</div>
+		</div>
+
+		
+		<!-- 底部菜单区 -->
+		{php $bmenu='rank'}
+		{template 'inc/bmenu'}
+		</div>
+
+    </div> <!-- END 首页 -->
+
+
+{template 'inc/script'}
+<script type="text/javascript">
+	$(function(){
+
+		App.controller('index_page', function (page) {
+			initBottomMenu(page);
+
+		});
+
+
+		App.load('index_page','fade');
+	});
+</script>
+{template 'inc/footer'}

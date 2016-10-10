@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+  <title>{if !$pcate}{$settings['title']}{else}{$category[$pcate]['name']}{/if}</title>
+<link rel="stylesheet" type="text/css" href="https://res.wx.qq.com/open/libs/weui/0.4.0/weui.css" />
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}images/style.css" />
+{php echo register_jssdk($debug);} 
+</head>
+
+<body>
+<div class="wrapper" style="padding:0.84rem 0 1rem 0">
+    <header class="header3">
+        <h1>
+        	{if $settings['logo']}
+            <img src="{php echo tomedia($settings['logo'])}">
+			{else}
+			<img src="{MODULE_URL}images/logo.png">
+			{/if}
+            <span class="tit">{$settings['title']}</span>
+        </h1>
+        
+    </header>
+	<div class="tab-area not-eof" >
+            <div class="scroll-area" style="width:75%;float:left;">
+                <ul class="am-nav-justify">
+                
+                <li class="{if empty($pcate)}selected{/if}"><a href="{php echo $this->createMobileUrl('index')}">热门推荐</a></li>   
+  {loop $category $typeid}
+  <li class="{if $typeid['id']== $pcate} selected {/if}"><a href="{php echo $this->createMobileUrl('index')}&pcate={$typeid['id']}">{$typeid['name']}</a></li>
+{/loop} 
+
+
+               </ul>
+            </div>
+            <div class="scroll-area" style="width:20%;float:left;padding: 0px">
+                <ul class="am-nav-justify">     
+
+<li class=""><a href="{php echo $this->createMobileUrl('category',array('pcate'=>$pcate))}">查看更多</a></li>
+               </ul>
+            </div>
+        </div>
+    <div class="container" id="container" >
+        
+
+        <div class="list-scroll">
+            <div class="list-wrap">
+			
+				<div class="list-area2" style="height: auto;">
+				<script src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js"></script>
+<script>
+    var city = remote_ip_info['city'];
+    
+</script>
+				{loop $listgg $id $data}
+				{php $pic = iunserializer($data['pic'])}
+				{php $credit = iunserializer($data['credit'])}
+
+				{php $picnum = count($pic)}
+				{if $picnum <= 4}
+					<div class="list-item list4"><a name="{$data['id']}" href="{php echo $this->createMobileUrl('detail', array('id'=>$data['id'],'pcate'=>$data['pcate'],'page'=>$page,'keyword'=>$keyword,'uid'=>$data['uid'],'op'=>'detail'));}" class="lk"><span class="u-img2"><img class="img" src="{if strpos($data['thumb'],'img01')}{$data['thumb']}{else}{php echo tomedia($data['thumb'])}{/if}"></span><span class="p-txt">{$data['title']} </span><div class="info"><span class="tag type1">赞助广告图文</span>
+					<span class="resource">{$data['source']}
+					
+</span>
+					</div></a>
+					</div>
+				{else}
+					<div class="list-item list5"><a href="{php echo $this->createMobileUrl('detail', array('id'=>$data['id'],'pcate'=>$data['pcate'],'page'=>$page,'keyword'=>$keyword,'uid'=>$data['uid'],'op'=>'detail'));}" class="lk"><p class="tit">{$data['title']}</p><ul>
+					<?php $j = 1 ?>
+					{loop $pic $key $picsome} 
+
+					{if $j <= 3}
+					<li><img class="img" src="{if strpos($picsome,'img01')}{$picsome}{else}{php echo tomedia($picsome)}{/if}" width="200" height="80"></li>
+					 {/if}
+				  	 <?php $j++ ?> 
+					 {/loop}
+					</ul><div class="info2"><span class="tag type1">赞助广告图文</span><span class="resource">{$data['source']}{if "商户" == '<script>document.write(city);</script>'}不在{/if}</span>
+					</div></a></div>
+				
+				{/if}
+				 {/loop}
+
+
+				 {loop $list $id $data}
+				{php $pic = iunserializer($data['pic'])}
+				{php $credit = iunserializer($data['credit'])}
+
+				{php $picnum = count($pic)}
+				{if $picnum <= 4}
+					<div class="list-item list4"><a name="{$data['id']}" href="{php echo $this->createMobileUrl('detail', array('id'=>$data['id'],'pcate'=>$data['pcate'],'page'=>$page,'keyword'=>$keyword,'uid'=>$data['uid'],'op'=>'detail'));}" class="lk"><span class="u-img2"><img class="img" src="{if strpos($data['thumb'],'img01')}{$data['thumb']}{else}{php echo tomedia($data['thumb'])}{/if}"></span><span class="p-txt">{$data['title']} </span><div class="info"><span class="resource">{$data['source']} </span></div></a>
+					</div>
+				{else}
+					<div class="list-item list5"><a href="{php echo $this->createMobileUrl('detail', array('id'=>$data['id'],'pcate'=>$data['pcate'],'page'=>$page,'keyword'=>$keyword,'uid'=>$data['uid'],'op'=>'detail'));}" class="lk"><p class="tit">{$data['title']}</p><ul>
+					<?php $j = 1 ?>
+					{loop $pic $key $picsome} 
+
+					{if $j <= 3}
+					<li><img class="img" src="{if strpos($picsome,'img01')}{$picsome}{else}{php echo tomedia($picsome)}{/if}" width="200" height="80"></li>
+					 {/if}
+				  	 <?php $j++ ?> 
+					 {/loop}
+					</ul><div class="info2"><span class="resource">{$data['source']}</span></div></a></div>
+				
+				{/if}
+				 {/loop}
+				
+				</div>
+			</div>
+        </div>
+
+       {if $page == 1}   
+        <a class="weui_btn weui_btn_default"  style="float: left;width: 50%">没有了 &raquo;</a>   
+	      {else}
+	      <a class="weui_btn weui_btn_default"  href="{php echo $this->createMobileUrl('index', array('pcate'=>$pcate,'page'=>$page-1,'keyword'=>$keyword));}" {if $page != $totalpage}style="float: left;width: 50%"{/if}><<前往上一页 </a>
+	      {/if}
+	       {if $page == $totalpage}  
+	         
+	      {else}
+        <a class="weui_btn weui_btn_default" href="{php echo $this->createMobileUrl('index', array('pcate'=>$pcate,'page'=>$page+1,'keyword'=>$keyword));}" {if $page != $totalpage}style="float: right;width: 50%;margin-top: 0px"{/if}>前往下一页 >></a>
+        {/if}
+    </div>
+</div>
+
+
+ 
+<div class="weui_tabbar" style="position: fixed;bottom: 0px">
+    <a href="{php echo $this->createMobileUrl('index');}" class="weui_tabbar_item weui_bar_item_on">
+      <div class="weui_tabbar_icon">
+        <img src="{MODULE_URL}images/home.png" alt="">
+      </div>
+      <p class="weui_tabbar_label">首页</p>
+    </a>    
+    <a href="{php echo $this->createMobileUrl('member', array('uid'=>$_W['fans']['uid']));}" class="weui_tabbar_item">
+      <div class="weui_tabbar_icon">
+        <img src="{MODULE_URL}images/ren.png" alt="">
+      </div>
+      <p class="weui_tabbar_label">会员</p>
+    </a> 
+</div>
+</body>
+</html>

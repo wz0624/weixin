@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <title>班级授课老师列表</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{MODULE_URL}style/css/style.css">
+    <link rel="stylesheet" href="{MODULE_URL}style/css/buttons.css">
+    <link href="http://cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body style='background:#eee'>
+  <div class="top-wrap">
+	<div class="fn-clear tr-box top">
+	   <div class='text_center'>班级授课老师列表</div>
+  </div>
+  <style>
+      .accordion-heading img{
+          height:60px;
+          width:60px;
+          display: inline;
+          border-radius: 50px;
+          margin-top:10px;
+          float: left;
+          margin-left:10px;
+      }
+      .other_info{
+          list-style-type: none;
+          float: left;
+          margin-top:20px;
+      }
+      .other_info li{
+          font-weight: 500;
+          height:20px;
+      }
+      .other_info li b{
+          font-weight: 500;
+         color:#888;
+      }
+      </style>
+  <div   style='margin-bottom:60px'>
+     {loop $teacher_list $key $row}
+     <a href='{php echo $this->createMobileUrl('personer',array('t_id'=>$row['teacher_id']))}'>
+           <div class="accordion-heading" style='height:80px; background-color:#fff;margin-bottom:20px;' >
+           <img src="../attachment/{$row['teacher_img']}" alt="{$row['teacher_realname']}" >
+               <ul class='other_info'>
+                <li><b>姓名：</b>{$row['teacher_realname']}</li>
+                <li><b>授课：</b>{php echo $this->courseName($row['course_id'])}</li>
+             </ul>
+             <I class='right-center fa fa-share' style='color:#999'> </I>
+        </div> 
+        </a>
+     {/loop}
+</div>
+
+  {template 'jsweixin'}
+{template 'footer'}

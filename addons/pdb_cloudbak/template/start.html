@@ -1,0 +1,108 @@
+{template 'common/header'}
+
+{if $in_bak == 1}
+<div class="main">
+    <form action="" method="post" class="form-horizontal form">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {if $record['status'] == 1}备份完成{else}备份进行中...{/if}
+            </div>
+            <div class="panel-body">
+
+        	{if $record['status'] != 1}
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">备份进度</label>
+                    <div class="col-sm-9 col-xs-12 " style="padding-top: 7px;">
+					
+						<iframe id="json_result" src="" style="width:100px;height:50px;display:none;"></iframe>
+						<div class="progress progress-striped active">
+						   <div class="progress-bar progress-bar" role="progressbar" id="progressbar" style="width: 1%;"></div>
+						   
+						</div>
+						<div class="help-block" id="ajax_result">正在备份中...</div>
+						<input id="is_finished" value="0" type="hidden" />
+						<input id="nowstep" value="1" type="hidden" />
+                    </div>
+                </div>  
+				<div class="form-group" >
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-sm-9 col-xs-12" id="button_abort">
+                       <input name="submit" type="button" value="继续备份" class="btn btn-primary span3" onclick="window.location.reload();" />
+                       <input name="submit" type="button"  value="中断任务" class="btn btn-primary span3" onclick="location.href='{php echo $this->createWebUrl('list')}';" />
+						<div class="help-block" id="ajax_result">如果备份停止，请点击“继续备份”按钮。</div>
+                    </div>
+                </div>
+
+                <script>
+					$(window).load(function() {
+						//备份数据，并动态修改进度条：
+						$('#json_result').attr('src','{php echo $this->createWebUrl('process',array('id'=>$id,'step'=>'1'))}');
+						
+						//定时强制刷新，避免中途中断影响备份：
+						var sint = setInterval(function(){
+							if ($('#is_finished').val() == 1){
+								window.clearInterval(sint);//停止刷新；
+							}
+							//重新开始：
+							var nowstep = $('#nowstep').val();
+							//alert(nowstep);
+							if (nowstep == 1){
+								$('#json_result').attr('src','{php echo $this->createWebUrl('process',array('id'=>$id,'step'=>'1'))}');
+							}else{
+								$('#json_result').attr('src','{php echo $this->createWebUrl('process',array('id'=>$id,'step'=>'2'))}');
+							}
+							
+						},1000*60*3);
+						
+						
+						
+						
+					})
+				</script>
+            {else}
+            	<div style="text-align: center;font-size: 18px;padding:  50px 0px 20px 0px;;">本次备份已经完成！</div>
+            	<div style="text-align: center;margin: 10px 0px;"><a href="{php echo $this->createWebUrl('list', array('op' => 'display'))}">返回</a></div>
+
+            {/if}
+            </div>
+        </div>
+    </form>
+	
+	
+</div>
+{else}
+<div class="main">
+    <form action="" method="post" class="form-horizontal form">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                备份网站文件和数据到快盘
+            </div>
+            <div class="panel-body">
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">备份名称</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="name" class="form-control" value="" placeholder="如果不填写则以当前时间作为备份名称。" />
+    
+                    </div>
+                </div>  
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-sm-9 col-xs-12">
+                       <input name="submit" type="submit" value="开始备份" class="btn btn-primary span3" />
+						<input type="hidden" name="token" value="{$_W['token']}" />
+    
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </form>
+</div>
+{/if}
+
+
+{template 'common/footer'}

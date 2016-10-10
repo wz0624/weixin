@@ -1,0 +1,45 @@
+<div class="bottom-bar">
+    <ul class="row">
+        {if $set && $set['isopen']=='0'}
+            <li class="small-3 medium-3 columns" {if $cset['is_open_clear']==0}style="width: 20%;"{/if}>
+                <a class="bottom-nav {if $op=='b'} current{/if}" href="{$index_url}&time={php echo time()}"><span>首页</span></a>
+            </li>
+            <li class="small-3 medium-3 columns" {if $cset['is_open_clear']==0}style="width: 20%;"{/if}>
+                <a class="bottom-nav{if $op=='step1'} current{/if}" href="{$vip_url}&time={php echo time()}"><span>VIP服务</span></a>
+            </li>
+            {if $set['crelink']}
+            <li class="small-3 medium-3 columns" {if $cset['is_open_clear']==0}style="width: 20%;"{/if}>
+                <a class="bottom-nav{if $op=='list'} current{/if}"  href="{$set['crelink']}"><span>兑换</span></a>
+            </li>
+            {else}
+            <li class="small-3 medium-3 columns" {if $cset['is_open_clear']==0}style="width: 20%;"{/if}>
+                <a class="bottom-nav{if $op=='list' || $op=='detail' || $op=='exchagelog'} current{/if}" href="{$e_url}&time={php echo time()}"><span>兑换</span></a>
+            </li>
+            {/if}
+            {if $cset['is_open_clear']==0}
+            <li class="small-3 medium-3 columns" style="width: 20%;">
+                <a class="bottom-nav current" href="{$clear_stock_url}&time={php echo time()}"><span>清货中心</span> </a>
+            </li>
+            {/if}
+            <li class="small-3 medium-3 columns" {if $cset['is_open_clear']==0}style="width: 20%;"{/if}>
+                <a class="bottom-nav{if $op=='me'} current{/if}" href="{$me_url}&time={php echo time()}"><span>我的</span></a>
+            </li>
+        {else}
+            <li class="small-4 medium-4 columns"  {if $cset['is_open_clear']==0}style="width: 25%;"{/if}>
+                <a class="bottom-nav {if $op=='b'} current{/if}" href="{$index_url}&time={php echo time()}"><span>首页</span></a>
+            </li>
+            <li class="small-4 medium-4 columns" {if $cset['is_open_clear']==0}style="width: 25%;"{/if}>
+                <a class="bottom-nav{if $op=='step1'} current{/if}"
+                   href="{$vip_url}&time={php echo time()}"><span>VIP服务</span></a>
+            </li>
+            {if $cset['is_open_clear']==0}
+            <li class="small-3 medium-3 columns" style="width: 25%;">
+                <a class="bottom-nav current" href="{$clear_stock_url}&time={php echo time()}"><span>清货中心</span> </a>
+            </li>
+            {/if}
+            <li class="small-4 medium-4 columns" {if $cset['is_open_clear']==0}style="width: 25%;"{/if}>
+                <a class="bottom-nav{if $op=='me'} current{/if}" href="{$me_url}&time={php echo time()}"><span>我的</span></a>
+            </li>
+        {/if}
+    </ul>
+</div>

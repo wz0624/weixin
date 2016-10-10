@@ -1,0 +1,168 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+    <li class="active"><a href="{php echo wurl('profile/module/setting',array('m'=>'hx_o2o'))}">参数设置</a></li>
+</ul>
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+		<div class="panel panel-default">
+            <div class="panel-heading">
+                站点信息
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">站点名称</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="sitename" class="form-control" value="{$settings['sitename']}" />
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">站点logo</label>
+                    <div class="col-sm-9 col-xs-12">
+                        {php echo tpl_form_field_image('sitelogo', $settings['sitelogo'], '', array('extras' => array('text' => 'readonly')))}<span>建议尺寸：100px*100px</span>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">站点描述</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="sitedescription" class="form-control" value="{$settings['sitedescription']}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+			<div class="panel-heading">
+				基本参数
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">门店查询页面顶部图</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_image('shoplist_thumb', $settings['shoplist_thumb'], '', array('extras' => array('text' => 'readonly')))}<span>建议尺寸：640px*360px</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">个人中心顶部背景图</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_image('member_bg', $settings['member_bg'], '', array('extras' => array('text' => 'readonly')))}<span>建议尺寸：640px*240px</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">客服电话</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="tel" class="form-control" value="{$settings['tel']}" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+            <div class="panel-heading">模板消息设置</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">接收消息客服ID</label>
+                    <div class="col-xs-12 col-sm-9 input-group">
+                    	<input type="text" name="kfid" class="form-control" value="{$settings['kfid']}" /><span class="input-group-addon"><a href="/web/index.php?c=mc&a=fans&" target="_blank">openid：粉丝管理中的粉丝编号</a>【若为用户发布的众筹将同时通知发起人和此客服】</span>
+                    </div>
+                </div>
+                <div class="form-group" style="background-color:#eee;">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">通知客服模板ID</label>
+                    <div class="col-xs-12 col-sm-9 input-group">
+                    	<input type="text" name="k_templateid" class="form-control" value="{$settings['k_templateid']}" /><span class="input-group-addon">例（IT科技 - 互联网|电子商务）：新订单提醒，编号：OPENTM207804697</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-xs-12 col-sm-9 input-group">
+                    <span class="input-group-addon">标题(默认为：您有一个新的预约订单)：</span><input type="text" name="kfirst" class="form-control" value="{$settings['kfirst']}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-xs-12 col-sm-6 input-group">
+                    <span class="input-group-addon">{{keyword1.DATA}}：</span><input type="text" class="form-control" value="订单编号" readonly="readonly"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-xs-12 col-sm-6 input-group">
+                    <span class="input-group-addon">{{keyword2.DATA}}：</span><input type="text" class="form-control" value="订单详情" readonly="readonly"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-xs-12 col-sm-6 input-group">
+                    <span class="input-group-addon">{{keyword3.DATA}}：</span><input type="text" class="form-control" value="订单金额" readonly="readonly"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-xs-12 col-sm-6 input-group">
+                    <span class="input-group-addon">{{keyword4.DATA}}：</span><input type="text" class="form-control" value="联系人" readonly="readonly"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-xs-12 col-sm-6 input-group">
+                    <span class="input-group-addon">{{keyword5.DATA}}：</span><input type="text" class="form-control" value="支付方式" readonly="readonly"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-xs-12 col-sm-9 input-group">
+                    <span class="input-group-addon">尾注(默认为：请及时处理，点击可查看详情)：</span><input type="text" name="kfoot" class="form-control" value="{$settings['kfoot']}" />
+                    </div>
+                </div>
+                <div class="form-group" style="background-color:#eee;">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">用户预约成功通知</label>
+                    <div class="col-xs-12 col-sm-9 input-group">
+                    	<input type="text" name="m_templateid" class="form-control" value="{$settings['m_templateid']}" /><span class="input-group-addon">例（IT科技 - 互联网|电子商务）：用户成功通知，编号：OPENTM202447657</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-xs-12 col-sm-9 input-group">
+                    <span class="input-group-addon">标题(默认为：您已经成功预约)：</span><input type="text" name="mfirst" class="form-control" value="{$settings['mfirst']}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-xs-12 col-sm-6 input-group">
+                    <span class="input-group-addon">{{keyword1.DATA}}：</span><input type="text" class="form-control" value="预约项目" readonly="readonly"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-xs-12 col-sm-6 input-group">
+                    <span class="input-group-addon">{{keyword2.DATA}}：</span><input type="text" class="form-control" value="预约时间" readonly="readonly"/>
+                    </div>
+                </div>
+                <!--div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-xs-12 col-sm-6 input-group">
+                    <span class="input-group-addon">{{keyword3.DATA}}：</span><input type="text" class="form-control" value="订单金额" readonly="readonly"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-xs-12 col-sm-6 input-group">
+                    <span class="input-group-addon">{{keyword4.DATA}}：</span><input type="text" class="form-control" value="商品信息" readonly="readonly"/>
+                    </div>
+                </div-->
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-xs-12 col-sm-9 input-group">
+                    <span class="input-group-addon">尾注(默认为：为了完美的服务体验请提前安排好时间)：</span><input type="text" name="mfoot" class="form-control" value="{$settings['mfoot']}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+{template 'common/footer'}

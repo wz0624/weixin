@@ -1,0 +1,132 @@
+{template 'header'}
+<body>
+  <header data-am-widget="header"
+          class="am-header am-header-default">
+      <div class="am-header-left am-header-nav">
+          <a href="{php echo $this->createMobileUrl('index');}" class=""> 
+
+                <i class="am-header-icon am-icon-home"></i>
+          </a>
+      </div>
+
+      <div class="am-header-title">
+          <a href="#title-link">
+            {$title}
+          </a>
+      </div>
+
+      <div class="am-header-right am-header-nav">
+          <a href="#right-link" class="" data-am-offcanvas="{target: '#doc-oc-demo2', effect: 'push'}">
+
+                <i class="am-header-icon am-icon-bars"></i>
+          </a>
+      </div>
+  </header>
+  <div id="doc-oc-demo2" class="am-offcanvas">
+    <div class="am-offcanvas-bar am-offcanvas-bar-flip">
+      <div class="am-offcanvas-content">
+        <p>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+  <div data-am-widget="list_news" class="am-list-news am-list-news-default" >
+<p><button type="button" class="am-form-field am-round" placeholder="椭圆表单域" data-am-modal="{target: '#my-popup'}" />搜索</button></p>
+<div class="am-popup" id="my-popup">
+  <div class="am-popup-inner">
+    <div class="am-popup-hd">
+      <h4 class="am-popup-title">搜索</h4>
+      <span data-am-modal-close
+            class="am-close">&times;</span>
+    </div>
+    <div class="am-popup-bd">
+    <form action="./index.php" method="get" class="form-horizontal content-padded" role="form">
+    <input type="hidden" name="i" value="{$_W['uniacid']}">
+    <input type="hidden" name="c" value="{$_GPC['c']}">   
+    <input type="hidden" name="do" value="{$_GPC['do']}">
+    <input type="hidden" name="m" value="{$_GPC['m']}">
+      <p><input type="text" class="am-form-field am-radius" name="keyword" placeholder="请输入关键词" /></p>
+    </form>
+
+    <div class="am-panel am-panel-default">
+  <div class="am-panel-hd">分类</div>
+  <div class="am-panel-bd">
+    <a class="tab-item external" href="{php echo $this->createMobileurl('index')}" style="color:#000">
+  全部分类
+</a>
+{loop $categories $cid $category}
+      <a class="tab-item external" href="{php echo $this->createMobileurl('index', array('cid'=>$category['id']));}" style="color:#000">
+  {$category['title']}
+</a>
+ {/loop}  
+  </div>
+</div>
+
+<section class="am-panel am-panel-default">
+  <header class="am-panel-hd">
+    <h3 class="am-panel-title">区域</h3>
+  </header>
+  <div class="am-panel-bd">
+    <a class="tab-item external" href="{php echo $this->createMobileurl('index')}" style="color:#000">
+  全部分类
+</a>
+{loop $areas $aid $area}
+      <a class="tab-item external" href="{php echo $this->createMobileurl('index', array('aid'=>$area['id']));}" style="color:#000">
+  {$area['title']}
+</a>
+ {/loop}  
+  </div>
+</section>
+
+    </div>
+  </div>
+</div>
+  <div class="am-list-news-bd">
+  <ul class="am-list">
+{loop $list $data}
+
+      <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left">
+      <a href="{php echo $this->createMobileUrl('content', array('id'=>$data['id']));}">
+        <div class="am-u-sm-4 am-list-thumb">
+          
+            <img src="{$_W['attachurl']}{$data['thumb']}" class="am-radius" />
+          
+        </div>
+
+        <div class=" am-u-sm-8 am-list-main">
+            <h3 class="am-list-item-hd" {if $data['color']}style="color:{$data['color']}"{/if}>名称：{$data['title']}</h3>
+            <div class="am-list-item-text">简介：{$data['desc']}</div>
+            <div class="am-list-item-text">分类：{$categories[$data['categoryid']]['title']}</div>
+            <div class="am-list-item-text">区域：{$areas[$data['address']]['title']}</div>
+            <div class="am-list-item-text">更新：{php echo date('Y-m-d',$data['time'])} 点击：{$data['click']}</div>
+        </div>
+        </a>
+      </li>
+
+
+    {/loop}
+     {if empty($list)}
+            <div class="card">
+            <div class="card-header">您查找的群不存在</div>
+            </div>
+            {/if}
+    
+    </ul>
+  </div>
+{$pager}
+    </div>
+    {if $settings['gg']}
+<a href="{$settings['link']}">
+    <img src="{$_W['attachurl']}{$settings['gg']}" alt="" width="100%">
+</a>{/if}
+    <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+    <script src="http://libs.useso.com/js/jquery/2.1.1/jquery.min.js"></script>  
+    <script src="http://cdn.amazeui.org/amazeui/2.5.0/js/amazeui.min.js"></script>  
+    <script src="http://cdn.amazeui.org/amazeui/2.5.0/js/amazeui.widgets.helper.min.js"></script>  
+
+
+{template 'common/footer'}

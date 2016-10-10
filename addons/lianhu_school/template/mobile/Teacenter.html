@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <title>教学中心-{$_SESSION['school_name']}</title>
+    {template 'common'}
+    {template 'tea_common'}
+</head>
+<body style='background:rgba(223,231,245,1)'>
+ <div class="top-wrap">
+        <div class="fn-clear tr-box top bg_yellow" >
+            <div class='text_center white'>教学中心</div>
+        </div>
+  </div>   
+ <main>
+        <div class="panel memberhead" style='border-radius:0;background:rgba(162,210,160,1);font-weight:700'>
+            <div class="header-l"><img class="icon-level-p1" src="{$_W['attachurl']}{$result['teacher_img']}"/></div>
+                    <div class="header-r">
+                <ul class="distributor-infor" style='margin-top:15px;margin-left:15px;'>
+                    <li><span class="distributor-infor-label">姓名：</span><span class="distributor-infor-c">{$result['teacher_realname']}</span></li>
+                    <li><span class="distributor-infor-label">手机号：</span><span class="distributor-infor-c">{$result['teacher_telphone']}</span></li>
+                    <li><span class="distributor-infor-label">授课：</span><span class="distributor-infor-c">{php echo $this->teacherCourse($result['teacher_id'],'echo')}</span></li>
+                    <li><span class="distributor-infor-label">班主任：</span><span class="distributor-infor-c">
+                    {$class_s}</span></li>
+                </ul>
+            </div>
+        </div>   
+        <div class='msg'>
+            <a href="{php echo $this->createMobileUrl('Neimsg_tea')}">
+                <img src='{MODULE_URL}/style/new/Email_72px_1177606_easyicon.net.png'>
+                <span>{$msg_count}</span>
+            </a>
+        </div>
+   </main>
+    <div style="clear:both;"></div>
+    <div class="middle_index" style='padding-bottom:60px'>
+            <div class="icon_left">
+            	<div class="icon_right">
+                	<div>
+                                    
+                    	<a class="button_9 one" href="{php echo $this->createMobileUrl('tea_data');}">
+                            <i class='fa fa-user'></i><br>教师资料</a>
+                        <a class="button_9" style='background:rgb(135,197,218)' href="{php echo $this->createMobileUrl('tea_work_record');}">
+                            <i class='fa fa-paint-brush'></i><br>作业记录</a>
+                        <a class="button_9" style='background:rgb(215,162,123)'  href="{php echo $this->createMobileUrl('tea_homeWork');}">
+                           <i class="fa fa-folder-open-o"></i><br>发布作业</a><br>
+                        <a class="button_9 one" style='background:rgb( 125,163,66)'  href="{php echo $this->createMobileUrl('tea_jinbu_record');}">
+                            <i class='fa fa-thumbs-up'></i><br>进步记录</a>
+                        <a class="button_9" style='background:rgb(114,88,133)'  href="{php echo $this->createMobileUrl('tea_score_in');}">
+                            <i class='fa fa-star'></i><br>记录成绩</a>
+                        <a class="button_9" style='background:rgb(176,135,39)'  href="javascript:;" onclick="school_free()">
+                            <i class='fa fa-send-o'></i><br>一键放学</a><br>
+                        <a class="button_9 one" style='background:rgb(130,176,186)'  href="{php echo $this->createMobileUrl('tea_line');}">
+                            <i class='fa fa-plus-square'></i><br>班级圈</a>
+                        <a class="button_9" style='background:rgb(168,76,92)'  href="{php echo $this->createMobileUrl('tea_msg');}">
+                            <i class='fa fa-pencil'></i><br>消息发送</a>
+                        <div style="clear:both;"></div>
+                    </div>
+                </div>
+            </div>
+    </div>
+<style>
+.button_9{
+    width:100px;
+    height:100px;
+    margin-left:10px;
+    line-height:50px;
+    text-align: center;
+    margin-top:10px;
+    display:inline-block;
+    color:#fff;
+    background: #ff0033;
+}
+.one{
+    margin-left:0px;
+}
+.button_9 i{
+    font-weight: 700;
+    font-size: 1.3em;
+}
+a.button_9:hover{
+    background: #FEAE1B;
+    color:#fff;
+}
+</style>
+<script>
+ $(function(){
+        h=$(window).height();
+        w=$(window).width();
+        $('body').css('min-height',h+'px' );
+        one_left=(w-50)/3;
+        $(".button_9").css('width',one_left+'px');
+        $(".button_9").css('height',one_left+'px');
+        $('.one').css('margin-left','10px');
+ });  
+</script>
+<script type="text/javascript">
+    function school_free(){
+        if(confirm("点击之后会通知班主任的班级下面所有家长")){
+            $.get("{php echo $this->createMobileUrl('tea_school_free')}",function(obj){
+                if(obj.status=='yes'){
+                    alert('发送成功');
+                }else{
+                    alert(obj.msg);
+                }
+            },'json');
+        }
+    }
+</script>
+{template 'footer_tea'}

@@ -1,0 +1,65 @@
+{template 'common/header'}
+<link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.5.9/css/sm.min.css">
+<script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.5.9/js/sm.min.js' charset='utf-8'></script>
+<div class="page">
+{if $settings['bg']}
+<div class="content" style="{$_W['attachurl']}{$settings['bg']}">
+{else}
+<div class="content" style="background:url(http://pic.qiantucdn.com/58pic/13/80/19/78Q58PICIYN_1024.jpg)">
+{/if}
+{if $settings['top']}
+<img src="{$_W['attachurl']}{$settings['top']}" alt="" width="100%">
+{else}
+<img src="/addons/cyl_ranking/template/mobile/image/phb.jpg" alt="" width="100%">
+{/if}
+
+<div class="content-padded grid-demo">
+<h4 style="text-align:center;background:#fff;height:30px;line-height:30px">最新加入会员</h4>
+    <div class="row">
+    
+    
+  
+
+     {loop $list_today $list_today}
+      <div class="col-25" style="text-align:center">
+      <img src="{$list_today['avatar']}" width="80%" style="border-radius:50%">
+    <div class="item-subtitle">{php echo cutstr($list_today['nickname'],2)}</div>
+      </div>
+      
+      {/loop}  
+    </div>
+   
+  </div>
+
+  {loop $list $key $list}
+  
+  <div class="card">
+    
+    <div class="card-content">
+      <div class="list-block media-list">
+        <ul>
+           <li class="item-content">
+            <div class="item-media">
+              <img src="{$list['avatar']}" width="60" style="border-radius:50%">
+
+            </div>
+            <div class="item-inner">
+            <div class="card-header"><span class="icon icon-me"></span>{$list['nickname']}<span class="badge">{php echo $key+1}</span></div>
+              <div class="item-title-row">
+                <div class="item-title">积分：{$list['credit1']}</div>
+              </div>
+              <div class="item-subtitle">会员组：{$groups[$list['groupid']]['title']}</div>
+              <div class="item-subtitle">加入时间：{php echo date('Y-m-d', $list['createtime']);}</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div> 
+  </div>   
+  {/loop} 
+  
+</div>
+</div>
+</div>
+{template 'common/footer'}

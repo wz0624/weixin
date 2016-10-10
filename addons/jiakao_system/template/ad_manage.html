@@ -1,0 +1,181 @@
+{template 'common/header'}
+<div class="row">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+		首页广告轮播管理：<span style="float:right">@穿越的一只小猪  947233713</span>
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-md-6" style="color:orange">
+				*欢迎使用广告轮播管理控制台<br>
+				1、支持多张图片<br>
+				2、支持排序功能<br>
+				3、支持编辑+保存+删除<br>
+				4、独有的广告位控制上下架核心系统<br>
+				5、支持jpg+gif图片（gif图片前台显示可能无法显示动态效果）<br>
+				</div>
+				<div class="col-md-6">
+					<img src="{$_W['siteroot']}addons/jiakao_system/common/mine_white.jpg">
+				</div>
+			</div>
+			<br>
+			<input type='hidden' value="{$token}" id='token'>
+			{loop $list $row}
+			<div class="row" ids_group="father_div">
+				<!-- 图片 -->
+				<div class="col-md-5" style="position:relative">
+					<img src="{$row['img_path']}" style="height:150px;width:320px;" class="img-thumbnail">
+					{if $row['is_show'] == 'y'}
+					<button class="btn btn-default" style="position:absolute;top:30px;right:20px;" onclick="Ad.order_btn({$row['id']},'up')"><span class="glyphicon glyphicon-arrow-up"></span></button>
+					<button class="btn btn-default" style="position:absolute;bottom:30px;right:20px;" onclick="Ad.order_btn({$row['id']},'down')"><span class="glyphicon glyphicon-arrow-down"></span></button>
+					{/if}
+				</div>
+				<!-- 编辑区 -->
+				<div class="col-md-6">
+					<div class="form-group">
+						<div class="input-group">
+						<span class="input-group-addon">标题</span>
+						<input type="text" class="form-control" disabled="disabled" ids_group="title" value="{$row['title']}">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+						<span class="input-group-addon">链接</span>
+						<input type="text" class="form-control" disabled="disabled" ids_group="link" value="{$row['link']}">
+						</div>
+					</div>
+					<div class="form-group">
+						<button class="btn btn-default" ids_group="group1" onclick="Ad.edit_btn(this)"> 编辑</button>
+						<button class="btn btn-default" ids_group="group1" onclick="Ad.delete_btn({$row['id']})"> 删除</button>
+						{if $row['is_show'] == 'y'}
+						<button class="btn btn-success" ids_group="group1" style="float:right;" onclick="Ad.show_btn({$row['id']},'off',this)"> 已上架</button>
+						{else}
+						<button class="btn btn-default" ids_group="group1" style="float:right;" onclick="Ad.show_btn({$row['id']},'on',this)"> 已下架</button>
+						{/if}
+
+						<button class="btn btn-info" ids_group="group2" style="display:none" onclick="Ad.save_btn({$row['id']},'edit',this)"> 保存</button>
+						<button class="btn btn-info" ids_group="group2" style="display:none" onclick="Ad.cancel_btn(this)"> 取消</button>
+					</div>
+				</div>
+			</div>
+			<div style="height:10px;"></div>
+			{/loop}
+			
+			<!-- 新增编辑区 -->
+			<div class="row" ids_group="father_div">
+				<!-- 图片 -->
+				<div class="col-md-5">
+					<div id="image_placeholder">
+					<button class="btn btn-default btn-lg" style="height:150px;width:320px;border:1px dashed grey" onclick="Ad.upload_modal_btn()">
+						<span class="glyphicon glyphicon-plus"></span>
+					</button>
+					</div>
+					<!--
+					<img src="http://static.bootcss.com/www/assets/img/gruntjs.png" style="height:150px;width:320px;" class="img-thumbnail">
+					-->
+				</div>
+				<!-- 编辑区 -->
+				<div class="col-md-6">
+					<div class="form-group">
+						<div class="input-group">
+						<span class="input-group-addon">标题</span>
+						<input type="text" class="form-control"  ids_group="title">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+						<span class="input-group-addon">链接</span>
+						<input type="text" class="form-control"  ids_group="link">
+						</div>
+					</div>
+					<div class="form-group">
+						<button class="btn btn-info" ids_group="group3"  onclick="Ad.save_btn('','add',this)"> 保存</button>
+						<button class="btn btn-info" ids_group="group3"  onclick="Ad.cancel_btn(this)"> 取消</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 图片上传模态层 -->
+<div class="modal fade" id="file_upload_modal">
+	<div class="modal-dialog" style="z-index:10000">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4>请上传广告图片</h4>
+				<label class="help-block"></label>
+			</div>
+			<div class="modal-body">
+				<div class="fieldset flash" id="fsUploadProgress"></div>
+				<span id="spanButtonPlaceHolder"></span><span id="btnCancel"></span>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="../addons/jiakao_system/common/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="{$_W['siteroot']}addons/jiakao_system/js/swfupload/fileprogress.js"></script>
+<script type="text/javascript" src="{$_W['siteroot']}addons/jiakao_system/js/swfupload/handlers.js"></script>
+<script type="text/javascript" src="{$_W['siteroot']}addons/jiakao_system/js/swfupload/swfupload.js"></script>
+<script type="text/javascript" src="{$_W['siteroot']}addons/jiakao_system/js/swfupload/swfupload.queue.js"></script>
+<script type="text/javascript">
+// Ad js config
+var ad_config = {
+		ajax_url : {
+			save : "{php echo $this->createWebUrl('ad_save')}",
+			show : "{php echo $this->createWebUrl('ad_show')}",
+			del : "{php echo $this->createWebUrl('ad_delete')}",
+			order : "{php echo $this->createWebUrl('ad_order')}"
+	}
+};
+</script>
+<script type="text/javascript" src="{$_W['siteroot']}addons/jiakao_system/js/admanage.js"></script>
+<script type="text/javascript">
+
+//"{php echo $this->createWebUrl('ad_ajax')}"
+//文件上传
+var swfu;
+var settings = {
+		flash_url : "{$_W['siteroot']}addons/jiakao_system/js/swfupload/swfupload.swf",
+		upload_url: "{$_W['siteroot']}web/{php echo $this->createWebUrl('ad_ajax')}",	
+		post_params: {"file_verify":Math.random()},
+		file_post_name : "ad_img",
+		file_size_limit : "1MB",
+		file_types : "*.jpg;*.gif",
+		file_types_description : "web images",
+		file_upload_limit : 1,  //配置上传个数
+		file_queue_limit : 1,
+		custom_settings : {
+			progressTarget : "fsUploadProgress",
+			cancelButtonId : "btnCancel"
+		},
+		debug: false,
+
+		// Button settings
+		button_image_url: "",
+		button_width: "100",
+		button_height: "29",
+		button_placeholder_id: "spanButtonPlaceHolder",
+		button_text: '<span class="theFont">点击选择文件</span>',
+		button_text_style: ".theFont { font-size: 14; }",
+		button_text_left_padding: 12,
+		button_text_top_padding: 3,
+		
+		file_queued_handler : fileQueued,
+		file_queue_error_handler : fileQueueError,
+		file_dialog_complete_handler : fileDialogComplete,
+		upload_start_handler : uploadStart,
+		upload_progress_handler : uploadProgress,
+		upload_error_handler : Ad.uploadError,
+		//upload_success_handler : uploadSuccess,
+		upload_success_handler : Ad.uploadSuccess,
+		upload_complete_handler : uploadComplete,
+		queue_complete_handler : queueComplete	
+	};
+
+
+$(function() {
+	swfu = new SWFUpload(settings);
+ });
+
+</script>
+{template 'footer'}

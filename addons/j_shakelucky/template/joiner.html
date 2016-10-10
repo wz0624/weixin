@@ -1,0 +1,233 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+  <li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('joiner',array('id'=>$rid))}">管理参与者</a></li>
+</ul>
+<script>
+require(['bootstrap'],function($){
+	$('.btn,.tips').hover(function(){
+		$(this).tooltip('show');
+	},function(){
+		$(this).tooltip('hide');
+	});
+});
+</script>
+<style>
+.tl span{color:#999;}
+.category td a{ margin-bottom:5px;}
+.grade{color:#999;}
+.red{color:#F00}
+.green{color:#0F0}
+.jtable{display:table; width:100%;}
+.jrow{display:table-row;}
+.jcell{display:table-cell; vertical-align:middle;}
+.jcell-1{ width:10%}
+.jcell-2{ width:20%}
+.jcell-3{ width:30%}
+.jcell-4{ width:40%}
+.jcell-5{ width:50%}
+.jcell-6{ width:60%}
+.jcell-7{ width:70%}
+.jcell-8{ width:80%}
+.jcell-9{ width:90%}
+.jlabel{ border-radius:4px; padding:5px;}
+.jlabel-green{ background:#5CB85C;color:#FFF;}
+.jlabel-yellow{ background:#D9C03A;color:#FFF;}
+.jlabel-blue{ background:#5BA8B8;color:#FFF;}
+.jlabel-c1{ background:#7E5BB8;color:#FFF;}
+.jlabel-red{ background:#D9443A;color:#FFF;}
+.ptb5{ padding:5px 0;}
+</style>
+{if $operation=='display'}
+<div class="main">
+<form action="" class="form-horizontal form">
+  <div class="panel panel-default">
+    <div class="panel-heading"> {$item['title']} </div>
+    <div class="panel-body table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>编号</th>
+            <th>商品名称</th>
+            <th>赞助商</th>
+            <th>商品数量</th>
+            <th>剩余奖品</th>
+          </tr>
+        </thead>
+        
+        <tbody>
+        {php $i=1;}
+        {loop $prizelist $row}
+          <tr >
+          	<td>{php echo $i}</td>
+            <td>{if $row['isprize']}<span class="label label-success">奖</span>{/if} {$row['title']}</td>
+            <td>{$row['sponsor']}</td>
+            <td>{$row['remain']}</td>
+            <td style="color:#F00">{$row['total']}</td>
+          </tr>
+          {php $i++;}
+          {/loop}
+        </tbody>
+      </table>
+    </div>
+    <div class="panel-body">
+    {php $prizeNum=pdo_fetch("SELECT sum(total) as remainprize,sum(remain) as allprize FROM ".tablename('j_shakelucky_award')." WHERE rid = '".$rid."' and isprize=1 ")}
+    {php $getprize=pdo_fetchcolumn("SELECT count(*) FROM ".tablename('j_shakelucky_winner')." WHERE rid = '".$rid."' and isprize=1 ")}
+    {php $getprizepeople=pdo_fetchall("SELECT from_user FROM ".tablename('j_shakelucky_winner')." WHERE rid = '".$rid."' and isprize=1 group by from_user")}
+    {php $allpeople=pdo_fetchall("SELECT from_user FROM ".tablename('j_shakelucky_winner')." WHERE rid = '".$rid."' group by from_user")}
+    {php $hasgetprize=pdo_fetchcolumn("SELECT count(*) FROM ".tablename('j_shakelucky_winner')." WHERE rid = '".$rid."' and isprize=1 and status>0")}
+    	<div>
+        <span class="jlabel jlabel-green">奖品情况：{$prizeNum['remainprize']} / {$prizeNum['allprize']}</span>
+        <span class="jlabel jlabel-yellow">中奖情况(人次)：{$getprize} / {php echo count($list)}</span>
+        <span class="jlabel jlabel-blue">中奖情况(人)：{php echo count($getprizepeople)} / {php echo count($allpeople)}</span>
+        <span class="jlabel jlabel-red">领奖情况：{$hasgetprize} / {php echo$getprize- $hasgetprize} / {$getprize}</span>
+        {php $count1=pdo_fetchcolumn("SELECT count(*) FROM ".tablename('j_shakelucky_invent')." WHERE rid = '".$rid."' ")}
+        <span class="jlabel jlabel-green">分享人数：{php echo intval($count1)}人</span>
+        </div>
+    </div>
+  </div>
+  </div>
+</form>
+<form action="" class="form-horizontal form">
+  <input type="hidden" name="c" value="site" />
+  <input type="hidden" name="a" value="entry" />
+  <input type="hidden" name="m" value="j_shakelucky" />
+  <input type="hidden" name="id" value="{php echo $rid}" />
+  <input type="hidden" name="do" value="joiner" />
+  <div class="panel panel-default">
+    <div class="panel-body tl">
+      <div class="form-group">
+        <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">关键字</label>
+        <div class="col-xs-12 col-sm-8 col-lg-9">
+          <input class="form-control" name="keyword" type="text" value="{$_GPC['keyword']}">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">&nbsp;</label>
+        <div class="col-xs-12 col-sm-8 col-lg-9 form-inline">
+          <select class="form-control" name="isprize">
+            <option value="0">是否得奖</option>
+            <option value="2" {if $_GPC['isprize']==2} selected="selected"{/if}>中奖</option>
+            <option value="1" {if $_GPC['isprize']==1} selected="selected"{/if}>不中奖</option>
+          </select>
+          <select class="form-control" name="status">
+            <option value="0">领奖状态</option>
+            <option value="2" {if $_GPC['status']==2} selected="selected"{/if}>已领奖</option>
+            <option value="1" {if $_GPC['status']==1} selected="selected"{/if}>未领奖</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">&nbsp;</label>
+        <div class=" col-xs-12 col-sm-2 col-lg-2">
+          <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<div class="category">
+  <form action="" method="post" onsubmit="return formcheck(this)">
+    <div class="panel panel-info">
+    <div class="panel-heading"> 
+    <span class="jlabel jlabel-green">活动时间：{php echo date("m/d H:i",$item['starttime'])} - {php echo date("m/d H:i",$item['endtime'])}</span>
+    <span class="jlabel jlabel-blue">游戏时段：{$item['gamestarttime']} - {$item['gameendtime']}</span>
+    <span class="jlabel jlabel-red">每人每日可玩：<b>{$item['maxlottery']}</b> 次</span>
+    <span class="jlabel jlabel-yellow">助力次数：<b>{$item['sharehelp']}</b> 次</span>
+    </div>
+      <div class="panel-body table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th style="overflow:visible; word-break:break-all; text-overflow:visible;white-space:normal;width:60px">选择</th>
+              <th style="overflow:visible; word-break:break-all; text-overflow:visible;white-space:normal;width:60px">#</th>
+              <th style="overflow:visible; word-break:break-all; text-overflow:visible;white-space:normal;width:90px">头像</th>
+              <th style="overflow:visible; word-break:break-all; text-overflow:visible;white-space:normal;width:90px">姓名</th>
+              <th style="overflow:visible; word-break:break-all; text-overflow:visible;white-space:normal;width:130px">电话</th>
+              <th style="overflow:visible; word-break:break-all; text-overflow:visible;white-space:normal;width:130px">抽奖情况</th>
+              <th style="overflow:visible; word-break:break-all; text-overflow:visible;white-space:normal">详情</th>
+            </tr>
+          </thead>
+          {php $i=1;}
+          {loop $listuser $row}
+          {if !$row['isprize']}{php continue;}{/if}
+          {php $history=pdo_fetchall("SELECT * FROM ".tablename('j_shakelucky_winner')." WHERE rid = '".$rid."' and from_user = '".$row['from_user']."' and isprize=1 order by id desc")}
+          <tbody>
+            <tr >
+              <td style="overflow:visible; word-break:break-all; text-overflow:visible;white-space:normal"><input type="checkbox" name="select[]" value="{$row['from_user']}" /></td>
+              <td style="overflow:visible; word-break:break-all; text-overflow:visible;white-space:normal">{php echo $i}</td>
+              <td style="overflow:visible; word-break:break-all; text-overflow:visible;white-space:normal; text-align:center;"><img src="{$row['avatar']}" width="80" style="max-height:80px;"/><br><a href="./index.php?c=mc&a=member&do=post&uid={php echo $profile['uid']}" title='{php echo $nickname}' data-toggle="tooltip" data-placement="bottom" class="tips">{php echo $row['nickname']? $row['nickname'] : $row['realname'];}</a></td>
+              <td style="overflow:visible; word-break:break-all; text-overflow:visible;white-space:normal">{$row['realname']}{if $row['gender']==1}<span class="label label-danger">先生</span>{else}<span class="label label-success">女士</span>{/if}</td>
+              <td style="overflow:visible; word-break:break-all; text-overflow:visible;white-space:normal">{$row['mobile']}</td>
+              <td style="overflow:visible; word-break:break-all; text-overflow:visible;white-space:normal">{php echo count($history)} / {$row['joinertime']}</td>
+              <td style="overflow:visible; word-break:break-all; text-overflow:visible;white-space:normal">
+              	<div class="jtabel">
+                	{loop $history $rew}
+                	<div class="jrow">
+                    	<div class="jcell jcell-1 ptb5 isget_{$rew['id']}">{if $rew['status']>0}<span class="label label-success">已领</span>{else}<span class="label label-danger">未</span>{/if}</div>
+                    	<div class="jcell jcell-2 ptb5">{php echo $prizeAry[$rew['prizeid']]['title']}</div>
+                        <div class="jcell jcell-3 ptb5"><span class="label label-default">中：{php echo date('m-d H:i',$rew['createtime'])}</span></div>
+                        <div class="jcell jcell-3 ptb5 time_{$rew['id']}"><span class="label label-danger">领：{if $rew['status']}{php echo date('m-d H:i',$rew['endtime'])}{/if}</span></div>
+                        <div class="jcell jcell-3 ptb5">
+                        	{if $rew['status']==0}
+                        	<a href="javascript:dealPrize(1,{$rew['id']})" style="margin-top:8px" id="btn_{$rew['id']}" class="btn btn-xs btn-info" data-toggle="tooltip" data-placement="bottom" title="标记领奖"><i class="fa fa-gift"></i></a>
+                            {else}
+                            <a href="javascript:dealPrize(0,{$rew['id']})" style="margin-top:8px" id="btn_{$rew['id']}" class="btn btn-xs btn-default" data-toggle="tooltip" data-placement="bottom" title="取消领奖"><i class="fa fa-retweet"></i></a>
+                            {/if}
+                        </div>
+                    </div>
+                    {/loop}
+                </div>
+              </td>
+            </tr>
+          {php $i++}
+          {/loop}
+            </tbody>
+          
+          <tr>
+            <td style="width:60px;" class="row-first"><input type="checkbox" onclick="selectall(this)"/></td>
+            <td colspan="4"><input type="submit" value="删除" name="deleteall" onclick="return confirm('确认删除中奖纪录吗？');return false;" class="btn btn-primary" />
+              <input type="hidden" name="token" value="{$_W['token']}" /><input type="hidden" name="id" value="{php echo $rid}" /></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </form>
+</div>
+</div>
+<script language="javascript">
+function selectall(obj){
+	if(obj.checked==true){
+	   $("input[name^='select']").each(function(){
+		  $(this).attr("checked",true);
+	   });
+	}else{
+		$("input[name^='select']").each(function(){
+		  $(this).attr("checked",false);
+	    });
+	}
+}
+
+function dealPrize(n,id){
+	var str=n?"确认标记领奖？":"确认取消吗？";
+	if(!confirm(str))return;
+	$.getJSON("{php echo $this->createWebUrl('ajax',array('op'=>'dealprize','rid'=>$rid))}",{
+		'id':id,
+		'status':n
+	},function(data){
+		if(data.success){
+			if(n){
+				$("#btn_"+id).removeClass("btn-info").addClass("btn-default").attr({"href":"javascript:dealPrize(0,"+id+")","title":"取消领奖"}).html('<i class="fa fa-retweet"></i>');
+				$(".time_"+id).html('<span class="label label-danger">领：'+data.time+'</span>');
+				$(".isget_"+id).html('<span class="label label-success">已领</span>');
+				
+			}else{
+				$("#btn_"+id).removeClass("btn-default").addClass("btn-info").attr({"href":"javascript:dealPrize(1,"+id+")","title":"标记领奖"}).html('<i class="fa fa-gift"></i>');
+				$(".time_"+id).html('<span class="label label-danger">领：</span>');
+				$(".isget_"+id).html('<span class="label label-danger">未</span>');
+			}
+		}
+	})
+}
+</script> 
+{/if}
+{template 'common/footer'} 

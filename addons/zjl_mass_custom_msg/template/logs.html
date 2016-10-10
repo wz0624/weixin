@@ -1,0 +1,73 @@
+{template 'common/header'}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        操作
+    </div>
+    <div class="table-responsive panel-body">
+        <a class="btn btn-danger" href="{php echo $this->createWebUrl('mass', array())}"><i class="icon-plus"></i>添加</a>
+        <a class="btn btn-success" href="javascript:location.reload()"><i class="icon-refresh"></i>刷新</a>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        模板消息列表
+    </div>
+    <div class="table-responsive panel-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th style="width:200px;">公众号</th>
+                    <th style="width:80px;">进程数</th>
+                    <th style="width:80px;">消息类型</th>
+                    <th style="width:180px;">创建时间</th>
+                    <th>内容概要</th>
+                    <th style="width:150px;">操作</th>
+                </tr>
+            </thead>
+            <tbody id="level-list">
+                {loop $optionsList $row}
+                <tr>
+                    <td>{$accList[$row['weid']]}</td>
+                    <td>{$row['thread_count']}</td>
+                    <td>{$msgType[$row['type']]}</td>
+                    <td>{php echo date('Y-m-d H:i:s',$row['add_time']);}</td>
+                    <td><textarea readonly="true" class="form-control" >{$row['options']}</textarea></td>
+                    <td>
+                        <a href="javascript:;" class="btn btn-default btn-sm sendTemplateMessage" data-oid="{$row['id']}" title="消息预览" ><i class="fa fa-weixin"></i></a>
+                        &nbsp;&nbsp;
+                        <a href="{php echo $this->createWebUrl('sendProcess', array('oid' => $row['id']))}" class="btn btn-default btn-sm" title="继续发送"><i class="fa fa-group"></i></a>
+                        &nbsp;&nbsp;
+                        <a href="{php echo $this->createWebUrl('logs', array('op' => 'delete', 'id' => $row['id']))}" onclick="return confirm('确认删除此记录吗？');
+                                   return false;" class="btn btn-default btn-sm" title="删除"><i class="fa fa-times"></i></a>
+                    </td>
+                </tr>
+                {/loop}
+                <tr>
+                    <td colspan="5">
+                        {$pager}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div style="display: none;" id="messageTemplate">
+    <div class="input-group">
+        <span class="input-group-addon">功能开发中</span>
+        <input name="tset" value="test" class="form-control">
+    </div>
+</div>
+<script type="text/javascript">
+    require(['jquery', 'util'], function ($, util) {
+        $(function () {
+            $('.sendTemplateMessage').click(function () {
+                var modalobj = util.ajaxshow("{php echo $this->createWebUrl('preview', array('op' => 'post'))}&oid="+$(this).attr("data-oid"), '消息预览', {'show': true, 'remote': true}, {'hidden': function (obj) {
+                        obj.remove();
+                    }});
+                modalobj.modal('show');
+            });
+        });
+    });
+</script>
+{template 'common/footer'}

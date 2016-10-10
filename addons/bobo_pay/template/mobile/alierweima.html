@@ -1,0 +1,312 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>支付宝扫码付</title>
+<link rel="stylesheet" href="{RES}css/cool.css">
+<style type="text/css">
+body{
+	   -webkit-user-select:none;
+ 	              -webkit-touch-callout:none;
+}
+#tablecss{
+	
+	width: 100%;
+	border-right:1px solid #e4e4e4;border-bottom:1px solid #e4e4e4;
+}
+.tablecsstd {
+	width: 25%;
+	text-align: center;
+	border-left:1px solid #e4e4e4;border-top:1px solid #e4e4e4;
+	height: 50px;
+	padding: 0px;
+}
+.tablecsstd1{
+	width: 25%;
+	text-align: center;
+	border-left:1px solid #e4e4e4;border-top:1px solid #e4e4e4;
+	height: 100px;
+	padding: 0px;
+}
+.tablecsstd4{
+	width: 25%;
+	text-align: center;
+	border-left:1px solid #e4e4e4;border-top:1px solid #e4e4e4;
+	height: 100px;
+	padding: 0px;
+}
+.tablecsstdv{
+	color: white;
+	background: gray;
+}
+#money{
+	width: 99%;
+	margin: 10px auto;
+	height: 50px;
+	font-size: 20px;
+	border: none;
+}
+#fukuanma{
+	width: 99%;
+	margin: 10px auto;
+	height: 50px;
+	font-size: 20px;
+	border: none;
+}
+body{
+	margin: 0;
+	padding: 0;
+}
+.tablecsstd2{
+	width: 100%;
+	text-align: center;
+	border-left:1px solid #e4e4e4;border-top:1px solid #e4e4e4;
+	height: 50px;
+	padding: 0px;
+}
+.tablecsstd3{
+	width: 100%;
+	text-align: center;
+	border-left:1px solid #e4e4e4;border-top:1px solid #e4e4e4;
+	height: 50px;
+	padding: 0px;
+}
+#overlay {
+    background: #fff;
+    filter: alpha(opacity=100); /* IE的透明度 */
+    opacity: 1;  /* 透明度 */
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 100; /* 此处的图层要大于页面 */
+    display:none;
+}
+#imgurl{
+	display: none;
+    position: absolute;
+    top: 15%;
+	left:10%;
+    width: 80%;
+    z-index: 5000; /* 此处的图层要大于页面 */
+}
+#dengdai{
+	display: none;
+    position: absolute;
+    top: 25%;
+	width:100%;
+    z-index: 2000; 
+	color: black;
+	text-align: center;
+	font-size: 2em;
+}
+#fanhui{
+	font-size: 18px;
+	line-height:36px;
+	margin: 5px 0;
+	background: #CCFF66;
+	display: none;
+    position: absolute;
+    bottom: 15%;
+	left:40%;
+    width: 20%;
+    z-index: 5000; 
+}
+#chexiao{
+	font-size: 18px;
+	line-height:36px;
+	margin: 5px 0;
+	background: #CCFF66;
+	display: none;
+    position: absolute;
+    bottom: 15%;
+	left:40%;
+    width: 20%;
+    z-index: 5000; 
+}
+</style>
+<script type="text/javascript" src="{RES}js/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="{RES}js/calculate.js"></script>
+<script type="text/javascript">
+var dingshi1='';
+var dingshi2='';
+var imgsrc='{RES}img/chenggong.jpg';
+function zhuye(){
+	window.location.href="{php echo $this->createMobileUrl('index',array())}"
+}
+function shuaxin(){
+	window.location.reload();
+}
+function shoukuan(){
+	var money=$('#money').val();
+	if(money=='' || money=='0' || money=='0.0' || money=='0.00'){
+		alert('收款金额不能为空或0');return false;
+	}
+	var m=money.substr(money.length-1,1);
+	if(m=='.'){
+		alert('收款金额格式错误');return false;
+	}
+	showOverlay();
+	$.ajax({
+        url: '{php echo $this->createMobileUrl('doalipayerweima', array())}',
+        type: 'POST',
+        dataType: 'json',
+        data: {money: money,randomshu:Math.random()},
+        success: function (result) {
+        	if(result.status==1){
+        		$('#imgurl').attr('src',result.imgurl);
+            	$('#dengdai').hide();
+            	$('#imgurl').show();
+            	$('#chexiaoid').val(result.out_trade_no);
+            	$('#chexiao').show();
+        		dingshi1=setTimeout("aliquery('"+result.out_trade_no+"')",8000);
+        	}else{
+        		alert(result.msg);
+        		window.location.reload();
+        	}
+        }
+    });
+}
+function aliquery(out_trade_no){
+	var order_id=out_trade_no;
+	$.ajax({
+        url: '{php echo $this->createMobileUrl('doalipayquery', array())}',
+        type: 'POST',
+        dataType: 'json',
+        data: {out_trade_no: out_trade_no,randomshu:Math.random()},
+        success: function (result) {
+        	if(result.status==1){
+        		$('#imgurl').attr('src',imgsrc);
+        		$('#chexiao').hide();
+        		$('#fanhui').show();
+        		return false;
+        	}else{
+        		dingshi2=setTimeout("aliquery('"+order_id+"')",5000);
+        	}
+        }
+    });
+}
+function alichexiao(){
+	var out_trade_no=$('#chexiaoid').val();
+	clearTimeout(dingshi1);
+	clearTimeout(dingshi2);
+	$.ajax({
+        url: '{php echo $this->createMobileUrl('doalipaycancel', array())}',
+        type: 'POST',
+        dataType: 'json',
+        data: {out_trade_no: out_trade_no,randomshu:Math.random()},
+        success: function (result) {
+        	if(result.status==1){
+        		alert(result.msg);
+        		window.location.reload();
+        		return false;
+        	}else{
+        		alert(result.msg);
+        	}
+        }
+    });
+}
+function showOverlay() {
+    $("#overlay").height(pageHeight());
+    $("#overlay").width(pageWidth());
+
+    // fadeTo第一个参数为速度，第二个为透明度
+    // 多重方式控制透明度，保证兼容性，但也带来修改麻烦的问题
+    $("#overlay").fadeTo(200, 0.8);
+    $('#dengdai').show();
+}
+
+/* 隐藏覆盖层 */
+function hideOverlay() {
+    $("#overlay").fadeOut(200);
+}
+
+/* 当前页面高度 */
+function pageHeight() {
+    return document.body.scrollHeight;
+}
+
+/* 当前页面宽度 */
+function pageWidth() {
+    return document.body.scrollWidth;
+}
+    $(document).ready(function(){
+		$('.tablecsstd').on("touchstart", function(){
+			$(this).addClass('tablecsstdv');
+			var tdval=$(this).html();
+			if(tdval=='.'){
+				dot();
+			}else{
+				inputEvent(tdval);
+			}
+		});
+		$('.tablecsstd').on("touchend", function(){
+			$(this).removeClass('tablecsstdv');
+		});
+		$('.tablecsstd1').on("touchstart", function(){
+			del();
+		});
+		$('.tablecsstd4').on("touchstart", function(){
+			shoukuan();
+		});
+}); 
+</script>
+	</head>
+	<body class="c-wh">
+	<div class="w10 umh3 c-gra" id="header">
+			<div class="box_content w95 area_auto pstnr h30e t-wh">
+				<p class="ovd tx-c umh3">
+					<span class="w8 area_auto pdt05 pdb05 umh2 ovd t-wh">
+						<span class="sl w5" onClick="zhuye()">
+							<span class=" c-gra uc-tl uc-bl umh2 tx-c uba ub-wh">主页</span>
+						</span>
+						<span class="sl w5" onClick="shuaxin()">
+							<span class="c-bla uc-tr uc-br umh2 tx-c ubt ubb ubr ub-wh">刷新</span>
+						</span>
+					</span>
+					
+				</p>
+			</div>
+	</div>
+	<div style="margin-top: 17%;">
+	<h2 style="text-align: center; font-size: 2.5em;color: gray; margin-bottom: 0;">支付宝扫码付</h2>
+	</div>
+	<div style="margin-top:20px;">
+		<table id="tablecss"  border="0"  cellspacing="0" cellpadding="0">
+		<tr><td class="tablecsstd2" colspan='4'><input type="text" id="money" value="" placeholder="请输入金额,格式9999.99" disabled="disabled"/></td></tr>
+		<tr>
+		<td class="tablecsstd" >1</td>
+		<td class="tablecsstd" >2</td>
+		<td class="tablecsstd" >3</td>
+		<td class="tablecsstd1" rowspan='2'  ><img src="{RES}img/shanchu.png" style="width: 40%;" /></td>
+		</tr>
+		<tr>
+		<td class="tablecsstd" >4</td>
+		<td class="tablecsstd" >5</td>
+		<td class="tablecsstd" >6</td>
+		</tr>
+		<tr>
+		<td class="tablecsstd" >7</td>
+		<td class="tablecsstd" >8</td>
+		<td class="tablecsstd" >9</td>
+		<td class="tablecsstd4" rowspan='2'  disabled="disabled">收<br>款</td>
+		</tr>
+		<tr>
+		<td class="tablecsstd"  >.</td>
+		<td class="tablecsstd" >0</td>
+		<td class="tablecsstd" >00</td>
+		</tr>
+		</table>
+	</div>
+         <div id="overlay">
+         	<img id="imgurl" src=""  />
+         	<input id="fanhui" type="button" value="返回" class="in-button" onClick="shuaxin()">
+         	<input id="chexiao" type="button" value="撤销" class="in-button" onClick="alichexiao()">
+         	<input id="chexiaoid" type="hidden" value=''  />
+         	<h2 id="dengdai">请稍等！</h2>
+         </div>
+	</body>
+</html>

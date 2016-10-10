@@ -1,0 +1,77 @@
+{template 'common/header'}
+
+<script type="text/javascript">
+function addOption(point, title) {
+	var html = '<div class="form-group">' +
+					'<label class="col-xs-12 col-sm-3 col-md-2 control-label">' + title +'</label>'+
+					'<div class="col-sm-9 col-xs-12">' +
+						'<input type="text"   name="questions[answers][]" class="form-control" value="" placeholder="">'+
+					'</div>' +
+				'</div>';
+	$('#bindings-' + point).append(html);
+}
+function deleteOption(o) {
+	$(o).parent().parent().parent().parent().remove();
+}
+</script>  
+
+
+{$json}
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">添加问题</h3>
+  </div>
+  <div class="panel-body">
+
+<form class="form-horizontal" action="{php echo $this->createWebUrl('Category', array('op' => 'save'));}" method="post">
+  <div id="bindings-questions">
+  <div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span> 问题</label>
+			<div class="col-sm-9 col-xs-12">
+               	<input type="text"   name="questions[title]" class="form-control" value="" placeholder="">
+				<div class="help-block"></div>
+            </div>
+	</div>
+
+	 <div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>图片</label>
+			<div class="col-sm-9 col-xs-12">
+               	{php echo tpl_form_field_image('questions[image]');}
+
+            </div>
+	</div>
+
+	
+	<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span> 答案</label>
+			<div class="col-sm-9 col-xs-12">
+               	<input type="text"   name="questions[answers][]" class="form-control" value="" placeholder="">
+				<div class="help-block"></div>
+            </div>
+
+	</div>
+	<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span> 答案</label>
+			<div class="col-sm-9 col-xs-12">
+               	<input type="text"   name="questions[answers][]" class="form-control" value="" placeholder="">
+				<div class="help-block"></div>
+            </div>
+
+	</div>
+
+</div>
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+		
+		<a href="javascript:;" onclick="addOption('questions', '答案');"  class="btn btn-default">添加答案</a>
+		<input type="hidden" name="token" value="{$_W['token']}" />
+		<input type="submit" name="add" class="btn btn-default"></input>
+    </div>
+  </div>
+</form>
+
+  </div>
+</div>
+
+{template 'common/footer'}

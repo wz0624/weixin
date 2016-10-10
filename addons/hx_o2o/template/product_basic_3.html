@@ -1,0 +1,46 @@
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>活动名称</label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="goodsname" id="goodsname" class="form-control" value="{$item['name']}" />
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">活动图</label>
+	<div class="col-sm-9 col-xs-12">
+		{php echo tpl_form_field_image('thumb', $item['thumb'], '', array('extras' => array('text' => 'readonly')))}
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">活动简介</label>
+	<div class="col-sm-9 col-xs-12">
+		<textarea name="description" class="form-control" cols="70">{$item['description']}</textarea>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">活动详情</label>
+	<div class="col-sm-9 col-xs-12">
+		{php echo tpl_ueditor('content', $item['content']);}
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否显示</label>
+	<div class="col-sm-9 col-xs-12">
+		<label for="isshow1" class="radio-inline"><input type="radio" name="status" value="1" id="isshow1" {if $item['status'] == 1}checked="true"{/if} /> 是</label>
+		&nbsp;&nbsp;&nbsp;
+		<label for="isshow2" class="radio-inline"><input type="radio" name="status" value="0" id="isshow2"  {if $item['status'] == 0}checked="true"{/if} /> 否</label>
+		<span class="help-block"></span>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="displayorder" class="form-control" value="{$item['displayorder']}" />
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">阅读次数</label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="viewtimes" class="form-control" value="{$item['viewtimes']}" />
+	</div>
+</div>

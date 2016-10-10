@@ -1,0 +1,73 @@
+<div class="footer  box-bg-color">
+
+	{if $setting['openpopularity'] == 1}
+	<div class="head-box title-bg-color" >
+		<div class="wrapper box-pl ">
+		<i class="fa fa-comments-o fn-mr-8"></i>朋友圈人气榜</div>
+	</div>
+
+	<div class="head-box-content">
+	<ul class="wrapper popularity clearfix">
+		{php $popularityTop = $this->popularityTop();}
+	    {loop $popularityTop $item}
+	    <li>
+	        <a class="pic-a" href="{php echo $this->appUrl('show','xiaof_toupiao','&id='.$item['id'].'');}"><img src="{php echo tomedia($item['pic']);}" alt=""></a>
+	    </li>
+	    {/loop}
+
+	</ul>
+	</div>
+	{/if}
+	
+	<div class="head-box title-bg-color" >
+		<div class="wrapper box-pl ">
+		<i class="fa fa-bookmark-o fn-mr-8"></i>活动简介</div>
+	</div>
+    <div class="head-box-content">
+		<div class="wrapper">
+		{php echo htmlspecialchars_decode($setting['bottom']);}
+		</div>
+    </div>
+</div>
+
+<div class="bottom">
+    <ul>
+        <li><a href="{php echo $this->appUrl('index');}"><span class="icon"><i class="fa fa-home"></i></span><span>首页</span></a></li>
+		{if intval($setting['opendraw']) == 1}
+		<li><a href="{php echo $this->appUrl('creditdraw');}"><span class="icon"><i class="fa fa-archive"></i></span><span>抽奖</span></a></li>
+		{else}
+        <li><a href="{php echo $this->appUrl('index','xiaof_toupiao','&type=top');}"><span class="icon"><i class="fa fa-bar-chart-o"></i></span><span>排名</span></a></li>
+		{/if}
+		<li class="search">
+			<span class="icon"><i class="fa fa-search-plus"></i></span><span>搜索</span>
+		</li>
+        <li><a href="{php echo $this->appUrl('join');}"><span class="icon"><i class="fa fa-edit"></i></span><span>报名</span></a></li>
+        <li><a href="{php echo $this->appUrl('detail');}"><span class="icon"><i class="fa fa-gift"></i></span><span>活动详情</span></a></li>
+    </ul>
+</div>
+<script type="text/javascript">
+	$(function(){
+		var isShow = false;
+		$(".search").click(function(){
+			if(isShow === false){
+				$("#search-box").show();
+				isShow = true;
+			}else{
+				$("#search-box").hide();
+				isShow = false;
+			}
+		});
+	});
+</script>
+<div id="search-box" class="search-box animated slideInUp">
+    <form class="search-form clearfix" method="post" action='{php echo "/app/index.php?c=entry&do=index&m=xiaof_toupiao&i=".$_W['uniacid']."&sid=".$_GPC['sid']."";}'>
+        <input class="search-input" name="key" placeholder="输入编号或姓名" type="text"/><input class="search-button" type="submit" value="搜索"/>
+    </form>	
+</div>
+	
+<div id="dialog" class="popupshade">
+    <div class="popup">
+        <a href="javascript:;" id="popup-close" onclick='$("#dialog").removeClass("is-visible");' class="close">x</a>
+        <div class="popup-container"></div>
+    </div>
+</div>

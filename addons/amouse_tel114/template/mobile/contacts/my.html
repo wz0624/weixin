@@ -1,0 +1,158 @@
+<html class="ui-mobile">
+<head>
+    <base href="http://dianhuaben.chaoyuanwuxian.com/webapp/my.html?token=gh_8934a4b3c0d5">
+    <meta charset="utf-8">
+    <title>我的发布</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.3.css">
+</head>
+<body class="ui-mobile-viewport ui-overlay-a">
+
+<div data-role="page" id="mypublic" data-url="mypublic" tabindex="0" class="ui-page ui-page-theme-a ui-page-active ui-page-footer-fixed" style="padding-bottom: 44px; min-height: 620px;">
+
+    <div data-role="header" role="banner" class="ui-header ui-bar-inherit">
+        <h1 class="ui-title" role="heading" aria-level="1">填写立即发布</h1>
+    </div>
+    <div data-role="content" style="padding:15px;">
+        <div data-role="fieldcontain" class="ui-field-contain">
+            <label for="name">机构名称：</label>
+            <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset">
+                <input type="text" name="name" id="name">
+            </div>
+
+            <label for="telnum">电话号码：</label>
+            <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset">
+                <input type="text" name="telnum" id="telnum">
+            </div>
+            <label for="address">机构地址：</label>
+            <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset">
+                <input type="text" name="address" id="address">
+            </div>
+
+            <label for="info">最新公告：</label>
+            <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset">
+                <input type="text" name="info" id="info">
+            </div>
+
+            <label for="type">分类：(<font color="red">请认真选择</font>)</label>
+            <div style="width:140px;float:left;">一级分类:
+                <div class="ui-select">
+                    <div id="type-button" class="ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all ui-shadow">
+                        <span>上门</span><select name="type" id="type">
+                        <option value="5">上门</option>
+                        <option value="6">美食</option>
+                        <option value="7">休闲</option>
+                        <option value="8">旅行</option>
+                        <option value="9">生活</option>
+                        <option value="10">丽人</option>
+                        <option value="11">购物</option>
+                        <option value="12">健康</option>
+                        <option value="13">教育</option>
+                        <option value="14">家居</option>
+                        <option value="15">房产</option>
+                        <option value="17">汽车</option>
+                        <option value="18">商务</option>
+                        <option value="19">企业</option>
+                        <option value="20">行政</option>
+                        <option value="21">乡镇</option>
+                    </select></div>
+                </div>
+            </div>
+            <div style="width:140px;float:left;margin-left:10px;">二级分类:
+                <div class="ui-select">
+                    <div id="type2-button" class="ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all ui-shadow">
+                        <span>&nbsp;</span>
+                        <select name="type2" id="type2">
+                            <option value="13">散工</option>
+                            <option value="14">开锁</option>
+                            <option value="15">家电维修</option>
+                            <option value="16">搬家</option>
+                            <option value="17">家政</option>
+                            <option value="18">送餐</option>
+                            <option value="19">送水</option>
+                            <option value="20">送气</option>
+                            <option value="21">送酒</option>
+                            <option value="22">送花</option>
+                            <option value="23">快递</option>
+                            <option value="24">叫车</option>
+                            <option value="25">跑腿</option>
+                            <option value="26">其他</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <a data-role="button" data-transition="none" id="submit" data-inline="true" href="#detail"
+                   class="ui-link ui-btn ui-btn-inline ui-shadow ui-corner-all" role="button">立即发布
+            </a>
+        </div>
+
+        <div data-role="footer" data-position="fixed" role="contentinfo"
+             class="ui-footer ui-bar-inherit ui-footer-fixed slideup">
+            <h5 class="ui-title" role="heading"  aria-level="1">潮源无线</h5>
+        </div>
+
+    </div>
+</div>
+
+<div data-role="page" id="detail" data-url="detail">
+    <div data-role="content" id="mypubliced">
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h5>潮源无线</h5>
+    </div>
+</div>
+<script src="js/jquery-1.11.1.js"></script>
+<script src="js/jquery.mobile-1.4.3.js"></script>
+<script src="js/lichao.js"></script>
+<script>
+    $(document).ready(function () {
+        var token = getQueryString("token");
+        var cookieopenid = getCookie(token);
+        var from = getQueryString("from");
+        if (cookieopenid) {
+            var url = document.URL.indexOf("#");
+            if (url > 0) {
+                window.location.href = "http://dianhuaben.chaoyuanwuxian.com/webapp/index.html?token=" + token;
+            }
+        } else {
+            document.title = "首次访问，请耐心等待...";
+            if (from) {
+                window.location.href = "http://dianhuaben.chaoyuanwuxian.com/index.php?s=/Home/App/getuserinfo/token/" + token;
+            } else {
+                var openid = getQueryString("openid");
+                if (openid) {
+                    setCookie(token, openid);
+                } else {
+                    window.location.href = "http://dianhuaben.chaoyuanwuxian.com/index.php?s=/Home/App/getuserinfo/token/" + token;
+                }
+            }
+        }
+        document.title = "我的发布";
+        var _data = {};
+        _data.token = token;
+        _data.openid = getCookie(token);
+        $.get(_url + "checkPublic", _data,
+                function (data) {
+                    if (data == 1) {
+                        $.mobile.changePage("#detail");
+                        getPubliced(token);
+                    } else {
+                        getPublic(token);
+                    }
+                });
+    });
+</script>
+<!--
+<script language="javascript" type="text/javascript" src="http://js.users.51.la/17764180.js"></script>
+<a href="http://www.51.la/?17764180" target="_blank" title="51.La 网站流量统计系统">网站统计</a>
+
+ -->
+
+<div class="ui-loader ui-corner-all ui-body-a ui-loader-default">
+    <span class="ui-icon-loading"></span>
+    <h1>loading</h1>
+</div>
+</body>
+</html>

@@ -1,0 +1,340 @@
+{template 'header'}
+<style>body{background-color:#eaf1f0}.address_list .row{padding-top:20px;padding-bottom:20px;background:#fff;margin-bottom:0}.address_list .choose_address{display:block;width:100%;height:auto;color:#a88979}.address_list .choose_address h6{color:#632714;margin-top:0}.address_list .choose_address h6 span{color:#53c7c6;margin-left:.75rem}.empty_address{text-align:center}.empty_address p{color:#b9a093}</style>
+{if $operation == 'display'} 
+    <header>
+        <a href="{php echo $this->createMobileUrl('address',array('op'=>'display'))}" class="waves-effect waves-teal btn-flat go_back"> <i class="fa fa-angle-left"></i>
+        </a>
+        <span>地址列表</span>
+    </header>
+    {if empty($address)}
+    <section class="empty_address">
+        <img src="{IMG_PATH}success.png" class="responsive-img">
+        <p>小主, 您还没有常用地址哦!</p>
+    </section>
+    {else}
+    <section class="address_list">
+        {loop $address $row}
+        <div class="row">
+            <div class="col s8">
+                <h6>{$row['consignee']}<span class="mobile">{$row['mobile']}</span></h6>
+                <span>{$row['city']}{$row['address']}{$row['room']}</span>
+            </div>
+            <div class="col s4">
+                <a href="javascript:void(0)" class="btn-floating btn-tiny waves-effect waves-light red right delete" address_id="{$row['id']}"><i class="fa fa-trash"></i></a>
+                <a href="{php echo $this->createMobileUrl('address',array('op'=>'post','addressid'=>$row['id']))}" class="btn-floating btn-tiny waves-effect waves-light teal right" style="margin-right: 5px;"><i class="fa fa-pencil-square-o"></i></a>
+            </div>
+        </div>
+        <div class="split_line"></div>
+        {/loop}
+    </section>
+    {/if}
+    <!-- 底部固定 -->
+    <div class="mr_bottom"></div>
+    <div class="row fixed_bottom_next">
+        <div class="col s12">
+            <a href="{php echo $this->createMobileUrl('address',array('op'=>'post'))}" class="waves-effect waves-light btn teal lighten-2"> <i class="fa fa-plus"></i>
+                新增地址
+            </a>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+    $('.delete').click(function()
+    {
+        ajax('{php echo $this->createMobileUrl('address',array('op'=>'delete'))}', {"addressid": $(this).attr('address_id')}, function(result)
+        {
+            if (result.status)
+            {
+                alert_modal('删除成功！', function()
+                {
+                    window.location.reload();
+                });
+            }
+            else
+                alert_modal(result.message);
+        })
+    })
+    $('.choose_address').click(function()
+    {
+        ajax('/checkout/address', {"address_id": $(this).attr('address_id')}, function(result)
+        {
+            if (result.status)
+            {
+                window.location.href = '/appointment';
+            }
+            else
+                alert_modal(result.message);
+        })
+    })
+</script>
+{else if $operation == 'choose'} 
+    <header>
+        <a href="{if !empty($from_url)}{$from_url}{else}{php echo $this->createMobileUrl('address',array('op'=>'display'))}{/if}" class="waves-effect waves-teal btn-flat go_back"> <i class="fa fa-angle-left"></i>
+        </a>
+        <span>选择列表</span>
+    </header>
+    {if empty($address)}
+    <section class="empty_address">
+        <img src="{IMG_PATH}success.png" class="responsive-img">
+        <p>小主, 您还没有常用地址哦!</p>
+    </section>
+    {else}
+    <section class="address_list">
+        {loop $address $row}
+        <div class="row">
+            <div class="col s10">
+                <a href="javascript:void(0)" address_id="{$row['id']}" class="waves-effect waves-teal choose_address">
+                    <h6>{$row['consignee']}<span class="mobile">{$row['mobile']}</span></h6>
+                    <span>{$row['city']}{$row['address']}{$row['room']}</span>
+                </a>
+            </div>
+            <div class="col s2">
+                <a href="{php echo $this->createMobileUrl('address',array('op'=>'post','addressid'=>$row['id'],'from'=>base64_encode($from_url)))}" class="btn-floating btn-tiny waves-effect waves-light teal right" style="margin-right: 5px;"><i class="fa fa-pencil-square-o"></i></a>
+            </div>
+        </div>
+        <div class="split_line"></div>
+        {/loop}
+    </section>
+    {/if}
+    <!-- 底部固定 -->
+    <div class="mr_bottom"></div>
+    <div class="row fixed_bottom_next">
+        <div class="col s12">
+            <a href="{php echo $this->createMobileUrl('address',array('op'=>'post','from'=>base64_encode($from_url)))}" class="waves-effect waves-light btn teal lighten-2"> <i class="fa fa-plus"></i>
+                新增地址
+            </a>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+    $('.delete').click(function()
+    {
+        ajax('{php echo $this->createMobileUrl('address',array('op'=>'delete'))}', {"addressid": $(this).attr('address_id')}, function(result)
+        {
+            if (result.status)
+            {
+                alert_modal('删除成功！', function()
+                {
+                    window.location.reload();
+                });
+            }
+            else
+                alert_modal(result.message);
+        })
+    })
+    $('.choose_address').click(function()
+    {
+        ajax('{php echo $this->createMobileUrl('address',array('op'=>'check'))}', {"address_id": $(this).attr('address_id')}, function(result)
+        {
+            if (result.status)
+            {
+                window.location.href = '{$from_url}&addressid=' + result.addressid;
+            }
+            else
+                alert_modal(result.message);
+        })
+    })
+</script>
+{else if $operation == 'post'}
+<style>.auto_search{background:#ddfbff;position:absolute;z-index:999;top:46px;left:0;width:100%;}.auto_search li{cursor:pointer;padding:5px;text-indent:3rem;}.auto_search li:hover{background:#e0f2f1;}.auto_search li em{padding-left:10px;color:#999;font-size:12px;font-weight:normal;font-style:normal;}.auto_search p{padding-left:3rem;color:#999;}</style>
+<script src="http://webapi.amap.com/maps?v=1.3&amp;key=66b9efb7e1bb0a5ac99ef5e3af633033"></script>
+<header>
+    <a href="{if !empty($from_url)}{$from_url}{else}{php echo $this->createMobileUrl('address',array('op'=>'display'))}{/if}" class="waves-effect waves-teal btn-flat go_back"><i class="fa fa-angle-left"></i></a>
+    <span>新增地址</span>
+</header>
+<section class="create_address" style="padding-top:20px">
+    <div class="row">
+        <div class="row" id="choose-city">
+            <div class="col s12">
+                <label>所在城市</label>
+                <select name="Address[city_id]" id="city_id" class="browser-default">
+                    {php $key = 1;}
+                    {loop $citys $city}
+                    <option value="{$city['id']}" {if !empty($address)}{if $address['city'] == $city['city']}selected{/if}{else}{if $key == 1}selected{/if}{/if}>{$city['city']}</option>
+                    {php $key ++ ;}
+                    {/loop}
+                </select>
+            </div>
+        </div>
+        <div class="row" id="tip">
+            <div class="input-field col s12">
+                <i class="fa fa-location-arrow prefix" style="color: #3596d3"></i>
+                <input type="text" name="Address[address]" id="address" value="{$address['address']}" />
+                <input type="hidden" name="Address[id]" id="id" value="{$address['id']}" />
+                <input type="hidden" name="Address[lat]" id="lat" value="{$address['lat']}" />
+                <input type="hidden" name="Address[lng]" id="lng" value="{$address['lng']}" />
+                <label for="address">请输入小区名（如：城宁花苑）</label>
+                <div class="auto_search" id="auto-search"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="fa fa-map-marker prefix" style="color: #f44336"></i>
+                <input type="text" name="Address[room]" id="room" value="{$address['room']}" />
+                <label for="remark">请输入门牌号（如：5号楼202）</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="fa fa-user prefix" style="color: #f48fb1"></i>
+                <input type="text" name="Address[consignee]" id="consignee" value="{$address['consignee']}" />
+                <label for="consignee">客户名称</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="fa fa-mobile-phone prefix" style="color: #9e9e9e"></i>
+                <input type="text" name="Address[mobile]" id="mobile" value="{$address['mobile']}" />
+                <label for="mobile">联系手机</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <input type="checkbox" class="filled-in" name="Address[used]" id="used" />
+                <label for="used">将此地址作为常用地址</label>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="mr_bottom"></div>
+<div class="row fixed_bottom_next">
+    <div class="col s12">
+        <a href="javascript:void(0)" class="waves-effect waves-light btn teal lighten-2" id="save-address">
+            <i class="fa fa-save"></i> 保存地址
+        </a>
+    </div>
+</div>
+<script type="text/javascript">
+    // 高德地址自动补全
+    $("#address").bind('input propertychange', function()
+    {
+        var _this = $(this),
+            keywords = _this.val(),
+            city = $('#city_id').find('option:checked').html();
+        AMap.service(["AMap.Autocomplete"], function()
+        {
+            auto = new AMap.Autocomplete({'city': city});
+            if (keywords.length > 0)
+            {
+                auto.search(keywords, function(status, result)
+                {
+                    var str = '';
+                    var tipArr = result.tips;
+                    if (tipArr && tipArr.length > 0)
+                    {
+                        str += '<ul>';
+                        for (var i = 0; i < tipArr.length; ++i)
+                        {
+                            str += '<li lat="' + tipArr[i].location.lat + '" lng="' + tipArr[i].location.lng + '"><span>' + tipArr[i].name + '</span><em>' + tipArr[i].district + '</em></li>';
+                        }
+                        str += '</ul>';
+                    }
+                    else 
+                    {
+                        str = "<p>小主, 您输入的关键字未找到结果!<br /><br />您可以试试：<br />1. 请确保您输入的关键字在您当前选择的城市内<br />2. 请确保所有字词拼写正确<br />3. 尝试不同的关键字<br />4. 尝试更宽泛的关键字</p>";
+                    }
+
+                    $('#auto-search').empty().append(str).show();
+                });
+            }
+            else
+            {
+                $('#auto-search').empty().hide();
+            }
+        })
+    })
+    $(document).on('click', '#auto-search li', function()
+    {
+        var _this = $(this),
+            address  = _this.find('span').html(),
+            district = _this.find('em').html(),
+            district = district.substr(district.indexOf('市') + 1),
+            lat = _this.attr('lat'),
+            lng = _this.attr('lng');
+
+        $('#address').val(district + address);
+        $('#auto-search').empty().hide();
+        $('#lat').val(lat);
+        $('#lng').val(lng);
+    })
+
+    $('#city_id').change(function()
+    {
+        $('#address').val('');
+        $('#lat').val('');
+        $('#lng').val('');
+    })
+
+    $('#save-address').click(function()
+    {
+        var address = $('#address'),
+            lat = $('#lat').val(),
+            lng = $('#lng').val();
+            id = $('#id').val();
+        if(address.val() == '' || lat == '' || lng == '')
+        {
+            alert_modal('请输入关键字选择详细地址', function()
+            {
+                address.focus();
+            });
+            return;
+        }
+        var room = $('#room');
+        if (room.val() == '')
+        {
+            alert_modal('请输入门牌号', function()
+            {
+                room.focus();
+            });
+            return;
+        }
+        var consignee = $('#consignee');
+        if (consignee.val() == '')
+        {
+            alert_modal('请输入客户名称', function()
+            {
+                consignee.focus();
+            });
+            return;
+        }
+        var mobile = $('#mobile');
+        if (!/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/i.test(mobile.val()))
+        {
+            alert_modal('请输入正确手机号', function()
+            {
+                mobile.focus();
+            });
+            return;
+        }
+
+        var data = {
+            'id': id,
+            'city_id': $('#city_id').val(),
+            'address': address.val(),
+            'lat': lat,
+            'lng': lng,
+            'room': room.val(),
+            'consignee': consignee.val(),
+            'mobile': mobile.val(),
+            'used': $('#used').is(':checked') ? 1 : 0
+        };
+
+        alert_choose('确认保存该地址吗？', function()
+        {
+            ajax('{php echo $this->createMobileUrl('address',array('op'=>'add'))}', {'Address': data}, function(result)
+            {
+                if (result.status == 1)
+                    window.location.href = '{if !empty($from_url)}{$from_url}&addressid=' + result.addressid + '{else}{php echo $this->createMobileUrl('address',array('op'=>'display'))}{/if}';
+                else
+                    alert_modal(result.message);
+            })
+        })
+    })
+</script>
+{/if}
+</body>
+</html>

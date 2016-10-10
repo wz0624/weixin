@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>恭喜中奖</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no">
+		<link href="../addons/ice_commonhb/css/all1.css" rel="stylesheet" />
+		<link href="../addons/ice_commonhb/css/jp.css" rel="stylesheet">
+		<script type="text/javascript" src="../addons/ice_commonhb/js/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="../addons/ice_commonhb/js/isweixin.js"></script>
+		<script type = "text/javascript">
+		if(!is_weixin()){
+			alert('请使用微信访问该页面！');
+			window.opener=null;
+			window.open('','_self');
+			window.close();
+		}
+		</script>
+	</head>
+
+	<body>
+		<div class="mbody">
+		</div>
+		<div class="mmain">
+			<div class="top">
+				<div class="user_img">
+					<img {if $settings['logoImg']}src="{$settings['logoImg']}"{else}src="../addons/ice_commonhb/img/1.jpg"{/if} />
+			</div>
+				<div class="name">
+				{if $settings['nick_name']}{$settings['nick_name']}{else}随州市冰点网络{/if}
+				</div>
+				<div class="con">
+					<div style="font-size:1.3em;">恭喜你中了</div><br />
+			<div class="num">
+				<span id="randNum">{php echo $money/100}</span>元
+			</div>
+				</div>
+			</div>
+			<div class="middle">
+
+			</div>
+	        <style>
+	        	.foot p{padding-left: 10%;padding-right: 10%;width:80%;}
+	        	.foot img{width:100%;height:100%;}
+	        </style>			
+			<div class="foot">
+			<p>请前往微信公众号领取</p>
+			<p style="height:100px;width:100px;margin-left: auto;margin-right: auto;"><img src="{$_W['account']['qrcode']}"></p>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			var picwidth = $(".user_img").css("width");
+			$(".user_img").css("height", picwidth);
+		</script>
+	</body>
+
+</html>

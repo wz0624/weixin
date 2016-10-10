@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0, maximum-scale=1.0,user-scalable=0">
+<meta name="format-detection" content="telephone=no"/>
+<title>{if !empty($settings['title'])}{$settings['title']}{else}红娘首页{/if}</title>
+<link rel="stylesheet" type="text/css" href="{MEEPORES}/static/friend/css/index.css?t={php echo time()}"  />
+<script src="{MEEPORES}/static/friend/js/jquery.js" ></script>
+<script src="{MEEPORES}/static/friend/js/swiper-3.3.1.min.js" ></script>
+<script type="text/javascript" src="{MODULE_URL}template/mobile/sweetalert.min.js"></script>
+<link rel="stylesheet" href="{MODULE_URL}template/mobile/sweetalert.css" />
+<link rel="stylesheet" href="{MEEPORES}/static/friend/css/swiper-3.3.1.min.css" />
+{php echo register_jssdk(false);}
+<style type='text/css'>
+/*******搜索框样式*******/
+.search_box{padding-left: 3px;padding-right:3px;position: relative;height: 32px;padding-bottom: 10px;padding-top: 10px;overflow: hidden;background-color: #f8f8f8;border-radius: 10px;}
+.search_box .logo_img{position: absolute;width: 45px;height: 19px;left: 10px;top: 15px;}
+.search_box .search{border:1px solid #ff3600;height: 30px;border-radius: 4px;padding: 0 40px 0 8px;position: relative;background: #fff;display:block;}
+.search_box .search .text{width: 100%;border:none;height: 20px;line-height: 20px;outline: none;font-size: 14px;font-family: "Microsoft Yahei";padding:5px 0;color:#b6b7b9;display:block;}
+.search_box .search .submit{width: 40px;height: 30px;position: absolute;right: 0px;top: 0px;background:#fff url("{MEEPORES}/static/friend/images/touch_sprite.png") 12px -21px no-repeat;background-size: 125px 45px;border:none;border-radius: 4px;}
+.search_box_focus{padding-left: 65px;}
+
+/***幻灯标题样式***/
+#title{
+position:relative;
+text-align:left;
+background: rgba(0,0,0,0.1);
+bottom: 24px;
+left: 0;
+margin-bottom: 0;
+z-index:9999px;
+}
+#title a{color:#000;}
+#thelist img{height:120px !important}
+/*--------点击加载样式--------*/
+#more div{width:100%;text-align:center;font-family: sans-serif;background: rgba(200,200,200,0.4);height:50px;line-height:50px}
+.loading img{height:16px;width:16px}
+.ui-icon-loading{display:none !important}
+.endres{width:100%;text-align:center;font-family: sans-serif;background: rgba(200,200,200,0.4);height:50px;line-height:50px}
+.ui-dialog-content{background-color:#fff !important}
+.myLetter {
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  z-index: 11;
+  background: rgba(249,249,249,1);
+   height: 50px;
+ 
+}
+.myLetter .meeponew,.myLetter .meepohot,.myLetter .meepobangdan,.myLetter .myInfo,.myLetter .zuipei{
+  width: 20%;
+ 
+  font:12px/180% Arial, Helvetica, sans-serif, "宋体";
+  float: left;
+  
+  text-align: center;
+}
+.myLetter .meeponew span,.myLetter .meepohot span,.myLetter .meepobangdan span,.myLetter .myInfo span,.myLetter .zuipei span{
+ margin-top:4px;
+ display:block;text-align:center;height:24px
+}
+.f1{background:url("{MEEPORES}/static/friend/caidan/hpdi_menu_women2.png") center center no-repeat;background-size: 24px 24px;}
+.f2{background:url("{MEEPORES}/static/friend/caidan/hpdi_menu_men2.png") center center no-repeat;background-size: 24px 24px;}
+.f3{background:url("{MEEPORES}/static/friend/caidan/hpdi_menu_paihangbang2.png") center center no-repeat;background-size: 24px 24px;}
+.f4{background:url("{MEEPORES}/static/friend/caidan/hpdi_menu_me2.png") center center no-repeat;background-size: 24px 24px;}
+.f5{background:url("{MEEPORES}/static/friend/caidan/hpdi_menu_2.png") center center no-repeat;background-size: 24px 24px;}
+/******菜单被点击附加样式******/
+.cur{ border-top:1.5px solid #ff3600;}
+#toast {
+    display: none;
+    position: fixed;
+    padding: 9px 15px;
+    background-color: #333;
+    z-index: 8000;
+    border-radius: 5px;
+	font-size: 16px;
+    color: #ffffff;
+    line-height: 20px;
+    text-align: center;
+	
+}
+
+
+.swiper-container{width:100%;height:120px;}
+.swiper-container img{width:100%;height:120px;}
+</style>
+<script type="text/javascript">
+$(document).ready(function () { 
+	$(".myInfo").click(function () { 
+		$(this).addClass("cur").siblings().removeClass("cur");
+		window.location.href='{php echo  $this->createMobileUrl('homecenter')}';  
+	});
+	$(".ucenter").click(function () { 
+		window.location.href='{php echo  $this->createMobileUrl('homecenter')}';  
+	});
+	$("#huodong").click(function () { 
+	  window.location.href='{php echo  $this->createMobileUrl('huodongindex')}';  
+	});
+	 $('.meepobangdan').on('click',function(){
+		$(this).addClass("cur").siblings().removeClass("cur");
+		var itfull = '{$res['constellation']}'
+		if(itfull==''){
+			 swal({   
+				 title: "温馨提示", 
+				 text: "你还未完善个人资料，先去完善吧！",  
+				 type: "warning",  
+				 showCancelButton: true,  
+				 confirmButtonColor: "#DD6B55",  
+				 confirmButtonText: "好的",  
+				 cancelButtonText: "知道了",  
+				 closeOnConfirm: true,   
+				 closeOnCancel: true 
+				 }, 
+				 function(isConfirm){  
+				   if (isConfirm) {   
+					 window.location.href='{php echo  $this->createMobileUrl('userinfo')}';
+				   } else {     
+					  swal.close();
+				   } 
+				});
+		}else{
+		  window.location.href="{php echo  $this->createMobileUrl('meepobangdan')}";  
+		}
+	});
+	$('.zuipei').on('click',function(){
+	 $(this).addClass("cur").siblings().removeClass("cur");
+		window.location.href = "{php echo $this->createMobileurl('mynews')}";
+	});
+	var percent_number_step = $.animateNumber.numberStepFactories.append(' 人在线')
+	$('#timeRight').animateNumber(
+	  {
+		number: {$all_num},
+		easing: 'easeInQuad',
+		numberStep: percent_number_step
+	  },
+	  5000
+	);
+ });
+ function hitlikeone(m,n){
+			 var love = document.getElementById(n);
+			 swal({
+			  title: "温馨提示",
+			  text: '请输入鲜花数量',
+			  type: 'input',
+			  showCancelButton: true,
+			  confirmButtonColor: "#DD6B55",  
+			  confirmButtonText: "确定",  
+			 cancelButtonText: "取消",  
+			 closeOnConfirm: false,   
+			 closeOnCancel: true,
+			  animation: "slide-from-top"
+			}, function(isConfirm){  
+			   if (isConfirm) {   
+				 var flower_num = parseInt(isConfirm);
+				 if(flower_num > 0){
+							swal({   
+								 title: "温馨提示", 
+								 text: flower_num+"朵鲜花、将消耗你"+(flower_num*{$flower_jifen})+'积分哦！',  
+								 type: "warning",  
+								 showCancelButton: true,  
+								 confirmButtonColor: "#DD6B55",  
+								 confirmButtonText: "确定送",  
+								 cancelButtonText: "不送了",  
+								 closeOnConfirm: false,   
+								 closeOnCancel: true 
+								 }, 
+								 function(isConfirm2){  
+								   
+								   if (isConfirm2) {   
+									 
+									 		$.ajax({
+												type:"POST",
+												dataType:'JSON',
+												url:"{php echo $this->createMobileUrl('likeajax')}",
+												data:{uid:m,toopenid:n,flower_num:flower_num},
+												cache:false,
+												success:function(data){
+												
+													if(data.errno == '-1'){
+														swal.close();
+													   _loading_toast._show(data.message);
+													  
+													}else if(data.errno =='-2'){
+														 swal({   
+															 title: "温馨提示", 
+															 text: "你还未完善个人资料，先去完善吧！",
+															 type: "warning",  
+															 showCancelButton: true,  
+															 confirmButtonColor: "#DD6B55",  
+															 confirmButtonText: "好的",  
+															 cancelButtonText: "知道了",  
+															 closeOnConfirm: true,   
+															 closeOnCancel: true 
+															 }, 
+															 function(isConfirm4){  
+															   if (isConfirm4) {   
+																	window.location.href="{php echo  $this->createMobileUrl('userinfo')}";
+															   } else {     
+																  swal.close();
+															   } 
+															});
+													}else if(data.errno=='-3'){
+													  
+													  swal({   
+															 title: "温馨提示", 
+															 text: data.message,
+															 type: "warning",  
+															 showCancelButton: true,  
+															 confirmButtonColor: "#DD6B55",  
+															 confirmButtonText: "去充值",  
+															 cancelButtonText: "知道了",  
+															 closeOnConfirm: true,   
+															 closeOnCancel: true 
+															 }, 
+															 function(isConfirm3){  
+															   if (isConfirm3) {   
+																	{if empty($cfg['lowurl'])}
+																	window.location.href="{php echo  $this->createMobileUrl('payjifen')}";
+																	{else}
+																	window.location.href="{$cfg['lowurl']}";
+																	{/if}
+															   } else {     
+																  swal.close();
+															   } 
+															});
+													  
+													}else{
+														swal.close();
+														love.innerHTML = data.message;
+														_loading_toast._show("赠送成功！");
+													}
+												}
+											});
+								   } else {     
+									  swal.close();
+								   } 
+								});
+				 }else{
+				   swal.showInputError("鲜花数量必须是大于0的整数");
+				 }
+			   } else {     
+				  swal.close();
+			   } 
+			});
+			 
+    }
+function sayhi(m,n){
+	if(m=='' || n==''){
+		 //swal("温馨提示",'出错了、请重试', "error");
+		  _loading_toast._show("出错了、请重试");
+		 return;
+	}
+	swal({   
+	   title: "温馨提示", 
+	   text: "打招呼将要消耗{$cfg['sayhi_jifen']}个积分哦",
+	   type: "warning",  
+	   showCancelButton: true,  
+	   confirmButtonColor: "#DD6B55",  
+	   confirmButtonText: "确定",  
+	   cancelButtonText: "取消",  
+	   closeOnConfirm: false,   
+	   closeOnCancel: true 
+	   }, 
+	   function(isConfirm3){  
+		 if (isConfirm3) { 
+		   $.ajax({
+		type:"POST",
+		dataType:'JSON',
+		url:"{php echo $this->createMobileUrl('sayhi')}",
+		data:{uid:m,toopenid:n},
+		cache:false,
+		success:function(data){
+			if(data.errno=='-1'){
+			  swal.close();
+				 _loading_toast._show(data.message);
+			}else if(data.errno=='-2'){
+				swal({   
+				 title: "温馨提示", 
+				 text: "你还未完善个人资料，先去完善吧！",
+				 type: "warning",  
+				 showCancelButton: true,  
+				 confirmButtonColor: "#DD6B55",  
+				 confirmButtonText: "好的",  
+				 cancelButtonText: "知道了",  
+				 closeOnConfirm: true,   
+				 closeOnCancel: true 
+				 }, 
+				 function(isConfirm){  
+				   if (isConfirm) {   
+					 window.location.href="{php echo  $this->createMobileUrl('userinfo')}";
+				   } else {     
+					  swal.close();
+				   } 
+				});
+			}else if(data.errno=='-3'){
+				swal({   
+				 title: "温馨提示", 
+				 text: data.message,
+				 type: "warning",  
+				 showCancelButton: true,  
+				 confirmButtonColor: "#DD6B55",  
+				 confirmButtonText: "去充值",  
+				 cancelButtonText: "知道了",  
+				 closeOnConfirm: true,   
+				 closeOnCancel: true 
+				 }, 
+				 function(isConfirm3){  
+				   if (isConfirm3) {   
+						{if empty($cfg['lowurl'])}
+						window.location.href="{php echo  $this->createMobileUrl('payjifen')}";
+						{else}
+						window.location.href="{$cfg['lowurl']}";
+						{/if}
+				   } else {     
+					  swal.close();
+				   } 
+				});
+			}else{
+			     swal.close();
+				 _loading_toast._show("打招呼成功！");
+			}
+		}
+	});
+		 }else{
+			swal.close();
+		 }
+	});
+}
+function checkself(toopenid){
+			var occupation = "{$res['occupation']}";
+			if(occupation==''){
+				   swal({   
+				 title: "温馨提示", 
+				 text: "你还未完善个人资料，先去完善吧！",  
+				 type: "warning",  
+				 showCancelButton: true,  
+				 confirmButtonColor: "#DD6B55",  
+				 confirmButtonText: "好的",  
+				 cancelButtonText: "知道了",  
+				 closeOnConfirm: true,   
+				 closeOnCancel: true 
+				 }, 
+				 function(isConfirm){  
+				   if (isConfirm) {   
+					 window.location.href='{php echo  $this->createMobileUrl('userinfo')}';
+				   } else {     
+					  swal.close();
+				   } 
+				});	
+			}else{
+			   window.location.href = "{php echo $this->createMobileUrl('others')}"+"&openid=" +toopenid; 
+			}
+	}
+var _loading_toast= {
+    _center: function() {
+		var _left = ($(window).width() - $("#toast").outerWidth()) / 2 + "px";
+        $("#toast").css({
+            "top": "50%",
+            "left": _left
+        });
+    },
+    _show: function(text, fun) {
+        $("#toast").html(text);
+        _loading_toast._center();
+        $("#toast").show();
+        $("#toast").bind("resize", _loading_toast._center);
+        setTimeout(function() {
+            _loading_toast._hide(fun);
+        }, 2 * 1000);
+    },
+    _hide: function(fun) {
+        $("#toast").hide();
+        $("#toast").unbind("resize");
+        if (fun) {
+            (fun)();
+        }
+    }
+};
+ </script>
+
+</head>
+<body style="padding: 15px 10px 10px;">
+<div><marquee direction="left" style="color:red;height:30px;line-height:30px;">{$settings['headtitle']}</marquee></div>
+<div class="wrap"> 
+<header class="mb15">         
+  <h1>
+  <a href="{php echo  $this->createMobileUrl('alllist')}&t={php echo time()}" target="_blank" class="home fleft"><img src="{if empty($settings['logo'])}{MEEPORES}/static/friend/images/logo.png{else}{php echo $_W['attachurl'].$settings['logo']}{/if}"  alt="{if empty($settings['title'])}校园红娘{else}{$settings['title']}{/if}"></a>
+  
+  <span  class="ucenter fright"><i><em></em></i></span>
+  <span class="pl15 fright ucenter" style="font-size:16px;width:105px;" id="timeRight"></span>
+  </h1>
+</header>
+
+<!--封面图集-->
+        
+        {if !empty($slide)}
+	
+		   <div class="swiper-container" id="advSwiper2" style="height:120px" >
+			  <div class="swiper-wrapper">
+			  {loop $slide $row}
+				<a href="{php echo $row['url']}" class="swiper-slide">
+					<img src="{$_W['attachurl']}{$row['attachment']}" />
+				</a>
+			  {/loop}
+			  </div>
+			  <div class="swiper-pagination"></div>
+			</div>
+		
+        {/if}
+        <div style="clear: both;height:15px;"></div>
+<!--增加幻灯片-->
+	<div class="search_box">
+		<div class="search">
+		<div id="index_search_form">
+		<div class="text_box">
+		<input style="color: rgb(64, 64, 64); " id="id" name="id" type="text" value="" placeholder="请输入对方微信昵称" class="keyword text" onkeydown="this.style.color='#404040'" autocomplete="off" id="keyword"><input type="submit" value="" class="submit" id="sousuo" data-page = "0"></div>
+		</div>
+		</div>
+		</div>
+	</div>
+    <br>
+		<section class="indexSec" id="indexSec">
+		
+		
+			  <ul class="indexList" id="list_article">
+					{loop $list $row}
+				<li class="indexItem" >
+				{if $row['tj_over_time']>=time()}<div  class="tuijian"></div>{/if}
+				<span  class="linka" onclick="checkself('{$row['from_user']}')" >
+			 <img src="{if preg_match('/http:(.*)/',$row['avatar'])}{$row['avatar']} {else if preg_match('/images(.*)/',$row['avatar'])} {$_W['attachurl']}{$row['avatar']}     {else}{MEEPORES}/static/friend/images/cdhn80.jpg{/if}"  alt="用户头像">
+					<div class="itemc">
+					  <p class="hcolor" style="font-size:13px;">{php echo cutstr($row['realname'],5,true);}&nbsp;&nbsp;{if $row['gender']=='1'}男{elseif $row['gender']=='2'}女{else}保密{/if}&nbsp;&nbsp;<font id="shopspostion" style="color:red;font-size:12px;">&nbsp;&nbsp;{$juli[$row['id']]}</font></p>
+					  <p class="lcolor" style="font-size:13px;">&nbsp;&nbsp;微信: {$row['nickname']}</p>
+					  <p class="lcolor" style="font-size:13px;">&nbsp;&nbsp;{$row['resideprovincecity']} {if strlen($row['mingzu'])==1}&nbsp;&nbsp;{else}&nbsp;&nbsp;{$row['mingzu']}{/if}</p> 
+					  
+					</div>
+					
+				  </span>    
+					<div class="likebox" style="margin-top:10px;">
+						
+						<div class="likeit2 likeit1  fleft "><span class="hitlike" onclick="hitlikeone('{$row['id']}','{$row['from_user']}');" id="{$row['from_user']}">&nbsp;{$row['love']}</span></div>
+						<div class="likeit2 letterit fleft"><a class="hitmail"  date="{$row['id']}" href="{php echo $this->createMobileUrl('hitmail',array('toname'=>$row['nickname'],'toopenid'=>$row['from_user']))}" target="__blank" style="color:#fff">聊一聊</a></div>
+						<div class="likeit2 sayhi fleft"><span class="saihello" onclick="sayhi('{$row['id']}','{$row['from_user']}');"  >打招呼</span></div>
+					</div>
+					
+				  </li>
+				 <li class="dottedLine"></li>
+				{/loop}
+			  </ul>
+		      <div style="height:20px"></div>
+				<div id="more">
+						<div id="man" style="display:none"><span><span class="loading"></span>&nbsp;&nbsp;&nbsp;<span  id="J-getmore2" data-page = "2">查看更多</span></span></div>
+						<div id="woman" style="display:none"><span><span class="loading"></span>&nbsp;&nbsp;&nbsp;<span  id="J-getmore3" data-page = "2">查看更多</span></span></div>
+						<div id="sousuomore" style="display:none"><span><span class="loading"></span>&nbsp;&nbsp;&nbsp;<span  id="J-getmore8" data-page = "8">查看更多</span></span></div>
+				</div>
+				<div id="showresult"></div> 
+		</section>
+		<div class="myLetter">
+			 <span  class="meeponew" ><span class="f1"></span><span>{if empty($cfg['firstcard'])}女神{else}{$cfg['firstcard']}{/if}</span></span>
+			 <span  class="meepohot"><span class="f2"></span><span>{if empty($cfg['secondcard'])}男神{else}{$cfg['secondcard']}{/if}</span></span>
+			 <span  class="meepobangdan"><span class="f3"></span><span>{if empty($cfg['thirdcard'])}榜单{else}{$cfg['thirdcard']}{/if}</span></span>
+			 <span  class="myInfo"><span class="f4"></span><span>{if empty($cfg['fourcard'])}个人中心{else}{$cfg['fourcard']}{/if}</span></span>
+			 <span  class="zuipei" ><span class="f5"></span><span>{if empty($cfg['fivecard'])}与我相关{else}{$cfg['fivecard']}{/if}</span></span>
+		</div>
+</div>
+<div id="toast"></div>
+<div class="gj-go-top"  onclick="load_again();">
+	<i class="load_again"></i>
+</div>
+<div class="gj-go-top_true"  onclick="javascript:$(document).scrollTop(0);return false;">
+	<i class="back_top"></i>
+</div>
+<div class="flower_news">
+<ul class="flower_li">
+<li class="flower_avatar"><img src="{MEEPORES}/static/friend/images/cdhn80.jpg" class="flower_avatar_img" /></li>
+<li class="flower_words">赞木给美女送了一多花</li>
+<li class="flower_time">1秒前</li>
+</ul>
+</div>
+<input type="hidden" id="open_status" />
+</body>
+ <script type="text/javascript">
+	var ids='';
+	$(document).ready(function () {
+		$(window).scroll(function(){
+		  if($('.gj-go-top').length>0){
+			if($(document).scrollTop() > 300){
+				$('.gj-go-top').fadeIn();
+			}else{
+				$('.gj-go-top').fadeOut();
+			}
+		  }
+		  //if($('#open_status').val()!=''){
+			if($(document).scrollTop() > 400){
+				$('.gj-go-top_true').fadeIn();
+			}else{
+				$('.gj-go-top_true').fadeOut();
+			}
+		  //}
+		});
+		setInterval(getflower_record,{$flower_time});  
+		function getflower_record(){
+			$(".flower_news").fadeOut();
+			$.ajax({
+				type : 'POST',
+				url : "{php echo $this->createMobileUrl('getflower_record')}",
+				data : {ids:ids},
+				dataType : 'JSON',
+				success : function(data){
+				 // alert(data.errno);
+					  if(data.errno=='0'){
+						$(".flower_avatar_img").attr('src',data.avatar);
+						$(".flower_words").text(data.word);
+						$('.flower_time').text(data.time);
+						$(".flower_news").fadeIn();
+						if(ids==''){
+							ids = data.id;
+						}else{
+							ids += ','+data.id;
+						}
+					  }
+				}
+			});
+			
+		}
+		
+		
+	});
+	function load_again(){
+			window.location.href="{php echo $this->createMobileUrl('alllist')}&t="+Math.random();
+		}
+	var man_status = 0;
+	$('.meepohot').on('click',function(){
+		$('.gj-go-top').remove();
+		man_status = 0;
+         $(this).addClass("cur").siblings().removeClass("cur");
+		$("#list_article").empty();
+		$("#showresult").empty();
+		$("#showresult").removeClass("endres");
+		$("#all").remove();
+		$("#woman").hide();
+		$("#sousuomore").hide();
+		$("#man").show();
+		$("#woman .loading").empty();
+		$("#sousuomore .loading").empty();
+		$("#man .loading").html(
+	     "<img src='{MEEPORES}/static/forum/css/img/loading.gif'/>");
+		var loadurl="{php echo $this->createMobileurl('meepohot')}";
+		$.ajax({
+			type : 'POST',
+			url : loadurl,
+			data : {'truepage' : 1,'man_status':man_status},
+			dataType : 'json',
+			success : function(e){
+				  //alert(e.errno);
+					if(e.errno=='-3'){
+						$("#man").hide();
+						$("#showresult").addClass("endres");
+						$("#showresult").html("已经加载全部");
+					}else if(e.errno=='-1'){
+						man_status = 1;
+						$('#J-getmore2').data('page',2);
+						$('#list_article').append(e.message);
+						$("#man .loading").empty();
+					}else if(e.errno=='-2'){
+						man_status = 1;
+						$('#J-getmore2').data('page',1);
+						$('#list_article').append(e.message);
+						$("#man .loading").empty();
+					}else if(e.errno=='0'){
+						$('#J-getmore2').data('page',2);
+						$('#list_article').append(e.message);
+						$("#man .loading").empty();
+						
+					}
+			}
+		});
+		
+	});
+	//获取更多
+	$('#J-getmore2').on('click',function(){
+		//执行动画
+		$("#showresult").empty();
+		$("#showresult").removeClass("endres");
+		$("#woman .loading").empty();
+		$("#sousuomore .loading").empty();
+		$("#man .loading").html(
+	     "<img src='{MEEPORES}/static/forum/css/img/loading.gif'/>");
+		var loadurl="{php echo $this->createMobileurl('meepohot')}";
+		var truepage=$(this).data('page');
+		$.ajax({
+			type : 'POST',
+			url : loadurl,
+			data : {'truepage' : truepage,'man_status':man_status},
+			dataType : 'json',
+			context : $('body'),
+			success : function(e){
+				  if(man_status==0){//继续加重推荐女性
+					if(e.errno=='-3'){
+						$('#man').hide();
+						$("#showresult").addClass("endres");
+						$("#showresult").html("已经加载全部");
+					}else if(e.errno=='-1'){
+						man_status = 1;
+						$('#J-getmore2').data('page',2);
+						$('#list_article').append(e.message);
+						$("#man .loading").empty();
+					}else if(e.errno=='-2'){
+						man_status = 1;
+						$('#J-getmore2').data('page',1);
+						$('#list_article').append(e.message);
+						$("#man .loading").empty();
+					}else if(e.errno=='0'){
+						$('#list_article').append(e.message);
+						$('#J-getmore2').data('page',truepage+1);
+						$("#man .loading").empty();
+					}
+				  }else{
+						if(e.errno=='-3'){
+							$('#man').hide();
+							$("#showresult").addClass("endres");
+							$("#showresult").html("已经加载全部");
+						}else if(e.errno=='-1'){
+							man_status = 1;
+							$('#J-getmore2').data('page',truepage+1);
+							$('#list_article').append(e.message);
+							$("#man .loading").empty();
+						}
+				  }
+			}
+		});
+		
+	});
+	var woman_status = 0;
+	$('.meeponew').on('click',function(){
+		$('.gj-go-top').remove();
+		woman_status = 0;
+         $(this).addClass("cur").siblings().removeClass("cur");
+		$("#list_article").empty();
+		$("#showresult").empty();
+		$("#showresult").removeClass("endres");
+		$("#all").remove();
+		$("#man").hide();
+		$("#sousuomore").hide();
+		$("#woman").show();
+		$("#man .loading").empty();
+		$("#sousuomore .loading").empty();
+		$("#woman .loading").html(
+	     "<img src='{MEEPORES}/static/forum/css/img/loading.gif'/>");
+		var loadurl="{php echo $this->createMobileurl('meeponew')}";
+		var truepage=0;
+		$.ajax({
+			type : 'POST',
+			url : loadurl,
+			data : {'truepage' : 1,'woman_status':woman_status},
+			dataType : 'json',
+			success : function(e){
+				  //alert(e.errno);
+					if(e.errno=='-3'){
+						$("#woman").hide();
+						$("#showresult").addClass("endres");
+						$("#showresult").html("已经加载全部");
+					}else if(e.errno=='-1'){
+						woman_status = 1;
+						$('#J-getmore3').data('page',2);
+						$('#list_article').append(e.message);
+						$("#woman .loading").empty();
+					}else if(e.errno=='-2'){
+						woman_status = 1;
+						$('#J-getmore3').data('page',1);
+						$('#list_article').append(e.message);
+						$("#woman .loading").empty();
+					}else{
+						$('#J-getmore3').data('page',1);
+						$('#list_article').append(e.message);
+						$("#woman .loading").empty();
+						
+					}
+			}
+		});
+		
+	});
+	//获取更多
+	$('#J-getmore3').on('click',function(){
+		//执行动画
+		$("#showresult").empty();
+		$("#showresult").removeClass("endres");
+		$("#man .loading").empty();
+		$("#sousuomore .loading").empty();
+		$("#woman .loading").html(
+	     "<img src='{MEEPORES}/static/forum/css/img/loading.gif'/>");
+		var loadurl="{php echo $this->createMobileurl('meeponew')}";
+		var truepage=$(this).data('page');
+		$.ajax({
+			type : 'POST',
+			url : loadurl,
+			data : {'truepage' : truepage,'woman_status':woman_status},
+			dataType : 'json',
+			context : $('body'),
+			success : function(e){
+				  if(woman_status==0){//继续加重推荐女性
+					if(e.errno=='-3'){
+						$('#woman').hide();
+						$("#showresult").addClass("endres");
+						$("#showresult").html("已经加载全部");
+					}else if(e.errno=='-1'){
+						woman_status = 1;
+						$('#J-getmore3').data('page',2);
+						$('#list_article').append(e.message);
+						$("#woman .loading").empty();
+					}else if(e.errno=='-2'){
+						woman_status = 1;
+						$('#J-getmore3').data('page',1);
+						$('#list_article').append(e.message);
+						$("#woman .loading").empty();
+					}else{
+						$('#list_article').append(e.message);
+						$('#J-getmore3').data('page',truepage+1);
+						$("#woman .loading").empty();
+					}
+				  }else{
+						if(e.errno=='-3'){
+							$('#woman').hide();
+							$("#showresult").addClass("endres");
+							$("#showresult").html("已经加载全部");
+						}else if(e.errno=='-1'){
+							woman_status = 1;
+							$('#J-getmore3').data('page',truepage+1);
+							$('#list_article').append(e.message);
+							$("#woman .loading").empty();
+						}
+				  }
+			}
+		});
+		
+	});
+    var ss_status = 0;	
+	$('#sousuo').on('click',function(){
+		
+        var keyword = $('.text').val();
+	    if(keyword==''){
+	      return false;
+	    }
+		ss_status = 0;
+         $(this).addClass("cur").siblings().removeClass("cur");
+		$("#list_article").empty();
+		$("#showresult").empty();
+		$("#showresult").removeClass("endres");
+		$("#all").remove();
+		$("#man").hide();
+		$("#woman").hide();
+		$("#sousuomore").show();
+		$("#man .loading").empty();
+		$("#woman .loading").empty();
+		$("#sousuomore .loading").html(
+	     "<img src='{MEEPORES}/static/forum/css/img/loading.gif'/>");
+		var loadurl="{php echo $this->createMobileurl('sousuomore')}";
+		$.ajax({
+			type : 'POST',
+			url : loadurl,
+			data : {'truepage' : 1,'ss_status':ss_status,'keyword':$('.text').val()},
+			dataType : 'json',
+			success : function(e){
+				  //alert(e.errno);
+					if(e.errno=='-3'){
+						$("#sousuomore").hide();
+						$("#showresult").addClass("endres");
+						$("#showresult").html("已经加载全部");
+					}else if(e.errno=='-1'){
+						ss_status = 1;
+						$('#J-getmore8').data('page',2);
+						$('#list_article').append(e.message);
+						$("#sousuomore .loading").empty();
+					}else if(e.errno=='-2'){
+						ss_status = 1;
+						$('#J-getmore8').data('page',1);
+						$('#list_article').append(e.message);
+						$("#sousuomore .loading").empty();
+					}else{
+						$('#J-getmore8').data('page',1);
+						$('#list_article').append(e.message);
+						$("#sousuomore .loading").empty();
+						
+					}
+			}
+		});
+		
+	});
+	//获取更多
+	$('#J-getmore8').on('click',function(){
+		//执行动画
+		$("#showresult").empty();
+		$("#showresult").removeClass("endres");
+		$("#man .loading").empty();
+		$("#woman .loading").empty();
+		$("#sousuomore .loading").html(
+	     "<img src='{MEEPORES}/static/forum/css/img/loading.gif'/>");
+		var loadurl="{php echo $this->createMobileurl('sousuomore')}";
+		var truepage=$(this).data('page');
+		$.ajax({
+			type : 'POST',
+			url : loadurl,
+			data : {'truepage' : truepage,'ss_status':ss_status,'keyword':$('.text').val()},
+			dataType : 'json',
+			context : $('body'),
+			success : function(e){
+				  if(ss_status==0){//继续加重推荐女性
+					if(e.errno=='-3'){
+						$('#sousuomore').hide();
+						$("#showresult").addClass("endres");
+						$("#showresult").html("已经加载全部");
+					}else if(e.errno=='-1'){
+						ss_status = 1;
+						$('#J-getmore8').data('page',2);
+						$('#list_article').append(e.message);
+						$("#sousuomore .loading").empty();
+					}else if(e.errno=='-2'){
+						ss_status = 1;
+						$('#J-getmore8').data('page',1);
+						$('#list_article').append(e.message);
+						$("#sousuomore .loading").empty();
+					}else{
+						$('#list_article').append(e.message);
+						$('#J-getmore8').data('page',truepage+1);
+						$("#sousuomore .loading").empty();
+					}
+				  }else{
+						if(e.errno=='-3'){
+							$('#sousuomore').hide();
+							$("#showresult").addClass("endres");
+							$("#showresult").html("已经加载全部");
+						}else if(e.errno=='-1'){
+							ss_status = 1;
+							$('#J-getmore8').data('page',truepage+1);
+							$('#list_article').append(e.message);
+							$("#sousuomore .loading").empty();
+						}
+				  }
+			}
+		});
+		
+	});	
+</script>
+<script type="text/javascript">
+{if !empty($slide)}
+	var mySwiper = new Swiper('#advSwiper2', {
+			autoplay: 3000,
+			height:120,
+			loop : true,
+			pagination: '.swiper-pagination',
+		});	
+{/if}
+	</script>
+	<script type="text/javascript">
+  wx.ready(function () {
+    var shareData = {
+    title: "{$settings['share_title']}",
+    desc: "{$settings['share_content']}",
+    link: "{$settings['share_link']}",
+    imgUrl: "{$_W['attachurl']}{$settings['share_logo']}",
+    };
+  
+  //分享朋友
+  wx.onMenuShareAppMessage({
+       title: shareData.title,
+      desc: shareData.desc,
+      link: shareData.link,
+      imgUrl:shareData.imgUrl,
+      trigger: function (res) {
+      },
+      success: function (res) {
+        send_intergal();
+      },
+      cancel: function (res) {
+      },
+      fail: function (res) {
+        alert(JSON.stringify(res));
+      }
+    });
+ //朋友圈
+  wx.onMenuShareTimeline({
+      title: shareData.title+"---"+shareData.desc,
+      link: shareData.link,
+      imgUrl:shareData.imgUrl,
+      trigger: function (res) {
+      },
+      success: function (res) {
+          send_intergal();
+      },
+      cancel: function (res) {
+      },
+      fail: function (res) {
+        swal("温馨提示", "分享失败", "error")
+      }
+    });   
+    getlocation();
+  });
+  
+
+
+function send_intergal(){
+   $.ajax({
+			type:"POST",
+			url:"{php echo $this->createMobileUrl('shareajax')}",
+			data:{openid:'{$openid}}'},
+			cache:false,
+			success:function(data){
+			  //alert(data);
+				if(data=="no"){
+					swal("温馨提示", "网络超时啦！", "error");
+                   
+				}
+				else if(data=="over"){
+				  
+				   swal("温馨提示", "你今天的分享次数已经超过上限哦，请明天再来吧！！！", "warning")
+				
+				}
+				else{
+				   
+				   swal("温馨提示", "恭喜您，获得{$settings['share_jifen']}个奖励积分！今天你还有"+data+"次分享赚积分机会哦！", "success")
+				}
+			}
+		});
+}
+
+function getlocation(){
+
+    wx.getLocation({
+      success: function (res) {
+		  var cachlat = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+          var cachlng = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+			 $.ajax({
+							 type: "POST",
+							 dataType: "html",
+							 timeout: 12000,//（毫秒）
+							 url: "{php echo $this->createMobileUrl('position')}",
+							 data: {
+							 'curlat':cachlat,
+							 'curlng':cachlng
+							 },
+							 success: function(data){
+
+							 }
+				   
+			});
+      },
+      cancel: function (res) {
+        //alert('用户拒绝授权获取地理位置');
+      }
+    });
+
+}
+</script>
+{template 'footer'}

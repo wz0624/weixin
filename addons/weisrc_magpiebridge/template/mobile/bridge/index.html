@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<link rel="stylesheet" type="text/css" href="{RES}mobile/bridge/css/index.css" media="all"/>
+	<title>{$reply['title']}</title>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+	<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+	<!-- Mobile Devices Support @begin1 -->
+	<meta content="application/xhtml+xml;charset=UTF-8" http-equiv="Content-Type">
+	<meta content="telephone=no, address=no" name="format-detection">
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<!-- apple devices fullscreen -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+	<!-- Mobile Devices Support @end -->
+	<style>
+		img {
+			max-width: 100% !important;
+		}
+	</style>
+	{php echo register_jssdk(false);}
+</head>
+    <body onselectstart="return true;" ondragstart="return false;">
+	<style type="text/css">
+        #start-page-main {background-image: url("{$bg}");}/*首页背景*/
+    	#btn-start{background-image: url("{$btn_start}");}
+    </style>
+    <script type="text/javascript">
+        (function () {
+            // 排行信息
+			window.rankData = {$rankarr};
+			window.start_page_config = {
+				NEEDREGISTER: {$NEEDREGISTER},
+				RANKTOTALPAGE: 10,
+				{if $number_times!=0}
+				TOTALRESTTIMES: {$totalnum},
+				{/if}
+				{if $most_num_times!=0}
+				RESTTIMES:{$todaynum},
+				{/if}
+				ISEND: {$isend},
+				URL: {
+					RANKDATA: "{php echo $this->createMobileUrl('getallrank', array('id' => $id), true)}"
+				},
+				PATH: {
+					GAME: "{php echo $this->createMobileUrl('main', array('id' => $id), true)}"
+				}
+			}
+        })();
+    </script>
+	<script type="text/javascript" src="{RES}mobile/bridge/js/zepto_min.js"></script>
+	<script type="text/javascript" src="{RES}mobile/bridge/js/LocalResizeIMG_min.js"></script>
+	<script type="text/javascript" src="{RES}mobile/bridge/js/mobileBUGFix_min.js"></script>
+	<script type="text/javascript" src="{RES}mobile/bridge/js/iscroll_min.js"></script>
+	<script type="text/javascript" src="{RES}mobile/bridge/js/index.js?v=1"></script>
+<div id="start-page">
+	<div id="start-page-main">
+		<div id="btn-start" class="anim"></div>
+		<a id="btn-prize" class="anim" href="{php echo $this->createMobileUrl('reward', array('id' => $id), true)}"></a>
+		<div class="panel-container">
+			<ul class="container-title">
+				<li><a class="btn-rank"></a></li>
+				<li><a class="btn-activity"></a></li>
+			</ul>
+			<div class="container-body">
+				<div class="container-content container-rank">
+					<table class="table-title">
+						<col width="20%"/>
+						<col width="20%"/>
+						<col width="40%"/>
+						<col width="20%"/>
+						<tr>
+							<th></th>
+							<th><span class="icon icon-head"></span></th>
+							<th><span class="icon icon-nick"></span></th>
+							<th><span class="icon icon-time"></span></th>
+						</tr>
+					</table>
+					<div class="table-scroll">
+						<table class="table-body">
+							<col width="20%"/>
+							<col width="20%"/>
+							<col width="40%"/>
+							<col width="20%"/>
+						<tr class="page-loading-box"><td colspan=4><div class="page-loading">努力加载中......</div></td></tr></table>
+					</div>
+					<table class="table-bottom">
+						<col width="20%"/>
+						<col width="80%"/>
+						<tr>
+							<td>
+								<span class="icon-img-bg">
+									<img src="{$headimgurl}" class="icon-img">
+								</span>
+							</td>
+
+							<td>
+								我的排名：<b>{$myrank}</b>   最佳：<b>{$mycredit}</b>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="container-content container-acitivity">
+					<div class="container-activity-box">
+						<div class="container-activity-content">
+							<div class="text">
+								<span class="icon2 icon-time"></span>
+								<br>
+								{php echo date('Y-m-d H:i', $reply['starttime'])}—{php echo date('Y-m-d H:i', $reply['endtime'])}
+								<br><br>
+								<span class="icon2 icon-rule"></span>
+								<br>
+								{php echo htmlspecialchars_decode($reply['rule']);}
+								<br>
+								<span class="icon2 icon-desc"></span><br>
+								{php echo htmlspecialchars_decode($reply['award']);}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="company-rights"><p><a href="{if !empty($reply['copyrighturl'])}{$reply['copyrighturl']}{else}#{/if}" style="color:#7854c2;">{if empty($reply['copyright'])}{$_W['account']['name']}{else}{$reply['copyright']}{/if}</a></p></div>
+		<div class="ads show">
+			<img src="{$ad}" onclick="jump_url();" />
+			<div class="btn-close-ad"></div>
+		</div>
+	</div>
+</div>
+<div class="register-panel-layer"></div>
+<div class="register-panel"  id="panel-register">
+	<div class="register-main">
+		<div class="register-content">
+			<span class="icon-player"></span>
+			<div class="icon-img-bg">
+				<img class="icon-img" src="{$headimgurl}" defaultsrc="{RES}mobile/bridge/image/icon_head_empty.png" />
+			</div>
+			<span class="icon-edit"></span>
+			<form enctype="multipart/form-data" action="{php echo $this->createMobileUrl('SaveUserinfo', array('id' => $id), true)}" method="post" onsubmit="return validation()">
+				<input placeholder="请输入昵称" type="text" id="username" name="username" value="">
+				<input placeholder="请输入手机号" type="tel" id="tel" name='tel'>
+				<div class="btn-layout">
+					<input class="btn-cancel" type="reset" value=""/>
+					<input class="btn-start" type="submit" value=""/>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="register-panel" id="panel-without-times">
+	<div class="register-main">
+		<div class="register-content">
+			<div class="icon-without-times"></div>
+			<div class="result-page-prize">很可惜</div>
+			<!--<p class="plus">你的游戏机会已经用完<br/>明天再来吧</p>-->
+			<p class="plus">你的游戏机会已经用完，<br/>可以告诉好友来增加游戏机会</p>
+			<div class="btn-layout">
+				<span class="btn-know"></span>
+			</div>
+		</div>
+	</div>
+</div>
+<div mark="stat_code" style="width:0px; height:0px; display:none;"></div>
+<script>
+	function jump_url() {
+		var adurl = "{$reply['adurl']}";
+		if (adurl != '') {
+			window.location.href = adurl;
+		}
+	}
+</script>
+	<script>
+		wx.ready(function () {
+			sharedata = {
+				title: '{$share_title}',
+				desc: '{$share_desc}',
+				link: '{$share_url}',
+				imgUrl: '{$share_image}',
+				success: function(){
+					var url = "{php echo $this->createMobileUrl('share', array('id' => $id), true)}";
+					$.ajax
+					({
+						url: url,
+						type:'POST',
+						data: {},
+						dataType:'json',
+						error: function () {
+							alert('网络通讯异常，请稍后再试！');
+						},
+						success: function (result) {
+							alert(result.msg);
+							setTimeout('time_jump()', 1000);
+						}
+					});
+				},
+				cancel: function(){
+					//alert('cancel');
+				}
+			};
+			wx.onMenuShareAppMessage(sharedata);
+			wx.onMenuShareTimeline(sharedata);
+		});
+
+		function time_jump() {
+			var url = "{php echo $this->createMobileUrl('index', array('id' => $id), true)}";
+			location.href = url;
+		}
+	</script>
+</body>
+</html>

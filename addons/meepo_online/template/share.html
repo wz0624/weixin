@@ -1,0 +1,76 @@
+{template 'common/header'}
+{template 'nav'}
+{template 'list_nav'}
+<div class="panel panel-default">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body">
+		<form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+			<input type="hidden" name="c" value="site" />
+			<input type="hidden" name="a" value="entry" />
+			<input type="hidden" name="m" value="meepo_online" />
+			<input type="hidden" name="do" value="share" />
+            
+            <input type="hidden" name="listid" value="{$listid}" />
+           
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">粉丝昵称</label>
+				<div class="col-xs-12 col-sm-8 col-lg-8">
+					<input class="form-control" name="nickname" id="" type="text" value="{$_GPC['nickname']}" placeholder="请输入粉丝昵称">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input class="btn btn-primary" id="" type="submit" value="搜索">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		分享管理
+	</div>
+	<div class="panel-body">
+		<table  class="table table-striped">
+			<thead>
+				<tr>
+					<th style="width:10%;">粉丝id</th>
+					<th style="width:40%;">粉丝信息</th>
+					<th style="width:40%;">分享时间</th>
+					<th style="width:40%;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{loop $shares $row}
+				<tr>
+					<td>
+						{$row['id']}
+					</td>
+					<td>
+					<div>
+						<img src="{$row['avatar']}" width=60px height=60px />
+						<div>
+						{$row['nickname']}
+						</div>
+					</div>
+					</td>
+					<td>
+						{php echo date('Y-m-d H:i:s',$row['createtime'])}
+					</td>
+					<td>
+						
+						<a class="btn btn-danger" title="删除" 
+						href="{php echo $this->createWebUrl('share',array('op'=>'del','id'=>$row['id'],'listid'=>$listid))}">
+							删除
+						</a>
+					</td>
+				</tr>
+			{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+	
+</div>
+{template 'common/footer'}

@@ -1,0 +1,441 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no, address=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link href="{$_W['siteroot']}app/resource/css/bootstrap.min.css" rel="stylesheet">
+<link href="{$_W['siteroot']}app/resource/css/font-awesome.min.css" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="{$_W['siteroot']}addons/yuexiage_community/images/css/base.css?{TIMESTAMP}">
+<link rel="stylesheet" type="text/css" href="{$_W['siteroot']}addons/yuexiage_community/images/css/index.css?{TIMESTAMP}">
+
+
+<script type='text/javascript' src='{$_W['siteroot']}addons/yuexiage_community/images/js/jquery-2.0.3.min.js'></script>
+<script type='text/javascript' src='{$_W['siteroot']}addons/yuexiage_community/images/js/LocalResizeIMG.js'></script>
+<script type='text/javascript' src='{$_W['siteroot']}addons/yuexiage_community/images/js/patch/mobileBUGFix.mini.js'></script>
+
+<style type="text/css">
+    body{font-family:"微软雅黑"; background-color: #272a31;}
+    .uploadbtn{    
+        position: absolute;
+        vertical-align: middle;
+        display: block;
+        height: 220px;
+        line-height: 220px;
+        color: #333;
+        text-align: center;
+        width: 100%;
+        text-decoration: none; 
+        font-size: 20px;
+    }
+    .imglist{width: 100%;height: 220px; overflow: hidden;}
+    .imglist img{width:100%;}
+    .fengmian{ width: 100%; padding-bottom: 10px;}
+    #inputEmail3,#inputPassword3,#inputEmail4{background:#272a31; border: none;box-shadow:none;}
+    .login_body_input{border-bottom: 1px solid #fff; }
+    #inputEmail3:focus,#inputPassword3:focus,#inputEmail4:focus{box-shadow:none;}
+    .login_body label{ text-align: right;    line-height: 34px;font-size: 20px;}
+    .login_body label{ text-align: right;    line-height: 34px;font-size: 20px;}
+    label{line-height: 50px;}
+    #description{
+        border: none;
+        background-color: #1f232c;
+    }
+    .imgs img{
+        height: 50px;
+        width: 60px;
+        float: left;
+    }
+    .addimgs a{
+        background-color: #1f232c;
+        padding: 5px 10px;
+        font-size: 25px;
+        border: 1px solid #1f232c;
+    }
+    .tabs li{
+        padding: 5px;
+        margin: 3px;
+        background-color: #1f232c;
+        float: left;
+    }
+    .tabs li.active{
+        background-color: green;
+    }
+    .form-horizontal .form-group {
+        margin: 0px;
+    }
+    .imgs div{
+        float: left;
+        height: 50px;
+        width: 60px;
+    }
+    .glyphicon {
+        margin-top: -58px;
+        margin-left: 47px;
+        position: relative;
+        padding: 3px;
+        background-color: #999;
+        border-radius: 15px;
+    }
+</style>
+
+
+<div class="fengmian">
+    <input type="file" id="uploadphoto" name="uploadfile" value="请点击上传图片"   style="display:none;" /> 
+    <a href="javascript:void(0);" onclick="uploadphoto.click()" class="uploadbtn"><strong>点击上传封面</strong></a>
+    <div class="imglist">
+        <img src="{$_W['siteroot']}addons/yuexiage_community/images/17.jpg" alt="">
+
+    </div> 
+    <input type="hidden" class="tmp_img" name="tmp_img" value="" />
+</div>
+
+<form class="form-horizontal">
+    <div class="form-group">
+        <label for="inputEmail3" class="col-sm-2 col-xs-2 control-label">标题</label>
+        <div class="col-sm-9 col-xs-9 login_body_input">
+            <input type="text" class="form-control" id="inputEmail3" placeholder="可输入100中文字符" maxlength="100">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputEmail3" class="col-sm-2 col-xs-2 control-label">图片</label>
+        <div class="col-sm-9 col-xs-9">
+            <div class="fengmian addimgs">
+              
+                <a href="javascript:void(0);"  id="uploadphoto1" class="uploadbtn1"><strong>+</strong></a>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputEmail3" class="col-sm-2 col-xs-2 control-label"></label>
+        <div class="col-sm-9 col-xs-9 imgs">
+            
+        </div>
+    </div>
+
+    <!-- 标签 -->
+    <div class="form-group">
+        <label for="" class="col-sm-2 col-xs-2 control-label"></label>
+        <div class="col-sm-9 col-xs-9 tabs">
+            <ul class="tabs">
+            {loop $tabs_top $adv}
+                <li><a href="javascript:;">{$adv['name']}</a></li>
+            {/loop}
+                {if $_GPC['tab_key']!=''}
+                <li class="active tab_key"><a href="javascript:;">{$_GPC['tab_key']}
+                    <input class="tabnames" type="hidden" value="{$_GPC['tab_key']}" >
+                </a></li>
+                {/if}
+            </ul>
+        </div>
+    </div>
+    
+
+
+    <div class="form-group">
+        <label for="inputEmail4" class="col-sm-2 col-xs-2 control-label"></label>
+        <div class="col-sm-9 col-xs-9 login_body_input">
+                <div class="input-group">
+                    <input type="text" id="inputEmail4" class="form-control" placeholder="自定义标签(10个中文字符)" maxlength="10">
+                    <span class="input-group-btn">
+                        <button class="btn btn-success btn-sm addtab" type="button">ok!</button>
+                    </span>
+                </div><!-- /input-group -->
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label for="inputEmail3" class="col-sm-2 col-xs-2 control-label">描述</label>
+        <div class="col-sm-9 col-xs-9">
+            <textarea class="form-control" rows="3" id="description" maxlength="500"></textarea>
+            <sub>可输入500中文字符</sub>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-9 col-xs-9 pull-right" >
+            <button type="button" class="btn btn-success btn-sm send" style="float: right;
+    margin-right: 30px;">发布</button>
+        </div>
+    </div>
+</form>
+
+
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+wx.config({
+    debug: false,
+    appId: "{php echo $_W['account']['jssdkconfig']['appId']}",
+    timestamp: "{php echo $_W['account']['jssdkconfig']['timestamp']}",
+    nonceStr: "{php echo $_W['account']['jssdkconfig']['nonceStr']}",
+    signature: "{php echo $_W['account']['jssdkconfig']['signature']}",
+    jsApiList: [
+      'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'hideMenuItems',
+        'showMenuItems',
+        'hideAllNonBaseMenuItem',
+        'showAllNonBaseMenuItem',
+        'translateVoice',
+        'startRecord',
+        'stopRecord',
+        'onRecordEnd',
+        'playVoice',
+        'pauseVoice',
+        'stopVoice',
+        'uploadVoice',
+        'downloadVoice',
+        'chooseImage',
+        'previewImage',
+        'uploadImage',
+        'downloadImage',
+        'getNetworkType',
+        'openLocation',
+        'getLocation',
+        'hideOptionMenu',
+        'showOptionMenu',
+        'closeWindow',
+        'scanQRCode',
+        'chooseWXPay',
+        'openProductSpecificView',
+        'addCard',
+        'chooseCard',
+        'openCard'
+    ]
+  });
+  wx.ready(function () {
+    // 5 图片接口
+    // 5.1 拍照、本地选图
+    var images = {
+        localId: [],
+         serverId: []
+    };
+    $('#uploadphoto1').click(function(){
+        var imglen = $(".imgs img").length;
+        if(imglen>9){ alert('只能上传9张图片'); return ;}
+        wx.chooseImage({
+            sizeType: ['original'], // 可以指定是原图还是压缩图，默认二者都有
+            sourceType: ['album'], // 可以指定来源是相册还是相机，默认二者都有
+            success: function (res) {
+                    images.localId = res.localIds;
+              
+                   if(images.localId.length <= 0){
+                        alert("请选择照片");
+                        return false;
+                    }
+                    var imglen = $(".imgs img").length;
+                    if((imglen+images.localId.length)>9){ alert('只能上传9张图片'); return ;}
+
+                    var i = 0, len = images.localId.length;
+                    
+                    for(i;i<len;i++){
+                        wx.uploadImage({
+                            localId: images.localId[i],
+                            isShowProgressTips:1,
+                            success : function(res){
+                                var serverId = res.serverId;
+                                $.post("{php echo $this->createMobileUrl('Uploadimg', array());}",{media_id:serverId},function(data){
+                                    var attstr= '<div><img src="';
+                                        attstr+="{$_W['attachurl']}"+data;
+                                        attstr+='"><span class="glyphicon glyphicon-remove"></span></div>';
+                                   
+                                    $(".imgs").append(attstr);
+                                });
+                            },
+                            fail: function(res){
+                                alert(JSON.stringify(res));
+                            }
+                        })
+                    }
+            }
+        });
+    });
+});
+
+</script>
+
+
+
+<script type="text/javascript">
+$(document).ready(function(e) {
+   $('#uploadphoto').localResizeIMG({
+        width: 400,
+        quality: 1,
+        success: function (result) {  
+            var submitData={
+                base64_string:result.clearBase64, 
+            }; 
+
+            $.ajax({
+                type: "POST",
+                url: "{php echo $this->createMobileUrl('Upload', array());}",
+                data: submitData,
+                dataType:"json",
+                success: function(data){
+                    if (0 == data.status) {
+                        alert(data.content);
+                        return false;
+                    }else{
+                        alert(data.content);
+                        var attstr= '<img src="'+data.url+'"> ';
+                        $(".tmp_img").val(data.img); 
+                        $(".imglist").html(attstr);
+                        return false;
+                    }
+               }, 
+                complete :function(XMLHttpRequest, textStatus){
+                },
+                error:function(XMLHttpRequest, textStatus, errorThrown){ //上传失败 
+                   alert(XMLHttpRequest.status);
+                   alert(XMLHttpRequest.readyState);
+                   alert(textStatus);
+                }
+            }); 
+        }
+    });
+}); 
+$(function(){
+    $(".send").click(function(){
+        var img = $(".tmp_img").val();
+        var title = $("#inputEmail3").val();
+        var description = $("#description").val();
+        var imgs =$(".imgs").html();
+
+        replaceStr = '<span class="glyphicon glyphicon-remove"></span></div>';
+        imgs= imgs.replace(new RegExp(/(<div>)/g),'');
+        imgs= imgs.replace(new RegExp(replaceStr,'gm'),'');
+
+        if(img==''){
+            alert("请选择封面");
+            return ;
+        }
+        if(title==''){
+            alert("标题不能为空");
+            return ;
+        }
+        if(description==''){
+            alert("正文不能为空");
+            return ;
+        }
+
+        description = imgs+description;
+        var tabs=new Array();
+        $(".tabnames").each(function(index,element){
+            if($(element).val() !=''){
+                tabs[index]=$(element).val();
+            }
+        });
+
+        $.post("{php echo $this->createMobileUrl('Checkaccess', array());}",{type:'create'},function(data){
+            var dataset = $.parseJSON(data);
+            if(dataset.error=='4'){
+                alert("请不要频繁发帖");
+            }else if(dataset.error){
+                alert("你没有发帖权限!");
+            }
+            else if(dataset.success){
+                $.post("{php echo $this->createMobileUrl('addcontent', array());}",{img:img,title:title,description:description,tabs:tabs},function(data){
+                    if (data!='0') {
+                        alert("提交成功");
+                        location.href = "index.php?i={$_W['uniacid']}&c=entry&id="+data+"&do=detail&m=yuexiage_community";
+                    }else{
+                        alert("保存失败");
+                    }
+                });
+            }
+        });
+
+    });
+});
+
+
+$(function(){
+    $(".tabs li").click(function(){
+        
+        if($(this).hasClass('active') && !$(this).hasClass('tab_key')) {
+            $(this).removeClass('active');
+            $(".tabnames",this).remove();
+            return ;
+        };
+
+
+        var active_tab = $(".tabs .active").length;
+        if(active_tab>=5){
+            alert("只能添加5个标签");
+            return ;
+        }
+        var tabname = $("a",this).text();
+        a =0;
+        var tab_key=$(".tab_key a").text();
+
+        if($.trim(tabname) == $.trim(tab_key)){
+            alert('标签已存在');
+            a =1;
+            return ;
+        }
+    
+        if (a!=1) {
+            $(this).addClass('active');
+            $(this).append("<input type='hidden' class='tabnames' value='"+$.trim(tabname)+"'> ");
+        }
+        
+       
+    });
+
+    $(".addtab").click(function(){
+
+        var active_tab = $(".tabs .active").length;
+        if(active_tab>=5){
+            alert("只能添加5个标签");
+            return ;
+        }
+
+        var customTab = $("#inputEmail4").val();
+        if (customTab=="") {
+            alert("自定义标签为空");
+            return ;
+        }
+        a =0;
+        $(".tabs li a").each(function(index,element){
+            if($(element).text() ==customTab){
+                alert('标签已存在');
+                a =1;
+                return ;
+            }
+        });
+
+        if (a!=1) {
+            var li = '<li class="active"><a href="javascript:;" onclick="deltab(this)">'+customTab+'<input class="tabnames" type="hidden" value="'+customTab+'" ></a></li>';
+            $(".tabs ul").append(li);
+        };
+        
+    });
+    $(document).on("click",".imgs div span",function(){
+         div = $(this).parent();
+         $(div).remove();
+    });
+});
+
+function deltab(obj){
+    if($(obj).parent().hasClass('active')) {
+        $(obj).parent().remove();
+        return ;
+    };
+}
+
+</script>
+
+<script>
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+        WeixinJSBridge.call('hideToolbar');
+        {if $_GPC['do'] == 'addcontent'}
+        WeixinJSBridge.call('hideOptionMenu');
+        {else}
+        WeixinJSBridge.call('showOptionMenu');
+        {/if}
+    });
+</script>

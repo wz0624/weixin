@@ -1,0 +1,128 @@
+{template 'common/header'}
+
+
+
+<style type="text/css">
+
+</style>
+
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				商户设置
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">微信支付商户号(MchId)</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="mchid" class="form-control" value="{$settings['mchid']}"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">应用标识(appId)</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="appid" class="form-control" value="{$settings['appid']}"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商户支付密钥(API密钥)</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="key" class="form-control" value="{$settings['key']}"/>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				安全设置
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">服务器IP</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="ip" class="form-control" value="{$settings['ip']}"/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">证书（rootca.pem）</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="file" name="cert_rootca" class="form-control" />
+						<p>{if !empty($settings['cert_rootca'])} {php echo ATTACHMENT_ROOT . '/' .$settings['cert_rootca']['path']} {/if} </p>
+					</div>
+					
+				</div>
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">证书（apiclient_cert.pem）</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="file" name="cert_cert" class="form-control" />
+						<p>{if !empty($settings['cert_cert'])} {php echo ATTACHMENT_ROOT . '/' .$settings['cert_cert']['path']} {/if} </p>
+					</div>
+					
+				</div>
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">证书（apiclient_key.pem）</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="file" name="cert_key" class="form-control" />
+						<p>{if !empty($settings['cert_key'])} {php echo ATTACHMENT_ROOT . '/' .$settings['cert_key']['path']} {/if} </p>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				接口设置
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">百度地图APP KEY</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="bd_ak" class="form-control" value="{$settings['bd_ak']}"/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">七牛ACCESS KEY</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="qn_ak" class="form-control" value="{$settings['qn_ak']}"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">七牛SECRET KEY</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="qn_sk" class="form-control" value="{$settings['qn_sk']}"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">七牛空间名</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="qn_bucket" class="form-control" value="{$settings['qn_bucket']}"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">七牛空间域名</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="qn_api" class="form-control" value="{$settings['qn_api']}"/>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+
+<script language='javascript'>
+
+</script>
+
+{template 'common/footer'}

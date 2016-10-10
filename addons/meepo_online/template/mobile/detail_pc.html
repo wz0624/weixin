@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <meta name="title" content="{$list['title']}">
+    <meta name="keywords" content="{$list['title']}">
+    <meta name="description" content="{$list['title']}">
+    <title>{$list['title']}</title>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="{MODULE_URL}template/mobile/js/jquery.knob.min.js"></script>
+	<script src="{MODULE_URL}template/mobile/js/jquery.ba-throttle-debounce.min.js"></script>
+	<script src="{MODULE_URL}template/mobile/js/jquery.redcountdown.js"></script>
+	<script type="text/javascript" src="{MODULE_URL}template/mobile/js/jquery-weui.js"></script>
+	<script type="text/javascript" src="{MODULE_URL}template/mobile/js/socket.io.js"></script>
+    <link rel="stylesheet" href="{MODULE_URL}template/mobile/css/lib.css">
+    <link rel="stylesheet" href="{MODULE_URL}template/mobile/css/pc.css"></head>
+	<script>
+	var dashang_flower = {$list['dashang_flower']};//打赏提示
+	var gift_flower = {$list['gift_flower']};//送礼提示
+	var newjoin_flower = {$list['newjoin_flower']};//新加入提示
+	var player_height = {$list['player_height']};
+	var fans_info = {
+			'nickname':"{$user['nickname']}",
+			'avatar':"{$user['avatar']}",
+			'openid':"{$user['openid']}"
+	};	
+    $(function () {
+	  window.SOCKET = new io("ws://{$settings['socket_url']}/");
+      SOCKET.on('connect', function () {
+        SOCKET.emit('join', fans_info);
+      });
+      SOCKET.on('msg', function (userName, msg) {
+        
+      });
+	  SOCKET.on('dashang', function (username, msg) {
+			var dashang_content = '<p class="name"><font color=red>'+username+'</font>送出<font color=red>'+msg.money+'元</font>红包啦！</p>';
+			if(dashang_flower==1){
+				var audio = new Audio();
+				audio.src = "{php echo tomedia($list['dashang_music'])}";
+				audio.play();
+			    $.notification({
+					  title: "温馨提示",
+					  text:dashang_content ,
+					  media: "<img src='../addons/meepo_online/template/mobile/images/redpack.png' style='width:24px;height:24px;border-radius:100%'/>",
+					  time:4000,
+					  data: ""
+				});
+				
+			}else if(dashang_flower==2){
+				$.notification({
+					  title: "温馨提示",
+					  text:dashang_content ,
+					  media: "<img src='../addons/meepo_online/template/mobile/images/redpack.png' style='width:24px;height:24px;border-radius:100%'/>",
+					  time:4000,
+					  data: "",
+				});
+			}		
+      });
+	  SOCKET.on('gift', function (username, msg) {
+			 var img_url = $('#gift_'+msg.type).find("img").attr('src');
+			  var dashang_content = '<p class="name"><font color=red>'+username+'</font>赠送<font color=red>'+msg.content+'</font>礼物啦、数量<font color=red>'+msg.gift_number+'</font></p>';
+			if(gift_flower==1){
+			  var audio = new Audio();
+			  audio.src = "{php echo tomedia($list['gift_music'])}";
+			  audio.play();
+			 
+			  $.notification({
+					title: "温馨提示",
+					text:dashang_content ,
+					media: '<img src="'+img_url+'" style="border-radius:100%" />',
+					time:4000,
+					data: ""
+			  });	
+			}else if(gift_flower==2){
+				$.notification({
+					title: "温馨提示",
+					text:dashang_content ,
+					media: '<img src="'+img_url+'" style="border-radius:100%" />',
+					time:4000,
+					data: ""
+			  });
+			}		
+      });
+      // 监听系统消息
+      SOCKET.on('sys', function (sysMsg, avatar) {
+		if(newjoin_flower==1){
+			var audio = new Audio();
+			audio.src = "{php echo tomedia($list['newjoin_music'])}";
+			audio.play();
+			$.notification({
+					  title: "温馨提示",
+					  text:sysMsg,
+					  media: '<img src="'+avatar+'" style="border-radius:100%" />',
+					  time:4000,
+					  data: "",
+					  
+			});
+		}else if(newjoin_flower==2){
+			$.notification({
+					  title: "温馨提示",
+					  text:sysMsg,
+					  media: '<img src="'+avatar+'" style="border-radius:100%" />',
+					  time:4000,
+					  data: "",
+					  
+			});
+		}
+      });
+      });
+
+</script>
+	<body>
+	<input type="hidden" id="page_time" value="{php echo time()}">
+	<input type="hidden" id="PageNum" value="1" date-reset="{$ping_nums}"/>
+    <header></header>
+    <div id="app" class="pc">
+      <div class="container js_container">
+        <div id="player_container" class="player-container">
+          <div class="video-top">
+            <div class="program-msg">
+              <img src="{php echo tomedia($list['live_logo'])}">
+              <div class="p-msg-text-stop">
+                <h3>{$list['title']}</h3>
+                <p>{php echo html_entity_decode($list['content']);}  </p>
+              </div>
+            </div>
+          </div>
+          <div class="basic-info" id="basic_info">
+            <div class="chat-title row">
+              <span class="chat-num">
+                <b>人气值</b>
+                <b id="zan_num">{if !empty($zan_nums)}{$zan_nums}{else}0{/if}</b>
+              </span>
+              <div class="avatar-list">
+                <ul>
+                 {loop $top_user  $row}
+                  <li class="border-radius avatar-transition-transition">
+                    <img alt="{$row['nickname']}" src="{$row['avatar']}"></li>
+                 {/loop}
+				 </ul>
+              </div>
+            </div>
+            <span class="online-num">在线 {if !empty($see_user)}{$see_user}{else}0{/if}</span></div>
+          <div id="box_container" class="box-container">
+            <div class="box-container-inner" id="box_container_inner">
+             </div>
+          </div>
+          <div id="video" class="video">
+			<div id="COUNT_DOWN" style="{if TIMESTAMP>=$list['start_time']}display:none{/if}">
+				<div class="countTitle">直播倒计时</div>
+				<div  class="count_down"></div>
+			</div>
+			{if TIMESTAMP<$list['start_time']}
+			{if $list['no_start_type']=='4'}
+				<div id="content" style="width:100%;">
+				<div id="playBtn"></div>
+				<video id="playVideo" controls preload="auto" height="525" width="100%" webkit-playsinline><source src="{php echo tomedia($list['no_start_local_media'])}" type="video/mp4"></source></video>
+				</div>
+				{elseif $list['no_start_type']=='3'}
+				<style>
+				#video iframe{height:525px !important}
+				#video object{height:525px !important}
+				</style>
+				{php echo html_entity_decode($list['no_start_yt_iframe'])}
+				{elseif $list['no_start_type']=='1'}
+				<div id="player" style="width:100%;height:525px">
+					<script type="text/javascript" charset="utf-8" src="http://yuntv.letv.com/player/live/blive.js"></script>
+				   <script type="text/javascript"> 
+						var player = new CloudLivePlayer();
+						player.init({activityId:"{$list['no_start_activity_id']}"});
+					</script>
+				</div>
+				{elseif $list['no_start_type']=='2'}
+				<div id="player" style="width:100%;height:525px">
+					<script type="text/javascript" charset="utf-8" src="http://yuntv.letv.com/player/vod/bcloud.js"></script>
+					<script>
+						var player = new CloudVodPlayer();
+						player.init({uu:"{$list['no_start_activity_uu']}",vu:"{$list['no_start_activity_vu']}",autoplay:1});
+					</script>
+				</div>
+				{/if}
+			{elseif TIMESTAMP>$list['end_time']}
+			{if $list['end_type']=='4'}
+				<div id="content" style="width:100%;">
+				<div id="playBtn"></div>
+				<video id="playVideo" controls preload="auto" height="525" width="100%" webkit-playsinline><source src="{php echo tomedia($list['end_local_media'])}" type="video/mp4"></source></video>
+				</div>
+				{elseif $list['end_type']=='3'}
+				<style>
+				#video iframe{height:525px !important}
+				#video object{height:525px !important}
+				</style>
+				{php echo html_entity_decode($list['end_yt_iframe'])}
+				{elseif $list['end_type']=='1'}
+				<div id="player" style="width:100%;height:525px">
+					<script type="text/javascript" charset="utf-8" src="http://yuntv.letv.com/player/live/blive.js"></script>
+				   <script type="text/javascript"> 
+						var player = new CloudLivePlayer();
+						player.init({activityId:"{$list['end_activity_id']}"});
+					</script>
+				</div>
+				{elseif $list['end_type']=='2'}
+				<div id="player" style="width:100%;height:525px">
+					<script type="text/javascript" charset="utf-8" src="http://yuntv.letv.com/player/vod/bcloud.js"></script>
+					<script>
+						var player = new CloudVodPlayer();
+						player.init({uu:"{$list['end_activity_uu']}",vu:"{$list['end_activity_vu']}",autoplay:1});
+					</script>
+				</div>
+				{/if}
+			{else}
+				{if $list['type']=='4'}
+				<div id="content" style="width:100%;">
+				<div id="playBtn"></div>
+				<video id="playVideo" controls preload="auto" height="525" width="100%" webkit-playsinline><source src="{php echo tomedia($list['local_media'])}" type="video/mp4"></source></video>
+				</div>
+				{elseif $list['type']=='3'}
+				<style>
+				#video iframe{height:525px !important}
+				#video object{height:525px !important}
+				</style>
+				{php echo html_entity_decode($list['yt_iframe'])}
+				{elseif $list['type']=='1'}
+				<div id="player" style="width:100%;height:525px">
+					<script type="text/javascript" charset="utf-8" src="http://yuntv.letv.com/player/live/blive.js"></script>
+				   <script type="text/javascript"> 
+						var player = new CloudLivePlayer();
+						player.init({activityId:"{$list['activity_id']}"});
+					</script>
+				</div>
+				{elseif $list['type']=='2'}
+				<div id="player" style="width:100%;height:525px">
+					<script type="text/javascript" charset="utf-8" src="http://yuntv.letv.com/player/vod/bcloud.js"></script>
+					<script>
+						var player = new CloudVodPlayer();
+						player.init({uu:"{$list['activity_uu']}",vu:"{$list['activity_vu']}",autoplay:1});
+					</script>
+				</div>
+				{/if}
+			{/if}
+          </div>
+          <div id="player-praises" style="display:none">
+            <div class="bubble"></div>
+            <a href="###" class="praises">
+              <span></span>
+            </a>
+          </div>
+        </div>
+        <div class="chat-wrap" id="chat_wrap" keap-alive="">
+		  <div id="gz_tip" style="display:none;width:100%">
+							
+								<h4 style="margin-top:100px;text-align:center">微信扫一扫关注、更多精彩等你哦</h4>
+								<div style="margin:10px auto;text-align:center">
+									<div class="jpimg"><img id="jpimg" src="../attachment/qrcode_{$_W['uniacid']}.jpg" width=200px height=200px /></div>
+								 </div>
+						<div style="margin:0 auto;text-align:center">
+						   <a href="javascript:;" class="weui_btn weui_btn_mini weui_btn_primary" id="cancel_ok">知道啦</a>
+						</div>
+		  </div>
+          <div class="weui_tab">
+            <div class="weui_navbar">
+				{loop $menus $key $row}
+				{php $row['settings'] = iunserializer($row['settings']);}
+				<div class="weui_navbar_item {if $key==0}weui_bar_item_on{/if}" data-num="{$row['id']}" data-m="{$row['type']}" data-h="{if $row['type']=='html'}{$row['settings']['iframe']}{/if}" >{$row['name']}</div>
+				{/loop}
+			</div>
+            <div class="weui_tab_bd" style="overflow:hidden">
+			{loop $menus $key $row}
+			{php $row['settings'] = iunserializer($row['settings']);}
+			{if $row['type']=='comment'}
+			<div class="chat-list" id="chat_list" style="{if $key==0}display:block{else}display:none{/if}">
+                <ul class="row" id="comment_ul">
+                  {loop $pinglun_top12 $row}
+                  <li>
+                    <span class="chat-item chat-gift">
+                      <img class="border-radius2" alt="" src="{$row['avatar']}">
+                      <span class="username">{$row['nickname']}: 
+						{if $row['type']=='redpack'}
+							<span style="color: red">打赏了 <img class="gift_img" style="width: 20px;height: 20px;vertical-align: middle;" src="../addons/meepo_online/template/mobile/images/redpack.png"> {$row['money']}元红包</span>
+						{elseif $row['type']=='0'}
+							{php echo $this->emo($row['content'])}
+						{else}
+							{php $gift_img = tomedia(pdo_fetchcolumn("SELECT `img` FROM ".tablename($this->gift_table)." WHERE id=:id AND listid=:listid AND weid=:weid",array(':id'=>intval($row['type']),':listid'=>$listid,':weid'=>$weid)));}
+							<span style="color: red">赠送了 <img class="gift_img" style="width: 20px;height: 20px;vertical-align: middle;" src="{$gift_img}"> {$row['content']}、数量:{$row['num']}</span>						
+					    {/if}
+						</span>
+                      <span></span>
+                    </span>
+                  </li>
+                   {/loop}
+				   </ul>
+				   <div class="tt-msg-more" style="margin-bottom:20px;">  
+					<div class="tt-msg-loading" style="display: none;"><i></i><span>加载中...</span></div> 
+					{if $ping_nums>8}
+					<div class="tt-msg-load-desc" ><a href="#">下拉加载更多</a></div>  
+					{elseif $ping_nums<=8}
+					<div class="tt-msg-load-desc" ><a href="#">没有更多了</a></div>  
+					{/if}
+					</div>
+				    <div class="submit-wrap">
+						<span style="color:red" id="chat_message">我要评论</span>
+					</div>
+				</div>
+					{elseif $row['type']=='content'}
+							<div class="detail" style="{if $key==0}display:block{else}display:none{/if}    ;height:560px;overflow-y: auto;">	          
+							 {php echo html_entity_decode($row['settings']['content']);}       
+							  </div>
+					{elseif $row['type']=='button'}
+						<div class="" style="{if $key==0}display:block{else}display:none{/if};margin-top:30px">
+							{if !empty($row['settings']['button_name'])}
+							{loop $row['settings']['button_name'] $key $val}
+								<div class="padd">
+									<a href="{$row['settings']['button_url'][$key]}" class="tabs-link">{$row['settings']['button_name'][$key]}</a>
+								</div>
+							{/loop}
+							{/if}
+						</div>
+					{elseif $row['type']=="shake"}
+						<div style="{if $key==0}display:block{else}display:none{/if};width:100%">
+							
+								<h4 style="margin-top:100px;text-align:center">微信扫一扫关注才可以参与哦</h4>
+								<div style="margin:10px auto;text-align:center">
+									<div class="jpimg"><img id="jpimg" src="../attachment/qrcode_{$_W['uniacid']}.jpg" width=200px height=200px /></div>
+								
+						</div>
+					</div>
+					{elseif $row['type']=='html'}
+					<div style="{if $key==0}display:block{else}display:none{/if};height: 620px;">
+					<iframe width="100%" height="100%" src="{$row['settings']['iframe']}" frameborder="no" marginheight="0" marginwidth="0" allowTransparency="true" ></iframe>
+					</div>
+					{else}
+						<div>未知类型的菜单</div>
+					{/if}
+					{/loop} 
+            </div>
+          </div>
+		 
+          <div class="welcome animated bounceRight-transition" style="display: none;">
+            <span>{$user['nickname']}</span>
+进入了房间</div>
+        </div>
+        <!--v-component--></div>
+    </div>
+    <div class="footer" >
+      <div class="links">
+  	 <p class="mf_o4">{$settings['live_copyright']}</p>
+	</div> 
+	</div> 
+	<link type="text/css" rel="stylesheet" href="{MODULE_URL}template/mobile/rank/css/style-pop.css" />
+<!--pay_box-->
+<!---code box-->
+{if $list['need_pay']=='2' && $need_code==1}
+<div id="code_pop" class="pop">
+  		<div class="box">
+    		<h1>温馨提示</h1>
+    		<div class="inputqy">
+			  <input type="text" id="look_code" placeholder="请填入观看密码" />
+            </div>
+            <div class="but_con">
+                <button class="button_yes" onClick="code_look()">确定</button>
+            </div>
+        </div>
+</div>
+{/if}
+	<div id="toast"></div>
+	{if !empty($gifts)}
+	{loop $gifts $key $row}
+			<div style="display:none"  id="gift_{$row['id']}">
+			<img src="{php echo tomedia($row['img'])}"/>
+			</div>
+	{/loop}
+	{/if}	
+    <script>
+	var load_time=null;
+	var load_status = 1;
+	var live_persons = {$list['live_persons']};
+	$(function(){
+		if(load_time==null){
+			load_time  = setInterval(AutoLoad,5000);
+		}
+		$('.weui_navbar div').click(function(){ 
+			$(this).addClass("weui_bar_item_on").siblings().removeClass("weui_bar_item_on"); 
+			$(".weui_tab_bd > div").hide().eq($('.weui_navbar div').index(this)).show(); 
+		}); 
+		$("#chat_message").click(function(){
+		    $(".weui_tab").hide();
+			$("#gz_tip").show();
+		});
+		$("#cancel_ok").click(function(){
+			$(".weui_tab").show();
+			$("#gz_tip").hide();
+		});
+		$('#chat_list').on('scroll',function(){
+			var $this =$(this),
+			 viewH =$(this).height(),//可见高度
+			 contentH =$(this).get(0).scrollHeight,//内容高度
+			 scrollTop =$(this).scrollTop();//滚动高度
+			 if(contentH - viewH - scrollTop <= 30 && load_status==1) { 
+				load_status=0;
+				$('.tt-msg-load-desc').hide();
+				$('.tt-msg-loading').show();
+				setTimeout("loadMore()",1600);
+			 }
+		});
+		
+		
+	})
+	//get more news
+function loadMore(){
+	var page=Number($('#PageNum').val())+1;
+	var i = _meepoajax._querystring('i');
+	var j = _meepoajax._querystring('j');
+	var post_url = './index.php?i='+i+'&j='+j+'&c=entry&do=pc_comment_more&m=meepo_online';
+	$.ajax({
+		type:'get',
+		url:post_url,
+		data:{'type':'comment','listid':"{$listid}",'page':page,'update_time':$('#page_time').val()},
+		dataType:"json",
+		success:function(json){		
+			switch(json.errno){
+				case '1':{
+					$('#PageNum').val(page).attr('date-reset',json.num);
+					$('#comment-num').html(Number(json.num));//floor num			
+					if(json.length==0){
+						
+						$(".tt-msg-load-desc a").text('没有更多了');
+						$('.tt-msg-loading').hide();
+						$('.tt-msg-load-desc').show();
+						
+					}else{
+						
+						$("#comment_ul").append(json.html);
+						load_status = 1;
+						$('.tt-msg-loading').hide();
+						$('.tt-msg-load-desc').show();
+					}	
+					break;
+				}
+				case '-1':{
+					_loading_toast._show('ID有误');
+					break;
+				}
+				case '-2':{
+					if(json.num==0){
+						$(".tt-msg-load-desc a").text('没有更多了');
+						$('.tt-msg-loading').hide();
+						$('.tt-msg-load-desc').show();
+					}else{
+						$(".tt-msg-load-desc a").text('没有更多了');
+						$('.tt-msg-loading').hide();
+						$('.tt-msg-load-desc').show();
+					}
+					break;
+				}
+			}
+		}
+	})
+}
+function code_look(){
+	var look_code = $("#look_code").val();
+	if('undefined'==look_code || ''==look_code){
+		_loading_toast._show('请先输入观看密码');
+		return;
+	}
+	var i = _meepoajax._querystring('i');
+	var j = _meepoajax._querystring('j');
+	var post_url = './index.php?i='+i+'&j='+j+'&c=entry&do=look_code&m=meepo_online';
+	$.ajax({
+		type : "POST",
+		url : post_url,
+		data : {'listid':"{$listid}",'look_code':look_code,'uc_openid':"{$openid}"},
+		dataType : "json",
+		success : function(data){
+			_loading_toast._show(data.message);
+			if(data.errno == '0' || data.errno == '-10') {
+				$("#code_pop").hide();
+			}
+		}
+	})
+}
+function AutoLoad(){
+	var pageReset=$('#PageNum').attr('date-reset'),html='',comtNum=0;
+	var i = _meepoajax._querystring('i');
+	var j = _meepoajax._querystring('j');
+	var post_url = './index.php?i='+i+'&j='+j+'&c=entry&do=pc_comment_newjoin&m=meepo_online';
+	$.ajax({
+		type:'get',
+		url:post_url,
+		data:{'type':'new_join','listid':"{$listid}",'max':pageReset},
+		dataType:"json",
+		success:function(json){			
+			switch(json.errno){
+				case '1':{
+					//comtNum=Number($('#comment-num').text());
+					$('#PageNum').attr('date-reset',json.num);
+					//$('#comment-num,#banner_pingluns').html(json.num);
+					var people = Number(live_persons)+Number(json.online_user);
+					$('.online-num').html(people);
+					$('#zan_num').html(json.zan);
+					$("#comment_ul").prepend(json.html);
+				}
+			}
+		}
+	})
+}
+var _meepoajax = {
+	_querystring : function(name){ 
+		var result = location.search.match(new RegExp("[\?\&]" + name+ "=([^\&]+)","i")); 
+		if (result == null || result.length < 1){ 
+			return "";
+		}
+		return result[1]; 
+	}
+};
+var _loading_toast= {
+    _center: function() {
+		var _left = ($(window).width() - $("#toast").outerWidth()) / 2 + "px";
+        $("#toast").css({
+            "top": "50%",
+            "left": _left
+        });
+    },
+    _show: function(text, fun) {
+        $("#toast").html(text);
+        _loading_toast._center();
+        $("#toast").show();
+        $("#toast").bind("resize", _loading_toast._center);
+        setTimeout(function() {
+            _loading_toast._hide(fun);
+        }, 3 * 1000);
+    },
+	_show2: function(text, fun) {
+        $("#toast").html(text);
+        _loading_toast._center();
+        $("#toast").show();
+        $("#toast").bind("resize", _loading_toast._center);
+        setTimeout(function() {
+            _loading_toast._hide(fun);
+        }, 1000);
+    },
+    _hide: function(fun) {
+        $("#toast").hide();
+        $("#toast").unbind("resize");
+        if (fun) {
+            (fun)();
+        }
+    }
+};
+</script>
+<script >
+$('.count_down').redCountdown({
+		end: "{$list['start_time']}",
+		now: "{php echo time()}",
+		labels: true,
+		labelsOptions: {
+			lang: {
+				days: '天',
+				hours: '时',
+				minutes: '分',
+				seconds: '秒'
+			},
+			style: 'font-size:0.5em; text-transform:uppercase;'
+		},
+		style: {
+			element: "",
+			textResponsive: .5,
+			daysElement: {
+				gauge: {
+					thickness: .1,
+					bgColor: "#fff",
+					fgColor: "#ff6a00"
+				},
+				textCSS: 'font-size:25px; font-weight:300; color:#fff;'
+			},
+			hoursElement: {
+				gauge: {
+					thickness: .1,
+					bgColor: "#fff",
+					fgColor: "#ff6a00"
+				},
+				textCSS: 'font-size:25px; font-weight:300; color:#fff;'
+			},
+			minutesElement: {
+				gauge: {
+					thickness: .1,
+					bgColor: "#fff",
+					fgColor: "#ff6a00"
+				},
+				textCSS: 'font-size:25px; font-weight:300; color:#fff;'
+			},
+			secondsElement: {
+				gauge: {
+					thickness: .1,
+					bgColor: "#fff",
+					fgColor: "#ff6a00"
+				},
+				textCSS: 'font-size:25px; font-weight:300; color:#fff;'
+			}
+			
+		},
+		onEndCallback: function() {}
+	});
+	
+</script>
+  </body>
+<style>
+.padd {
+    padding: 0 10px;
+    overflow: hidden;
+}
+.tabs-link {
+    display: block;
+    height: 42px;
+    line-height: 42px;
+    color: #fff;
+    background-color: #ff6a00;
+    color: #fff;
+    margin-top: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+.notification {
+  position: fixed;
+  width: 100%;
+  min-height: 3.4rem;
+  top: -2rem;
+  padding-top: 2rem;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.85);
+  color: white;
+  font-size: .65rem;
+  -webkit-transform: translate3d(0, -100%, 0);
+          transform: translate3d(0, -100%, 0);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+.notification.notification-in {
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+}
+.notification.touching {
+  -webkit-transition-duration: 0s;
+          transition-duration: 0s;
+}
+.notification .notification-inner {
+  padding: .4rem .6rem 1rem .6rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+}
+.notification .notification-content {
+  width: 100%;
+  margin: 0rem .4rem;
+}
+.notification .notification-title {
+  font-weight: bold;
+}
+.notification .notification-text {
+  line-height: 1;
+}
+.notification .notification-media {
+  height: 1rem;
+  width: 1rem;
+}
+.notification .notification-media img {
+  width: 100%;
+}
+.notification .notification-handle-bar {
+  position: absolute;
+  bottom: .2rem;
+  left: 50%;
+  -webkit-transform: translate3d(-50%, 0, 0);
+          transform: translate3d(-50%, 0, 0);
+  width: 2rem;
+  height: .3rem;
+  border-radius: .15rem;
+  background: white;
+  opacity: .5;
+}
+#COUNT_DOWN{
+	position: absolute;
+    z-index: 1000;
+    width: 100%;
+	height:525px;
+    margin: 0 auto;
+    text-align: center;
+    letter-spacing: -3px;
+    background:#000;}
+.count_down{margin-top:100px;}
+.countTitle {
+    display: inline-block;
+    padding: 0 10px;
+    margin-top: 60px;
+    height: 33px;
+    line-height: 33px;
+    background-color: #ff6a00;
+    font-size: 16px;
+    color: #fff;
+    border-radius: 5px;
+    letter-spacing: 1px;
+}
+</style>
+</html>

@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>{$setting['title']}</title>
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <link rel="stylesheet" type="text/css" href="{php echo MODULE_URL;}/template/mobile/css/style.css" media="all"/>
+	<link rel="stylesheet" type="text/css" href="/web/resource/css/font-awesome.min.css"/>
+    <script type="text/javascript" src="{php echo MODULE_URL;}template/mobile/js/jquery-2.1.0.min.js"></script>
+    {php echo register_jssdk(false);}
+	<style>
+		.body-bg-color{ background:{$setting['bodycolor']}}
+		.button-bg-color{ background:{$setting['buttoncolor']}}
+		.box-bg-color{ background:{$setting['boxcolor']}}
+        .title-bg-color{ background:{$setting['titlecolor']};}
+		body,a{ color:{$setting['textcolor']}}
+		.item .pic-box i:after{ border-top-color:{$setting['boxcolor']}}
+	</style>
+</head>
+<body class="body-bg-color">
+
+<div class="head">
+    <div class="head-banner">
+		{if is_array($setting['thumb'])}
+			{if count($setting['thumb']) <=1}
+				<img src="{php echo tomedia(reset($setting['thumb']))}">
+			{else}
+				<link rel="stylesheet" type="text/css" href="{MODULE_URL}/template/mobile/css/swiper.min.css" media="all"/>
+				<script type="text/javascript" src="{MODULE_URL}template/mobile/js/swiper.jquery.min.js"></script>
+				<div class="swiper-container">
+				  <div class="swiper-wrapper">
+					{loop $setting['thumb'] $thumbitem}
+					<div class="swiper-slide"><img src="{php echo tomedia($thumbitem);}"></div>
+					{/loop}
+				  </div>
+				</div>				
+				<script> 
+				$(function(){
+					var mySwiper = new Swiper('.swiper-container', {
+						autoplay: 3000
+					})
+				});
+				</script>				
+			{/if}
+		{else}
+        <img src="{php echo tomedia($setting['thumb'])}">
+		{/if}
+    </div>
+
+    <div class="head-count">
+		<span>
+			参与选手<br>
+			<b>{$good}</b>
+		</span>
+		<span>
+			累计投票<br/>
+			<b>{$shares}</b>
+		</span>
+		<span>
+			访问量<br/>
+			<b>{$click}</b>
+		</span>
+    </div>
+	<div class="head-info box-bg-color">
+		<div class="head-box title-bg-color" >
+			<div class="wrapper clearfix">
+				<div class="fn-left i-radius fn-mr-8" style="background:{$setting['textcolor']};">
+					<i style="font-size:29px;margin-top: 4px;color:{$setting['boxcolor']}" class="fa fa-bell-o"></i>
+				</div>
+				<div class="fn-left">
+				<p>距活动结束还有：</p>
+				<p><span id="shower"></span></p>
+				<script type="text/javascript">
+				{if strtotime($setting['end'])-time()>=1}
+					var t = {php echo strtotime($setting['end'])-time();};
+					function showtime(){
+
+						var d = parseInt(t/3600/24);
+						var h = parseInt((t%(3600*24))/3600);
+						var m = parseInt((t%(3600*24))%3600/60);
+						var s = parseInt((t%(3600*24))%60);
+						document.getElementById('shower').innerHTML = d+' 天 '+ h+' 时 '+m+' 分 '+s+' 秒';
+						t = t -1;
+					}
+					showtime();
+					setInterval("showtime()",1000);
+				{else}
+					document.getElementById('shower').innerHTML = '已结束';
+				{/if}
+				</script>
+				</div>
+			</div>
+		</div>
+		<div class="head-box-hr"></div>
+		<div class="head-box box-pl">
+			<div class="wrapper">
+				<a href="{php echo $this->appUrl('detail');}"><i class="fa fa-bullhorn fn-mr-8"></i>{if empty($setting['noticetitle'])}{$setting['title']}{else}{$setting['noticetitle']}{/if}<span class="fn-right">&gt;</span></a>
+			</div>
+		</div>
+		<div class="head-box-hr"></div>
+		<div class="head-box box-pl">
+			<div class="wrapper">
+				<i class="fa fa-history fn-mr-8"></i>{$setting['start']}  至  {$setting['end']}
+			</div>
+		</div>
+		{if intval($setting['double']) >= 2}
+		<div class="head-box-hr"></div>
+		<div class="head-box box-pl">
+			<div class="wrapper">
+				<i class="fa fa-clock-o fn-mr-8"></i>双倍时间：{php echo date("m-d H:i",strtotime($setting['doublestart']));}  至  {php echo date("m-d H:i",strtotime($setting['doubleend']));}
+			</div>
+		</div>	
+		{/if}		
+		<div class="head-box-hr"></div>
+		<div class="head-box box-pl">
+			<div class="wrapper">
+				<a href="{php echo $this->appUrl('detail');}"><i class="fa fa-exclamation-circle fn-mr-8"></i>活动介绍<span class="fn-right">&gt;</span></a>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<div id="dataload" class="index-order clearfix">
+    <span class="button-bg-color nav {if $_GPC['type'] !='top' && $_GPC['type'] !='new'}box-bg-color{/if}" data-type="hot">最热</span>
+    <span class="button-bg-color nav {if $_GPC['type'] =='top'}box-bg-color{/if}" data-type="top">top</span>
+    <span class="button-bg-color nav {if $_GPC['type'] =='new'}box-bg-color{/if}" data-type="new">最新</span>
+</div>
+
+<div id="container" class="wrapper">
+    {loop $lists $item}
+    <div class="item">
+        <div class="pic-box box-bg-color">
+            <i class="box-bg-color">{$item['uid']}号</i>
+            <a class="pic-a" href="{php echo $this->appUrl('show','xiaof_toupiao','&id='.$item['id'].'');}"><img
+                    src="{php echo tomedia($item['pic']);}" alt=""></a>
+
+            <div class="pic-info">
+                <span class="ballot">{$item['name']}<br/><span class="goods">{$item['good']}</span>票</span>
+
+                <div class="vote button-bg-color" onclick="vote('{$item['id']}', $(this).siblings('.ballot').find('.goods'))">投票</div>
+            </div>
+        </div>
+    </div>
+    {/loop}
+
+</div>
+<div class="pagination box-bg-color" id="pagination">
+    点击加载更多...
+</div>
+
+{template 'footer'}
+
+<script type="text/javascript" src="{php echo MODULE_URL;}template/mobile/js/main.js"></script>
+<script type="text/javascript" src="{php echo MODULE_URL;}template/mobile/js/jquery.masonry.min.js"></script>
+<script type="text/javascript" src="{php echo MODULE_URL;}template/mobile/js/imagesloaded.min.js"></script>
+<script type="text/javascript">
+
+    /**
+     *
+     * 瀑布流
+     *
+     */
+	$(function () {
+	
+		var loadUrl = "{php echo $this->appUrl('index');}";
+		var type = "{$_GPC['type']}";
+		eval(function(p,a,c,k,e,d){e=function(c){return(c<a?"":e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)d[e(c)]=k[c]||e(c);k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1;};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p;}('B f$=[\'\\s\\o\\b\\d\\e\\a\\c\\d\\g\\n\',\'\\p\\c\\e\\g\\k\',"\\s\\m\\a\\j\\c\\d\\a\\e\\c\\b\\d",\'\\Z\\1h\\1i\\1j\\Q\\K\\1e\\p\\p\\p\',"","\\s\\m\\a\\j\\c\\d\\a\\e\\c\\b\\d","\\s\\m\\a\\j\\c\\d\\a\\e\\c\\b\\d",\'\\1f\\1g\\L\\O\\1o\\1p\\1k\',"\\s\\m\\a\\j\\c\\d\\a\\e\\c\\b\\d",\'\\i\\g\\h\\e\\n\\b\\v\',\'\\p\\c\\e\\g\\k\',\'\\a\\m\\m\\g\\d\\i\\g\\i\',"\\s\\m\\a\\j\\c\\d\\a\\e\\c\\b\\d",\'\\1m\\1d\\Q\\K\\L\\O\\p\\p\\p\',"\\s\\i\\a\\e\\a\\l\\b\\a\\i\\Y\\p\\d\\a\\S",\'\\t\\b\\J\\u\\t\\j\\u\\o\\b\\l\\b\\n\',\'\\p\\t\\b\\J\\u\\t\\j\\u\\o\\b\\l\\b\\n\',\'\\t\\b\\J\\u\\t\\j\\u\\o\\b\\l\\b\\n\',"\\i\\a\\e\\a\\u\\e\\v\\m\\g","\\s\\m\\a\\j\\c\\d\\a\\e\\c\\b\\d"];B r=$(f$[0]);r["\\c\\k\\a\\j\\g\\h\\F\\b\\a\\i\\g\\i"](q(){r["\\k\\a\\h\\b\\d\\n\\v"]({N:f$[1]})});B E=T;B x=w;q C(M){G(x==w){x=D;1a(q(){x=w},1c);E++;$(f$[2])["\\A\\e\\k\\l"](f$[3]);$["\\j\\g\\e"](1b,{\'\\m\\a\\j\\g\':E,\'\\e\\v\\m\\g\':V},q(H){G(H==f$[4]){$(f$[5])["\\X\\d\\t\\c\\d\\i"]();$(f$[6])["\\A\\e\\k\\l"](f$[7]);x=w;1l};y=$(H);G(M===D){$(f$[8])["\\o\\l\\c\\o\\I"](q(){C(w)});r["\\A\\e\\k\\l"](y);r["\\k\\a\\h\\b\\d\\n\\v"](f$[9]);r["\\c\\k\\a\\j\\g\\h\\F\\b\\a\\i\\g\\i"](q(){r["\\k\\a\\h\\b\\d\\n\\v"]({N:f$[10]})})}1n{r["\\a\\m\\m\\g\\d\\i"](y);z=y["\\o\\h\\h"]({W:P});z["\\c\\k\\a\\j\\g\\h\\F\\b\\a\\i\\g\\i"](q(){r["\\k\\a\\h\\b\\d\\n\\v"](f$[11],z,D);z["\\a\\d\\c\\k\\a\\e\\g"]({W:T})})};$(f$[12])["\\A\\e\\k\\l"](f$[13]);x=w})}};$(f$[14])["\\o\\l\\c\\o\\I"](q(){$(U)["\\a\\i\\i\\R\\l\\a\\h\\h"](f$[15])["\\h\\c\\t\\l\\c\\d\\j\\h"](f$[16])["\\n\\g\\k\\b\\S\\g\\R\\l\\a\\h\\h"](f$[17]);V=$(U)["\\a\\e\\e\\n"](f$[18]);E=P;C(D)});$(f$[19])["\\o\\l\\c\\o\\I"](q(){C(w)});',62,88,'||||||||||x61|x6f|x69|x6e|x74|_|x65|x73|x64|x67|x6d|x6c|x70|x72|x63|x2e|function|xiaof_495f2|x23|x62|x2d|x79|false|xiaof_b0fee|result|newElems|x68|var|xiaof_1bf2f|true|xiaof_f4a4e|x4c|if|xiaof_286fe|x6b|x78|u8f7d|u66f4|xiaof_97ea8|itemSelector|u591a|0x0|u52a0|x43|x76|0x1|this|type|opacity|x75|x20|u6b63|||||||||||setTimeout|loadUrl|0x3e8|u51fb|u4e2d|u6ca1|u6709|u5728|u52aa|u529b|u4e86|return|u70b9|else|u5185|u5bb9'.split('|'),0,{}))
+	});
+
+</script>
+<script type="text/javascript">
+
+    //微信转发
+    wx.ready(function () {
+        wx.onMenuShareAppMessage({
+            title: '{$setting['sharetitle']}',
+            desc: '{$setting['sharecontent']}',
+            link: '{php echo $this->appUrl('index')}',
+            imgUrl: '{php echo tomedia($setting['sharethumb']);}',
+            success: function () {
+            },
+            cancel: function () {
+            }
+        });
+
+        wx.onMenuShareTimeline({
+            title: '{$setting['sharetitle']}', // 分享标题
+            link: '{php echo $this->appUrl('index')}',
+            imgUrl: '{php echo tomedia($setting['sharethumb']);}',
+            success: function () {
+            },
+            cancel: function () {
+            }
+        });
+    });
+</script>
+
+{if $setting['audio'] != ""}
+<script type="text/javascript">
+	var audioSrc = "{php echo tomedia($setting['audio'])}";
+	$(function(){
+		eval(function(p,a,c,k,e,d){e=function(c){return(c<a?"":e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)d[e(c)]=k[c]||e(c);k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1;};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p;}('F i$=["\\A\\e\\b\\j",\'\\z\\b\\c\\r\\o\\v\\f\\a\\d\\d\\p\\h\\r\\c\\b\\g\\e\\w\\g\\J\\c\\d\\m\\o\\l\\f\\a\\j\\w\\j\\c\\q\\n\\k\\h\\o\\c\\b\\p\\h\\a\\k\\b\\c\\e\\w\\A\\m\\q\\h\\o\\d\\m\\j\\f\\g\\p\\h\\b\\c\\d\\l\\f\\a\\j\\K\\o\\A\\f\\e\\v\\E\\I\\h\\y\\z\\b\\c\\r\\o\\c\\b\\p\\h\\j\\c\\q\\n\\k\\h\\o\\v\\f\\a\\d\\d\\p\\h\\s\\e\\m\\a\\m\\g\\h\\y\\z\\B\\b\\c\\r\\y\\z\\a\\k\\b\\c\\e\\o\\l\\s\\g\\f\\e\\a\\b\\p\\h\\a\\k\\m\\e\\h\\o\\a\\k\\m\\e\\l\\f\\a\\j\\p\\h\\a\\k\\m\\e\\l\\f\\a\\j\\h\\o\\c\\b\\p\\h\\u\\g\\b\\c\\a\\h\\o\\d\\s\\v\\p\\h\',\'\\h\\o\\f\\e\\e\\l\\y\\z\\B\\a\\k\\b\\c\\e\\y\\z\\B\\b\\c\\r\\y\',\'\\x\\u\\g\\b\\c\\a\',"\\x\\a\\k\\b\\c\\e\\w\\A\\m\\q","\\e\\n\\n","\\l\\f\\a\\j\\w\\j\\c\\q\\n\\k","\\e\\n\\n","\\x\\j\\c\\q\\n\\k","\\s\\e\\m\\a\\m\\g","\\x\\u\\g\\b\\c\\a","\\e\\n\\n","\\l\\f\\a\\j\\w\\j\\c\\q\\n\\k","\\x\\j\\c\\q\\n\\k","\\s\\e\\m\\a\\m\\g","\\x\\u\\g\\b\\c\\a"];$(i$[0])["\\a\\l\\l\\g\\q\\b"](i$[1]+H+i$[2]);F G=$(i$[3]);G[C]["\\l\\f\\a\\j"]();$(i$[4])["\\v\\f\\c\\v\\E"](M(){$(D)["\\L\\a\\d\\t\\f\\a\\d\\d"](i$[5])?($(D)["\\a\\b\\b\\t\\f\\a\\d\\d"](i$[6])["\\s\\g\\u\\e\\r\\g\\t\\f\\a\\d\\d"](i$[7]),$(i$[8])["\\a\\b\\b\\t\\f\\a\\d\\d"](i$[9]),$(i$[N])[C]["\\l\\f\\a\\j"]()):($(D)["\\a\\b\\b\\t\\f\\a\\d\\d"](i$[O])["\\s\\g\\u\\e\\r\\g\\t\\f\\a\\d\\d"](i$[P]),$(i$[S])["\\s\\g\\u\\e\\r\\g\\t\\f\\a\\d\\d"](i$[R]),$(i$[Q])[C]["\\l\\a\\k\\d\\g"]())});',55,55,'||||||||||x61|x64|x69|x73|x6f|x6c|x65|x22|_|x79|x75|x70|x74|x66|x20|x3d|x6e|x76|x72|x43|x6d|x63|x5f|x23|x3e|x3c|x62|x2f|0x0|this|x6b|var|xiaof_9bbbb|audioSrc|x3b|x78|x3a|x68|function|10|11|12|15|14|13'.split('|'),0,{}))
+	});
+</script>
+{/if}
+
+</body>
+</html>

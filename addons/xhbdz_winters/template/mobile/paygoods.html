@@ -1,0 +1,60 @@
+{template 'common/_header'}
+<title>确认订单</title>
+<style>
+.div-box{font-size:18px;border-bottom:1px solid #999;}
+tr{border-bottom:1px solid #999;}
+th,td{font-size:18px;height:2.5em;}
+th{width:35%;text-align:right;}
+td{width:65%;text-align:left;}
+.am-form-field{width:70%}
+</style>
+<table>
+<tr>
+<th><img src="{$_W['attachurl']}{$goods['picimg']}" class="am-img-thumbnail" width="100%"></th>
+<td><div style="margin-left:7px;font-size:16px;">{$goods['title']} <br />￥{$goods['price']}
+<br /><span class="am-badge am-badge-success am-round">剩余库存:{$goods['stock']}件</span>
+</div></td>
+</tr>
+<tr>
+<th>商品状态：</th>
+<td>上架中</td>
+</tr>
+<tr>
+<th>购买数量：</th>
+<td>限购1件</td>
+</tr>
+<form method="post" action="{php echo $this->createMobileUrl('pay')}">
+<tr>
+<th>真实姓名：</th>
+<td><input required placeholder="请输入您的真实姓名" id="truename" name="goods[turename]" value="{$member['truename']}" class="am-form-field" type="text" /></td>
+</tr>
+<tr>
+<th>手机号码：</th>
+<td> <input required placeholder="请输入您的手机号码" id="mobile" name="goods[mobile]" value="{$member['mobile']}" maxlength="11" minlength="11" class="am-form-field"  type="tel"></td>
+</tr>
+</table><br/>
+<input type="hidden" name="goods[title]" value="{$goods['title']}" />
+<input type="hidden" name="goods[price]" value="{$goods['price']}" />
+<input type="hidden" name="goods[sign]" value="{$goods['sign']}" />
+<input type="hidden" name="goods[gid]" value="{$goods['id']}" />
+<button  style="width:100%" id="pay" type="submit" class="am-btn am-btn-warning am-radius">确认下单</button>
+</form>
+
+
+<script type="text/javascript">
+	$("#pay").click(function() {
+		var truename = $("#truename").val().trim();
+		var mobile = $("#mobile").val().trim();
+		if(truename.length < 2 || truename.length >8){
+			alert('请正确输入您的真实姓名!');
+			$("#truename").focus();
+			return false
+			}
+		if(mobile.length != 11){
+			alert('请正确输入您的手机号码！');
+			$("#mobile").focus();
+			return false
+			}
+	});
+</script>
+{template 'common/_footer'}

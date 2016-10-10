@@ -1,0 +1,108 @@
+{template 'common/_header'}
+<title>我的红包</title>
+<style>
+#span{
+	font-size:14px;
+}
+.am-info{
+	text-align:right;
+}
+</style>
+<div data-am-widget="tabs" class="am-tabs am-tabs-default">
+      <ul class="am-tabs-nav am-cf">
+          <li class="am-active"><a href="[data-0]">红包领取</a></li>
+          <li><a href="[data-1]">领取记录</a></li>
+      </ul>
+      
+<div class="am-tabs-bd">
+<div data-0 class="am-tab-panel am-active">
+
+<ul class="am-list am-list-static am-list-border am-list-striped">
+           {loop $mydeposit $deposit}
+                     {if !empty($deposit['id'])}
+    <li id="deposit-{$deposit['id']}" >
+    <img src="{$deposit['from_avatar']}" class="am-img-thumbnail am-circle" width="20%">
+    <font>{$deposit['from_nickname']}</font> 
+    <button type="button" id="button-{$deposit['id']}" class="am-btn am-btn-secondary am-round" style="float:right;margin-top:7%" onclick="hongbao({$deposit['id']})">领取红包</button>
+    <div class="am-info">
+    {if $deposit['state'] == 0} 
+<span class="am-badge am-badge-danger am-round" id="state-{$deposit['id']}" style="font-size:11px;">未领取</span> 
+{elseif $deposit['state'] == 2} 
+<span class="am-badge am-badge-danger am-round" style="font-size:11px;">红包异常</span> 
+{/if}
+    <span class="am-badge am-badge-success am-round" style="font-size:11px;">￥{$deposit['amount']}</span>
+
+</div>
+        <div id="jindu-{$deposit['id']}" class="am-progress am-progress-striped am-progress-sm am-active"style="height:2rem;display:none;">
+  <div id="jindutiao-{$deposit['id']}" class="am-progress-bar am-progress-bar-secondary"  style="width: 0%"></div>
+</div>
+</li> 
+{/loop}
+{else}
+暂无未领取红包
+{/if}
+</ul> 
+</div>
+      
+<div class="am-tabs-bd">
+<div data-1 class="am-tab-panel am-active">
+                    <ul class="am-list am-list-static am-list-border am-list-striped">
+           {loop $mydeposit2 $deposit2}
+                     {if !empty($deposit2['id'])}
+    <li id="deposit2-{$deposit2['id']}">
+    <img src="{$deposit2['from_avatar']}" class="am-img-thumbnail am-circle" width="20%">
+    <font>{$deposit2['from_nickname']}</font> 
+    <button type="button" class="am-btn am-btn-secondary am-round" style="float:right;margin-top:7%" disabled="disabled">已领取</button>
+    <span class="am-badge am-badge-success am-round" style="font-size:11px;">￥{$deposit2['amount']}</span> 
+</li> 
+{/loop}
+{else}
+暂无已领取红包
+{/if}
+</ul> 
+</div>  
+</div>
+</div>
+
+
+
+<script>
+function hongbao(hbid) {
+	$('#button-' + hbid).attr("disabled",true);
+	$('#jindu-' + hbid).show(300);
+	$('#jindutiao-' + hbid).width('30%');
+	$('#jindutiao-' + hbid).text('玩命领取中...');
+	setTimeout(function(){	
+		mydata = {
+				'depositid' : hbid,
+			};
+	$.post('{php echo $this->createMobileUrl('myorder', array('op' => 'hongbao'))}', mydata, function(data){
+		$('#jindutiao-' + hbid).width('80%');
+		$('#jindutiao-' + hbid).text('玩命领取中...80%');
+			var info = eval(data);
+		if(info.s == 'ok'){
+		setTimeout(function(){
+			$('#jindutiao-' + hbid).width('100%');
+			$('#jindu-' + hbid).removeClass().addClass('am-progress');
+			$('#jindutiao-' + hbid).removeClass().addClass('am-progress-bar am-progress-bar-succes');
+			$('#jindutiao-' + hbid).text(info.msg);
+			$('#state-' + hbid).text('领取成功');
+			setTimeout(function(){
+			$('#deposit-' + hbid).hide(500);
+			},5000);
+		},1500); 
+		}else{
+			setTimeout(function(){
+			$('#jindutiao-' + hbid).width('100%');
+			$('#jindu-' + hbid).removeClass().addClass('am-progress');
+			$('#jindutiao-' + hbid).removeClass().addClass('am-progress-bar am-progress-bar-danger');
+			$('#jindutiao-' + hbid).text(info.msg);
+			$('#button-' + hbid).removeAttr("disabled");
+			},1500);
+			}
+
+	},'json');
+	},5000);
+}
+</script>
+{template 'common/_footer'}

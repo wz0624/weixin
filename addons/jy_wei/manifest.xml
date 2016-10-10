@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.efwww.com" versionCode="0.6">
+	<application setting="false">
+		<name><![CDATA[企业微招聘]]></name>
+		<identifie><![CDATA[jy_wei]]></identifie>
+		<version><![CDATA[2.9.2]]></version>
+		<type><![CDATA[customer]]></type>
+		<ability><![CDATA[企业微招聘]]></ability>
+		<description><![CDATA[企业微招聘]]></description>
+		<author><![CDATA[易福源码网]]></author>
+		<url><![CDATA[www.efwww.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+			<message type="text" />
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<menu>
+			<entry title="职位管理" do="Position" state="" direct="false" />
+			<entry title="关键字管理" do="Keyword" state="" direct="false" />
+			<entry title="标签管理" do="Label" state="" direct="false" />
+			<entry title="公司管理" do="Company" state="" direct="false" />
+			<entry title="用户中心" do="Position" state="" direct="false" />
+			<entry title="统计中心" do="Log" state="" direct="false" />
+		</menu>
+	</bindings>
+	<install><![CDATA[]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[update.php]]></upgrade>
+</manifest>

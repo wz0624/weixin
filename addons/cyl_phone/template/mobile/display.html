@@ -1,0 +1,62 @@
+{template 'common/header'}
+<link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.5.9/css/sm.min.css">
+<link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.5.9/css/sm-extend.min.css">
+
+<header class="bar bar-nav">
+  <button class="button button-link button-nav pull-left">
+    <span class="icon icon-home"></span>
+    <a href="{php echo $this->createMobileUrl('index');}">返回主页</a>
+  </button>
+  
+  <h1 class="title">便民电话</h1>
+</header>
+<nav class="bar bar-tab">
+    <a class="tab-item external active" href="{php echo $this->createMobileUrl('index');}">
+      <span class="icon icon-home"></span>
+      <span class="tab-label">首页</span>
+    </a>
+    
+     <a class="tab-item external" href="{php echo $this->createMobileUrl('Mybusiness', array('op'=>'display'));}">
+      <span class="icon icon-settings"></span>
+      <span class="tab-label">申请加入</span>
+    </a>
+  </nav>
+<div class="content">
+	{loop $business $business}	
+<div class="card facebook-card">
+    <div class="card-header">{$business['title']}:【{$categories[$business['categoryid']]['name']}】</div>
+    <div class="card-content">
+      <div class="list-block media-list">
+        <ul>
+          <li class="item-content">
+            <div class="item-media">
+              <img src="{$_W['attachurl']}{$business['logo']}" width="60">
+            </div>
+            <div class="item-inner">
+              <div class="item-title-row">
+                <div class="item-subtitle">电话：<a href="tel:{$business['phone']}">{$business['phone']}</a></div>
+              </div>
+              <div class="item-subtitle">地址：{$business['address']}</div>
+              <div class="item-subtitle">简介：{$business['desc']}</div>             
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+     <div class="card-footer no-border">
+     <a href="#" class="link">查询{$business['click']}次</a>
+	 <a class="external" href="http://apis.map.qq.com/tools/poimarker?type=0&marker=coord:{$business['lng']},{$business['lat']};title:{$business['title']};addr:{$business['address']}&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77&referer=myapp">一键导航</a>
+      <a href="{php echo $this->createMobileUrl('Mybusiness', array('op'=>'edit','id'=>$business['id']));}" class="link">修改</a>
+    </div>
+ </div>  
+{/loop}
+<p><a href="{php echo $this->createMobileUrl('Mybusiness', array('op'=>'edit'));}" class="button button-fill">增加一个新的</a></p>	
+						{if empty($business)}
+						<div class="card">
+						<div class="card-header">您还未提交过，您可以在线提交</div>
+						{/if}
+
+
+</div>
+
+{template 'common/footer'}

@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.efwww.com" versionCode="0.6">
+	<application setting="false">
+		<name><![CDATA[微二手房]]></name>
+		<identifie><![CDATA[amouse_house]]></identifie>
+		<version><![CDATA[1.9.5]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[出租,求购，求租，出售新房，二手房，新楼盘发布]]></ability>
+		<description><![CDATA[微房产，出租,求购，求租，出售新房，二手房，最新房产信息平台，可以出租,求购，求租，出售新房，二手房，新楼盘信息,本地时尚生活互动平台]]></description>
+		<author><![CDATA[易福源码]]></author>
+		<url><![CDATA[http://www.efwww.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="最新房产信息入口" do="index" state="" direct="false" />
+		</cover>
+		<menu>
+			<entry title="幻灯片管理" do="slide" state="" direct="false" />
+			<entry title="房产管理" do="house" state="" direct="false" />
+			<entry title="新楼盘管理" do="premises" state="" direct="false" />
+			<entry title="参数设置" do="sysset" state="" direct="false" />
+		</menu>
+		<home>
+			<entry title="微站首页" do="index" state="" direct="false" />
+		</home>
+	</bindings>
+	<install><![CDATA[DROP TABLE IF EXISTS ims_amouse_house;
+CREATE TABLE `ims_amouse_house` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `weid` int(11) DEFAULT NULL,
+  `title` varchar(25) NOT NULL COMMENT '标题',
+  `price` varchar(100) NOT NULL COMMENT '租金总价',
+  `square_price` varchar(100) NOT NULL COMMENT '每平方价格',
+  `area` varchar(100) NOT NULL COMMENT '面积',
+  `house_type` varchar(100) NOT NULL COMMENT '户型',
+  `floor` varchar(100) NOT NULL COMMENT '楼层',
+  `orientation` varchar(100) NOT NULL COMMENT '朝向',
+  `type` varchar(2) NOT NULL COMMENT '0：出租；1：求租；2：出售/3：求购',
+  `status` varchar(2) NOT NULL COMMENT '是否显示/审核',
+  `recommed` int(1) NOT NULL COMMENT '推荐 0未推荐 1推荐',
+  `contacts` varchar(100) NOT NULL COMMENT '联系人',
+  `phone` varchar(13) NOT NULL COMMENT '联系电话',
+  `introduction` text NOT NULL COMMENT '详细描述',
+  `openid` varchar(25) NOT NULL COMMENT '微信OPENID',
+  `thumb1` varchar(1000) NOT NULL DEFAULT '',
+  `thumb2` varchar(1000) DEFAULT '',
+  `thumb3` varchar(1000) DEFAULT '',
+  `thumb4` varchar(1000) DEFAULT '',
+  `place` varchar(1000) NOT NULL DEFAULT '',
+  `lat` varchar(1000) NOT NULL DEFAULT '0.0000000000',
+  `lng` varchar(1000) NOT NULL DEFAULT '0.0000000000',
+  `location_p` varchar(100) NOT NULL DEFAULT '' COMMENT '省',
+  `location_c` varchar(100) NOT NULL DEFAULT '' COMMENT '市',
+  `location_a` varchar(100) NOT NULL DEFAULT '' COMMENT '区',
+  `createtime` int(10) NOT NULL,
+  `jjrmobile` varchar(13) DEFAULT '0',
+  `broker` varchar(200) DEFAULT '',
+  `isshow` int(10) DEFAULT '1' COMMENT '是否只显示经纪人信息',
+  `defcity` varchar(1000) DEFAULT '中国',
+  `brokerage` varchar(1000) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `indx_weid` (`weid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='租房出售';
+
+
+
+DROP TABLE IF EXISTS ims_amouse_house_slide;
+CREATE TABLE `ims_amouse_house_slide` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `weid` int(10) unsigned NOT NULL,
+  `url` varchar(200) NOT NULL DEFAULT '',
+  `slide` varchar(200) NOT NULL DEFAULT '',
+  `listorder` int(10) unsigned NOT NULL DEFAULT '0',
+  `isshow` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否显示',
+  `createtime` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>

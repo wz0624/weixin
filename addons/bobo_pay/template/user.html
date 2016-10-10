@@ -1,0 +1,151 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li  class="active" ><a href="{php echo $this->createWebUrl('user',array())}">收银员列表</a></li>
+</ul>
+<button class="btn btn-warning" onclick="adduser()">添加用户</button>
+<br>
+<div class="main panel panel-default">
+	<div class="panel-body table-responsive">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:30px;">ID</th>
+					<th style="width:100px;">用户名</th>
+					<th style="width:100px;">用户类型</th>
+					<th style="width:100px;">是否禁用</th>
+					<th style="width:100px;">创建时间</th>
+ 					<th style="width:100px;">最近一次登录时间</th>
+ 					<th style="width: 100px;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['id']}</td>
+					<td>{$item['uname']}</td>
+					<td>{if $item['utype']==1}全类型{elseif $item['utype']==2}支付宝{elseif $item['utype']==3}微信支付{/if}</td>
+					<td>{if $item['jinyong']== '1'}否{elseif  $item['jinyong']== '2'}是{/if}</td>
+					<td>{php echo date("Y-m-d H:i",$item['create_at']);}</td>
+					<td>{if $item['lastlogingtime']==0}从未登录{else}{php echo date("Y-m-d H:i",$item['lastlogingtime']);}{/if}</td>
+					<td style="text-align:left;">
+						<button onclick="edituser({$item['id']},'{$item['uname']}','{$item['utype']}')" class="">修改</button>
+						<a href="{php echo $this->createWebUrl('user',array('operation' =>'jinyong','uid'=>$item['id']))}">{if $item['jinyong']== '1'}<button class="">禁用</button>{/if}</a>
+						<a href="{php echo $this->createWebUrl('user',array('operation' =>'qiyong','uid'=>$item['id']))}">{if $item['jinyong']== '2'}<button class="">启用</button>{/if}</a>
+					</td>
+				</tr>
+				{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+</div>
+
+		<div class="modal fade" id="myModal">
+		<div class="modal-dialog" style="margin-top: 100px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">添加收账员</h4>
+				</div>
+				<form id="add_member" action="{php echo $this->createWebUrl('user',array('operation' =>'adduser'))}" method="post" enctype="multipart/form-data" class="form-horizontal ">
+				<div class="modal-body">
+						<div class="form-group">
+		                    <label class="col-md-3 control-label" for="text-input">用户名</label>
+		                    <div class="col-md-9">
+		                        <input type="text" id="uname" name="uname" class="form-control" placeholder="输入用户名">
+		                        <span>用户状态默认是启用的，若需要禁用可以在列表页更改</span>
+		                    </div>
+					    </div>
+					    <div class="form-group">
+		                    <label class="col-md-3 control-label" for="text-input">密码</label>
+		                    <div class="col-md-9">
+		                        <input type="password" id="password" name="password" class="form-control" placeholder="输入密码">
+		                    </div>
+					    </div>
+					    <div class="form-group">
+		                    <label class="col-md-3 control-label" for="text-input">用户类型</label>
+		                    <div class="col-md-9">
+		                        <select class="form-control" name="utype">
+								  <option value="0">选择用户类型</option>
+								  <option value='1'>全类型</option>
+								  <option value="2">支付宝</option>
+								  <option value="3">微信</option>
+								</select>
+		                        <span>第一个版本只能选择，支付宝，选择其他也是只能使用支付宝</span>
+		                    </div>
+					    </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="submit" class="btn btn-primary">确认添加</button>
+				</div>
+				    </form>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+			<div class="modal fade" id="myModal1">
+		<div class="modal-dialog" style="margin-top: 100px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">修改收账员</h4>
+				</div>
+				<form id="edit_member" action="{php echo $this->createWebUrl('user',array('operation' =>'edituser'))}" method="post" enctype="multipart/form-data" class="form-horizontal ">
+				<div class="modal-body">
+						<div class="form-group">
+		                    <label class="col-md-3 control-label" for="text-input">用户名</label>
+		                    <div class="col-md-9">
+		                    <input type="hidden" id="uid" name="uid" />
+		                        <input type="text" id="uname1" name="uname" class="form-control" placeholder="输入用户名">
+		                        <span>用户状态默认是启用的，若需要禁用可以在列表页更改</span>
+		                    </div>
+					    </div>
+					    <div class="form-group">
+		                    <label class="col-md-3 control-label" for="text-input">密码</label>
+		                    <div class="col-md-9">
+		                        <input type="password" id="password1" name="password" class="form-control" placeholder="输入密码">
+		                    </div>
+					    </div>
+					    <div class="form-group">
+		                    <label class="col-md-3 control-label" for="text-input">用户类型</label>
+		                    <div class="col-md-9">
+		                        <select  class="form-control" name="utype">
+								  <option id="utype10" value="0">选择用户类型</option>
+								  <option id="utype11"  value='1'>全类型</option>
+								  <option id="utype12"  value="2">支付宝</option>
+								  <option id="utype13"  value="3">微信</option>
+								</select>
+		                        <span>第一个版本只能选择，支付宝，选择其他也是只能使用支付宝</span>
+		                    </div>
+					    </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="submit" class="btn btn-primary">确认修改</button>
+				</div>
+				    </form>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+<script>
+	require(['bootstrap'],function($){
+		$('.btn').hover(function(){
+			$(this).tooltip('show');
+		},function(){
+			$(this).tooltip('hide');
+		});
+	});
+	function adduser(){
+		$('#myModal').modal('show');
+	}
+	function edituser(uid,uname,utype){
+		$('#uid').val(uid);
+		$('#uname1').val(uname);
+		$('#password1').val('');
+		$('#utype1'+utype).attr("selected","selected");
+		$('#myModal1').modal('show');
+		
+	}
+</script>
+
+{template 'common/footer'}

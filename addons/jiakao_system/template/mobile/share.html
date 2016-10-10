@@ -1,0 +1,23 @@
+{template 'header'}
+<div class="container">
+	<h3>{$_W['account']['name']}-公众服务号</h3>
+	*关注{$_W['account']['name']}公众号回复  “
+	<strong><span style="color:red;">{$keyword}</span></strong>
+	”  进入【<span style="color:red">全国统一科目一模拟</span>】模块<br>
+	<br>
+	<br>
+	您当前使用的是“{$_W['os']}”手机<br>
+	<br>
+	<br>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+		苹果、安卓手机请长按下方二维码，点击“识别二维码”进行关注
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<img class="img-responsive" src="{$_W['account']['qrcode']}">
+			</div>
+		</div>
+	</div>	
+</div>
+{template 'footer'}

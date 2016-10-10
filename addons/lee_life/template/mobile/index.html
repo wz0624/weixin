@@ -1,0 +1,124 @@
+
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<meta name="format-detection" content="telephone=no"/>
+<link rel="shortcut icon" href="../addons/lee_life/template/mobile/img/favicon.ico"/>
+<link href="../addons/lee_life/template/mobile/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../addons/lee_life/template/mobile/css/lift.css" />
+<script src="../addons/lee_life/template/mobile/js/jquery.min.js"></script>
+<script src="../addons/lee_life/template/mobile/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../addons/lee_life/template/mobile/js/playbox.js"></script>
+<title>生命计算器</title>
+</head>
+<body class="l_index">
+	<!--音乐控制-->
+	<div class="audio-controls off"></div>
+	<!-- 背景音乐 -->
+	<audio id="audio" autoplay="autoplay" loop="loop">
+		<source src="http://a.srcdd.com/farm1/2015/0315/01/47E031F655904EB43828581E0D4145D0.mp3" type="audio/mpeg" />
+	</audio>
+    <div class="l_title text-center">
+        <h1>生逢何时</h1>
+    </div> <!-- E l_title -->
+
+
+    <div class="container">
+            <form action="" class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input type="number" id="date_time" name="date_time" placeholder="出生日期，如19890121" class="form-control input-lg">
+                                                <span style="color:#b92c3b;font-weight:bold;display:none;text-align:center;margin:0 auto" id="date_time_error">请按正确的格式填写，如19890121, 1-9月/日请用01-09表示.</span>
+                                            </div>
+
+                    <div class="col-sm-12 text-center">
+                        <a href="javascript:" id="calculation" class="btn btn-default btn-lg"><strong>开始计算</strong></a>
+                    </div>
+                </div>
+            </form>
+    </div> <!-- E container -->
+
+<script>
+function CheckDateTime(str){
+    if(!parseInt(str)) return false;
+    return true;
+}
+
+$("#calculation").on('click', function() {
+    var date_time = $("#date_time").val();
+    if(date_time) {
+			var url = "{$_W['siteroot']}app/{php echo $this->createMobileUrl('view',array(),true);}";
+			window.location.href = url + '&totime=' + date_time + "&wxref=mp.weixin.qq.com#wechat_redirect";
+    } else {
+        $("#date_time_error").show();
+    }
+});
+
+<!-- 音频暂停播放 -->
+var audioAuto = document.getElementById('audio');
+$(".audio-controls").click(function (){
+	if (audioAuto.paused) {
+		audioAuto.play()
+		$(".audio-controls").removeClass("off")
+        }
+        else {
+		audioAuto.pause();
+		$(".audio-controls").addClass("off")
+        }
+})
+</script>
+
+<script>var require = { urlArgs: 'v={php echo date('YmdH');}' };</script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="{$_W['siteroot']}app/resource/js/require.js"></script>
+<script src="{$_W['siteroot']}app/resource/js/app/config.js"></script>
+<script type="text/javascript">
+	// jssdk config 对象
+	jssdkconfig = {php echo json_encode($_W['account']['jssdkconfig']);} || {};
+	// 是否启用调试
+	jssdkconfig.debug = false;
+	
+	jssdkconfig.jsApiList = [
+		'checkJsApi',
+		'onMenuShareTimeline',
+		'onMenuShareAppMessage',
+		'onMenuShareQQ',
+		'onMenuShareWeibo',
+		'showOptionMenu'
+	];
+
+	wx.config(jssdkconfig);
+	require(['jquery', 'util'], function($, util){
+		var sharedata = {
+				title: '{$title}',
+				desc: '{$desc}',
+				link: "{$_W['siteroot']}/app/{php echo $this->createMobileUrl('index')}",
+				imgUrl: '{$imgurl}',
+				success: function(res){
+					window.location.href="{$_W['siteroot']}/app/{php echo $this->createMobileUrl('share')}";
+				},
+				cancel: function(res){
+					alert("亲，这么好的东西怎么能不分享给好朋友呢！");
+				},
+				fail: function(res){
+					alert("分享失败，可能是网络问题，一会儿再试试？");
+				}
+	    };		
+		
+		wx.ready(function () {
+			wx.showOptionMenu();
+			wx.onMenuShareAppMessage(sharedata);
+			wx.onMenuShareTimeline(sharedata);
+			wx.onMenuShareQQ(sharedata);
+			wx.onMenuShareWeibo(sharedata);
+		});
+	});
+</script>
+
+<style type="text/css">
+audio{text-index:-999999em;overflow:hidden;}
+</style>
+</body>
+</html>

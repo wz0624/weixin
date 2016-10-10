@@ -1,0 +1,32 @@
+{template 'common/header'}
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">所有评论</h3>
+  </div>
+<div class="panel-body table-responsive">
+    <table class="table">
+    <thead>
+    	<tr>
+    		<th>排序</th>
+    		<th>问题</th>
+    		<th>所有评论</th>
+    		
+    	</tr>
+    </thead>
+    <tbody>
+		{loop $data $key $item}
+		<tr>
+			<th>{php echo ++$key;}</th>
+			<th>{php echo html_entity_decode($item['question']);}</th>
+			<th>
+	<a class="btn btn-default" href="{php echo $this->createWebUrl('check',array('id'=>$item['id']));}" role="button">查看评论</a>
+			</th>
+		</tr>
+		{/loop}
+    </tbody>
+  </table>
+  </div>
+</div>
+{$page}
+</div>
+{template 'common/footer'}

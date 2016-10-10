@@ -1,0 +1,51 @@
+{template 'common/header'}
+<div class="main">
+	<form class="form-horizontal form" action="" method="post">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				云热点Hotspot--模块访问密钥管理
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">AccessKey</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" name="config[accesskey]" value="{php echo $this->module['config']['accesskey']}" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">SecretKey</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" name="config[secretkey]" value="{php echo $this->module['config']['secretkey']}" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">节点密钥</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" name="config[salt]" value="{php echo $this->module['config']['salt']}" />
+						<input type="hidden" class="form-control" name="config[wxid]" value="{php echo $this->module['config']['wxid']}" />
+
+					</div>
+				</div>
+
+				<label>
+					<a href="http://www.012wz.com" target="_blank">点击获取密钥<a/>
+				</label>
+				
+
+				<div style="color:black;">					
+					<strong>提示:</strong>
+					<span>登录后台->系统管理->密钥管理</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input name="token" type="hidden" value="{$_W['token']}" />
+			<input type="submit" class="btn btn-primary col-lg-1" name="submit" value="提交" />
+
+		</div>
+		    
+	</form>
+</div>
+{template 'common/footer'}

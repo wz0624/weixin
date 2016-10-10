@@ -1,0 +1,157 @@
+{php $title=$wall['topic']}
+
+{template 'inc/header'}
+	
+	<script type="text/javascript">
+
+	</script>
+
+	<style>
+		#downs_list{}
+		#downs_list .weui_cell:active{background-color:#ececec;}
+		#downs_list .weui_cell p{color:#000000;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}
+	</style>
+
+	<!-- 公共变量 -->
+	<input type="hidden" id="is_user_infoed" value="{$is_user_infoed}"/>
+
+		
+	<!-- 首页 -->
+    <div class="app-page" data-page="index_page">
+
+
+		<div class="app-topbar" style="display:none;height:0px;"></div>
+		<div class="app-content" style="background:#F8F8F8;padding-bottom:50px;">
+			<div class="app-body">
+				<div class="weui_cells" style="text-align:center;padding:40px 10px 10px 10px;margin-top:0px;border-top:0px none;">
+					<img src="{php echo VP_AVATAR($user['avatar'],'m')}" style="width:64px;"/>
+					<h4 style="margin:20px 0;">“小弟们每次抢到钱都会上供<em>{$wall['up_rob_fee']}%</em>给我，哈哈”</h4>
+					
+					<div style="width:50%;float:left;">
+						<h2 style="font-size:24px;">{$down_total}个<h2>
+						<h4>我的小弟</h4>
+					</div>
+					<div style="width:50%;float:left;">
+						<h2 style="font-size:24px;">{php echo $down_money/100}元<h2>
+						<h4>获得上供</h4>
+					</div>
+					<!--
+					<h2 style="margin-top:20px;font-size:36px;"><em>{php echo $down_total/100}元</em></h2>
+					<h4>我已获得上供</h4>
+					-->
+				</div>
+
+				<div style="position:absolute;right:10px;top:10px;"><a href="javascript:;"  class="btn_invite weui_btn  weui_btn_mini weui_btn_plain_primary" >招募小弟</a></div>
+
+				<div>
+					<div id="downs_list" class="weui_cells " data-url="{php echo $_W['siteroot'] . 'app/' . substr($this->createMobileUrl('user',array('cmd'=>'downs_list','pid'=>pencode($wall['id']))), 2)}" data-start="0"  data-more="1" >
+					</div>
+					<div id="downs_list_load" class="list_load more"><span class="icon"></span> <span class="text">查看更多</span></div>
+
+					<script id="downs_list_tpl" type="text/template" >
+						<%
+						 	var downs_list_load=$('#downs_list_load');
+							downs_list_load.removeClass('loading');
+							if(more==1){
+								downs_list_load.addClass('more');
+								downs_list_load.find('.text').html('查看更多');
+							}else{
+								downs_list_load.find('.text').html('');
+							}
+							if(!list){
+								return;
+							}
+							for(var i=0;i<list.length;i++){
+								var item = list[i];
+						%>
+							<div class="weui_cell">
+								<div class="weui_cell_hd"><img src="<% if(item._user.avatar){ %><%=item._user.avatar%><% }else{ %>{MODULE_URL}/static/mobile/images/avatar_none.png<% } %>" style="width:20px;margin-right:5px;display:block"></div>
+								<div class="weui_cell_bd weui_cell_primary">
+									<p><% if(item._user.nickname){ %><%=item._user.nickname%><% }else{ %>小弟<%=item.user_id%><% } %></p>
+								</div>
+								<div class="weui_cell_ft"><span style="font-size:12px;color:#999999;">上供</span> <%=item.sum_up_money/100%>元</div>
+							</div>
+						<%  } %>
+					</script>
+				</div>
+				
+				<!--
+				<p style="margin:0 10px;">
+				<a href="javascript:;" class="btn_invite weui_btn weui_btn_plain_primary">招募小弟</a>
+				</p>
+				-->
+			</div>
+		</div>
+
+
+
+    </div> <!-- END 首页 -->
+
+
+
+{template 'inc/script'}
+<script type="text/javascript">
+	$(function(){
+
+		App.controller('index_page', function (page) {
+			
+			// 招募小弟
+			$(page).find('.btn_invite').on('click',function(){
+				swal({
+					title:'',
+					text:'让新人扫码加入即可成为你的小弟',
+					imageUrl:"{php echo $this->createMobileUrl('qr', array('raw' => base64_encode($_W['siteroot'] . 'app/' . substr($this->createMobileUrl('index',array('cmd'=>'invite','pid'=>pencode($wall['id']),'src'=>pencode($mine['id']))), 2))))}",
+					imageSize:"160x160",
+					showCancelButton: true,
+					confirmButtonText: "扫好了",
+					cancelButtonText: "返回"
+				}, function(isConfirm){
+					if(isConfirm){
+						location.reload();
+					}
+				});
+			});
+	
+
+			// 内容加载
+			var list=$(page).find('#downs_list');
+			var list_load=$(page).find('#downs_list_load');
+			var list_tpl=baidu.template($(page).find('#downs_list_tpl').html());
+			var loadList = function(){
+				if(0==list.data('more')){
+					return;
+				}
+				list_load.removeClass('more');
+				list_load.addClass('loading');
+				list_load.find('.text').html('正在加载...');
+				$.post(list.data('url'),{
+					start:list.data('start')
+				},function(resp) {
+					if(!resp){
+						alert('加载失败，请检查网络后重试');
+						return;
+					}
+					if(resp.status!=1){
+						alert(resp.info);
+						return;
+					}
+					var data=resp.data;
+					list.data('start',data.start);
+					list.data('more',data.more);
+					var html=list_tpl(data);
+					list.html(list.html()+html);
+				});
+			};
+
+			list_load.on('click',function(){
+				loadList();
+			});
+			loadList();
+
+
+		});
+
+		App.load('index_page','fade');
+	});
+</script>
+{template 'inc/footer'}

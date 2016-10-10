@@ -1,0 +1,132 @@
+
+
+{template 'common/header'}
+<div class='container' style='padding:0 5px 10px;margin:0;width:100%'>
+
+<ul class="nav nav-tabs">
+  <li {if $op == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('dealer_ppt', array('op' => 'post'));}">添加数据</a></li>
+  <li {if $op == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('dealer_ppt',array('op'=>'display'));}">管理数据</a></li>
+ 
+</ul>
+{if $op =='display'}
+<div class="panel panel-success">
+  <div class="panel-heading">常用工具 > 数据列表</div>
+  
+</div>
+
+	<form id="form2" class="form-horizontal" method="post">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+				<th style="width:40px;">全选</th>
+					<th style="width:50px;">ID</th>			
+          			<th style="width:90px;">图片</th>
+          			<th style="width:180px;">描述</th>
+          			<th style="width:180px;">链接</th>
+					<th style="min-width:60px;width:60px;">删除</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<td><input type="checkbox" value="{$item['id']}" name="delete[]"></td>
+					<td>{$item['id']}</td>
+					<td><img src="{$_W['attachurl']}{$item['picture']}" style="width:150px"></td>
+					<td>{$item['pic_intro']}</td>
+					<td>{$item['url']}</td>
+					<td>
+					<a href="{php echo $this->createWebUrl('dealer_ppt', array('op' => 'post', 'id' => $item['id']))}" title="编辑" class="btn btn-xs btn-primary"><span class="icon icon-compose">编辑</span></a>
+					
+					<a onclick="if(confirm('此操作不可恢复，确认吗？')){location.href='{php echo $this->createWebUrl('dealer_ppt', array('id' => $item['id'],'op'=>'del'))}'}" href="javascript:;" title="删除" class="btn btn-xs btn-danger"><span class="icon icon-close">删除</span></a>
+					</td>				
+				</tr>
+				
+				{/loop}
+				<tr >
+				<td><input type="checkbox"  onclick="var ck = this.checked;$(':checkbox').each(function(){this.checked = ck});" name=''>    <input class="btn btn-primary btn-xs" type="submit" value="删除" name="submit" ></td><td></td><td></td><td></td>
+				</tr>
+			</tbody>
+		</table>
+		<input type="hidden" value="dealer_ppt" name="do">
+		<input type="hidden" value="del" name="op">
+		<input type="hidden" name="token" value="{$_W['token']}" />
+		
+	</form>
+	{$pager}
+	
+	
+
+	<script>
+		$(function(){
+			$('.pagination').removeClass().children().addClass('pagination');
+
+		})
+	</script>
+	<script>
+		$('#form2').submit(function(){
+			if($(":checkbox[name='delete[]']:checked").size() > 0){
+				return confirm('删除后不可恢复，您确定删除吗？');
+			}
+			return false;
+		}); 
+	</script>	
+	</div>
+		{elseif $op == 'post'}
+<div class="panel panel-success">
+  <div class="panel-heading">常用工具 > 经销商查询 > 添加/修改数据</div>
+  
+</div>
+
+<div class="main">
+	<form action="" method="post" class="form-horizontal form">
+	<div class="panel panel-default">
+		
+		<div class="panel-body">
+		
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">图片</label>
+				<div class="col-sm-8">
+					 {php echo tpl_form_field_image('picture',$item['picture']);}
+				</div>
+			</div>	
+				
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">描述</label>
+				<div class="col-sm-8">
+					 <input type="text" id="pic_intro" class="form-control span7" placeholder="" name="pic_intro" value="{$item['pic_intro']}">
+					<span class="help-block"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">链接</label>
+				<div class="col-sm-8">
+					 <input type="text" id="url" class="form-control span7" placeholder="" name="url" value="{$item['url']}">
+					<span class="help-block">例如：http://www.i-fanr.com</span>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+				<div class="col-sm-4">
+				<input type="hidden" name="id" value="{$item[id]}">
+				<input type="hidden" name="token" value="{$_W['token']}" />
+					<input name="submit" type="submit" value="提交" class="btn btn-primary span3" />
+					
+				</div>
+			</div>
+			
+			</div>
+			</div>
+	</form>
+</div>
+	
+{/if}		
+</div>
+<script>
+require(['jquery','util'], function($, util){
+	$(function(){
+		var editor = util.editor($('#remark')[0]);
+ 
+	});
+});
+</script>
+{template 'common/footer'}

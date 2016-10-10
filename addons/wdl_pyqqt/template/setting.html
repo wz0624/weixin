@@ -1,0 +1,269 @@
+{template 'common/header'}
+<div class="main">
+	<form class="form-horizontal form" id="form" action="" method="post" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				支付配置
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">支付授权目录</label>
+					<div class="col-sm-8 col-xs-12">
+						<span class="help-block" style="color:red">{php echo $_W['siteroot'].'app/';}</span>
+						<span class="help-block">请在微信公众号后台配置支付授权目录</span>
+					</div>
+				</div>		
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商户支付证书</label>
+					<div class="col-sm-8 col-xs-12">
+						<textarea class="form-control" name="sslcert" rows="5" {if $settings['sslcert']}placeholder="为保证安全性，不显示证书内容。若要修改，请直接填写"{/if}></textarea>
+						<span class="help-block">从商户平台下载支付证书，解压并获得其中的<font color="red">apiclient_cert.pem</font>，用记事本打开并复制文件内容，粘贴至此处</span>
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">支付证书秘钥</label>
+					<div class="col-sm-8 col-xs-12">
+						<textarea class="form-control" name="sslkey" rows="5" {if $settings['sslkey']}placeholder="为保证安全性，不显示证书内容。若要修改，请直接填写"{/if}></textarea>
+						<span class="help-block">从商户平台下载支付证书，解压并获得其中的<font color="red">apiclient_key.pem</font>，用记事本打开并复制文件内容，粘贴至此处</span>
+					</div>
+				</div>
+			</div>
+		</div>	
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				基础设置
+			</div>
+			<div class="panel-body">
+							
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">页面标题</label>
+					<div class="col-sm-8 col-xs-12">
+						<input name="index_page_title" class="form-control" placeholder="如今我成为乞丐，这段友情是否还能继续？" value="{$settings['index_page_title']}" />
+						<span class="help-block"></span>
+					</div>
+				</div>	
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">分享提示文字</label>
+					<div class="col-sm-8 col-xs-12">
+						<input name="share_tip" class="form-control" placeholder="成为乞丐，看看谁珍惜彼此的情谊" value="{$settings['share_tip']}" />
+						<span class="help-block"></span>
+					</div>
+				</div>	
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">底部提示文字</label>
+					<div class="col-sm-8 col-xs-12">
+						<input name="bottom_tip" class="form-control" placeholder="通知好友，好友支付后，金额将存进你的微信钱包中" value="{$settings['bottom_tip']}" />
+						<span class="help-block"></span>
+					</div>
+				</div>	
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">顶部提示</label>
+					<div class="col-sm-8 col-xs-12">
+						<input name="top_tip" class="form-control" placeholder="一不小心成为乞丐，这段友情是否还能继续" value="{$settings['top_tip']}" />
+						<span class="help-block"></span>
+					</div>
+				</div>	
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">关注链接</label>
+					<div class="col-sm-8 col-xs-12">
+						<input name="subscribe_url" class="form-control" placeholder="" value="{$settings['subscribe_url']}" />
+						<span class="help-block">如果填写了此链接，则未关注的用户会跳转到此链接</span>
+					</div>
+				</div>	
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">分享成功后跳转链接</label>
+					<div class="col-sm-8 col-xs-12">
+						<input name="share_ok_url" class="form-control" placeholder="" value="{$settings['share_ok_url']}" />
+						<span class="help-block">如果填写了此链接，用户分享成功后会跳转到此链接</span>
+					</div>
+				</div>	
+
+
+				
+			</div>
+		</div>	
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				自定义提示文字
+			</div>
+			<div class="panel-body">							
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">提示文字1</label>
+					<div class="col-sm-8 col-xs-12">
+						<input name="tip_1" class="form-control" placeholder="那些打赏Ta的人" value="{$settings['tip_1']}" />
+						<span class="help-block"></span>
+					</div>
+				</div>	
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">提示文字2</label>
+					<div class="col-sm-8 col-xs-12">
+						<input name="tip_2" class="form-control" placeholder="让我们来看清他们的真面目，证明真情的时刻来临了！" value="{$settings['tip_2']}" />
+						<span class="help-block"></span>
+					</div>
+				</div>	
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">提示文字3</label>
+					<div class="col-sm-8 col-xs-12">
+						<input name="tip_3" class="form-control" placeholder="那些被很多人帮助或虐待的乞丐" value="{$settings['tip_3']}" />
+						<span class="help-block"></span>
+					</div>
+				</div>	
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">提示文字4</label>
+					<div class="col-sm-8 col-xs-12">
+						<input name="tip_4" class="form-control" placeholder="查看排行榜" value="{$settings['tip_4']}" />
+						<span class="help-block"></span>
+					</div>
+				</div>	
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">提示文字5</label>
+					<div class="col-sm-8 col-xs-12">
+						<input name="tip_5" class="form-control" placeholder="我也要加入丐帮争当帮主" value="{$settings['tip_5']}" />
+						<span class="help-block"></span>
+					</div>
+				</div>	
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">提示文字6</label>
+					<div class="col-sm-8 col-xs-12">
+						<input name="tip_6" class="form-control" placeholder="生成我的主页" value="{$settings['tip_6']}" />
+						<span class="help-block"></span>
+					</div>
+				</div>	
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">提示文字7</label>
+					<div class="col-sm-8 col-xs-12">
+						<input name="tip_7" class="form-control" placeholder="打赏Ta可以看到其他帮助过Ta的人喔！" value="{$settings['tip_7']}" />
+						<span class="help-block"></span>
+					</div>
+				</div>	
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">提示文字8</label>
+					<div class="col-sm-8 col-xs-12">
+						<input name="tip_8" class="form-control" placeholder="证明感情的时刻不要假装没看到哦" value="{$settings['tip_8']}" />
+						<span class="help-block"></span>
+					</div>
+				</div>	
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">提示文字9</label>
+					<div class="col-sm-8 col-xs-12">
+						<input name="tip_9" class="form-control" placeholder="打赏Ta" value="{$settings['tip_9']}" />
+						<span class="help-block"></span>
+					</div>
+				</div>	
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">提示文字10</label>
+					<div class="col-sm-8 col-xs-12">
+						<input name="tip_10" class="form-control" placeholder="支付成功后，你的好友将收到对应金额的零钱<br>同时可以查看已经支付过的人喔" value="{$settings['tip_10']}" />
+						<span class="help-block"></span>
+					</div>
+				</div>	
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">提示文字11</label>
+					<div class="col-sm-8 col-xs-12">
+						<input name="tip_11" class="form-control" placeholder="先不帮助Ta，加入丐帮看看谁打赏我" value="{$settings['tip_11']}" />
+						<span class="help-block"></span>
+					</div>
+				</div>	
+				
+			</div>
+		</div>	
+		
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				自定义分享设置
+			</div>
+			<div class="panel-body">
+							
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">分享标题</label>
+					<div class="col-sm-8 col-xs-12">
+						<input name="share_title" class="form-control" placeholder="{nickname}沦落为乞丐，你愿意帮助我吗？" value="{$settings['share_title']}" />
+						<span class="help-block">使用变量{nickname}代替用户昵称</span>
+					</div>
+				</div>	
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">分享描述</label>
+					<div class="col-sm-8 col-xs-12">
+						<textarea name="share_desc" class="form-control" placeholder="人间还有真情在，1分钱也是爱！" rows="3">{$settings['share_desc']}</textarea>
+					</div>
+				</div>	
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">分享封面</label>
+					<div class="col-sm-8 col-xs-12">
+						{php echo tpl_form_field_image('share_cover', $settings['share_cover']);}
+						<span class="help-block">分享封面留空，分享时为个人头像</span>
+					</div>
+				</div>				
+			 <div class="form-group">			         	<label class="col-xs-12 col-sm-3 col-md-2 control-label">背景音乐</label>			        	<div class="col-sm-8 col-xs-12">			         {php echo tpl_form_field_audio('mp3',$settings['mp3']);}		 <span class="help-block">自定义背景音乐</span>        	</div>
+			</div>								<div class="form-group">										<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 打赏页面头部图片</label>										<div class="col-sm-9 col-xs-12">						{php echo tpl_form_field_image('qdymaa_img',$settings['qdymaa_img']);}					</div>				</div>									<div class="form-group">										<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 排行页面头部图片</label>										<div class="col-sm-9 col-xs-12">						{php echo tpl_form_field_image('qdymab_img',$settings['qdymab_img']);}					</div>				</div>					<div class="form-group">										<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 提现页面头部图片</label>										<div class="col-sm-9 col-xs-12">						{php echo tpl_form_field_image('qdymac_img',$settings['qdymac_img']);}					</div>				</div>
+		</div>	
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				提现设置
+			</div>
+			<div class="panel-body">
+							
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">提现起额</label>
+					<div class="col-sm-8 col-xs-12">
+						<input name="withdraw_line" class="form-control" placeholder="10" value="{$settings['withdraw_line']}" />
+						<span class="help-block">用户账户余额达到提现起额才能提现</span>
+					</div>
+				</div>	
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">单次提现最大额</label>
+					<div class="col-sm-8 col-xs-12">
+						<input name="withdraw_max" class="form-control" placeholder="10" value="{$settings['withdraw_max']}" />
+						<span class="help-block">用户单次提现的最大金额</span>
+					</div>
+				</div>	
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">提现折扣</label>
+					<div class="col-sm-8 col-xs-12">
+						<input name="withdraw_discount" class="form-control" placeholder="0.02" value="{$settings['withdraw_discount']}" />
+						<span class="help-block">用户提现需要扣除手续费的折扣率， 用小数表示</span>
+					</div>
+				</div>	
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">提现到账提示文字</label>
+					<div class="col-sm-8 col-xs-12">
+						<input name="withdraw_tip" class="form-control" placeholder="朋友圈乞讨提现到账" value="{$settings['withdraw_tip']}" />
+						<span class="help-block">用户提现到账时的提示文字</span>
+					</div>
+				</div>	    </div>  
+			</div>
+		</div>	
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div><script type="text/javascript">    require(['util'],function(util){        util.editor($("#desc")[0]);    });</script>
+{template 'common/footer'}

@@ -1,0 +1,264 @@
+{template 'common/_header'}
+<style>
+.member-info { width: 16rem; height: 8rem; margin: -3.5rem 0 0 -6rem; position: absolute; z-index: 1; top: 20%; left: 46%; animation: memberInfoDown 1000ms  ease-in;}
+@keyframes  memberInfoDown
+{
+0% { top: -50%;}
+50% { top: -10%;}
+75% { top: 0%;}
+95% { top: 28%}
+100% { top: 20%}
+}
+.my-box{
+  display:inline-block;
+  height:3em;
+  width:48%;
+  padding-top:0.7em;
+  text-align:center;
+}
+.sy-box{
+    margin:1% 0 0 2%; width:96%; height:6em;
+    border: 1px solid #9d9b9c;
+    -moz-border-radius: 10px; 
+    -webkit-border-radius: 10px; 
+    border-radius:10px;           
+}
+.member-top { -webkit-animation:changeBg 20s infinite; -moz-animation:changeBg 20s infinite; animation:changeBg 20s infinite;background-color:#ED5564; background-size: cover;  text-align: center; width: 100%; height: 20rem; position: relative; z-index: 1;}
+@-webkit-keyframes changeBg{
+0%{background-color:#ED5564;}
+10%{background-color:#FB6E52;}
+20%{background-color:#FFCE55;}
+30%{background-color:#A0D468;}
+40%{background-color:#48CFAE;}
+50%{background-color:#4FC0E8;}
+60%{background-color:#5D9CEC;}
+70%{background-color:#AC92ED;}
+80%{background-color:#EC87BF;}
+90%{background-color:#ED5564;}
+}
+@-moz-keyframes changeBg{
+0%{background-color:#ED5564;}
+10%{background-color:#FB6E52;}
+20%{background-color:#FFCE55;}
+30%{background-color:#A0D468;}
+40%{background-color:#48CFAE;}
+50%{background-color:#4FC0E8;}
+60%{background-color:#5D9CEC;}
+70%{background-color:#AC92ED;}
+80%{background-color:#EC87BF;}
+90%{background-color:#ED5564;}
+}
+@keyframes changeBg{
+0%{background-color:#ED5564;}
+10%{background-color:#FB6E52;}
+20%{background-color:#FFCE55;}
+30%{background-color:#A0D468;}
+40%{background-color:#48CFAE;}
+50%{background-color:#4FC0E8;}
+60%{background-color:#5D9CEC;}
+70%{background-color:#AC92ED;}
+80%{background-color:#EC87BF;}
+90%{background-color:#ED5564;}
+}
+#truename,#wechat,#mobile{
+	height:5rem;
+}
+</style>
+<title>个人中心</title>
+<div align="center" class="member-top">
+<div class="member-info">
+<img src="{$member['avatar']}" class="am-img-thumbnail am-circle" width="65%"><br />
+<span {$sex}> </span><span> {$member['nickname']} - {$isvip}</span>
+</div></div><br />
+<div align="center" style="opacity:0.8;">
+<div class="sy-box">
+<span class="my-box" style="height:5em;font-size:20px;">{$member['shouyi']}<br />累计红包</span>
+</div>
+</div>
+<span class="am-icon-globe" style="margin-left:2%;font-size:18px;"> {$_W['fans']['tag']['country']} {$_W['fans']['tag']['province']} {$_W['fans']['tag']['city']}</span>
+ <section data-am-widget="accordion" class="am-accordion am-accordion-gapped">
+ 
+      <dl class="am-accordion-item am-active">
+        <dt class="am-accordion-title">
+        <span class="am-icon-gears"></span>
+          我的资料
+        </dt>
+        <dd class="am-accordion-bd am-collapse ">
+          <!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
+          <div class="am-accordion-content">
+
+           <div class="am-form-group am-form-icon">
+          <i class="am-icon-user"></i>
+         <input type="text" class="am-form-field" id="truename" value="{$member['truename']}" placeholder="真实姓名">
+        </div>
+         <div class="am-form-group am-form-icon">
+          <i class="am-icon-wechat"></i>
+         <input type="text" class="am-form-field" id="wechat" value="{$member['wechat']}" placeholder="微信号码">
+        </div>
+        
+            <div class="am-form-group am-form-icon">
+          <i class="am-icon-mobile-phone"></i>
+         <input type="tel" minlength="11" maxlength="11" class="am-form-field" id="mobile" value="{$member['mobile']}" placeholder="手机号码">
+        </div>
+		<button onclick="javascript:save();"  class="am-btn am-btn-danger am-btn-block">确认修改</button>
+          </div>
+        </dd>
+      </dl>
+      <dl class="am-accordion-item">
+        <dt class="am-accordion-title">
+        <span class="am-icon-user"></span>
+          我的股东
+        </dt>
+        <dd class="am-accordion-bd am-collapse ">
+          <!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
+          <div class="am-accordion-content">
+          <ul class="am-list am-list-static am-list-border am-list-striped"> 
+          {if !empty($direct['uid'])}
+      <li> <img src="{$direct['avatar']}" style="width:20%" class="am-circle">{$direct['nickname']}
+<span class="am-badge am-badge-secondary am-round" style="font-size:12px;">
+{if $direct['level'] == 0}
+$settings['name0']
+{/if}
+{if $direct['level'] == 1}
+$settings['name1']
+{/if}
+{if $direct['level'] == 2}
+$settings['name2']
+{/if}
+{if $direct['level'] == 3}
+$settings['name3']
+{/if}
+</span> 
+{else}
+不错哟，您是平台第一人哦！
+{/if}
+</li> 
+</ul>
+
+          </div>
+        </dd>
+      </dl>
+      <dl class="am-accordion-item">
+        <dt class="am-accordion-title">
+        <span class="am-icon-certificate"></span>
+          {$settings['name1']}<span class="am-badge am-badge-secondary am-text-default am-round">{$parent1Num}</span>
+        </dt>
+        <dd class="am-accordion-bd am-collapse ">
+          <!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
+          <div class="am-accordion-content">
+          
+           <ul class="am-list am-list-static am-list-border am-list-striped">
+           {loop $parent1 $parent1}
+                     {if !empty($parent1['uid'])}
+    <li> <img src="{$parent1['avatar']}" style="width:20%" class="am-circle">{$parent1['nickname']}
+{if $parent1['level'] == 0}
+<span class="am-badge am-badge-success am-round" style="font-size:12px;">{$settings['name0']}</span>
+{/if}
+{if $parent1['level'] == 1}
+<span class="am-badge am-badge-secondary am-round" style="font-size:12px;">{$settings['name1']}</span>
+{/if}
+{if $parent1['level'] == 2}
+<span class="am-badge am-badge-secondary am-round" style="font-size:12px;">{$settings['name2']}</span>
+{/if}
+{if $parent1['level'] == 3}
+<span class="am-badge am-badge-secondary am-round" style="font-size:12px;">{$settings['name3']}</span>
+{/if}
+<span class="am-badge am-badge-danger am-text-sm" onclick="tel:{$memberFans['mobile']}">{$parent1['mobile']}</span> 
+</li> 
+{/loop}
+{else}
+啊哦！您还没有粉丝哦！！加油！！！
+{/if}
+</ul> 
+          </div>
+        </dd>
+      </dl>
+      
+          <dl class="am-accordion-item">
+        <dt class="am-accordion-title">
+        <span class="am-icon-certificate"></span>
+        {$settings['name2']}<span class="am-badge am-badge-secondary am-text-default am-round">{$parent2Num}</span>
+        </dt>
+        <dd class="am-accordion-bd am-collapse ">
+          <!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
+          <div class="am-accordion-content">
+          
+           <ul class="am-list am-list-static am-list-border am-list-striped">
+           {loop $parent2 $parent2}
+                     {if !empty($parent2['uid'])}
+    <li> <img src="{$parent2['avatar']}" style="width:20%" class="am-circle">{$parent2['nickname']}
+{if $parent1['level'] == 0}
+<span class="am-badge am-badge-success am-round" style="font-size:12px;">{$settings['name0']}</span>
+{/if}
+{if $parent1['level'] == 1}
+<span class="am-badge am-badge-secondary am-round" style="font-size:12px;">{$settings['name1']}</span>
+{/if}
+{if $parent1['level'] == 2}
+<span class="am-badge am-badge-secondary am-round" style="font-size:12px;">{$settings['name2']}</span>
+{/if}
+{if $parent1['level'] == 3}
+<span class="am-badge am-badge-secondary am-round" style="font-size:12px;">{$settings['name3']}</span>
+{/if}
+<span class="am-badge am-badge-danger am-text-sm" onclick="tel:{$memberFans['mobile']}">{$parent2['mobile']}</span> 
+</li> 
+{/loop}
+{else}
+啊哦！您还没有粉丝哦！！加油！！！
+{/if}
+</ul> 
+          </div>
+        </dd>
+      </dl>
+      
+          <dl class="am-accordion-item">
+        <dt class="am-accordion-title">
+        <span class="am-icon-certificate"></span>
+          {$settings['name3']}<span class="am-badge am-badge-secondary am-text-default am-round">{$parent3Num}</span>
+        </dt>
+        <dd class="am-accordion-bd am-collapse ">
+          <!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
+          <div class="am-accordion-content">
+          
+           <ul class="am-list am-list-static am-list-border am-list-striped">
+           {loop $parent3 $parent3}
+                     {if !empty($parent3['uid'])}
+    <li> <img src="{$parent3['avatar']}" style="width:20%" class="am-circle">{$parent3['nickname']}
+{if $parent1['level'] == 0}
+<span class="am-badge am-badge-success am-round" style="font-size:12px;">{$settings['name0']}</span>
+{/if}
+{if $parent1['level'] == 1}
+<span class="am-badge am-badge-secondary am-round" style="font-size:12px;">{$settings['name1']}</span>
+{/if}
+{if $parent1['level'] == 2}
+<span class="am-badge am-badge-secondary am-round" style="font-size:12px;">{$settings['name2']}</span>
+{/if}
+{if $parent1['level'] == 3}
+<span class="am-badge am-badge-secondary am-round" style="font-size:12px;">{$settings['name3']}</span>
+{/if}
+
+<span class="am-badge am-badge-danger am-text-sm" onclick="tel:{$parent3['mobile']}">{$parent3['mobile']}</span> 
+</li> 
+{/loop}
+{else}
+啊哦！您还没有粉丝哦！！加油！！！
+{/if}
+</ul> 
+          </div>
+        </dd>
+      </dl>
+  </section>
+  
+  <script type="text/javascript">
+function save() {
+	mydata = {
+		'truename' : $('#truename').val(),
+		'wechat' : $('#wechat').val(),
+		'mobile' : $('#mobile').val()
+	};
+	$.post('{php echo $this->createMobileUrl('center', array('op' => 'edit'))}', mydata, function(data){
+		var info = eval(data);
+		alert(info.msg);
+	},'json');
+}
+</script>
+{template 'common/_footer'}

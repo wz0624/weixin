@@ -1,0 +1,193 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li><a href="{php echo $this->createWebUrl('level');}">等级头衔</a></li>
+	<li><a href="{php echo $this->createWebUrl('sms');}">短信中心</a></li>
+	<li class="active"><a href="{php echo $this->createWebUrl('signin');}">签到中心</a></li>
+	<li><a href="{php echo $this->createWebUrl('message');}">消息中心</a></li>
+	<li><a href="{php echo $this->createWebUrl('feedback');}">留言中心</a></li>
+	<li><a href="{php echo $this->createWebUrl('task');}">任务中心</a></li>
+	<li><a href="{php echo $this->createWebUrl('member');}">会员中心</a></li>
+	<li><a href="{php echo $this->createWebUrl('template');}">会员模板</a></li>
+	<li><a href="{php echo $this->createWebUrl('fanslog');}">粉丝统计</a></li>	
+	<li><a href="{php echo $this->createWebUrl('memberlog');}">会员统计</a></li>
+</ul>
+
+<!-- 积分策略设置 -->
+<div class="clearfix">
+<form action="" class="form-horizontal form" method="post" enctype="multipart/form-data" id="form1">
+	    <div class="alert alert-info">奖励积分(必须为整数) 注意:积分数最好控制在1－9之间。</div>
+		<div class="panel panel-default">
+		    <div class="panel-heading">
+			    是否启用签到积分：
+			    <input type="checkbox" name="flag" value="1" {if intval($setting['signinstatus'])==1} checked="checked" {/if} data="{$setting['id']}"/>
+		    </div>
+			<div class="panel-body">
+			<div class="row-fluid">
+    			<div class="span8 control-group">
+					<a class="btn btn-default" href="{php echo $this->createWebUrl('signinrecord');}"><i class="fa fa-list"></i> 签到记录</a>
+					<a class="btn btn-default" href="{php echo $this->createWebUrl('signinprize');}" style="margin-left:10px;"><i class="fa fa-list"></i> 奖励记录</a>
+       		 </div>
+    		</div>
+    		</div>
+	    </div>
+		
+		{if ($setting['signinstatus'] != 0)}
+		<div class="panel panel-default" id="cardmain">
+			<div class="panel-heading">
+				积分策略设置
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">签到提示词<span style="color:red">*</span></label>
+					<div class="col-sm-9">
+						<textarea style="height:150px;" name="dsigninfo" class="form-control" cols="70">{$setting['dsigninfo']}</textarea>
+						<div class="help-block">每行一个,会员中心首页提示用户签到,用于变化提示内容</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">每天签到奖励</label>
+					<div class="col-sm-9">
+					    <div class="input-group input-medium">
+                        	<span class="input-group-addon">每天签到系统自动奖励</span>
+                        	<input type="text" name="dsigncredit" value="{$setting['dsigncredit']}" class="form-control">
+							<span class="input-group-addon" style="border-left:0px;border-right:0px;">个</span>
+							<select name="dsigntype" class="form-control">
+							    {loop $creditnames $key $credit}
+							    <option value="{$key}" {if $key == $setting['dsigntype']}selected{/if}>{$credit}</option>
+							    {/loop}
+							</select>
+                    	</div>						
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">显示每日排行</label>
+					<div class="col-sm-9">
+                        <input type="text" name="showrank" value="{$setting['showrank']}" class="form-control">			
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">累计签到</label>
+					<div class="col-sm-9">
+						<div class="input-group input-medium">
+                        	<span class="input-group-addon">累计签到累计</span>
+                        	<input type="text" name="tsign" value="{$setting['tsign']}" class="form-control">
+							<span class="input-group-addon" style="border-left:0px;border-right:0px;">次系统自动奖励</span>
+							<input type="text" name="tsigncredit" value="{$setting['tsigncredit']}" class="form-control">
+							<span class="input-group-addon" style="border-left:0px;border-right:0px;">个</span>
+							<select name="tsigntype" class="form-control">
+							    {loop $creditnames $key $credit}
+							    <option value="{$key}" {if $key == $setting['tsigntype']}selected{/if}>{$credit}</option>
+							    {/loop}
+							</select>
+                    	</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">连续签到</label>
+					<div class="col-sm-9">
+						<div class="input-group input-medium">
+                        	<span class="input-group-addon">连续签到累计</span>
+                        	<input type="text" name="csign" value="{$setting['csign']}" class="form-control">
+							<span class="input-group-addon" style="border-left:0px;border-right:0px;">次系统自动奖励</span>
+							<input type="text" name="csigncredit" value="{$setting['csigncredit']}" class="form-control">
+							<span class="input-group-addon" style="border-left:0px;border-right:0px;">个</span>
+							<select name="csigntype" class="form-control">
+							    {loop $creditnames $key $credit}
+							    <option value="{$key}" {if $key == $setting['csigntype']}selected{/if}>{$credit}</option>
+							    {/loop}
+							</select>
+                    	</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">签到第一累计</label>
+					<div class="col-sm-9">
+						<div class="input-group input-medium">
+                        	<span class="input-group-addon">签到第一累计</span>
+                        	<input type="text" name="osign" value="{$setting['osign']}" class="form-control">
+							<span class="input-group-addon" style="border-left:0px;border-right:0px;">次系统自动奖励</span>
+							<input type="text" name="osigncredit" value="{$setting['osigncredit']}" class="form-control">
+							<span class="input-group-addon" style="border-left:0px;border-right:0px;">个</span>
+							<select name="osigntype" class="form-control">
+							    {loop $creditnames $key $credit}
+							    <option value="{$key}" {if $key == $setting['osigntype']}selected{/if}>{$credit}</option>
+							    {/loop}
+							</select>
+                    	</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">每日签到时间</label>
+					<div class="col-sm-9">
+					    <div class="input-group input-medium">
+                        	<span class="input-group-addon">从</span>                        	
+							<select name="start_time_xiaoshi" class="form-control">
+							    {loop $timexiaoshi $timexiaoshis}
+							    <option value="{$timexiaoshis}" {if $timexiaoshis == $setting['start_timexiaoshi']}selected{/if}>{$timexiaoshis}</option>
+								{/loop}								
+							</select>
+							<span class="input-group-addon" style="border-left:0px;border-right:0px;">点</span>
+							<select name="start_time_fen" class="form-control">
+							    {loop $timefen $timefens}
+							    <option value="{$timefens}" {if $timefens == $setting['start_timefen']}selected{/if}>{$timefens}</option>
+								{/loop}								
+							</select>
+							<span class="input-group-addon" style="border-left:0px;border-right:0px;">分 至</span>
+							<select name="end_time_xiaoshi" class="form-control">
+							    {loop $timexiaoshi $key $timexiaoshis}
+							    <option value="{$timexiaoshis}" {if $timexiaoshis == $setting['end_timexiaoshi']}selected{/if}>{$timexiaoshis}</option>
+								{/loop}								
+							</select>
+							<span class="input-group-addon" style="border-left:0px;border-right:0px;">点</span>
+							<select name="end_time_fen" class="form-control">
+							    {loop $timefen $key $timefens}
+							    <option value="{$timefens}" {if $timefens == $setting['end_timefen']}selected{/if}>{$timefens}</option>
+								{/loop}								
+							</select>
+							<span class="input-group-addon" style="border-left:0px;border-right:0px;">分 结束</span>
+                    	</div>                        
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">积分规则说明<span style="color:red">*</span></label>
+					<div class="col-sm-9">
+						<textarea style="height:200px;" name="description" class="form-control richtext" cols="70">{$setting['signindescription']}</textarea>
+					</div>
+				</div>				
+			</div>
+		</div>
+		{/if}
+		<div class="form-group">
+			<div class="col-sm-12">
+				<button type="submit" class="btn btn-primary col-lg-1" name="submit" value="保存积分策略">保存积分策略</button>
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			</div>
+		</div>
+</div>
+<script type="text/javascript">
+	require(['jquery.ui', 'bootstrap.switch', 'util'], function($, $, u){
+		$(function(){
+			$(":checkbox[name='flag']").bootstrapSwitch();
+			$(':checkbox').on('switchChange.bootstrapSwitch', function(e, state){
+				$this = $(this);
+				var status = this.checked ? 1 : 0;
+				$.post(location.href, {status:status}, function(resp){
+					if(resp != 'success') {
+						u.message('操作失败, 请稍后重试.')
+					} else {
+						u.message('操作成功', location.href, 'success');
+					}
+				});
+			});
+			$('.btn').hover(function(){
+				$(this).tooltip('show');
+			},function(){
+				$(this).tooltip('hide');
+			});
+		});
+		$(function(){
+			u.editor($('.richtext')[0]);
+		});
+	});
+</script>
+{template 'common/footer'}

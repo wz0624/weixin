@@ -1,0 +1,17 @@
+.contents{width:auto;background-color: #f8f8f8;padding:0px 0px 20px 0px;}
+
+html,body{background-color: #f8f8f8;}
+
+
+p.form-item{margin-bottom: 10px;padding-left: 14px;font-size: 15px;}
+.form-item label{float: left;width: 25%;line-height:35px ;color: #6a6c6c;letter-spacing: 1px;text-align: right;}
+.form-item label .red-color{color: #e80000;margin-right: 2px;}
+.form-item label.person-sex{text-align: left;}
+.form-item input{float: left;width: 65%;height: 35px;border: 1px solid #e2e2e2;border-radius: 4px;background-color: #fff;line-height: 35px;color: #6a6c6c;margin-left: 15px;}
+.form-item input#person_sex{width: 15px;height: 15px;line-height: 35px;margin-top: 8px;margin-right: 10px;}
+.form-item label.error{width: 65%;margin-left: 30%;color: #e80000;font-size: 13px;line-height: 20px;text-align: left;}
+.form-item textarea{width: 65%;float: left;min-height: 100px;border: 1px solid #e2e2e2;border-radius: 4px;margin-left: 15px;}
+
+button.submit,a.submit,.tab-item .submit{display: block;width: 80%;background: #283449;text-align: center;color: #fff;line-height: 40px;margin: 25px auto 0px;font-size: 21px;letter-spacing: 5px;font-weight: bold;border:0;overflow: hidden;}
+button.submit,a.submit,.tab-item .submit{text-shadow:1px 1px #283449,2px 2px #283449,3px 3px #283449,4px 4px #283449,5px 5px #283449,6px 6px #283449,7px 7px #283449,8px 8px #283449,9px 9px #283449,10px 10px #283449,11px 11px #283449,12px 12px #283449,13px 13px #283449,14px 14px #283449,15px 15px #283449,16px 16px #283449,17px 17px #283449,18px 18px #283449,19px 19px #283449,20px 20px #283449,21px 21px #283449,22px 22px #283449,23px 23px #283449,24px 24px #283449,25px 25px #283449;}
+

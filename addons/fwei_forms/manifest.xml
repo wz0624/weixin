@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.012wz.com" versionCode="0.6">
+	<application setting="true">
+		<name><![CDATA[通用表单]]></name>
+		<identifie><![CDATA[fwei_forms]]></identifie>
+		<version><![CDATA[3.1.1]]></version>
+		<type><![CDATA[other]]></type>
+		<ability><![CDATA[通用表单]]></ability>
+		<description><![CDATA[通用表单可以轻松地增加一个表单用于收集用户的信息，如活动报名、调查反馈、预约填单等]]></description>
+		<author><![CDATA[www.efwww.com]]></author>
+		<url><![CDATA[http://www.efwww.com]]></url>
+
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+	</platform>
+	<bindings>
+		<rule>
+			<entry title="字段管理" do="attributes" state="" direct="false" />
+			<entry title="数据管理" do="values" state="" direct="false" />
+			<entry title="导出数据" do="export" state="" direct="false" />
+			<entry title="预览" do="preview" state="" direct="false" />
+		</rule>
+		<menu>
+			<entry title="表单管理" do="manage" state="" direct="false" />
+			<entry title="添加表单" do="create" state="" direct="false" />
+		</menu>
+	</bindings>
+	<install><![CDATA[install.php]]></install>
+	<uninstall><![CDATA[uninstall.php]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

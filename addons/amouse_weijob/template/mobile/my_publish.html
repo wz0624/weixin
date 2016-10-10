@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes">
+<title>发布记录</title>
+<link type="text/css" rel="stylesheet" href="../addons/amouse_weijob/style/css/jquery.mmenu.all.css">
+<link type="text/css" rel="stylesheet" href="../addons/amouse_weijob/style/css/base.css">
+<link type="text/css" rel="stylesheet" href="../addons/amouse_weijob/style/css/mycollect.css">
+<link type="text/css" rel="stylesheet" href="../addons/amouse_weijob/style/css/style.css">
+<link type="text/css" rel="stylesheet" href="../addons/amouse_weijob/style/css/zebra_dialog.css">
+</head>
+<style>
+    a.job-back {
+        width: 80px;
+        height: 50px;
+        background: url("../addons/amouse_weijob/style/images/icon_job_back.png") left center no-repeat;
+        background-size: 11px 15px;
+    }
+    .opencvs {
+        box-shadow: 0 3px 0 rgba(0, 0, 0, 0.07);
+        border-radius: 12px;
+        width: 32px;
+        float: right;
+        background-color: #0261bf;
+        padding: 5px;
+        margin-top: -5px;
+    }
+</style>
+<body style="">
+{php include_once IA_ROOT . '/addons/amouse_weijob/model.php'}
+{php $companyset = search_company()}
+<nav id="menu_left" class="mm-menu mm-horizontal mm-ismenu">
+    <ul class="mm-list mm-panel mm-opened mm-current" id="mm-m0-p0">
+        <li>
+            <a href="{php echo $this->createMobileUrl('index',array('from_user'=>$from_user),true)}"> 首页</a>
+        </li>
+        <li>
+            <a href="{php echo $this->createMobileUrl('companyset',array('from_user'=>$from_user),true)}"> 公司信息/联系人信息</a>
+        </li>
+        <li>
+            <a {if empty($companyset)}href="{php echo $this->createMobileUrl('companysearch',array('from_user'=>$from_user),true)}"{else}href="{php echo $this->createMobileUrl('publish',array('from_user'=>$from_user),true)}"{/if}>发布岗位</a>
+        </li>
+        <li>
+            <a {if empty($companyset)}href="{php echo $this->createMobileUrl('companysearch',array('from_user'=>$from_user),true)}"{else}href="{php echo $this->createMobileUrl('mypublish',array('from_user'=>$from_user),true)}"{/if}>我的发布</a>
+        </li>
+    </ul>
+</nav>
+<input type="hidden" name="is_ccollect" value="record">
+<div>
+    <div class="head fix">
+        <a href="#menu_left" class="job-back" style="color:white;font-size:15px;margin-left:10px">返回</a>
+        发布记录
+        <a style="background-color:#4d71ad;padding: 0px 8px;width:auto;left: auto;right: 45px;color: #fff;font-size: 15px;line-height: 50px"
+           href="{php echo $this->createMobileUrl('publish',array('from_user'=>$from_user),true)}">添加</a>
+        <a style="width:auto;padding: 0px 8px;left: auto;right: 0px;color: #fff;font-size: 15px;line-height: 50px"
+           href="javascript:void(0);" id="del_model">删除</a>
+    </div>
+    <div class="contents">
+        <div class="record-lists own-lists">
+            <div class="select-all clearfix">
+                <label><input type="checkbox" class="checkall" name="select_all">全选</label>
+            </div>
+            <ul class="items record-items clearfix" id="container">
+                {loop $result $v}
+                <li class="clearfix" style="padding:10px 5px 10px 20px">
+                    <input type="checkbox" name="record_item" value="{$v['id']}">
+                    <a style="width:75%;"
+                       href="{php echo $this->createMobileUrl('publish',array('from_user'=>$from_user,'id'=>$v['id']),true)}"  class="item-link">
+                        <img {if !empty($v['thumb'])}src="{$_W['attachurl']}{$v['thumb']}"{else}src="../addons/amouse_weijob/icon.jpg"{/if}
+                        class="fl">
+                        <div class="item-infor fl">
+                            <p class="clearfix">
+                                <span class="position-name">{$v['jobname']}</span>
+                            </p>
+                            <p class="place clearfix">
+                                <span>{$v['company_name']} ●薪资：{if $v['offer']==0}{php echo '面议';}{else}{$v['offer']}{/if}</span>
+                            </p>
+                        </div>
+                    </a>
+                    <div class="opencvs">
+                        <a style="color:#fff" onclick="fun({$v['id']});" href="javascript:void(0);">查看简历</a>
+                    </div>
+                </li>
+                {/loop}
+            </ul>
+            <a class="see-more" href="{php echo $this->createMobileUrl('publishsearch',array('from_user'=>$from_user,'page'=>1),true)}" style="display:none">
+            </a>
+        </div>
+        <!--弹出层-->
+        <div class="cd-popup" role="alert">
+            <div class="cd-popup-container" style="overflow:auto;max-height:300px">
+                <div id="items">
+                </div>
+                <a href="#" class="cd-popup-close img-replace">关闭</a>
+            </div>
+            <!-- cd-popup-container -->
+        </div>
+        <!-- cd-popup -->
+    </div>
+    <div class="footer" style="display:none">
+    </div>
+</div>
+<script type="text/javascript" src="../addons/amouse_weijob/style/js/jquery.min.js"></script>
+<script type="text/javascript" src="../addons/amouse_weijob/style/js/jquery.mmenu.min.all.js"></script>
+<script type="text/javascript" src="../addons/amouse_weijob/style/js/common.js"></script>
+<script type="text/javascript" src="../addons/amouse_weijob/style/js/zebra_dialog.js"></script>
+<script type="text/javascript" src="../addons/amouse_weijob/style/js/jquery.infinitescroll.js"></script>
+<script type="text/javascript" src="../addons/amouse_weijob/style/js/main.js"></script>
+<!-- Resource jQuery -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#menu_left").mmenu();
+        infinitescroll();
+    });
+    function fun(jobid) {
+        $('#items').html("");
+        search_cv(jobid)
+        event.preventDefault();
+        $('.cd-popup').addClass('is-visible');
+    }
+
+    function search_cv(jobid) {
+        $.ajax({
+            url: "{php echo murl('entry//cvsearch',array('m'=>'amouse_weijob'),true)}",
+            type: "post",
+            dataType: "json",
+            data: {jobid: jobid,from_user:'{$from_user}'},
+            success: function (data) {
+                console.log(jobid+"--"+'{$from_user}');
+                if (data.status > 0) {
+                    var src = '';
+                    $.each(data.data, function (i, n) {
+                        src += '<p>姓名：' + n["name"] + '</p>';
+                        if (n["sex"] == 0) {
+                            src += '<p>性别：男</p>';
+                        } else {
+                            src += '<p>性别：女</p>';
+                        }
+                        src += '<p>年龄：' + n["age"] + '</p>';
+                        src += '<p>投简时间：' + n["createtime"] + '</p>';
+                        src += '<p>求职意向：' + n["job_direction"] + '</p>';
+                        src += '<p>自我评价：' + n["self"] + '</p>';
+                        src += '<a style="display:block;text-align:center;width:100%;height:40px;line-height:40px;background-color:#0261bf;color:#fff" href="tel:' + n['phone'] + '">电话</a>';
+                        $("#items").html(src);
+                    });
+                } else {
+                    var nosrc = '<p style="text-align:center">还没有人投简历哦~</p>';
+                    $("#items").html(nosrc);
+                }
+            }
+        });
+    }
+    $(document).ready(function () {
+        $(".checkall").click(function () {
+            $("input[name='record_item']").prop("checked", this.checked);
+        });
+        var $record_item = $("input[name='record_item']");
+        $record_item.click(function () {
+            $(".checkall").prop("checked", $record_item.length == $("input[name='record_item']:checked").length ? true : false);
+        });
+        $("#del_model").click(function () {
+            // 判断是否至少选择一项
+            var checkedNum = $("input[name='record_item']:checked").length;
+            if (checkedNum == 0) {
+                alert("请选择至少一项！");
+                return;
+            }
+            if (confirm("确定要删除所选项目？")) {
+                var checkedList = new Array();
+                $("input[name='record_item']:checked").each(function () {
+                    checkedList.push($(this).val());
+                });
+                var pushUrl = "{php echo murl('entry//publishdel',array('m'=>'amouse_weijob','from_user'=>$from_user),true)}";
+                $.ajax({
+                    type: "POST",
+                    url: pushUrl,
+                    data: {'jobid': checkedList.toString()},
+                    success: function (result) {
+                        $("[name ='record_item']:checkbox").attr("checked", false);
+                        window.location.reload();
+                    }
+                });
+            }
+
+        });
+    });
+
+    var _renderItem = function (n) {
+        var newElement = '<li  class="clearfix" style="padding:10px 5px 10px 20px"><input  type="checkbox"  name="record_item"  value="';
+        newElement += n['delivery_id'] + '">';
+        newElement += '<a  href="{php echo murl('entry//publish',array('m'=>'amouse_weijob','from_user'=>$from_user),true)}&id='+n['id']+'"  class="item-link">';
+        if (n['thumb']) {
+            newElement += '<img  src="{$_W['attachurl']}' + n['thumb'] + '"  class="fl">';
+        }
+        else {
+            newElement += '<img  src="./addons/amouse_weijob/icon.jpg"  class="fl">';
+        }
+        newElement += '<div  class="item-infor fl"><p  class="clearfix"><span  class="position-name">' + n['jobname'] + '</span></p>';
+        newElement += '<p  class="place clearfix"><span>' + n['company_name'] + ' ●  薪资：';
+        if (n["offer"] == 0) {
+            newElement += '面议';
+        } else {
+            newElement += n["offer"];
+        }
+        newElement += '</span></p></div></a>';
+        newElement += '<div class="opencvs"><a style="color:#fff" onclick="fun(' + n['id'] + ');" href="javascript:void(0);">查看简历</a></div></li>';
+        return newElement;
+    }
+    function infinitescroll() {
+        $(".record-items").infinitescroll({
+            loading: {
+                msgText: "加载中...",
+                finishedMsg: "没有新数据了...",
+                img: '../addons/amouse_weijob/style/images/loading.gif'
+            },
+            navSelector: "a.see-more:first",
+            nextSelector: "a.see-more:first",
+            itemSelector: ".record-items li",
+            dataType: "json",
+            debug: true,
+            all_page: 2,
+            appendCallback: false
+
+        }, function (response) {
+            console.log(response);
+            var jsondate = response.data;
+            for (var i = 0; i < jsondate.length; i++) {
+                var item = _renderItem(jsondate[i]);
+                $(".record-items").append(item);
+            }
+        });
+
+    }
+</script>
+
+<div id="mm-blocker" style="opacity: 0;"></div>
+</body>
+</html>

@@ -1,0 +1,68 @@
+{template 'common/header'}
+
+<ul class="nav nav-tabs">
+    <li class="active"><a href="{php echo $this->createWebUrl('settinglists');}">活动列表</a></li>
+    <li><a href="{php echo $this->createWebUrl('settingedit');}">添加新活动</a></li>
+</ul>
+
+<div class="main">
+	<form action="?{$_SERVER['QUERY_STRING']}" method="post" id="form1">
+        <table class="table table-hover"  style="width:100%;z-index:-10;" cellspacing="0" cellpadding="0">
+            <thead class="navbar-inner">
+            <tr>
+				<th style="width:30px;">删？</th>
+                <th style="width:40px;">编号</th>
+                <th style="width:150px;">主题</th>
+                <th style="width:100px;">开始时间</th>
+				<th style="width:100px;">结束时间</th>
+				<th style="width:100px;">创建时间</th>
+                <th style="width:350px;" class="text-right">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {loop $list $item}
+            <tr>
+				<td><input type="checkbox" name="delete[]" value="{$item['id']}" /></td>
+                <td>{$item['id']} </td>
+                <td>{$item['title']} </td>
+				<td>{if strtotime($item['start']) < time()}<span class="label label-success">{$item['start']}</span>{else}<span class="label label-danger">{$item['start']}</span>{/if}</td>
+                <td>{if strtotime($item['end']) > time()}<span class="label label-success">{$item['end']}</span>{else}<span class="label label-danger">{$item['end']}</span>{/if}</td>
+				<td>{php echo date("Y-m-d H:i",$item['created_at']);} </td>
+                <td class="text-right" style="overflow:visible;">
+					<div class="btn-group">
+						<a href="{php echo $this->createWebUrl('settingedit', array('sid'=>$item['id']));}" id="{$item['id']}" class="btn btn-default">修改</a>
+						<a target="_blank" href="{php echo $_W['siteroot'].'app/index.php?c=entry&do=index&m=xiaof_toupiao&i='.$_W['uniacid'].'&sid='.$item['id'].'&wxref=mp.weixin.qq.com#wechat_redirect';}" id="{$item['id']}" class="btn btn-default">查看</a>
+						<a href="{php echo $this->createWebUrl('bindacid', array('sid'=>$item['id']));}" id="{$item['id']}" class="btn btn-default">活动多开</a>
+						<a href="{php echo $this->createWebUrl('lists', array('sid'=>$item['id']));}" id="{$item['id']}" class="btn btn-default">报名列表</a>
+						<a href="{php echo $this->createWebUrl('excletop', array('sid'=>$item['id']));}" id="{$item['id']}" class="btn btn-default">导出排名</a>
+						<a href="{php echo $this->createWebUrl('safe', array('sid'=>$item['id']));}" id="{$item['id']}" class="btn btn-success">数据监控</a>
+					</div>				
+                </td>
+            </tr>
+            {/loop}
+            </tbody>
+        </table>
+        <table class="table table-hover">
+            <tr>
+                <td width="30">
+                    <input type="checkbox" onclick="var ck = this.checked;$(':checkbox').each(function(){this.checked = ck});" />
+                </td>
+                <td class="text-left">
+                    <input name="token" type="hidden" value="{$_W['token']}" />
+					<input type="submit" class="btn btn-primary span2" name="del" value="删除" />(不要轻易删除活动，会连带投票数据一起删除。且不可恢复)
+                </td>
+            </tr>
+        </table>
+        {$pager}
+	</form>
+</div>
+<script>
+    $('#form1').submit(function(){
+        if($(":checkbox[name='delete[]']:checked").size() > 0){
+            return confirm('删除后不可恢复，您确定删除吗？');
+        }
+        alert('没有选择活动');
+        return false;
+    });
+</script>
+{template 'common/footer'}

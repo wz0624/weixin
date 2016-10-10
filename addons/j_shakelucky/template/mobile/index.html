@@ -1,0 +1,350 @@
+{template 'header'}
+<style>
+html{height:100%;overflow:hidden;}
+body{width:100%; height:100%;overflow:hidden;background:{if $item['bodycolor']}{$item['bodycolor']}{else}#014140{/if};}
+a{ color:#FFF; text-decoration:none;}
+a:visited{color:#FFF;}
+.game_body_top{background:#F2D557 url(../addons/j_shakelucky/template/image/bg_1s.jpg) no-repeat top center; background-size:100% 100%; text-align:center;}
+.game_body_foot{background:#E46048;}
+.game_body_bank{width:0; height:0;border:solid transparent;border-top-color:#F2D557;border-bottom:none;}
+.game_footer{position:fixed; text-align:center; width:100%; line-height:50px; padding-top:30px; bottom:0;left:0px; z-index:8;background:url(../addons/j_shakelucky/template/image/bg_copyright.png) no-repeat top center; background-size:100% 100%;}
+.game_icon{ width:55%; position:absolute;top:50%;}
+.game_icon img{ width:100%;}
+.game_btn{text-align:center;width:100%;position:absolute;top:60%;}
+a.j_btn{ display:inline-block; width:140px;}
+.input_box{ width:80%; margin:40% auto 0 auto; background:#E46048; border-radius:8px; padding:15px;color:#FFF; text-align:centerc;}
+.input_box div{text-align:center;}
+.game_input{ width:80%;font-size:16px; text-align:center; line-height:24px; background:#FEBC27; margin-bottom:15px; padding:5px; border-radius:5px;border:0;box-shadow:0px 0px 3px rgba(0,0,0,0.6) inset;}
+.input_box-footer{ text-align:center;}
+.result_none_box,.result_no_box{ background:#F6C835; border-radius:8px; width:80%; margin:20% auto 0 auto;padding:30px;text-align:center; position:relative;}
+.result_none_top{ width:100%;}
+.result_none_top img{ margin-bottom:15px;width:100%}
+.result_word{ font-size:18px; margin-bottom:20px;color:#FFF}
+.close_btn{ position:absolute; right:15px;top:15px;font-size:26px;}
+.result_box{background:#F6C835;border-radius:8px; width:90%; margin:5% auto 0 auto;padding:20px;text-align:center; position:relative;}
+.result_bottom{background:#F6C835 url(../addons/j_shakelucky/template/image/pake_bottom.jpg) no-repeat 0 0; background-size:100% 100%; padding-top:5px;padding-bottom:10px;color:#FFF}
+#prize{ font-size:20px; margin-bottom:10px}
+.game_info{ background:#F3D556; border-radius:8px; width:98%; margin:5% auto 0 auto;padding:30px;text-align:center; position:relative;}
+.game_info_til span{ display:inline-block; font-size:20px; font-weight:bold; color:#FFF; border-radius:8px; background:#D15C46; padding:5px 30px}
+.game_info_content{ text-align:left; padding-top:10px;}
+.game_info_content>img{ max-width:100%;}
+.game_btns{ background:#d05d44; border-radius:5px; display:inline-block; padding:5px 40px;color:#FFF; font-size:16px;}
+.is_attend{ margin:45% auto 0 auto; width:60%;}
+@-webkit-keyframes resize {
+    0% {}
+    5% {-webkit-transform: translate(-5px,0);}
+	10% {-webkit-transform: translate(5px,0);}
+	15% {-webkit-transform: translate(-5px,0);}
+	20% {-webkit-transform: translate(5px,0);}
+	25% {-webkit-transform: translate(-5px,0);}
+	30% {-webkit-transform: translate(5px,0);}
+	35% {-webkit-transform: translate(0,0);}
+    100% {-webkit-transform: translate(0,0);}
+}
+.anim_box {
+    -webkit-animation-name: resize;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-iteration-count:infinite;
+    -webkit-animation-direction: alternate;
+    -webkit-animation-timing-function: ease-in-out;
+}
+</style>
+<style id="stym">
+
+</style>
+<audio src="../addons/j_shakelucky/template/image/shake.mp3" id="bgsound"></audio>
+<audio src="../addons/j_shakelucky/template/image/result.mp3" id="sound_result"></audio>
+<div class="game_body_top"><img src="{$_W['attachurl']}{$item['titleimg']}" onerror="this.src='../addons/j_shakelucky/template/image/defaultheader.png'" style="width:96%; margin-top:20px"/></div>
+<div class="game_body_bank"></div>
+<div class="game_icon" ><img src="../addons/j_shakelucky/template/image/shake_img.png" id="shake_logo"/></div>
+<div class="game_btn"><a href="javascript:showInfo('.game_info')" class="game_btns" style="background:#f2d456">活动规则</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{php echo $this->createMobileUrl('result',array('id'=>$id))}" class="game_btns" style="background:#f2d456">中奖纪录</a></div>
+
+<div class="game_footer"> {if !empty($_W['page']['footer'])}{$_W['page']['footer']}{else}{if IMS_FAMILY != 'x'}<a href="#">&copy;云浮捷讯设计</a>{/if}{/if}&nbsp;&nbsp;{$_W['setting']['copyright']['statcode']} </div>
+
+<!--游戏说明-->
+<div class="hide">
+  <div class="game_info">
+  	<Div class="close_btn"><a href="javascript:close_mo('.game_info')" style="color:#FFF;"><i class="fa fa-times-circle"></i></a></Div>
+    <div class="game_info_til"><span>活动规则</span></div>
+    <div class="game_info_content">{$item["rule"]}</div>
+  </div>
+</div>
+<!--次数摇完-->
+<div class="hide">
+  <div class="result_none_box">
+  	<Div class="close_btn"><a href="javascript:close_mo('.result_none_box')" style="color:#FFF;"><i class="fa fa-times-circle"></i></a></Div>
+    <div class="result_none_top"><img src="../addons/j_shakelucky/template/image/icon_none.gif" style="width:60%;"/><img src="../addons/j_shakelucky/template/image/word_none.jpg"/></div>
+    <div class="result_word">每人每天有<strong style="color:#F00; font-size:30px">{$item["maxlottery"]}</strong>次机会~<br />分享给朋友也来参加吧</div>
+    <div><a href="javascript:share_mo(1)" class="game_btns">呼唤小伙伴一起摇</a></div>
+  </div>
+</div>
+<!--没有中奖-->
+<div class="hide">
+  <div class="result_no_box">
+  	<Div class="close_btn"><a href="javascript:close_mo('.result_no_box')" style="color:#FFF;"><i class="fa fa-times-circle"></i></a></Div>
+    <div class="result_none_top"><img src="../addons/j_shakelucky/template/image/icon_no.gif" style="width:60%;"/><img src="../addons/j_shakelucky/template/image/word_no.jpg"/></div>
+    <div class="result_word">奖品库中还有<strong style="color:#F00; font-size:30px" id="remain">{$item["maxlottery"]}</strong>个礼品~<br />来吧，咱们再摇一回！</div>
+    <div><a href="javascript:close_mo('.result_no_box')" class="game_btns">继续摇</a></div>
+  </div>
+</div>
+<!--中奖-->
+<div class="hide">
+  <div class="result_box">
+  	<Div class="close_btn"><a href="javascript:close_mo('.result_box')" style="color:#FFF;"><i class="fa fa-times-circle"></i></a></Div>
+    <div><img src="../addons/j_shakelucky/template/image/pake_top.jpg" style="width:100%; margin:0;"/></div>
+    <div class="result_bottom">
+    	<div id="p_word"></div>
+        <div id="prize"></div>
+    </div>
+    <div><a href="{php echo $this->createMobileUrl('result',array('id'=>$id))}" class="game_btns">领取奖品</a></div>
+  </div>
+</div>
+<!--分享-->
+<div class="hide">
+  <div class="result_share" onclick="share_mo(0)"><img src="../addons/j_shakelucky/template/image/share.gif" style="width:100%;"/>
+  <div style="padding:10px; text-align:center"><a href="javascript:share_mo(0)" class="game_btns">关闭</a></div>
+  </div>
+</div>
+<!--关注-->
+<div class="hide">
+  <div class="is_attend">
+  	<div class="panel panel-default">
+      <div class="panel-body">抱歉，您还没有关注我们哦~<br />如果您已关注，请在公众号中发送“{$keyword}”进入游戏</div>
+      <div class="panel-footer text-center" style="padding:3px 0"><a href="{php echo $_W['account']['subscribeurl']}" class="btn btn-default btn-sm">确定</a></div>
+    </div>
+  </div>
+  </div>
+</div>
+<script language="javascript">
+var x;
+var y;
+var z;
+var last_x=0;
+var last_y=0;
+var last_z=0;
+var last_update=0;
+var game_update=0;
+var user_realname="{php echo $profile['realname']}";
+var user_mobile="{php echo $profile['mobile']}";
+
+var count=2;
+var is_attend=parseInt("{php echo $_W['fans']['follow']}");
+var need_info=parseInt("$cfg['need_info']");
+var is_watch=parseInt("{$isjoin}");
+$(document).ready(function(e) {
+	var _h=$(window).height()*0.45;
+    $(".game_body_top").height(_h);
+	$(".game_body_bank").css({
+		'border-left-width':$(window).width()/2,
+		'border-right-width':$(window).width()/2,
+		'border-top-width':$(window).width()/8,
+	});
+	var _w=$(window).width()*0.55;
+	var _gl=($(window).width()-_w)/2;
+	var _gh=($(window).height()-_w)/2;
+	$(".game_icon").css({'left':_gl,'top':_gh,});
+	$(".game_btn").css('top',(_gh+_w+20));
+	var _rw=($(window).width()*0.9-40)*0.72;
+	var _rw_b=$(window).width()*0.9/1.44-20;
+	$(".result_bottom").css({'padding-left':_rw/4,'padding-right':_rw/4,'height':_rw_b});
+	
+	$(".clientpic").width(_rw*0.22);
+	close_mo('');
+	if(!is_watch)showInfo('.game_info');
+	//------------
+	$(".game_icon").addClass("anim_box");
+	var _game_h=$(window).height();
+	var _game_w=$(window).width();
+	var _game_obj_x=_gl;
+	var _game_obj_y=_gh;
+	var temp="";
+	$("#stym").html("@-webkit-keyframes game {0% {-webkit-transform: translate(0,0);}10% {-webkit-transform:scale(0.7,0.7);-webkit-transform: translate(-"+_game_obj_x+"px,-"+(_game_h*.4)+"px);}20% {-webkit-transform:scale(0.7,0.7);-webkit-transform: translate("+((_game_w-_game_obj_x)*.3)+"px,-"+_game_obj_y+"px);}35% {-webkit-transform:scale(0.7,0.7);-webkit-transform: translate("+(_game_w-_game_obj_x-_w)+"px,0);}55% {-webkit-transform:scale(0.7,0.7);-webkit-transform:translate(0,"+(_game_h-_game_obj_y-_w)+"px);}75% {-webkit-transform:scale(0.7,0.7);-webkit-transform: translate(-"+(_game_obj_x)+"px,"+((_game_h-_game_obj_y)*0.4)+"px);}100% {-webkit-transform:scale(1,1);-webkit-transform: translate(0,0);}}.anim_box2 {-webkit-animation-name: game;-webkit-animation-duration:0.6s;-webkit-animation-iteration-count:5;-webkit-animation-timing-function: ease-in-out;}");
+});
+function showInfo(obj){
+	$('j').Jetsum.modal({
+		target:obj,
+		do:true,
+	})
+}
+function init(){
+	if(window.DeviceMotionEvent) {
+		window.addEventListener('devicemotion', deviceMotionHandler, false);
+	}else{
+		alert("您的手机不支持传感器功能，无法进行抽奖哦");
+	}
+}
+//震动监听
+function deviceMotionHandler(eventData){
+	var acceleration = eventData.accelerationIncludingGravity; 
+	var curTime = new Date().getTime();
+	var diffTime = curTime -last_update;
+	if (diffTime > 400){
+		last_update = curTime; 
+		x = acceleration.x;
+		y = acceleration.y;
+		z = acceleration.z;
+		var speed=0;
+		SHAKE_TYPE=1;
+		if(SHAKE_TYPE==1){
+			speed = Math.abs(x - last_x) / diffTime * 10000; 
+		}else if (SHAKE_TYPE==2){
+			speed = Math.abs(y - last_y) / diffTime * 10000; 
+		}else{
+			speed = Math.abs(y + z - last_x - last_y - last_z) / diffTime * 10000; 
+		}
+		if (speed > 200) {
+			if(!is_attend){
+				window.removeEventListener('devicemotion', deviceMotionHandler, false);
+				document.getElementById("bgsound").play();
+				$('j').Jetsum.modal({
+					target:'.is_attend',
+					do:true,
+				})
+				return;
+			}
+			if(game_update==1){
+				gameEnd();
+				game_update=0;
+				document.getElementById("bgsound").play();
+				shake_icon(1);
+				if(need_info){
+					if(!user_realname || !user_mobile){
+						$('j').Jetsum.modal({
+							target:'<div class="input_box"><div class="input_box-body"><div style="margin:10px 0; text-align:center">请输入您的资料，方便领奖时核对哦~</div><div><input type="text" class="game_input" name="realname" placeholder="请填写您的真实姓名" maxlength="10"/></div><div><input type="tel" class="game_input" name="mobile" placeholder="请填写您的手机号码" maxlength="11"/></div></div><div class="input_box-footer"><a href="javascript:sumbitInfo()" class="game_btns">提交&抽奖</a> &nbsp; <a href="javascript:close_mo(\'input_box\')" class="game_btns">关闭</a></div></div>',
+							do:true,
+						})
+					}
+				}else{
+					setTimeout(function(){
+						shake_icon(0);
+						$.getJSON("{php echo $this->createMobileUrl('ajax', array('op'=>'winning','id'=>$id))}",'',function(data){
+							document.getElementById("sound_result").play();
+							
+							if(data.err){
+								if(data.err==4){
+									$('j').Jetsum.modal({
+										target:'.result_none_box',
+										do:true,
+									})
+								}else{
+									$('j').Jetsum.alert({content:data.msg});
+								}
+							}else{
+								if(data.isprize==1){
+									var temp=data.sponsor ? "您抽中由<b>"+data.sponsor+"</b>提供的":"您抽中了";
+									$("#p_word").html(temp);
+									$("#prize").text(data.title);
+									$('j').Jetsum.modal({
+										target:'.result_box',
+										do:true,
+									});
+								}else{
+									$("#remain").text(data.remain);
+									$('j').Jetsum.modal({
+										target:'.result_no_box',
+										do:true,
+									})
+								}
+							}
+						});
+					},1000);
+				}
+			}
+		}
+		
+		last_x = x; 
+		last_y = y; 
+		last_z = z; 
+	}
+}
+
+function share_mo(obj){
+	var temp=obj ? true:false;
+	$('j').Jetsum.modal({target:".result_share",do:temp});
+}
+function shake_icon(n){
+	if(n){
+		$(".game_icon").removeClass("anim_box").addClass("anim_box2");
+	}else{
+		$(".game_icon").removeClass("anim_box2").addClass("anim_box");
+	}
+	
+}
+function close_mo(obj){
+	$('j').Jetsum.modal({target:obj,do:false});
+	count=2;
+	countdown();
+}
+function countdown(){
+	if(count>0){
+		count--;
+		setTimeout("countdown()",1000);
+	}else{
+		game_update=1;
+		init();
+	}
+}
+function sumbitInfo(){
+	var rname=$('input[name="realname"]').val();
+	var mobile=$('input[name="mobile"]').val();
+	if(rname.length<2){
+		$('j').Jetsum.alert({content:'请用中文填写您的姓名'});
+		return false;
+	}
+	var reg = /^[\u4e00-\u9fa5]+$/i;
+	if(!reg.test(rname)){
+		$('j').Jetsum.alert({content:'请用中文填写您的姓名'});
+		return false;
+	}
+	if(mobile.length!=11 || isNaN(mobile)){
+		$('j').Jetsum.alert({content:'请正确填写您的电话号码'});
+		return false;
+	}
+	$.getJSON("{php echo $this->createMobileUrl('ajax',array('id'=>$id,'op'=>'updateinfo'))}",{
+		'realname':rname,
+		'mobile':mobile,
+	},function(data){
+		if(data.success){
+			location.href="{php echo $this->createMobileUrl('result',array('id'=>$id))}";
+		}else{
+			$('j').Jetsum.alert({content:data.msg});
+		}
+	});
+}
+
+function gameEnd(){
+	game_update=0;
+	//window.removeEventListener('devicemotion', deviceMotionHandler, false);
+}
+sharedata = {
+	title: "{$item['title']}",
+	desc: "{$item['description']}",
+	link: "{php echo str_replace('&wxref=mp.weixin.qq.com','',$_W['siteurl'])}&fid={$_W['openid']}",
+	imgUrl:"{$_W['attachurl']}{$item['clientpic']}",
+	success: function(){
+		//location.href="./index.php?c=home&i={$_W['uniacid']}";
+	}
+};
+wx.ready(function () {
+	var menulistoption=['menuItem:share:qq','menuItem:openWithQQBrowser','menuItem:copyUrl','menuItem:openWithSafari','menuItem:originPage','menuItem:share:QZone','menuItem:share:weiboApp'];
+	wx.hideMenuItems({
+		menuList: menulistoption
+    });
+	//分享给朋友
+	wx.onMenuShareTimeline({
+		title: sharedata.title, // 分享标题
+		link: sharedata.link, // 分享链接
+		imgUrl: sharedata.imgUrl, // 分享图标
+		success: function () { 
+			// 用户确认分享后执行的回调函数
+		},
+		cancel: function () { 
+			// 用户取消分享后执行的回调函数
+		}
+	});
+	wx.onMenuShareAppMessage(sharedata);
+	wx.onMenuShareQQ(sharedata);
+	wx.onMenuShareWeibo(sharedata);
+	
+});
+</script>

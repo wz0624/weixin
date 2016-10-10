@@ -1,0 +1,23 @@
+{template 'common/header'}
+<div class="main">
+	<form class="form-horizontal form" id="form2" action="" method="post">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				说明
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">配置说明</label>
+					<div class="col-sm-8">
+						1、游戏规则：<br>	(1)、实力：象>狮>虎>狼>狗>猫>鼠（象可被鼠消灭）；<br>(2)、玩法：点击移动红色棋子，每次按线点只能移一步；<br>(3)、输赢：蓝（红）方全部棋子消灭红（蓝）方赢。红方20步内双方均无吃子红方输。
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input name="token" type="hidden" value="{$_W['token']}" />
+			<input type="submit" class="btn btn-primary col-lg-1" name="submit" value="提交" />
+		</div>
+	</form>
+</div>
+{template 'common/footer'}

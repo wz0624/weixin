@@ -1,0 +1,262 @@
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+<meta name="viewport" content="width=320.1,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>恭喜发财，大吉大利！</title>
+<style>
+body{
+	font:normal 14px Tahoma,"Lucida Grande",Verdana,"Microsoft Yahei",STXihei,hei;
+	background:#080808;
+	background-size:100%;
+	color:#353535;
+}
+body,div,a,ul,li,p,span{
+	padding:0;
+	margin:0;
+}
+a{
+	text-decoration:none;
+	color:#000;
+}
+.first-box{
+	width:81.67%;
+	position:absolute;
+	left:9.165%;
+	top:10%;
+}
+img.body{
+	width:100%;
+}
+.user-headimg{
+	position: absolute;
+	border-radius: 10000px;
+	left: 50%;
+	top: 9.75%;
+	width: 20.65%;
+	margin-left: -10.5%;
+}
+.hot-click{
+	position: absolute;
+	border-radius: 10000px;
+	left: 50%;
+	top: 61%;
+	width: 36%;
+	height: 26%;
+	margin-left: -18%;
+}
+.nickname{
+	width: 100%;
+	position: absolute;
+	text-align: center;
+	color: #FFF;
+	top: 28.5%;
+	font-size:1.15em;
+}
+
+.second-box{
+	width:100%;
+	height:100%;
+	position:absolute;
+	overflow:hidden;
+	top:0;
+	left:0;
+}
+.second-wrapper{
+	overflow:hidden;
+	width:auto;
+	position:relative;
+}
+.second-bg{
+	width:100%;
+}
+.second-headimg{
+	position: absolute;
+	border-radius: 10000px;
+	left: 50%;
+	top: 13%;
+	width: 23%;
+	margin-left: -11.5%;
+}
+.second-nickname{
+	width: 100%;
+	position: absolute;
+	text-align: center;
+	top: 26.8%;
+	font-size:1.25em;
+}
+.money{
+	position:absolute;
+	text-align:center;
+	width:100%;
+	top:37%;
+	color:#000;
+}
+.money-number{
+	font-size:4.5em;
+	padding-left:0.25em;
+}
+.yuan{
+	font-size:1.1em;
+	position:relative;
+	top:-1px;
+}
+
+
+
+
+.tips-box{
+	position:absolute;
+	top:50%;
+	width:100%;
+	height:400px;
+	margin-top:-50px;
+	background:#fff;
+	overflow:hidden;
+	z-index:9999;
+	text-align:center;
+}
+.explain{
+	font-size:18px;
+	padding:5px 8px;
+	margin-top:4px;
+	margin-bottom:8px;
+}
+.zhenggu-btn{
+	background-color:#FE8007;
+	color:#fff;
+	padding:6px 14px;
+	border-radius:3px;
+}
+.bg-cover{
+	width:100%;
+	height:100%;
+	top:0;
+	left:0;
+	position:fixed;
+	background:#000;
+	opacity:0.6;
+	z-index:999;
+}
+#share {
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9) url({HT}img/cashsecond_share.png) no-repeat;
+        background-position: top right;
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 99;
+        display: none;
+    }
+    
+
+</style>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?c809a982796e417d8e31fb716969ebb2";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</script>
+<script src="{HT}js/jquery.min.js"></script>
+<script type="text/javascript">
+var fools_show=function(){
+	$(".bg-cover").show();
+	$(".tips-box").show();
+};
+$(function(){
+	$(".hot-click").click(function(){
+		$(".first-box").hide();
+		$(".second-box").show();
+				var t=setTimeout('fools_show()',1750); 
+			});
+			$(".second-box").click(fools_show);
+	});
+function fenxiang(){
+   document.getElementById('cbny').style.display ="";
+   $(".second-box").hide();
+}
+</script>
+
+</head>
+
+<body>
+
+<div style="display:none">
+	<img src="{HT}img/hongbao_icon.jpg">
+</div>
+<img src="{HT}/img/share-1.png" width="100%"  height="100%" style="position: absolute; display: none;" id="cbny"/>
+
+<div class="first-box">
+	<img class="body" src="{HT}img/fools_1.png">
+  <img class="user-headimg" src="{$usimg}">
+  <div class="hot-click"></div>
+  <div class="nickname">{$usname}</div>
+</div>
+<div class="second-box" style="display:none">
+	<div class="second-wrapper">
+  	<img class="second-bg" src="{HT}img/fools_2.png">
+  	<img class="second-headimg" src="{$usimg}">
+  	<div class="second-nickname">{$usname}的红包</div>
+    <div class="money">
+    	<span class="money-number">{$money}</span>
+      <span class="yuan">元</span>
+    </div>
+
+  </div>
+</div>
+<div class="tips-box" style="display:none">
+	<div class="explain">别看了，没有天上掉下来的馅饼！<br>快去整回别人吧→_→
+  </div>
+  <a class="zhenggu-btn" href="{$reply['guanzhu']}">{$reply['guanzhuwz']}</a>
+  <br/>
+  <br/>
+  <a class="zhenggu-btn" href="{php echo $this->createMobileUrl('red')}">我也要发红包</a>
+	<br/>
+    <br/>
+    <a class="zhenggu-btn"onclick="fenxiang();">快快去分享</a>
+    
+     
+	<br/>
+    <br/>
+	<a href="{$reply['imgurl']}"><img src="{$_W['siteroot']}attachment/{$reply['img']}" style="width:100%;" /></a>
+  </div>
+
+<div class="bg-cover" style="display:none"></div>
+{php echo register_jssdk(false);}
+<script type="text/javascript">
+ wx.ready(function () {
+        url = 
+        sharedata = {
+            title: "{$reply[title]}",
+            desc: "收到微信红包，赶快领取吧！",
+            link: "{$url}",
+            imgUrl: "{$_W['siteroot']}addons/hetu_cupred/icon.jpg",
+            success: function(){
+                
+                
+
+            },
+            cancel: function(){
+                alert("分享失败，可能是网络问题，一会儿再试试？");
+            }
+        };
+        wx.onMenuShareAppMessage(sharedata);
+        wx.onMenuShareTimeline(sharedata);
+    });
+
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>蜜思肤微收银台</title>
+		<link rel="stylesheet" type="text/css" href="{RES}css/api.css" />
+		<link rel="stylesheet" type="text/css" href="{RES}css/common1.css" />
+		<link rel="stylesheet" type="text/css" href="{RES}css/home.css" />
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="main">
+				<div id='slide' class='swipe' style="visibility:visible">
+					<div class='swipe-wrap' id="banner-content">
+						<div>
+						<a href="#">
+							<img src="{RES}img/banner.png"  style="height: 100%;"/>
+							</a>
+						</div>
+					</div>
+
+				</div>
+				<div id="content">
+				{if $_SESSION['bobo_pay_userlogin']['utype']==1 || $_SESSION['bobo_pay_userlogin']['utype']==2}
+					<section id="section1">
+						<a id="order"  href="{php echo $this->createMobileUrl('alipayerweima',array())}"> 
+							<label style="text-align: center;">支付宝<br>扫码付</label> 
+						</a>
+						<a id="report" href="{php echo $this->createMobileUrl('alipaytiaoma',array())}">
+							<label style="text-align: center;">支付宝<br>刷卡</label> 
+						</a>
+					</section>
+					{/if}
+					{if $_SESSION['bobo_pay_userlogin']['utype']==1 || $_SESSION['bobo_pay_userlogin']['utype']==3}
+					<section id="section2">
+						<a id="callnum" href="{php echo $this->createMobileUrl('wxpayerweima',array())}";>
+							
+							<label style="text-align: center;">微信<br>扫码付</label> 
+						</a>
+						<a id="healthy" href="{php echo $this->createMobileUrl('wxpaytiaoma',array())}"> 
+							<label style="text-align: center;">微信<br>刷卡</label> 
+						</a>
+					</section>
+					{/if}
+					<section id="section3">
+						<a id="navigation" href="{php echo $this->createMobileUrl('paylog',array())}">
+							
+							<label>交易记录</label>
+						</a>
+						<a id="autognosis" href="{php echo $this->createMobileUrl('gengxin',array())}"> 
+							<label style="text-align: center;">持续更新<br>中......</label> 
+						</a>
+						<a id="news"  href="{php echo $this->createMobileUrl('logout',array())}"> 
+							
+							<label>退出登录</label>
+						</a>
+					</section>
+				</div>
+
+			</div>
+		</div>
+	</body>
+
+</html>

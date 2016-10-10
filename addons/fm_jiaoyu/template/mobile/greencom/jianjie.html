@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{$item['title']}</title>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+<link type="text/css" rel="stylesheet" href="{OSSURL}public/mobile/css/mGrzxTeacher.css?v=4.8" />
+<link type="text/css" rel="stylesheet" href="{OSSURL}public/mobile/css/greenStyle.css?v=4.80120" />
+<link type="text/css" rel="stylesheet" href="{OSSURL}public/mobile/css/pageContent.css?v=4.80120" />
+
+</head>
+<body>
+<div class="all">
+
+<div id="titlebar" class="header mainColor">
+	<div class="l"><a class="backOff" href="javascript:history.go(-1);"></a></div>
+	<div class="m">
+     <span style="font-size: 18px">校园简介</span>   
+	</div>
+	</div>
+<div id="titlebar_bg" class="_header"></div>
+		<div class="content">
+			<br/>{php echo htmlspecialchars_decode($item['content'])}<br/>			
+		</div>				
+		<div class="campusDiv">
+			<div class="campusTop">
+				<div class="campusLogo">
+					<img id="imgpath" alt="" src="{php echo tomedia($item['logo']);}" />
+				</div>
+				<div class="campusInfo">
+					<div class="info"><span>地址：{$item['address']}</span></div>
+					<div class="info"><span>电话：{$item['tel']}</span></div>
+				</div>
+				<div class="cl"></div>
+			</div>
+			<div class="campusBottom">
+				<div class="tips">扫一扫下方二维码，关注校园</div>
+				<img id="qrcodeurl" alt="" src="{if !empty($item['qroce'])}{php echo tomedia($item['qroce']);}{else}{$_W['attachurl']}qrcode_{$_W['acid']}.jpg?{php echo time()}{/if}">
+			</div>			
+		</div>
+	</div>
+</body>
+
+</html>

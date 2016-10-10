@@ -1,0 +1,242 @@
+﻿    <div class="panel-box" id="share_box">
+        <div class="panel-content" id="panel-content">
+            <div id="share_tip"></div>
+			<hr class="common-hr" />			
+			<div id="share_miao"></div>
+        </div>
+    </div>
+<script type="text/javascript">
+	require(['jquery', 'util'], function($, util){
+		var sharedata = {
+	        "imgUrl" : "{php echo tomedia($data['thumb'])}",
+	        "link" : "{$_W['siteroot']}app{php echo substr($this->createMobileUrl('taskshare',array('uid'=>$_W['member']['uid'] ,'tid'=>$id)),1,strlen($this->createMobileUrl('taskshare',array('uid'=>$_W['member']['uid'] ,'tid'=>$id))))}",
+	        "desc" : "{$data['sharedesc']}",
+	        "title" : "{$data['sharetitle']}"
+	    };
+		wx.ready(function () {
+			wx.showOptionMenu();
+			wx.onMenuShareAppMessage({
+			    title: sharedata.title,
+			    desc: sharedata.desc,
+			    link: sharedata.link,
+			    imgUrl: sharedata.imgUrl,			    
+			    {if !empty($data['share_cancel'])}
+				// 分享取消
+				cancel: function (res) {
+			        $("#share_tip").text("{$data['share_cancel']}");
+			        $("#share_miao").text("5秒后自动关闭");
+			        $("#share_box").show();
+			        djstime(5);
+			        setTimeout(function () { 
+			            $("#share_box").hide();
+			        }, 6000);
+			    },
+				// 分享取消
+				{/if}
+				{if !empty($data['share_fail'])}
+				// 分享失败
+			    fail: function (res) {
+			        $("#share_tip").text("{$data['share_fail']}");
+			        $("#share_miao").text("5秒后自动关闭");
+			        $("#share_box").show();
+			        djstime(5);
+			        setTimeout(function () { 
+			            $("#share_box").hide();
+			        }, 6000);
+			    },
+				// 分享失败
+				{/if}
+				{if !empty($data['share_confirm'])}
+				// 分享成功
+				success : function(resp) {
+				    $.getJSON('{php echo $this->createMobileUrl('task_share', array('uid'=>$_W['member']['uid'] ,'tid'=>$id))}', function(data){
+			    	    if(data.success==1) {
+                    	    $("#share_tip").text("{$data['share_confirm']}");
+			   	     	}else{
+			        	    $("#share_tip").text(data.msg);
+			    	    }
+			    	    $("#share_miao").text("5秒后自动关闭");
+			    	    $("#share_box").show();
+			   	        djstime(5);
+			    	    setTimeout(function () { 
+                    	    $("#share_box").hide();
+                	    }, 6000);
+				    });
+				},
+				// 分享成功
+				{/if}
+			});
+			wx.onMenuShareTimeline({
+			    title: sharedata.title,
+			    desc: sharedata.desc,
+			    link: sharedata.link,
+			    imgUrl: sharedata.imgUrl,			    
+			    {if !empty($data['share_cancel'])}
+				// 分享取消
+				cancel: function (res) {
+			        $("#share_tip").text("{$data['share_cancel']}");
+			        $("#share_miao").text("5秒后自动关闭");
+			        $("#share_box").show();
+			        djstime(5);
+			        setTimeout(function () { 
+			            $("#share_box").hide();
+			        }, 6000);
+			    },
+				// 分享取消
+				{/if}
+				{if !empty($data['share_fail'])}
+				// 分享失败
+			    fail: function (res) {
+			        $("#share_tip").text("{$data['share_fail']}");
+			        $("#share_miao").text("5秒后自动关闭");
+			        $("#share_box").show();
+			        djstime(5);
+			        setTimeout(function () { 
+			            $("#share_box").hide();
+			        }, 6000);
+			    },
+				// 分享失败
+				{/if}
+				{if !empty($data['share_confirm'])}
+				// 分享成功
+				success : function(resp) {
+				    $.getJSON('{php echo $this->createMobileUrl('task_share', array('uid'=>$_W['member']['uid'] ,'tid'=>$id))}', function(data){
+			    	    if(data.success==1) {
+                    	    $("#share_tip").text("{$data['share_confirm']}");
+			   	     	}else{
+			        	    $("#share_tip").text(data.msg);
+			    	    }
+			    	    $("#share_miao").text("5秒后自动关闭");
+			    	    $("#share_box").show();
+			   	        djstime(5);
+			    	    setTimeout(function () { 
+                    	    $("#share_box").hide();
+                	    }, 6000);
+				    });
+				},
+				// 分享成功
+				{/if}
+			});
+			wx.onMenuShareQQ({
+			    title: sharedata.title,
+			    desc: sharedata.desc,
+			    link: sharedata.link,
+			    imgUrl: sharedata.imgUrl,			    
+			    {if !empty($data['share_cancel'])}
+				// 分享取消
+				cancel: function (res) {
+			        $("#share_tip").text("{$data['share_cancel']}");
+			        $("#share_miao").text("5秒后自动关闭");
+			        $("#share_box").show();
+			        djstime(5);
+			        setTimeout(function () { 
+			            $("#share_box").hide();
+			        }, 6000);
+			    },
+				// 分享取消
+				{/if}
+				{if !empty($data['share_fail'])}
+				// 分享失败
+			    fail: function (res) {
+			        $("#share_tip").text("{$data['share_fail']}");
+			        $("#share_miao").text("5秒后自动关闭");
+			        $("#share_box").show();
+			        djstime(5);
+			        setTimeout(function () { 
+			            $("#share_box").hide();
+			        }, 6000);
+			    },
+				// 分享失败
+				{/if}
+				{if !empty($data['share_confirm'])}
+				// 分享成功
+				success : function(resp) {
+				    $.getJSON('{php echo $this->createMobileUrl('task_share', array('uid'=>$_W['member']['uid'] ,'tid'=>$id))}', function(data){
+			    	    if(data.success==1) {
+                    	    $("#share_tip").text("{$data['share_confirm']}");
+			   	     	}else{
+			        	    $("#share_tip").text(data.msg);
+			    	    }
+			    	    $("#share_miao").text("5秒后自动关闭");
+			    	    $("#share_box").show();
+			   	        djstime(5);
+			    	    setTimeout(function () { 
+                    	    $("#share_box").hide();
+                	    }, 6000);
+				    });
+				},
+				// 分享成功
+				{/if}
+			});
+			wx.onMenuShareWeibo({
+			    title: sharedata.title,
+			    desc: sharedata.desc,
+			    link: sharedata.link,
+			    imgUrl: sharedata.imgUrl,			    
+			    {if !empty($data['share_cancel'])}
+				// 分享取消
+				cancel: function (res) {
+			        $("#share_tip").text("{$data['share_cancel']}");
+			        $("#share_miao").text("5秒后自动关闭");
+			        $("#share_box").show();
+			        djstime(5);
+			        setTimeout(function () { 
+			            $("#share_box").hide();
+			        }, 6000);
+			    },
+				// 分享取消
+				{/if}
+				{if !empty($data['share_fail'])}
+				// 分享失败
+			    fail: function (res) {
+			        $("#share_tip").text("{$data['share_fail']}");
+			        $("#share_miao").text("5秒后自动关闭");
+			        $("#share_box").show();
+			        djstime(5);
+			        setTimeout(function () { 
+			            $("#share_box").hide();
+			        }, 6000);
+			    },
+				// 分享失败
+				{/if}
+				{if !empty($data['share_confirm'])}
+				// 分享成功
+				success : function(resp) {
+				    $.getJSON('{php echo $this->createMobileUrl('task_share', array('uid'=>$_W['member']['uid'] ,'tid'=>$id))}', function(data){
+			    	    if(data.success==1) {
+                    	    $("#share_tip").text("{$data['share_confirm']}");
+			   	     	}else{
+			        	    $("#share_tip").text(data.msg);
+			    	    }
+			    	    $("#share_miao").text("5秒后自动关闭");
+			    	    $("#share_box").show();
+			   	        djstime(5);
+			    	    setTimeout(function () { 
+                    	    $("#share_box").hide();
+                	    }, 6000);
+				    });
+				},
+				// 分享成功
+				{/if}
+			});
+		});
+	});
+	/*倒计时*/
+    function djstime(miao){
+	var e1=$("#share_miao").first();
+	var i=miao;
+	var interval=setInterval(function(){
+		e1.html(i+"秒自动关闭");
+		$("#share_miao").css("line-height","35px");
+		i--;
+		if(i<0){
+			$("#share_miao").css({cursor:"pointer"});
+			$("#share_miao").css("line-height","35px");						
+			clearInterval(interval);	
+		}
+	},1000);
+    }
+	$("#share_close").click(function(){
+		$("#share_box").hide();
+	});
+</script>

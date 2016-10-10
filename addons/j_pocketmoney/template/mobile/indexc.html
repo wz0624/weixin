@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0">
+<title>{$reply['title']}</title>
+<meta name="format-detection" content="telephone=no, address=no">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-touch-fullscreen" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+{php echo register_jssdk(false);} 
+<link rel="stylesheet" href="../addons/j_pocketmoney/style/css/css.css" />
+<link rel="stylesheet" href="../addons/j_pocketmoney/style/js/sweetalert.css" />
+<script type="text/javascript" src="../addons/j_pocketmoney/style/js/sweetalert.min.js"></script> 
+<script type="text/javascript" src="../addons/j_pocketmoney/style/jquery-2.1.1.min.js"></script> 
+
+</head>
+<body>
+<div><img src="{if $reply['pageback']}{$_W['attachurl']}{$reply['pageback']}{else}../addons/j_pocketmoney/style/img/back.png{/if}" width="100%" /> <img class="avatar" src="{$fans['headimgurl']}" width="60" height="60"/></div>
+<p class="nickname">我的{$cfg['key_word']}</p>
+<div class="desc-info">
+  <p class='flow'><strong></strong></p>
+</div>
+<div class="share_overmask" style="display:none;"><img class="bg" src="../addons/j_pocketmoney/style/img/tips.png" /></div>
+
+<div class="infobox" onClick="info()">规则说明</div>
+<script>
+function info(){
+	swal({
+		title: "规则说明", 
+		text: '<div style="text-align:left">{php echo str_replace(array("\r\n", "\r", "\n"), "<br>",trim($reply["info"]));}</div>',
+		html: true
+	});
+}
+</script> 
+<a href="javascript:void(0)" style="text-decoration:none; padding-left:10px;padding-right:10px">
+<button class="btn-give" style="background:#339900;">积分: {php echo $fansUser[$reply['credittype']]} </button>
+</a>
+
+{if $status==2}
+{if $reply['maxnums']>$isfirstrecord}
+<a href="javascript:void(0)" onclick="more2()" style="text-decoration:none;">
+<button class="btn-give" id="more2">再次领取{$cfg['key_word']}</button>
+</a>
+{else}
+<a href="javascript:void(0)" style="text-decoration:none;">
+<button class="btn-give" style="background:#F93;">每人最多领取{$reply['maxnums']}次哦</button>
+</a>
+{/if}
+<script>
+var isget=0;
+function more2(){
+	if($('#more2').html()=="再次领取{$cfg['key_word']}"){
+		$('#more2').html('正在发放中，请等待');
+		$.post("{php echo $this->createMobileurl('jf',array('r_id'=>$r_id,'uid'=>$uid))}", { "openid": "{$_W['fans']['from_user']}",'fee':'100' },function(data){
+			if(data.type=='success'){
+				swal({
+					title: "恭喜您",
+					type: "success",
+					text: data.message,
+				}, function(){ 
+					$('#more2').html('领取成功');			
+					location.reload();
+				});
+			}else{
+				swal("错误提示", data.message, "error")
+			}   
+	   }, "json");
+	}
+}
+</script>
+{elseif $status==1} 
+<!--发放成功，提示分享-->
+{if $restatus==1} 
+<a href="javascript:void(0)" onclick="go2()" style="text-decoration:none;">
+<button class="btn-give" id="btn_give">重新领取</button>
+</a> 
+{else} <a href="javascript:void(0)" onclick="go2()" style="text-decoration: none;">
+<button class="btn-give" id="btn_give">我也要领取</button>
+</a>
+{/if}
+
+<script>
+var isget=0;
+function go2(){
+	if($('#btn_give').html()=='我也要领取'|| $('#btn_give').html()=='重新领取'){
+		$('#btn_give').html('正在发放中，请等待');
+		$.getJSON("{php echo $this->createMobileurl('jf',array('openid'=>$_W['fans']['from_user'],'r_id'=>$r_id,'uid'=>$uid))}", {'fee':'100'},function(data){
+			if(data.type=='success'){
+				swal({
+					title: "恭喜您",
+					type: "success",
+					text: data.message,
+				}, function(){ 
+					$('#btn_give').html('领取成功');		
+					location.reload();
+				});
+			}else{
+				swal("错误提示", data.message, "error");
+			}   
+		});
+	}
+}
+</script> 
+{else}
+<a href="javascript:void(0)" onclick="go0()" style="text-decoration: none;">
+<button class="btn-give">我也要领取</button>
+</a> 
+<script>
+function go0(){
+	swal("未知错误~");
+}
+</script> 
+{/if}
+<div class="already-get">看看都有谁在抢...</div>
+<div class="content">
+  <ul>
+    {loop $list $row}
+    <li> <img class="receiver_avatar" width="36" height="36" src="{$row['headimgurl']}" />
+      <div class="receiver_info">
+        <div style="margin-bottom: 2px;"> <span class="nickname">{$row['nickname']}</span> <span class="time">{php echo date('m/d H:i',$row['created'])}</span> </div>
+        <div class="desc">{$row['kouhao']}</div>
+      </div>
+      <div class="receiver_flow"> 
+        <!--<div class="red">{php echo sprintf('%.2f', $row['fee'] / 100)}元</div>--> 
+      </div>
+    </li>
+    {/loop}
+  </ul>
+</div>
+{template 'ad'} 
+<script>
+$(function(){
+    swal({title: "系统紧张加载中",   text: "请稍候，马上就来",  showConfirmButton: false });
+});
+wx.ready(function () {
+	swal.close();
+	isget=1;
+});
+</script>
+<script type="text/javascript">
+
+$(function(){
+	$('.share_overmask').on('click', function() {
+		$(".share_overmask").hide();
+	});
+	{if $cfg['share_enabel']}
+	wx.ready(function () {
+		isget=1;
+		wx.hideOptionMenu();
+	})
+	{else}
+	var imgUrl = "{if $cfg['share_img']}{php echo $fans['headimgurl']}{else}{$_W['attachurl']}{$reply['shareimg']}{/if}";
+	var lineLink = "{php echo $_W['siteroot'].$this->createMobileurl('index',array('r_id'=>$r_id))}";
+	var descContent = "发福利了~我已经参与了，快来一起玩吧！";
+	var shareTitle = "{$reply['title']}";
+	wx.ready(function () {
+		isget=1;
+		{if $status==-2}
+			wx.hideOptionMenu();
+		{else}
+			var isShare2f=parseInt("{$reply['sharetofriend']}");
+			var isShare2t=parseInt("{$reply['sharetotimeline']}");
+			
+			var menuitem=['menuItem:profile','menuItem:share:email','menuItem:openWithSafari','menuItem:openWithQQBrowser','menuItem:readMode','menuItem:copyUrl','menuItem:share:qq'];
+			if(isShare2f)menuitem.push("menuItem:share:appMessage");
+			if(isShare2t)menuitem.push("menuItem:share:timeline");
+			wx.hideMenuItems({
+				 menuList: menuitem
+			});
+			wx.onMenuShareAppMessage({
+				title: shareTitle, 
+				desc: descContent, 
+				link: lineLink, 
+				imgUrl: imgUrl, 
+				type: 'link', 
+				dataUrl: '', 
+				success: function () { 
+				},
+				cancel: function () { 
+				}
+			});
+			wx.onMenuShareTimeline({
+				title: descContent, 
+				link: lineLink, 
+				imgUrl: imgUrl, 
+				success: function () {
+				},
+				cancel: function () { 
+				}
+			});
+			wx.error(function(res){
+				//location.reload();
+			});
+		{/if}
+		{/if}
+	});
+});
+</script>
+</body>
+</html>

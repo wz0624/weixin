@@ -1,0 +1,384 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.012wz.com" versionCode="0.6">
+	<application setting="false">
+		<name><![CDATA[超级在线直播]]></name>
+		<identifie><![CDATA[meepo_online]]></identifie>
+		<version><![CDATA[1.3.0]]></version>
+		<type><![CDATA[other]]></type>
+		<ability><![CDATA[超级在线直播]]></ability>
+		<description><![CDATA[超级在线直播]]></description>
+		<author><![CDATA[易福源码网]]></author>
+		<url><![CDATA[http://www.efwww.com]]></url>
+
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+	</platform>
+	<bindings>
+		<menu>
+			<entry title="直播管理" do="live_manage" state="" direct="false" />
+		</menu>
+		<home>
+			<entry title="直播首页" do="index" state="" direct="false" />
+		</home>
+		<profile>
+			<entry title="直播首页" do="index" state="" direct="false" />
+		</profile>
+		<cover>
+			<entry title="直播精选" do="best_live" state="" direct="false" />
+			<entry title="个人中心" do="user" state="" direct="false" />
+			<entry title="直播首页" do="index" state="" direct="false" />
+		</cover>
+	</bindings>
+	<install><![CDATA[
+
+DROP TABLE IF EXISTS `ims_meepo_online_adv`;
+CREATE TABLE `ims_meepo_online_adv` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `weid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '所属帐号',
+  `title` varchar(100) NOT NULL COMMENT '幻灯片标题',
+  `displayorder` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
+  `isshow` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '显示',
+  `img` varchar(300) NOT NULL COMMENT '幻灯片',
+  `url` varchar(300) NOT NULL COMMENT '幻灯片链接',
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `ims_meepo_footer_menu`;
+CREATE TABLE `ims_meepo_footer_menu` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `weid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '所属帐号',
+  `name` varchar(50) NOT NULL COMMENT '分类名称',
+  `icon` varchar(50) NOT NULL COMMENT '分类名称',
+  `isshow` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否显示',
+  `url` varchar(300) NOT NULL,
+  `displayorder` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `ims_meepo_online_category`;
+CREATE TABLE `ims_meepo_online_category` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `weid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '所属帐号',
+  `title` varchar(50) NOT NULL COMMENT '分类名称',
+  `isshow` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否显示',
+  `no_img` varchar(300) NOT NULL,
+  `displayorder` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `ims_meepo_online_dayu_sms`;
+CREATE TABLE `ims_meepo_online_dayu_sms` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `weid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '所属帐号',
+  `appkey` varchar(200) NOT NULL COMMENT 'appkey',
+  `appsecret` varchar(200) NOT NULL COMMENT 'appsecret',
+  `sms_signname` varchar(100) NOT NULL COMMENT 'sms_signname',
+  `sms_tpl_id` varchar(100) NOT NULL COMMENT 'sms_tpl_id',
+  `sms_success_tpl_id` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `ims_meepo_online_dayu_sms_record`;
+CREATE TABLE `ims_meepo_online_dayu_sms_record` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `weid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '所属帐号',
+  `openid` varchar(200) NOT NULL COMMENT 'appkey',
+  `listid` int(10) NOT NULL COMMENT '直播id',
+  `sms_code` varchar(10) NOT NULL COMMENT 'sms_signname',
+  `createtime` int(11) NOT NULL COMMENT 'sms_tpl_id',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `ims_meepo_online_list`;
+CREATE TABLE `ims_meepo_online_list` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `weid` int(11) NOT NULL,
+  `categoryid` int(11) NOT NULL,
+  `activity_id` varchar(100) NOT NULL,
+  `cansay` tinyint(1) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `type` tinyint(1) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `activity_vu` varchar(100) NOT NULL,
+  `activity_uu` varchar(100) NOT NULL,
+  `open_img` varchar(300) NOT NULL,
+  `yt_iframe` varchar(1000) NOT NULL,
+  `local_media` varchar(300) NOT NULL,
+  `marqueen_words` varchar(1000) NOT NULL,
+  `img` varchar(300) NOT NULL,
+  `main_color` varchar(300) NOT NULL DEFAULT '#ff6a00',
+  `description` longtext NOT NULL,
+  `isshow` int(11) NOT NULL,
+  `start_time` int(11) NOT NULL,
+  `end_time` int(11) NOT NULL,
+  `zan_style` tinyint(1) NOT NULL,
+  `zan` int(11) NOT NULL,
+  `pinglun` int(11) NOT NULL,
+  `displayorder` int(11) NOT NULL,
+  `is_best` tinyint(1) NOT NULL DEFAULT '0',
+  `live_logo` varchar(300) NOT NULL,
+  `top_bj` varchar(300) NOT NULL,
+  `share_title` varchar(300) NOT NULL,
+  `share_content` varchar(300) NOT NULL,
+  `share_img` varchar(300) NOT NULL,
+  `advs` text NOT NULL,
+  `content` text NOT NULL,
+  `award_tpl` varchar(300) NOT NULL,
+  `consumer_tpl` varchar(300) NOT NULL,
+  `award_customer_img` varchar(300) NOT NULL,
+  `yuyue_tpl` varchar(300) NOT NULL,
+  `yuyue_customer_img` varchar(300) NOT NULL,
+  `consumer_customer_img` varchar(300) NOT NULL,
+  `dashang_show` tinyint(1) NOT NULL,
+  `gift_show` tinyint(1) NOT NULL,
+  `dashang_limit` varchar(20) NOT NULL DEFAULT '1',
+  `dashang_flower` tinyint(1) NOT NULL DEFAULT '1',
+  `gift_flower` tinyint(1) NOT NULL DEFAULT '1',
+  `newjoin_flower` tinyint(1) NOT NULL DEFAULT '1',
+  `dashang_music` varchar(300) NOT NULL DEFAULT '0',
+  `gift_music` varchar(300) NOT NULL DEFAULT '0',
+  `newjoin_music` varchar(300) NOT NULL,
+  `live_persons` int(11) NOT NULL,
+  `shake_show` tinyint(1) NOT NULL,
+  `shake_must_address` tinyint(1) NOT NULL,
+  `player_height` int(11) NOT NULL DEFAULT '180',
+  `createtime` int(11) NOT NULL,
+  `need_pay` tinyint(1) NOT NULL DEFAULT '0',
+  `pay_money` varchar(100) NOT NULL DEFAULT '0',
+  `look_code` varchar(100) NOT NULL,
+  `look_type` tinyint(1) NOT NULL DEFAULT '0',
+  `end_type` tinyint(1) NOT NULL COMMENT '规则',
+  `yuyue_show` tinyint(1) NOT NULL DEFAULT '1',
+  `sms_mobile` tinyint(1) NOT NULL DEFAULT '1',
+  `put_mobile` tinyint(1) NOT NULL DEFAULT '1',
+  `gift_pay_detail` tinyint(1) NOT NULL DEFAULT '1',
+  `shake_bg_img` varchar(300) NOT NULL,
+  `no_start_activity_id` varchar(100) NOT NULL,
+  `no_start_activity_uu` varchar(100) NOT NULL,
+  `no_start_activity_vu` varchar(100) NOT NULL,
+  `no_start_yt_iframe` varchar(2000) NOT NULL,
+  `no_start_local_media` varchar(800) NOT NULL,
+  `open_img_url` varchar(300) NOT NULL,
+  `djs_txt_color` varchar(20) NOT NULL DEFAULT '#ffffff',
+  `end_activity_id` varchar(100) NOT NULL,
+  `end_activity_uu` varchar(100) NOT NULL,
+  `end_activity_vu` varchar(100) NOT NULL,
+  `end_yt_iframe` varchar(2000) NOT NULL,
+  `end_local_media` varchar(800) NOT NULL,
+  `no_start_type` tinyint(1) NOT NULL DEFAULT '3',
+  `thumb_time` int(10) NOT NULL DEFAULT '5',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `ims_meepo_online_list_gift`;
+CREATE TABLE `ims_meepo_online_list_gift` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `weid` int(11) NOT NULL,
+  `listid` int(11) NOT NULL,
+  `money` varchar(100) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `img` varchar(300) NOT NULL,
+  `displayorder` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `ims_meepo_online_list_lookcode`;
+CREATE TABLE `ims_meepo_online_list_lookcode` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `weid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '所属帐号',
+  `openid` varchar(200) NOT NULL COMMENT '粉丝标识',
+  `listid` int(10) NOT NULL COMMENT '直播id',
+  `code` varchar(15) NOT NULL,
+  `createtime` int(11) NOT NULL DEFAULT '0' COMMENT '是否显示',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `ims_meepo_online_list_lookpay`;
+CREATE TABLE `ims_meepo_online_list_lookpay` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `weid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '所属帐号',
+  `openid` varchar(200) NOT NULL COMMENT '粉丝标识',
+  `listid` int(10) NOT NULL COMMENT '直播id',
+  `money` varchar(10) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '支付',
+  `createtime` int(11) NOT NULL DEFAULT '0' COMMENT '支付时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `ims_meepo_online_list_menu`;
+CREATE TABLE `ims_meepo_online_list_menu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `weid` int(11) NOT NULL,
+  `listid` int(11) NOT NULL,
+  `isshow` tinyint(1) NOT NULL,
+  `type` varchar(100) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `settings` text NOT NULL,
+  `displayorder` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `ims_meepo_online_list_need_input`;
+CREATE TABLE `ims_meepo_online_list_need_input` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `weid` int(11) NOT NULL,
+  `listid` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `code` varchar(100) NOT NULL,
+  `placeholder` varchar(300) NOT NULL,
+  `displayorder` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `ims_meepo_online_list_shake_award`;
+CREATE TABLE `ims_meepo_online_list_shake_award` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `weid` int(11) NOT NULL,
+  `type` tinyint(1) NOT NULL DEFAULT '0',
+  `listid` int(11) NOT NULL,
+  `num` int(11) NOT NULL,
+  `had_get_num` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `img` varchar(300) NOT NULL,
+  `gailv` int(11) NOT NULL DEFAULT '0',
+  `get_url` varchar(300) NOT NULL,
+  `get_way` tinyint(1) NOT NULL DEFAULT '1',
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `ims_meepo_online_list_shake_record`;
+CREATE TABLE `ims_meepo_online_list_shake_record` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `weid` int(11) NOT NULL,
+  `listid` int(11) NOT NULL,
+  `openid` varchar(100) NOT NULL,
+  `nickname` varchar(100) NOT NULL,
+  `avatar` varchar(300) NOT NULL,
+  `award_id` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `ims_meepo_online_list_share`;
+CREATE TABLE `ims_meepo_online_list_share` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `weid` int(11) NOT NULL,
+  `openid` varchar(100) NOT NULL,
+  `nickname` varchar(200) NOT NULL,
+  `avatar` varchar(300) NOT NULL,
+  `categoryid` int(11) NOT NULL,
+  `listid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `ims_meepo_online_list_user`;
+CREATE TABLE `ims_meepo_online_list_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `weid` int(11) NOT NULL,
+  `openid` varchar(100) NOT NULL,
+  `oauth_openid` varchar(100) NOT NULL,
+  `nickname` varchar(200) NOT NULL,
+  `avatar` varchar(300) NOT NULL,
+  `sex` tinyint(1) NOT NULL,
+  `cansay` tinyint(1) NOT NULL DEFAULT '0',
+  `categoryid` int(11) NOT NULL,
+  `listid` int(11) NOT NULL,
+  `realname` varchar(200) NOT NULL DEFAULT '0',
+  `mobile` varchar(20) NOT NULL DEFAULT '0',
+  `father_id` int(11) NOT NULL DEFAULT '0',
+  `address` varchar(500) NOT NULL DEFAULT '0',
+  `need_info` text NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `ims_meepo_online_list_zan`;
+CREATE TABLE `ims_meepo_online_list_zan` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `weid` int(11) NOT NULL,
+  `openid` varchar(100) NOT NULL,
+  `nickname` varchar(200) NOT NULL,
+  `avatar` varchar(300) NOT NULL,
+  `categoryid` int(11) NOT NULL,
+  `listid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `ims_meepo_online_pinglun`;
+CREATE TABLE `ims_meepo_online_pinglun` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `weid` int(11) NOT NULL,
+  `openid` varchar(100) NOT NULL,
+  `nickname` varchar(200) NOT NULL,
+  `avatar` varchar(300) NOT NULL,
+  `sex` varchar(10) NOT NULL,
+  `categoryid` int(11) NOT NULL,
+  `listid` int(11) NOT NULL,
+  `content` varchar(1000) NOT NULL,
+  `type` varchar(11) NOT NULL DEFAULT '0',
+  `status` tinyint(1) NOT NULL,
+  `money` varchar(100) NOT NULL,
+  `num` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `ims_meepo_online_setting`;
+CREATE TABLE `ims_meepo_online_setting` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `weid` int(11) NOT NULL,
+  `settings` text NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `ims_meepo_online_user`;
+CREATE TABLE `ims_meepo_online_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `weid` int(11) NOT NULL,
+  `openid` varchar(100) NOT NULL,
+  `nickname` varchar(100) NOT NULL,
+  `avatar` varchar(300) NOT NULL,
+  `sex` varchar(10) NOT NULL,
+  `realname` varchar(200) NOT NULL DEFAULT '0',
+  `address` varchar(500) NOT NULL DEFAULT '0',
+  `mobile` varchar(20) NOT NULL DEFAULT '0',
+  `createtime` int(11) NOT NULL,
+  `newjointime` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+]]></install>
+	<uninstall><![CDATA[uninstall.php]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

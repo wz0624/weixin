@@ -1,0 +1,120 @@
+{template 'common/header'}
+{template 'nav'}
+{template 'list_nav'}
+<style>
+.editable-click, a.editable-click {
+    color: #000 !important;
+    border-bottom:none !important;
+    text-decoration: none;
+}
+.editable-input.editable-has-buttons {
+    width: auto;
+    max-width: 100px;
+}
+.st-sort-ascent:before {
+    content: '\25B2';
+}
+</style>
+<!-- 项目管理 -->
+{if $op=='list'}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		填写项目管理
+	</div>
+	<div class="panel-body">
+		<table  class="table table-striped">
+			<thead>
+				<tr>
+					<th style="width:15%;">排序序号序号</th>
+					<th style="width:15%;">字段名称</th>
+					<th style="width:15%;">字段</th>
+					<th style="width:25%;">输入提示语</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{loop $lists $row}
+				<tr>
+					<td>
+						{$row['displayorder']}
+					</td>
+					<td>
+						{$row['name']}
+					</td>
+					<td>
+						{$row['code']}
+					</td>
+					<td>
+						{$row['placeholder']}
+					</td>
+					
+					<td style="overflow:visible">
+						<a class="btn btn-default" title="编辑" href="{php echo $this->createWebUrl('need_input',array('op'=>'post','listid'=>$listid,'id'=>$row['id']))}">
+							<i class="fa fa-gear"></i>
+						</a>
+						<a class="btn btn-default" title="删除" href="{php echo $this->createWebUrl('need_input',array('op'=>'del','listid'=>$listid,'id'=>$row['id']))}" onclick="return confirm('删除将无法恢复，确认吗？');return false;">
+							<i class="fa fa-times"></i>
+						</a>
+					</td>
+				</tr>
+			{/loop}
+			</tbody>
+		</table>
+		
+	</div>
+	<div class="panel-footer">
+		<a href="{php echo $this->createWebUrl('need_input',array('op'=>'post','listid'=>$listid))}" class="btn btn-sm btn-success">
+			<i class="glyphicon glyphicon-plus"></i>新增输入项
+		</a>
+	</div>
+</div>
+{elseif $op=='post'}
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		{if !empty($list['id'])}编辑{else}新增{/if}文本输入框
+	</div>
+	<div class="panel-body">
+		<form action="" method="post" class="form-horizontal" role="form" id="form1" >
+			
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">排序序号</label>
+						<div class="col-sm-8 col-lg-10 col-xs-12">
+							<input type="text" value="{$list['displayorder']}" class="form-control" name="displayorder">
+							<span class="help-block">排序序号</span>
+						</div>
+					</div>
+					<div class="form-group">
+							  <label class="col-xs-12 col-sm-2 col-md-2  col-lg-2 control-label">字段名称</label>
+							  <div class="col-sm-9 col-lg-10">
+										  <input type="text" name="name" value="{$list['name']}" class="form-control">
+								  <span class="help-block">字段名称</span>
+							  </div>
+					 </div>
+					 <div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">字段代码</label>
+						<div class="col-sm-8 col-lg-9 col-xs-12">
+							<input type="text" class="form-control" name="code" value="{$list['code']}">
+							<span class="help-block">字段代码、请保证此值的唯一性</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">输入提示</label>
+						<div class="col-sm-8 col-lg-9 col-xs-12">
+							<input type="text" class="form-control" name="placeholder" value="{$list['placeholder']}">
+							<span class="help-block">输入提示</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-12">
+							<input name="submit" type="submit" value="提交" class="btn btn-primary" />
+							<input type="hidden" name="id" value="{$list['id']}" />
+							<input type="hidden" name="listid" value="{$listid}" />
+							<input type="hidden" name="token" value="{$_W['token']}" />
+						</div>
+					</div>
+	</div>
+	</form>
+</div>
+{/if}
+{template 'common/footer'}

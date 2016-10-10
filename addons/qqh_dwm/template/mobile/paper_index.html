@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="yes" name="apple-touch-fullscreen" />
+<meta name="robots" content="none" />
+<meta name="viewport" id="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<title> {$result['nickname']}公布TA的知己，快看，马上删...</title>
+{php echo register_jssdk();} 
+
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}public/css/style.css?v1.01">
+<script src="{MODULE_URL}public/js/jquery-1.8.3.min.js"></script>
+</head>
+<body>
+	<div class="wrap rel">
+    <img src="{$result['avatar']}" style="left:-3000px;position: absolute;">
+
+
+<div class="title mcenter small_title">
+	<img src="{$md_config[logo]}" />
+</div>
+<div class="user">
+	<div class="avatar_wrap mcenter rel">
+		<img class="avatar abscenter" src="{$result['avatar']}" />
+	</div>
+	<p class="nick">我是{$dmw_user['nickname']}</p>
+</div>
+<div class="user_btn">
+	<a class="again_btn" href="{php echo $this->createMobileUrl('index', array('op'=>'question'), true);}">重选一次</a>
+	<a class="news rel" href="{$md_config[follow]}">你有新消息</a>
+	
+	<!-- <div style="padding-top:10px"><a href="http://evt.dianping.com/event/mmbonus/new/newlanding.html?source=weixinzhiji" style='width: 100%;margin-right: 0;'><img src="http://f.shiyi11.com/ui/img/wxgame/20160112/ad_dianping2.jpg" width="100%"></a></div> -->
+</div>
+<div class="result_wrap">
+	<div class="check_wrap">
+		<a class="check rel">
+			<span class="check_txt">TA们真的懂你吗</span>
+			
+				<i></i>
+				<i></i>
+			</span>
+		</a>
+	</div>
+	
+	<ul class="result">
+
+
+   {if $topica2['0']['p_id'] == ""}
+	
+<li>暂时还没有人回答</li>
+{else}
+{loop $topica2 $num $con}
+	<li class="dbox">
+			<img class="avatar" src="{$con['p_avatar']}" />
+			<div class="result_info boxf1">
+				<h4 class="nick txtbeyondno">{$con['p_nickname']}</h4>
+				<p class="result_evl">{$con['evaluate']}</p>
+			</div>
+			<em class="result_value ">{$con['p_fractions']}0%</em>
+		</li>
+{/loop}
+{/if}
+	    		
+
+		
+
+
+
+			</ul>
+</div>
+
+	</div>
+		<script>
+wx.ready(function () {
+
+  var shareData = {
+    title: '谁是{$result['nickname']}的知己？- 情感大考验',
+    desc: '敢玩吗？看看你有多了解我',
+    link: "{$_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&topic={$_GPC['topic']}&op=topic&do=user_question&m=qqh_dwm",
+    imgUrl: '{$result['avatar']}'
+  };
+  wx.onMenuShareAppMessage(shareData);
+  wx.onMenuShareTimeline(shareData);
+});
+
+</script>
+<p class="coop_info">{$md_config['name']}</p>
+</body>
+</html>

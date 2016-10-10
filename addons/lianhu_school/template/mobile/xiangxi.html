@@ -1,0 +1,64 @@
+{template 'header'}
+{template 'common'}
+<link type="text/css" rel="stylesheet" href="../addons/lianhu_school/images/style.css?{TIMESTAMP}">
+<div class="head">
+	<!-- <a href="javascript:history.back();" class="bn pull-left"><i class="fa fa-angle-left"></i></a> -->
+	<span class="title">详细资料</span>
+	<!-- <a href="javascript:;" class="bn pull-right"><i class="fa fa-shopping-cart"></i><span class="buy-num img-circle"> {$carttotal} </span></a> -->
+</div>
+<form class="form-horizontal" method="post" role="form" action="{php echo $this->createMobileUrl('bangding', array('submit' => '1'))}">
+	<div class="order-main">
+		<div class="add-address img-rounded" id="addAddressPanel" >
+			<div class="add-address-hd">详细资料</div>
+			<div class="add-address-main">
+				<div class="form-group">
+					<label class="col-sm-3 control-label">学生姓名：</label>
+					<div class="col-sm-9">
+						{$result['student_name']}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label">学生系统号：</label>
+					<div class="col-sm-9">
+						{$result['student_passport']}
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="col-sm-3 control-label">学生学号：</label>
+					<div class="col-sm-9">
+						{$result['xuehao']}
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="col-sm-3 control-label">学生联系方式：</label>
+					<div class="col-sm-9">
+						{$result['student_link']}
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="col-sm-3 control-label">学生地址：</label>
+					<div class="col-sm-9">
+						{$result['address']}
+					</div>
+				</div>																
+				<div class="form-group">
+					<label class="col-sm-3 control-label">家长姓名：</label>
+					<div class="col-sm-9">
+						{$result['parent_name']}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label">家长电话：</label>
+					<div class="col-sm-9">
+						{$result['parent_phone']}
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-12">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+

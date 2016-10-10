@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>报名成功</title>
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+<link href="../addons/hc_chuansong/css/WeChat_wap_style.css?v54" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="box_padding1">
+<div class="Complete"><img src="{php echo toimage($item['result_thumb'])}" width="100%"/></div>
+<div class="text4">报名成功!</div>
+</div>
+<script src="http://apps.bdimg.com/libs/jquery/1.8.3/jquery.min.js"></script>	
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+{php $signPackage=$_W['account'][jssdkconfig];}	
+<script>
+	wx.config({
+		debug: false,
+		appId: '<?php echo $signPackage["appId"];?>',
+		timestamp: <?php echo intval($signPackage["timestamp"]);?>,
+		nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+		signature: '<?php echo $signPackage["signature"];?>',
+		jsApiList: ['checkJsApi','hideOptionMenu','showOptionMenu'] 
+	});
+	wx.ready(function(){
+		wx.hideOptionMenu();
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<table width="100%" height="64" border="1" align="center" cellpadding="0" cellspacing="0">
+  <tbody>
+    <tr>
+      <th width="5%" height="32">选手编号</th>
+      <th width="10%">投票昵称</th>
+      <th width="10%">投票openid</th>
+      <th width="10%">投票ip</th>
+      <th width="5%">同ip投票数</th>
+      <th width="5%">同ip登陆微信数</th>
+      <th width="10%">ip地区</th>
+      <th width="10%">投票时间</th>
+    </tr>
+	{loop $list $item}
+    <tr>
+      <td height="30" align="center">{$item['uid']}</td>
+      <td align="center">{$item['nickname']}</td>
+      <td align="center">{$item['openid']}</td>
+      <td align="center">{php echo long2ip($item['ip']);}</td>
+      <td align="center">{$item['count']}</td>
+      <td align="center">{$item['ocount']}</td>
+	  <td align="center">{$item['dz']}</td>
+	  <td align="center">{php echo date('Y-m-d H:i:s', $item['created_at'])}</td>
+    </tr>
+    {/loop}
+  </tbody>
+</table>

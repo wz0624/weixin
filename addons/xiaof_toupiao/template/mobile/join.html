@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>{$setting['title']}</title>
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <link rel="stylesheet" type="text/css" href="{php echo MODULE_URL;}template/mobile/css/style.css" media="all"/>
+	<link rel="stylesheet" type="text/css" href="/web/resource/css/font-awesome.min.css"/>
+    <script type="text/javascript" src="{php echo MODULE_URL;}template/mobile/js/jquery-2.1.0.min.js"></script>
+    {php echo register_jssdk(false);}
+	<style>
+		.body-bg-color{ background:{$setting['bodycolor']}}
+		.button-bg-color{ background:{$setting['buttoncolor']}}
+		.box-bg-color{ background:{$setting['boxcolor']}}
+        .title-bg-color{ background:{$setting['titlecolor']};}
+		body,a{ color:{$setting['textcolor']}}
+	</style>	
+</head>
+<body class="body-bg-color">
+
+<div class="head">
+    <div class="head-banner">
+		{if is_array($setting['thumb'])}
+			{if count($setting['thumb']) <=1}
+				<img src="{php echo tomedia(reset($setting['thumb']))}">
+			{else}
+				<link rel="stylesheet" type="text/css" href="{MODULE_URL}/template/mobile/css/swiper.min.css" media="all"/>
+				<script type="text/javascript" src="{MODULE_URL}template/mobile/js/swiper.jquery.min.js"></script>
+				<div class="swiper-container">
+				  <div class="swiper-wrapper">
+					{loop $setting['thumb'] $thumbitem}
+					<div class="swiper-slide"><img src="{php echo tomedia($thumbitem);}"></div>
+					{/loop}
+				  </div>
+				</div>				
+				<script> 
+				$(function(){
+					var mySwiper = new Swiper('.swiper-container', {
+						autoplay: 3000
+					})
+				});
+				</script>				
+			{/if}
+		{else}
+        <img src="{php echo tomedia($setting['thumb'])}">
+		{/if}
+    </div>
+</div>
+
+<div class="wrapper">
+
+	<h3>报名参加</h3>
+	<form id="join-form">
+	<input type="hidden" name="pid" value="{$item['id']}"/>
+	<table class="join-form" width="100%">
+		<tr>
+			<td style="width: 89px;"><span class="label">名称：</span></td>
+			<td>
+				<input id="name" name="name" value="{$item['name']}" {if isset($item['id'])}disabled="disabled"{/if} placeholder="您的姓名"/>
+			</td>
+		</tr>		
+		<tr>
+			<td><span class="label">联系电话：</span></td>
+			<td>
+				<input id="phone" name="phone" value="{$item['phone']}" {if isset($item['id'])}disabled="disabled"{/if} placeholder="您的联系电话"/>
+			</td>
+		</tr>			
+		<tr>
+			<td><span class="label">照片：</span></td>
+			<td>
+				<div class="clearfix">
+					<span class="pic-container fn-left" id="pic-container">
+						{loop $lists $picitem}
+						<span class='picid' onclick="$(this).remove();"><div class='pic-close'>x</div><input type="hidden" name="pics[]" value="{$picitem['thumb']}"/><img src="{php echo tomedia($picitem['thumb']);}"/></span>
+						{/loop}
+					</span>
+					<span class="filepicker fn-left" id="filepicker"></span>
+				</div>					
+			</td>
+		</tr>
+		<tr>
+			<td><span class="label">描述：</span></td>
+			<td>
+				<textarea id="describe" name="describe" placeholder="您的宣言描述">{$item['describe']}</textarea>
+			</td>
+		</tr>			
+	</table>
+	</form>
+	报名前请仔细阅读活动规则
+	<button class="join-button button-bg-color" id="form-submit">{if isset($item['id'])}确认修改{else}确认报名{/if}</button>
+	
+	{if isset($item['id'])}<a href="{php echo $this->appUrl('show','xiaof_toupiao','&id='.$item['id'].'');}" class="join-button button-bg-color">查看我的参赛页</a>{/if}
+</div>
+{template 'footer'}
+
+<script type="text/javascript" src="{php echo MODULE_URL;}template/mobile/js/main.js"></script>
+
+{if $setting == false}
+<script type="text/javascript">
+xfdialog("没有找到该活动");
+</script>
+{elseif time() <= strtotime($setting['joinstart'])}
+<script type="text/javascript">
+xfdialog("活动报名未开始，请开始后再参加，开始时间{$setting['joinstart']}");
+</script>
+{elseif time() >= strtotime($setting['joinend'])}
+<script type="text/javascript">
+xfdialog("活动已结束，敬请期待下次活动{$setting['joinend']}");
+</script>
+{elseif $setting['openwapjoin'] == 1}
+<script type="text/javascript">
+xfdialog('<p style="text-align:center;">请关注我们的公众号报名。<br/>长按二维码关注</p><img width="100%" src="{php echo tomedia($setting['accountqrcode']);}"/>');
+</script>
+{elseif $_W['container'] !== 'wechat'}
+<script type="text/javascript">
+xfdialog("活动只允许在微信上报名参加，请在微信上打开本页面");
+</script>
+{else}
+<script type="text/javascript" src="{php echo MODULE_URL;}template/mobile/js/upload.js"></script>
+{/if}
+<script type="text/javascript">
+        //微信转发
+        wx.ready(function () {
+            wx.onMenuShareAppMessage({
+                title: '{$setting['sharetitle']}',
+                desc: '{$setting['sharecontent']}',
+                link: '{php echo $this->appUrl('join','xiaof_toupiao')}',
+                imgUrl: '{php echo tomedia($setting['sharethumb'])}',
+                success: function(){
+                },
+                cancel: function(){
+                }
+            });
+
+            wx.onMenuShareTimeline({
+                title: '{$setting['sharetitle']}', // 分享标题
+                link: '{php echo $this->appUrl('join','xiaof_toupiao')}',
+                imgUrl: '{php echo tomedia($setting['sharethumb']);}',
+                success: function () {
+                },
+                cancel: function () {
+                }
+            });
+        });
+</script>
+</body>
+</html>

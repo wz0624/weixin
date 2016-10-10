@@ -1,0 +1,153 @@
+<div id="html" style="display: none">
+						<div class="form-group">
+								<label class="col-xs-12 col-sm-2 col-md-2  col-lg-2 control-label">第三方直开链接地址</label>
+								<div class="col-sm-9 col-lg-10">
+											<input type="text" name="iframe[]" value="" class="form-control">
+									<span class="help-block">第三方直开链接地址、本链接可以直接在直播页打开</span>
+								</div>
+						</div>		
+</div>
+<!--html end-->
+<div id="content" style="display: none">
+						<div class="form-group">
+								<label class="col-xs-12 col-sm-2 col-md-2  control-label">内容详情</label>
+								<div class="col-sm-9 col-lg-8">
+									{php echo tpl_ueditor('content[]')}
+									<span class="help-block">直播详情介绍</span>
+								</div>
+						</div>		
+</div>
+<!--content end-->
+<div id="comment" style="display: none">
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">点赞文字</label>
+							<div class="col-sm-9 col-lg-10">
+								<input type="text"  class="form-control" name="comment_zan[]" value="点赞">
+								<span class="help-block">点赞文字</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">评论文字</label>
+							<div class="col-sm-9 col-lg-10">
+								<input type="text"  class="form-control" name="comment_pinglun[]" value="我要评论">
+								<span class="help-block">评论文字</span>
+							</div>
+						</div>
+</div>
+<!--comment end-->
+<div id="button" style="display: none">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">按钮名称</label>
+			<div class="col-sm-3">
+				<input class="form-control" type="text" value="" name="button_name[]">
+				<span class="help-block">按钮名称</span>
+			</div>
+			<label class="col-xs-12 col-sm-2 col-md-2 control-label">按钮链接</label>
+			<div class="col-sm-4">
+				<input class="form-control" type="text" value="" name="button_url[]">
+				<span class="help-block">按钮链接</span>
+			</div>
+		</div>
+</div>
+<!--button end-->
+<div id="shake" style="display: none">
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">每天摇一摇次数</label>
+							<div class="col-sm-9 col-lg-10">
+								<input type="text"  class="form-control" name="shake_times[]">
+								<span class="help-block">每天摇一摇次数</span>
+							</div>
+						</div>	
+</div>
+<!--button end-->
+<div class="modal fade" id="myModal">
+		<div class="modal-dialog" style="margin-top: 100px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">请选择菜单类型</h4>
+				</div>
+				<div class="modal-body">
+				<input type="hidden" id="check_type" name="check_type" />
+					<div class="form-group">
+						<div class="width:100%">
+							<label class="radio-inline">
+								<input type="radio" name="menu_type" value="html">第三方调查链接
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="menu_type" value="content">纯文本内容
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="menu_type" value="comment">评论区
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="menu_type" value="button">按钮
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="menu_type" value="shake">摇一摇
+							</label>
+							
+						</div>
+					</div>
+					    
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button  class="btn btn-primary check_confirm" onclick="type_selected()">确认添加</button>
+				</div>
+				    
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+</div>
+<script type="text/javascript">
+
+	$('#btn_add_award').bind('click', function(){
+		$('#myModal').modal('show');
+	});
+	function type_selected(){
+	    var check_type = $("input[name='menu_type']:checked").val();
+		if(typeof(check_type) !="undefined"  && check_type!=''){
+			$("#check_type").val(check_type);
+			$('#myModal').modal('hide');
+			var content = '<div class="add_memu">';
+			if(check_type=='html'){
+				content += $("#html").html();
+			}else if(check_type=='content'){
+				content += $("#content").html();
+			}else if(check_type=='comment'){
+				content += $("#comment").html();
+			}else if(check_type=='shake'){
+				content += $("#shake").html();
+			}else{
+				content += $("#button").html();
+			}
+			content += '<div class="form-group">';
+			content += '<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>';
+			content += '<div class="col-sm-12 col-xs-12 col-md-12" style="margin-bottom:20px;">';
+			content += '<button type="button" class="btn btn-danger btn_del_award">删除</button>';
+			content += '</div>';
+			content += '</div>';
+			content += '</hr>';
+			content += '</div>';
+			$('#award_insert_flag').before(content);
+			$('.btn_del_award').bind('click', function(){
+				var obj = $(this).parent().parent().parent();
+				obj.slideUp(300, function() {
+					obj.remove();
+				});
+			});
+		}else{
+			alert('请先选择菜单类型');
+		}
+	
+	}
+	function del_box(id){
+		 if(confirm("删除将无法恢复，确定要删除此项吗？")){
+		   if(id){
+			id = parseInt(id);
+			$("#box_"+id).remove();
+			}
+		 }
+		
+	}
+</script>

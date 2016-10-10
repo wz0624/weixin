@@ -1,0 +1,85 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li><a href="{php echo $this->createWebUrl('level');}">等级头衔</a></li>
+	<li class="active"><a href="{php echo $this->createWebUrl('sms');}">短信中心</a></li>
+	<li><a href="{php echo $this->createWebUrl('signin');}">签到中心</a></li>
+	<li><a href="{php echo $this->createWebUrl('message');}">消息中心</a></li>
+	<li><a href="{php echo $this->createWebUrl('feedback');}">留言中心</a></li>
+	<li><a href="{php echo $this->createWebUrl('task');}">任务中心</a></li>
+	<li><a href="{php echo $this->createWebUrl('member');}">会员中心</a></li>
+	<li><a href="{php echo $this->createWebUrl('template');}">会员模板</a></li>
+	<li><a href="{php echo $this->createWebUrl('fanslog');}">粉丝统计</a></li>	
+	<li><a href="{php echo $this->createWebUrl('memberlog');}">会员统计</a></li>
+</ul>
+<!-- 签到记录 -->
+<div class="clearfix">
+	    <div class="alert alert-info">奖励积分(必须为整数) 注意:积分数最好控制在1－9之间。</div>
+		<div class="panel panel-default">
+		    <div class="panel-heading">
+			    <a class="btn btn-danger" href="{php echo $this->createWebUrl('sms');}"><i class="fa fa-cogs"></i> 短信配置</a>
+		    </div>
+			<div class="panel-body">
+			<div class="row-fluid">
+    			<div class="span8 control-group">
+					<a class="btn btn-default" href="{php echo $this->createWebUrl('smsrecord');}"><i class="fa fa-list"></i> 验证码发放记录</a>
+					<a class="btn btn-default" style="margin:0 10px;" href="{php echo $this->createWebUrl('smsinfo');}"><i class="fa fa-comments"></i> 短信通知</a>
+					<a class="btn btn-primary" href="{php echo $this->createWebUrl('smsadd');}"><i class="fa fa-dollar"></i> 短信充值记录</a>
+					{if $_W['role']=='founder'}<a style="margin-left:10px;" class="btn btn-danger addsms" href="javascript:void(0)"><i class="fa fa-plus"></i> 短信充值</a>{/if}
+       		 </div>
+    		</div>
+    		</div>
+	    </div>		
+		<div class="panel panel-default" id="cardmain">
+			<div class="panel-heading">
+				短信充值记录
+			</div>
+			<form method="post" class="form-horizontal" id="signinrecord">
+			<input type="hidden" name="op" value="del" />
+			<div style="position:relative">
+				<div class="panel-body table-responsive">
+					<table class="table table-hover" style="position:relative">
+						<thead class="navbar-inner">
+							<tr>
+								<th style="width:150px;">充值条数</th>
+								<th style="width:150px;">使用条数</th>
+								<th style="width:350px;">备注说明</th>					
+								<th style="width:150px;">充值时间</th>
+							</tr>
+						</thead>
+						<tbody>
+							{loop $record $row}
+							<tr>
+								<td>{$row['smstotal']}</td>
+								<td>{$row['smsdraw']}</td>
+								<td>{$row['smsinfo']}</td>
+								<td>{php echo date('Y/m/d H:i',$row['createtime']);}</td>								
+							</tr>
+							{/loop}							
+						</tbody>
+					</table>
+					{$pager}
+				</div>
+			</div>
+			</form>
+		</div>
+</div>
+{if $_W['role']=='founder'}
+<div id="guanbi" class="hide">
+	<span type="button" class="pull-right btn btn-primary" data-dismiss="modal" aria-hidden="true">关闭</span>
+</div>
+<script type="text/javascript">
+	require(['jquery.ui', 'bootstrap.switch', 'util'], function($, $, u){
+		$('.addsms').click(function(){
+			$.get("{php echo url('site/entry/smsaddnum',array('m' => 'stonefish_member'))}", function(data){
+				if(data == 'dataerr') {
+					u.message('系统出错', '', 'error');
+				} else {
+					var obj = u.dialog('增加短信条数', data, $('#guanbi').html());
+				}
+				obj.modal('show');
+			});
+		});
+	});
+</script>
+{/if}
+{template 'common/footer'}

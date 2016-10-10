@@ -1,0 +1,135 @@
+{template 'common/header'}
+{template 'common'}
+<ul class="nav nav-tabs">
+    <li><a href="{php echo $this->createWebUrl('manage');}">火爆朋友圈活动管理</a></li>
+    <li><a href="{php echo url('platform/reply/post',array('m'=>'weisrc_friend'));}">添加火爆朋友圈规则</a></li>
+    <li{if $operation == 'display'} class="active"{/if}><a href="{php echo $this->createWebUrl('fanslist', array('op' => 'display', 'rid' => $rid))}">参与用户管理</a></li>
+    <li{if $operation == 'post'} class="active"{/if}><a href="{php echo $this->createWebUrl('fanslist', array('id' => $item['id'], 'op' => 'post', 'rid' => $rid))}">添加用户</a></li>
+</ul>
+{if $operation == 'display'}
+<style>
+    .account-basicinformation span{font-weight:700;}
+    .account-stat-num > div{width:33%; float:left; font-size:16px; text-align:center;}
+    .account-stat-num > div span{display:block; font-size:30px; font-weight:bold;}
+</style>
+<div class="main">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            活动概览
+        </div>
+        <div class="panel-body">
+            <div class="account-stat-num row">
+                <div>男性人数<span>{$mancount}</span></div>
+                <div>女性人数<span>{$womancount}</span></div>
+                <div>总人数<span>{$total}</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row-fluid">
+                <div class="span8 control-group">
+                    <a class="btn btn-default" data-toggle="tooltip" data-placement="top" href="{php echo url('platform/reply/post',array('m'=>'weisrc_friend','rid'=> $rid));}" title="编辑"><i class="fa fa-edit"> 编辑活动</i></a>
+                    <a class="btn btn-default" data-toggle="tooltip" data-placement="top" href="javascript:location.reload()" title="刷新"><i class="fa fa-refresh"></i></a>
+                </div>
+            </div>
+        </div>
+        <div style="position:relative">
+            <div class="panel-body table-responsive">
+                <table class="table table-hover" style="position:relative">
+                    <thead class="navbar-inner">
+                    <tr>
+                        <th style="width: 10%;">编号</th>
+                        <th style="width: 20%;">昵称</th>
+                        <th style="width: 15%;">性别</th>
+                        <th style="width: 15%;">类别</th>
+                        <th style="width: 20%;">参与时间</th>
+                        <th style="width: 20%;">编辑/删除</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {loop $list $key $row}
+                    {php $num = ($pindex -1) * $psize + $key + 1;}
+                    <tr>
+                        <td style="{if $num < 4}color:red{/if}">
+                            {php echo $row['id']}
+                        </td>
+                        <td style="white-space:normal;">
+                            <img src="{php echo tomedia($row['headimgurl']);}" width="50" onerror="this.src='resource/images/noavatar_middle.gif'" style="border-radius: 3px;"/>
+                            <br>{$row['nickname']}
+                        </td>
+                        <td style="white-space:normal;">
+                            {if $row['sex']==1}男{else}女{/if}
+                        </td>
+                        <td>
+                            {$row['number']}
+                        </td>
+                        <td>{php echo date('Y/m/d H:i',$row['dateline']);}</td>
+                        <td>
+                            <a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('fanslist', array('id' => $row['id'], 'op' => 'post', 'rid' => $rid))}" title="编辑"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;
+                            <a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('fanslist', array('id' => $row['id'], 'op' => 'delete', 'rid' => $rid))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;" title="删除"><i class="fa fa-times"></i></a>
+                        </td>
+                    </tr>
+                    {/loop}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {$pager}
+</div>
+{elseif $operation == 'post'}
+<div class="main">
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" autocomplete = "off">
+        <input type="hidden" name="parentid" value="{$parent['id']}" />
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                用户编辑
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">openid</label>
+                    <div class="col-sm-9">
+                        {$item['from_user']}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">昵称</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="nickname" name="nickname" class="form-control" value="{$item['nickname']}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 头像</label>
+                    <div class="col-sm-9 col-xs-12">
+                        {php echo tpl_form_field_image('headimgurl',$item['headimgurl']);}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label" style="color:#f00;">性别</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline">
+                            <input type="radio" name="sex" value="1" {if $item['sex']==1 || empty($item)}checked{/if}>男
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="sex" value="2" {if $item['sex']==2}checked{/if}>女</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">类别(1~4)</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="number" name="number" class="form-control" value="{$item['number']}" placeholder="" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary col-lg-1" name="submit" value="提交">保存设置</button>
+                <input type="hidden" name="token" value="{$_W['token']}" />
+            </div>
+        </div>
+    </form>
+</div>
+{/if}
+{template 'common/footer'}

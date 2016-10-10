@@ -1,0 +1,62 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li><a href="{php echo $this->createWebUrl('list')}">管理活动</a></li>
+	<li class="active"><a href="{php echo $this->createWebUrl('robot_list')}">管理机器人</a></li>
+	<li ><a href="{php echo $this->createWebUrl('robot_add')}">添加机器人</a></li>
+</ul>
+
+<div class="panel panel-default">
+	<nav role="navigation" class="navbar navbar-default navbar-static-top" style="margin-bottom:0;">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a href="javascript:;" class="navbar-brand">机器人</a>
+			</div>
+			<ul class="nav navbar-nav nav-btns">
+				<li class="active" >
+					<a href="{php echo $this->createWebUrl('list')}">全部</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+
+	<div class="panel-body table-responsive" style="overflow:visible;">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:5%;">UID</th>
+					<th style="width:5%;">头像</th>
+					<th style="width:30%;">昵称</th>
+					<th style="">性别</th>
+					<th style="text-align:right; width:20%;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['uid']}</td>
+					<td><img style="width:50px;" src="{php echo VP_AVATAR($item['avatar'])}"/></td>
+					<td>{$item['nickname']}</td>
+					<td>{if $item['gender']==1 }男{else}女{/if} </td>
+					<td style="text-align:right;overflow:visible;">
+						<a href="{php echo $this->createWebUrl('robot_edit', array('id' => $item['id']))}"class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="编辑"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;
+					</td>
+				</tr>
+				{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+	</div>
+</div>
+<script type="text/javascript">
+	require(['bootstrap'],function($){
+		$('.btn').hover(function(){
+			$(this).tooltip('show');
+		},function(){
+			$(this).tooltip('hide');
+		});
+	});
+</script>
+
+{template 'common/footer'}

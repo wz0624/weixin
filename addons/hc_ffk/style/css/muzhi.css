@@ -1,0 +1,342 @@
+/*张鸿杰*/
+*{
+    margin:0;
+    padding:0;
+    font-family:"微软雅黑";
+}
+.muzhiFormTable{
+    overflow:hidden;
+    width:95%;
+    margin-left:6%;
+    display:none;
+    margin-top:20px;
+}
+.muzhiFormTable input{
+    float:left;
+    width:42%;
+    height:26px;
+    margin-bottom:8px;
+    padding:0 5px;
+    margin-right:2%;
+}
+
+.muzhiGiftWrap{
+    overflow:hidden;
+    height:80px;
+    width:90%;
+    margin:0 auto;
+    background:#00cdff;
+}
+.muzhiGiftWrap_left{
+    float: left;
+}
+.muzhiGiftWrap_right{
+    float:right;
+}
+.muzhiGiftPic{
+    width:55px;
+    height:55px;
+    vertical-align: middle;
+    margin:14px 10px;
+}
+.muzhiGiftBtn{
+    width:100px;
+    height:30px;
+    line-height:30px;
+    text-align:center;
+    color:#fff;
+    background:#1E90FF;
+    border-radius:5px;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    -o-border-radius:5px;
+    -ms-border-radius:5px;
+    border:none;
+    cursor:pointer;
+    outline:none;
+    font-size:14px;
+    margin:24px 10px;
+}
+.muzhiGiftPrice{
+    margin:2px 10px 10px 0;
+    height:12px;
+
+}
+
+.muzhiAdWrap{
+    overflow:hidden;
+    height:100px;
+    width:80%;
+    margin:20px auto 0;
+    background:#FFCB49;
+}
+.muzhiAdWrap_left{
+    float:left;
+    width: 40%;
+    margin: 5px 0px 0px 5px;
+}
+.muzhiAdWrap_right{
+    text-align:center;
+    float:right;
+    margin:10px 6px 0 0;
+}
+.muzhiAdName{
+    font-style:normal;
+    font-size:10px;
+    font-weight:normal;
+    text-align:center;
+    color:#E92835;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.muzhiAdWrap_right p{
+   text-align:center;
+   color:#763c04;
+}
+.muzhiAdPic{
+    margin:0;
+    height: 60px;
+}
+.muzhiAdOldPicre{
+    font-size:12px;
+    text-decoration: line-through;
+    /*color: #919191;*/
+    margin-right:10px;
+}
+.muzhiAdNewPrice{
+    font-size:16px;
+    /*color: #cd3333;*/
+    margin-right:10px;
+}
+.muzhiAdDiscount{
+    float: left;
+    font-size:10px;
+    color: #763c04;
+}
+
+.muzhiFormTip{
+    font-size:12px;
+    color:red;
+    text-align:center;
+    width:90%;
+    margin:10px auto;
+    display: none;
+}
+.muzhiFormSubmit{
+    width:80px;
+    height:30px;
+    line-height:30px;
+    text-align:center;
+    color:#fff;
+    background:#1E90FF;
+    margin:10px auto;
+    border:none;
+    outline:none;
+    border-radius:5px;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    -o-border-radius:5px;
+    -ms-border-radius:5px;
+    font-size:14px;
+    display:none;
+    cursor:pointer;
+}
+.muzhiPrizeDiv{
+    margin: 10px 0;
+    text-align: center;
+    font-size: 24px;
+    color: red;
+}
+.muzhiGiftName{
+    font-size:20px;
+    color:#000;
+    line-height:70px;
+}
+
+.popTip{
+    position:fixed;
+    left:50%;
+    top:40%;
+    font-size:20px;
+    color:red;
+    width:100px;
+    margin-left:-50px;
+}
+.muzhiWinTip{
+    margin:10px 0;
+    font-size:16px;
+    color:#000;
+}
+.muzhiWin{
+    font-size:20px;
+    font-weight:normal;
+}
+
+.muzhiEndDiv{
+    width:92%;
+    background-color: #ffffff;
+    position:fixed;
+    left : 50%;
+    top:15%;
+    margin-left:-46%;
+    -webkit-border-radius:.5em;
+    -moz-border-radius:.5em;
+    z-index:10000;
+    min-height: 80%;
+}
+.muzhiEndHead{
+    -webkit-border-radius:.5em .5em 0 0 ;
+    -moz-border-radius:.5em .5em 0 0 ;
+    height:5em;
+    margin: 0;
+    background-color: #FFC82F;
+    padding: 0;
+}
+.muzhiEndLogo{
+    width:116px;
+    height: 108px;
+    background-image: url(../images/gamend.png);
+    background-size:cover;
+    margin: 0;
+    position:absolute;
+	left:-1em;
+	top:-1em;
+
+}
+.muzhiScore{
+    position: absolute;
+    left: 50%;
+    margin-left: -3em;
+    font-size:2em;
+	width:6em;
+    text-align:center;
+    float: left;
+    color: #763c04;
+    margin-top: .6em;
+    padding: 0;
+}
+.muzhiScore span{font-size:.6em!important;font-weight:normal;}
+.muzhiEndX {
+    margin-right: -8px;
+    margin-top: -8px;
+    width: 24px;
+    height: 24px;
+    background-image: url(../images/X.png);
+    background-size:cover;
+    float: right;
+}
+
+.muzhiBtn{
+    overflow:hidden;
+    width:100%;
+	border-top:1px solid #ddd;
+	padding:.8em 0;
+	left:0;
+	bottom:0;
+    position: absolute;
+	text-align:center;
+}
+.muzhiBtn span{display:inline-block;width:50%;}
+.muzhiAgain ,.muzhiShare {
+	cursor:pointer;
+    display:inline-block;
+    width:5em;
+	padding:.5em 1em;
+	background:#F52550;
+	color:#FFF;
+	text-align:center;
+	border-radius:.6em;
+    margin: 0;
+}
+.muzhiShare{background-color:#FFC82F;color:#5F2D00;}
+.mozhiDiv {
+    position: absolute;
+    left: 50%;
+    bottom: 5%;
+    margin-left: -115px;
+    float: left;
+}
+.muzhiEndDivOut{position: fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index: 10000;display:none;}
+.muzhiPrizeImg {
+    position: absolute;
+    left: 50%;
+    margin-left: -100px;
+    background-image: url(../images/pan.jpg);
+    background-size:100% 100%;
+    top:30%;
+    height:200px;
+    width:200px;
+    float: left;
+    padding: 0;
+}
+
+.muzhiPrizeName {
+    position: absolute;
+    left: 50%;
+    text-align:center;
+    margin-left: -100px;
+    font-size:15px;
+    height:25px;
+    width:200px;
+    float: left;
+    color: #FF0000;
+    padding: 0;
+}
+.muzhiPrizeNameType{
+    font-size:30px;
+    font-weight:bold;
+}
+
+.muzhiPiezeUrl {
+    position: absolute;
+    top:75%;
+    left: 50%;
+    text-align:center;
+    margin-left: -175px;
+    margin-top: 10px;
+    font-size:14px;
+    height:40px;
+    width:350px;
+    float: left;
+    color: #FF0000;
+    padding: 0;
+}
+
+a{
+    text-decoration:none;
+    color:#763c04;
+}
+.muzhiAdClickCheck{
+    margin: 15px 0 0 0;
+    color:#FFFFFF;
+}
+
+@media screen and (min-width:480px){
+    .muzhiEndDiv{
+        width:26em;
+        margin-left:-13em;
+    }
+}
+.muzhiCopyright{position:absolute;width:100%;color:#CCC;text-align:center;bottom:1em;font-size:.9em;}
+.muzhiCopyright img{height:.9em;}
+.muzhiCopyright a{color:#ccc;}
+.muzhiLogo{display:inline-block;height:1em;width:1em;background:url(../addons/hc_moreshop/template/mobile/skycat/images/mz.png) center center no-repeat;background-size:1em;}
+.muzhishowing{
+    width:6em;
+    height:6em;
+    position: absolute;
+    left: 50%;
+    margin-left: -3em;
+}
+.shareDiv{
+    position: absolute;
+    z-index: 30000;
+    display: none;
+    height: 100%;
+    width: 100%;
+    background: url(../images/share.png);
+    background-size: 100% 100%;
+    top:0;
+}

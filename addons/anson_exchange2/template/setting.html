@@ -1,0 +1,31 @@
+{template 'common/header'}
+<form id="reply-form" class="form-horizontal form ng-pristine ng-valid" action="" method="post" enctype="multipart/form-data">
+	<div class="form-group">
+		<div class="col-sm-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">接口设置</span></div>
+				<ul class="list-group">
+					<li class="list-group-item">
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">AppKey</label>
+							<div class="col-sm-6 col-md-8 col-xs-12">
+								<input type="text" class="form-control" placeholder="请输入AppKey" name="app_key" value="{$settings['exchange2_appKey']}">
+								<span class="help-block">
+									<strong class="text-danger">本插件使用 <a href="https://www.juhe.cn/" target="_blank">聚合云数据平台</a> 提供的 [汇率] 接口,该接口免费使用,需要用户自行注册帐号申请appkey,试用appkey:667e0d626962b882f89601e765aa3236</strong>
+								</span>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div> 
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-12">
+			<input name="submit" type="submit" value="提交" class="btn btn-primary col-lg-1">
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</div>
+</form>
+
+{template 'common/footer'}

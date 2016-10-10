@@ -1,0 +1,1005 @@
+{template 'header'}
+<style>
+	body{background:{$config['memberbgcolor']}; padding-bottom:40px; font-family:Helvetica, Arial, sans-serif;}
+	.panel{margin-bottom:0px; border:none;}
+	.panel.panel-default{color:#606366;}
+	.panel>.list-group:last-child .list-group-item:last-child{border-bottom:1px solid #dddddd;}
+	.panel.panel-default ul{background:-webkit-gradient(linear,0 0, 0 10%,from(rgba(90,197,212,1)), to(rgba(90,197,212,1))) center top; border-top:10px solid #e4e9e8; -webkit-background-size:100% 2px; padding-top:2px; background-repeat:no-repeat;}
+	.panel.panel-default:first-child ul{background:none; border-top:0; padding-top:0;}
+	.panel.panel-default ul .list-group-item{background-color:#e1ecee; height:48px; overflow:hidden;}
+	.panel.panel-default ul .list-group-item i{font-size:20px; display:inline-block; width:25px; margin-right:10px; color:#8dd1db; text-align:center; position:relative; top:3px;}
+	.panel.panel-default ul .list-group-item > .pull-right i{display:inline-block; font-size:22px; color:#888; position:absolute; right:0px; top:12px;}
+	.panel.panel-default ul .list-group-item > .pull-right .btn{background:#56c6d6; color:#FFF; border:0; border-radius:1px; margin-top:-5px; width:100px; height:32px; font-size:17px; white-space:pre-line;}
+	.btn-group-top-box{padding:10px 0; font-family:Helvetica, Arial, sans-serif; text-align:center; width:100%;}
+	.btn-group-top{overflow:hidden;}
+	.btn-group-top .btn{ -webkit-box-shadow:none; box-shadow:none; border-color:{$config['memberiocncolor']}; color:{$config['memberiocncolor']}; padding:6px;width:100px;}
+	.btn-group-top .btn:hover{color:{$config['memberiocncolor']}; background:#F2F2F2;}
+	.btn-group-top .btn.active{color:#FFF; background:{$config['memberiocncolor']};}
+	.btn.use{background:#56c6d6; color:#FFF; border:0; border-radius:4px;}
+	.pagination>li>a:hover, .pagination>li>span:hover, .pagination>li>a:focus, .pagination>li>span:focus {color: {$config['memberiocncolor']}; background-color: #eee; border-color: #a5d7de;}
+	.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus{background-color:{$config['memberiocncolor']}; border-color:{$config['memberiocncolor']};}
+	.pagination>li>a, .pagination>li>span{color:{$config['memberiocncolor']};}
+	/*消费记录*/
+	.consume .record-head{width:100%; height:100px; margin-bottom:1px;}
+	.consume .record-head ul{margin:0 auto; list-style:none; padding:0px; }
+	.consume .record-head li{height:50px; line-height:50px; background-color:#ffffff;}
+	.consume .record-head .date{padding:0px 5px; text-align:center; }
+	.consume .record-head .money{width:46%; float:left; color:#999; height:50px; padding:0 4%; line-height:50px;}
+	.consume .record-head .income{margin-right:20px;}
+	.consume .record-head .money span{color:#333;}
+	.consume .record-box{background:#ffffff;margin-top:10px;}
+	.consume .list-item{height:70px; padding:10px 5px; border-bottom:1px solid #dddddd;}
+	.consume .list-item>div{float:left;}
+	.consume .record-box .member-detail{width:15%; text-align:center;}
+	.consume .record-box .member-detail .img-rounded{width:30px; height:30px; line-height:30px; overflow:hidden; background:{$config['memberiocncolor']}; margin:0 auto; text-align:center;}
+	.consume .record-box .member-detail .img-rounded i{font-size:20px; margin-top:4px; display:inline-block; color:#FFF;}
+	.consume .record-box .member-detail .img-rounded img{width:20px;}
+	.consume .record-box .member-detail span{display:block; width:100%; text-align:center; font-size:12px; color:#999; margin-top:3px;}
+	.consume .record-box .record-detail{width:75%;}
+	.consume .record-box .record-detail > div{margin-top:4px; padding-left:10px;}
+	.consume .record-box .record-detail > div span{display:block;}
+	.consume .record-box .record-detail > div .name{font-size:13px; width:240px; text-overflow:ellipsis; white-space:nowrap; overflow:hidden;}
+	.consume .record-box .record-detail > div .date{font-size:12px; margin-top:5px; color:#999;}
+	.consume .record-box .pay-detail{width:23%; text-align:right; margin-right:2%;}
+	.consume .record-box .pay-detail > div{margin-top:4px;}
+	.consume .record-box .pay-detail > div span{display:block; text-align:right;}
+	.consume .record-box .pay-detail > div .money{font-size:15px; font-weight:bold;}
+	.consume .record-box .pay-detail > div .state{font-size:13px; margin-top:5px; color:#999;}
+	.consume .list-group-item{background-color:#e1ecee;}
+	/*收货地址*/
+	.address-edit{width:98%;padding:10px;}
+	.address > a{text-decoration:none; margin-bottom:5px; border-bottom:1px #DDD solid; padding-bottom:5px; display:block;}
+	.address > a:last-child{border-bottom:0; margin-bottom:0;}
+	.address div{padding:0px; margin:0px;}
+	@media screen and (max-width: 767px) {.tpl-calendar div,.tpl-district-container div{margin-bottom:10px;}
+	.topnav{position:fixed; top:0; left: 0;width: 100%; height:  {if $_GPC['credittype'] == 'credit2'}90{else}40{/if}px; background: #FFF;border-bottom:1px solid #d5d5d5;box-shadow:0 1px 9px #d5d5d5; line-height:40px; z-index:99;}
+	.topnav .leftdiv{float:left;padding-left:10px;}
+	.topnav .rightdiv{ float:right;padding-right:10px;font-size:13px;}
+	.topnav .rightdiv a{color:#999;text-decoration:none;}
+	.topnavdiv{color:#FFFFFF;height: {if $_GPC['credittype'] == 'credit2'}90{else}40{/if}px;width:100%;background:#FFFFFF;}
+</style>
+<script>
+	require(['jquery'],function($){
+		$(".list-coupon").delegate("li","click",function(){
+			$(this).find(".list-coupon-ft > div").slideToggle();
+		});
+	});
+</script>
+<!--  积分记录 -->
+{if $op == 'credits'}
+	<div class="topnav">
+	    <span class="leftdiv">我的{$creditnames[$_GPC['credittype']]['title']}</span>
+		<span class="rightdiv"><a href="{php echo $this->createMobileUrl('member')}"><i class="fa fa-arrow-left"></i> 返回</a></span>
+	    {if $_GPC['credittype'] == 'credit2'}
+			<div class="btn-group-top-box" style="background:#FFFFFF;margin-top:30px;">
+				<div class="btn-group btn-group-top">
+					<a href="{php echo $this->createMobileUrl('bond',array('op'=>'credits','credittype' => $behavior['currency']));}" class="btn btn-default {if ($_GPC['type'] != 'order')}active{/if}" style="width:100px; ">消费记录</a>
+					<a href="{php echo $this->createMobileUrl('bond',array('op'=>'credits','credittype' => $behavior['currency'], 'type' => 'order'));}" class="btn btn-default {if ($_GPC['type'] == 'order')}active{/if}" style="width:100px;">订单管理</a>
+				</div>
+			</div>
+		{/if}
+	</div>
+	<div class="topnavdiv">隐藏我</div>
+	<div class="consume">
+		<div class="record-head">
+			<ul class="clearfix">
+				<li class="date">
+					<form action="" id="form1">
+						<input type="hidden" name="i" value="{$_W['uniacid']}">
+						<input type="hidden" name="c" value="entry">
+						<input type="hidden" name="op" value="credits">
+						<input type="hidden" name="do" value="bond">
+						<input type="hidden" name="m" value="stonefish_member">						
+						<input type="hidden" name="credittype" value="{$_GPC['credittype']}">
+						{if !empty($_GPC['type'])}<input type="hidden" name="type" value="{$_GPC['type']}">{/if}
+						 日期范围:{php echo tpl_form_field_daterange('time', array('starttime'=>date('Y-m-d', $starttime),'endtime'=>date('Y-m-d', $endtime)));}
+					</form>
+				</li>
+				<li class="infos">
+				{if ($_GPC['type'] == 'order')}
+					<div class="money">支出：<span>{php echo number_format($orderspay, 2)}</span></div>
+				{else}
+						<div class="money">支出：<span>{$pay}</span></div>
+						<div class="money income">收入：<span>{$income}</span></div>
+				{/if}
+				</li>
+			</ul>
+		</div>
+		<div class="record-box list clearfix">
+		<!-- 订单管理 -->
+		{if ($_GPC['type'] == 'order')}
+			{loop $orders $row}
+				<div class="list-item">
+					<div class="record-detail">
+						<div>
+							<span class="name">订单编号：{$row['tid']}</span>
+							<span class="date">{$row['createtime']}</span>
+						</div>
+					</div>
+					<div class="pay-detail">
+						<div>
+							<span class="money">{$row['fee']}</span>
+							{if ($row['status'] == 1)}
+								<span class="state">支付成功</span>
+							{elseif ($row['status'] == 0)}
+								<a class="state" style="color:red" href="{php echo url('entry', array('m' => 'recharge', 'do' => 'pay', 'ajax' => 1, 'money' => $row['fee']));}">订单待支付</a>
+							{else}
+								<span class="state">支付失败</span>
+							{/if}
+						</div>
+					</div>
+				</div>
+			{/loop}
+			</div>
+			<div class="btn-group-top-box">
+				<div class="btn-group btn-group-top" style="width:320px;">
+					{$orderpager}
+				</div>
+			</div>
+		<!-- 消费记录 -->
+		{else}
+			{loop $data $row}
+				<div class="list-item">
+					<div class="record-detail">
+						<div>
+							<span class="name">{$row['remark']}</span>
+							<span class="date">{$row['createtime']}</span>
+						</div>
+					</div>
+					<div class="pay-detail">
+						<div>
+							{if ($row['num'] > 0)}
+								<span class="money">+{$row['num']}</span>
+							{else}
+								<span class="money">{$row['num']}</span>
+							{/if}
+							<span class="state">交易成功</span>
+						</div>
+					</div>
+				</div>
+			{/loop}
+			</div>
+			<div class="btn-group-top-box">
+				<div class="btn-group btn-group-top" style="width:320px;">
+					{$pager}
+				</div>
+			</div>
+		{/if}
+	</div>
+
+	<script type="text/javascript">
+		require(['daterangepicker'], function($){
+			$('.daterange').on('apply.daterangepicker', function(ev, picker) {
+				$('#form1')[0].submit();
+			});
+		});
+	</script>
+{/if}
+
+<!--  收货地址 -->
+{if $op == 'address' && empty($_GPC['uid'])}
+<script type='text/javascript' src='resource/js/lib/jquery-1.11.1.min.js'></script>
+<style type='text/css'>
+    #poptip { position: fixed; top:40%;left:50%;width:160px;margin-left:-80px;height: 27px;background:#000; opacity: 0.7;filter:alpha(opacity=0.7); color:#fff;z-index: 999;  border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;}
+	#poptip_content { position: fixed; top:40%;left:50%;width:160px;margin-left:-80px; height: 27px; color:#fff;text-align:center;font-size:14px;z-index: 9909}
+</style>
+<script language='javascript'>
+    function tip(msg,autoClose){
+     var div = $("#poptip");
+     var content =$("#poptip_content");
+     if(div.length<=0){
+         div = $("<div id='poptip'></div>").appendTo(document.body);
+         content =$("<div id='poptip_content'>" + msg + "</div>").appendTo(document.body);
+     }
+     else{
+         content.html(msg);
+         content.show(); div.show();
+     }
+     if(autoClose) {
+        setTimeout(function(){
+            content.fadeOut(500);
+            div.fadeOut(500);
+
+        },1000);
+     }
+}
+function tip_close(){
+    $("#poptip").fadeOut(500);
+     $("#poptip_content").fadeOut(500);
+}
+</script>
+<link type="text/css" rel="stylesheet" href="../addons/stonefish_member/template/css/address.css">
+<div class="topnav"><span class="leftdiv">我的收货地址</span><span class="rightdiv"><a href="{php echo $this->createMobileUrl('member')}"><i class="fa fa-arrow-left"></i> 返回</a></span></div>
+<div class="topnavdiv">隐藏我</div>
+<div class="btn-group-top-box">
+	<div class="btn-group btn-group-top" style="width:100%;padding:0 10px;">
+		<a href="#tab1" data-toggle="tab" class="btn btn-default basic active">系统联系地址</a>
+	</div>
+</div>
+<div class="address" style="padding:10px;">	
+	<a href="{php echo $this->createMobileUrl('bond',array('op'=>'address','uid' => $data['uid']))}" class="list-item clearfix">
+		<div id='address_0' class="shopcart-main1 img-rounded address_item" style='margin:0;padding:10px;margin-bottom:10px;cursor:pointer'>
+			<span>{$data['resideprovince']} {$data['residecity']} {$data['residedist']} {$data['address']} <br/> {$data['realname']}, {$data['mobile']}</span><br/>
+		</div>
+	</a>
+</div>
+{if $this->module['config']['module_shopping']}
+<div class="btn-group-top-box">
+	<div class="btn-group btn-group-top" style="width:100%;padding:0 10px;">
+		<a href="#tab1" data-toggle="tab" class="btn btn-default basic active">商城收货地址</a>
+	</div>
+</div>
+<form class="form-horizontal" method="post" role="form">
+	<input type="hidden" name="goodstype" value="{$goodstype}" />
+	<div class="order-main">
+		<div id="myaddress">
+		{loop $shoping_address $row}
+			<div id='address_{$row['id']}' class="{if $row['isdefault']==1}shopcart-main1{else}shopcart-main{/if} img-rounded address_item" style='margin:0;padding:10px;margin-bottom:10px;cursor:pointer' onclick='editAddress({$row['id']},{php echo $row['isdefault']==1?'1':'0'})'>
+				<span>{$row['province']} {$row['city']} {$row['area']} {$row['address']} <br/> {$row['realname']}, {$row['mobile']}</span><br/>
+				<span>
+					<a href="javascript:;" onclick="saveDefaultAddress(event,{$row['id']})">设为默认</a>
+					<a href="javascript:;" onclick="removeAddress(event,{$row['id']})"><i class="fa fa-remove"></i> 删除</a>
+				</span>
+			</div>
+		{/loop}
+		</div>
+		<div><button type="button" class="btn btn-danger" onclick="addAddress()"><i class="fa fa-plus"></i> 添加修改地址</button></div>
+		<div class="add-address img-rounded" id="addAddressPanel" {if !empty($shoping_address)} style="display:none;"{/if}>
+			<div class="add-address-hd">请仔细填写收货地址：</div>
+			<div class="add-address-main">
+				<div class="form-group">
+					<label for="" class="col-sm-3 control-label">收货人：</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="realname">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="" class="col-sm-3 control-label">联系电话：</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="mobile">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="" class="col-sm-3 control-label">地区：</label>
+					<div class="col-sm-9">
+						<select id="sel-provance" onChange="selectCity();" class="pull-left form-control" style="width:30%; margin-right:5%;">
+							<option value="" selected="true">省/直辖市</option>
+						</select>
+						<select id="sel-city" onChange="selectcounty()" class="pull-left form-control" style="width:30%; margin-right:5%;">
+							<option value="" selected="true">请选择</option>
+						</select>
+						<select id="sel-area" class="pull-left form-control" style="width:30%;">
+							<option value="" selected="true">请选择</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="" class="col-sm-3 control-label">详细地址：</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="address">
+					</div>
+				</div>
+				<input type="hidden" id="addressid" value="" />
+				<div class="form-group">
+					<div class="col-sm-12">
+						<button type="button" class="btn btn-danger" onclick="saveAddress()">保存</button>
+						<button type="button" class="btn btn-default" onclick="addAddress();$('#addAddressPanel').hide();$('#addressid').val('');">取消</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+<script type="text/javascript" src="../app/resource/components/area/cascade.js"></script>
+<script type="text/javascript">
+var from='{$from}';
+var returnurl = '{$returnurl}';
+cascdeInit('','','');
+function saveAddress() {
+	var realname = $('#realname').val();
+	var mobile = $('#mobile').val();
+	var province = $('#sel-provance').val();
+	var city = $('#sel-city').val();
+	var area = $('#sel-area').val();
+	var address = $('#address').val();
+	if (!realname) {
+		alert('请输入您的真实姓名！');
+		return false;
+	}
+	if (!mobile) {
+		alert('请输入您的手机号码！');
+		return false;
+	}
+	if (mobile.search(/^([0-9]{11})?$/) == -1) {
+		alert('请输入正确的手机号码！');
+		return false;
+	}
+	if (!address) {
+		alert('请输入您的详细地址！');
+		return false;
+	} tip("正在处理数据...");
+	$.post('{php echo $this->createMobileUrl('address')}', {
+									'op' : 'post',
+		'realname' : realname,
+		'mobile' : mobile,
+		'province' : province,
+		'city' : city,
+		'area' : area, 
+		'address' : address,
+		'id' : $('#addressid').val()
+	}, function(s) {
+			tip_close();
+		if (s.message != 0) {
+			if (from=='confirm'){
+				  if(returnurl!=''){
+						location.href = returnurl;
+						return;
+					}
+				location.href = '{php echo $this->createMobileUrl('confirm')}';
+			}
+			$("input [name='address']").attr('checked', false);
+			var html='<div class="shopcart-main1 img-rounded" style="margin:0;padding:10px;margin-bottom:10px;cursor:pointer" onclick="editAddress(' + s.message +')">';
+			var html1='<span>'+province+' '+city+' '+area+' '+''+address+' '+' <br/> ' +realname+', '+mobile+'</span>' +
+ 				'<span style="float:right">' +
+				'&nbsp;&nbsp;<a href="javascript:;" onclick="saveDefaultAddress('+ s.message +')">设置为默认收货地址</a></span>';
+			var html2= '</div>';
+ 
+			if ($('#address_'+s.message).get(0)) {
+				$('#address_'+s.message).html(html1);
+			} else {
+				$(".address_item").removeClass("shopcart-main1").addClass("shopcart-main");
+				$('#myaddress').append($(html + html1 + html2));
+			}
+			
+			$('#realname').val('');
+			$('#mobile').val('');
+			$('#address').val('');
+			cascdeInit('','','');
+		}
+		$('#addAddressPanel').hide();
+	}, 'json');
+
+}
+
+function addAddress() {
+	$('#addAddressPanel').show();
+	$('#realname').val('');
+	$('#mobile').val('');
+	$('#address').val('');
+	cascdeInit('','','');
+	$('#addressid').val('');
+}
+
+function saveDefaultAddress(e,id) {
+	tip("正在处理数据...");
+	$.post('{php echo $this->createMobileUrl('address', array('op' => 'default'))}', {
+		'id' : id,
+	}, function(s) {
+		//$("input [name='address']").attr('checked', false);
+		$(".address_item").removeClass("shopcart-main1").addClass("shopcart-main");
+		$("#address_"+id).addClass("shopcart-main1");
+		tip_close();
+	}, 'json');
+	e.stopPropagation() ;
+}
+function removeAddress(e,id){
+	if(confirm('确认要删除此收货地址吗?')){
+		 tip("正在处理数据...");
+		$.post('{php echo $this->createMobileUrl('address', array('op' => 'remove'))}',
+				{ 'id' : id,}, 
+				function(s) {
+					$("#address_"+id).remove();
+					if(s.maxid!='0'){
+						$(".address_item").removeClass("shopcart-main1").addClass("shopcart-main");
+						$("#address_"+s.maxid).addClass("shopcart-main1");
+					}
+					tip_close();
+				},
+				'json');
+		e.stopPropagation() ;
+	}
+}
+var isdef = 0;
+function editAddress(id) {
+	if (false && from=='confirm'){
+		//	 location.href = '{php echo $this->createMobileUrl('confirm')}';
+		tip("正在处理数据...");
+		$.post('{php echo $this->createMobileUrl('address', array('op' => 'default'))}', 
+				{ 'id' : id,}, 
+				function(s) {
+					tip_close(); 
+					if(returnurl!=''){
+						location.href = returnurl;
+						return;
+					}
+				location.href = '{php echo $this->createMobileUrl('confirm')}';
+				});
+		return;
+	}
+	
+	tip("正在处理数据...");
+	$.get('{php echo $this->createMobileUrl('address', array('op' => 'detail'))}', {
+		'id' : id,
+	}, function(s){
+		tip_close();
+		if (s.message) {
+			$('#addAddressPanel').show();
+			$('#realname').val(s.message.realname);
+			$('#mobile').val(s.message.mobile);
+			$('#address').val(s.message.address);
+			cascdeInit(s.message.province,s.message.city,s.message.area);
+			$('#addressid').val(s.message.id);
+		}
+	}, 'json');
+}
+</script>
+{/if}
+{/if}
+<!--  编辑收货地址 -->
+{if $op == 'address' && !empty($_GPC['uid'])}
+<div class="topnav"><span class="leftdiv">我的收货地址</span><span class="rightdiv"><a href="{php echo $this->createMobileUrl('bond',array('op'=>'address'))}"><i class="fa fa-arrow-left"></i> 返回</a></span></div>
+<div class="topnavdiv">隐藏我</div>
+<div class="btn-group-top-box">
+	<div class="btn-group btn-group-top">
+		<a href="#tab1" data-toggle="tab" class="btn btn-default basic active">编辑联系地址</a>
+	</div>
+</div>
+<div class="address-edit">
+	<div class="info">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">姓名</label>
+			<div class="col-sm-8">
+				<input type="text" name="data[realname]" class="form-control" value="{$data['realname']}" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">电话</label>
+			<div class="col-sm-8">
+				<input type="text" name="data[mobile]" class="form-control" value="{$data['mobile']}" readonly/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">邮编</label>
+			<div class="col-sm-8">
+				<input type="text" name="data[zipcode]" class="form-control" value="{$data['zipcode']}" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">收货地址</label>
+			<div class="col-sm-8">
+				{php echo tpl_form_field_district('dis', $reside)}
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">街道名称</label>
+			<div class="col-sm-8">
+				<input type="text" name="data[address]" class="form-control" value="{$data['address']}" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+			<div class="col-sm-8">
+				<input name="submit" type="submit" value="提交" class="btn btn-primary btn-block use" />
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			</div>
+		</div>
+	</form>
+	</div>
+</div>
+{/if}
+
+
+<!-- 会员卡中心 -->
+{if $op == 'card'}
+	<style>
+	.card-img{width:100%; height:185px; padding-top:10px; overflow:hidden; -webkit-box-sizing:border-box; background:url('resource/images/card-img-bg.png') no-repeat 0 0; background-size:100% 100%; border-bottom: 1px solid #a5d7de; margin-bottom: 1px;}
+	.card{position:relative; width:280px; max-height:165px; overflow:hidden; margin:0 auto;}
+	.cardsn{position:absolute; color:#666; right:20px; bottom:10px; text-shadow:0 -1px 0 rgba(255, 255, 255, 0.5); font-size:16px; z-index:1;}
+	.cardtitle{position:absolute; right:20px; top:10px; color:#ffffff; font-size:16px; text-shadow:0 -1px 0 rgba(255, 255, 255, 0.5); z-index:1;}
+	.cardlogo{position:absolute; top:10px; left:20px;}
+	.card-box{width:100%; padding:10px; background:#eef8fa; border:1px solid #eeeeee;}
+	.form-control{background-color:#eef8fa;}
+	.form-horizontal .form-group{margin-left:0px; margin-right:0px;}
+	</style>
+	<form action="" class="form-horizontal form" method="post" enctype="multipart/form-data">
+		<div class="form-group" style="margin-bottom:0px;">
+			<div class="col-xs-12 card-img text-center">
+				<div class="card img-rounded">
+					<div class="cardsn" style="color:{if !empty($setting['color']['number'])}{$setting['color']['number']}{/if}">卡号：{$setting['format']}</div>
+					<div class="cardtitle" style="color:{if !empty($setting['color']['title'])}{$setting['color']['title']}{/if}">{if !empty($setting['title'])}{$setting['title']}{/if}</div>
+					<div class="cardlogo"><img src="{if !empty($setting['logo'])}{php echo tomedia($setting['logo'])}{else}../attachment/images/global/card/logo.png{/if}"></div>
+					<img class="cardbg"
+						 src="
+								 {if empty($setting['background']['image'])}
+									../attachment/images/global/card/1.png
+								 {elseif $setting['background']['background'] == 'system'}
+								 	../attachment/images/global/card/{$setting['background']['image']}.png
+								 {else}
+								 	{php echo tomedia($setting['background']['image']);}
+								 {/if}
+							 "
+							 width="280px" height="165px" />
+				</div>
+			</div>
+		</div>
+		<div class="card-box">
+			{loop $setting['fields'] $item}
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-1 control-label">
+						{$item['title']} {if $item['require'] == 1}<span title="必填项" style="color:red">*</span>{else} &nbsp;{/if}
+					</label>
+					<div class="col-sm-11">
+						{if $item['bind'] == 'reside'}
+							{php echo tpl_fans_form('reside', array('province' => $member_info['resideprovince'],'city' => $member_info['residecity'],'district' => $member_info['residedist']))}
+						{elseif $item['bind'] == 'birth'}
+							{php echo tpl_fans_form('birth',array('year' => $member_info['birthyear'],'month' => $member_info['birthmonth'],'day' => $member_info['birthday']));}
+						{else}
+							{php echo tpl_fans_form($item['bind'], $member_info[$item['bind']]);}
+						{/if}
+					</div>
+				</div>
+			{/loop}
+			<div class="form-group">
+				<div class="col-sm-12" style="text-align:center">
+					<input type="hidden" name="cardid" value="{$setting['id']}" />
+					<input type="hidden" name="format" value="{$setting['format']}" />
+					<input type="hidden" name="snpos"  value="{$setting['snpos']}" />
+					<button type="submit" class="btn btn-primary btn-block use" name="submit" value="领取会员卡">领取会员卡</button>
+					<input type="hidden" name="token" value="{$_W['token']}" />
+				</div>
+			</div>
+		</div>
+	</form>
+{/if}
+
+
+<!-- 我的会员卡 -->
+{if $op == 'mycard'}
+		<style>
+			.card-img{width:100%; height:185px; padding-top:10px; overflow:hidden; -webkit-box-sizing:border-box; background:url('resource/images/card-img-bg.png') no-repeat 0 0; background-size:100% 100%; border-bottom: 1px solid #a5d7de; margin-bottom: 1px;}
+			.card{position:relative; width:280px; max-height:165px; overflow:hidden; margin:0 auto;}
+			.cardsn{position:absolute; color:#666; right:20px; bottom:10px; text-shadow:0 -1px 0 rgba(255, 255, 255, 0.5); font-size:16px; z-index:1;}
+			.cardtitle{position:absolute; right:20px; top:10px; color:#ffffff; font-size:16px; text-shadow:0 -1px 0 rgba(255, 255, 255, 0.5); z-index:1;}
+			.cardlogo{position:absolute; top:10px; left:20px;}
+			.mnav-box ul,.mnav-box ul li{padding:0px; margin:0px; font-family:Helvetica, Arial, sans-serif;}
+			.mnav-box{color:#606366; background:transparent url('resource/images/home-bg.jpg') no-repeat; background-size:100% 100%;}
+			.mnav-box ul{border-top:10px solid #e4e9e8; list-style:none; background:transparent -webkit-gradient(linear,0 0, 0 10%,from(rgba(90,197,212,1)), to(rgba(90,197,212,1))) center top; -webkit-background-size:100% 2px; padding-top:2px; background-repeat:no-repeat;}
+			.mnav-box ul:first-child{background:none; border-top:0; padding-top:0;}
+			.mnav-box ul li{ border-bottom:1px solid #dddddd; position:relative; padding: 10px 15px;}
+			.mnav-box ul li .mnav-box-list{color:#606366; font-size:15px; text-decoration:none; -webkit-box-sizing:border-box; overflow:hidden;}
+			.mnav-box ul li .mnav-box-list>span:first-child i{width:25px; margin-right:10px; color:#8dd1db; text-align:center; font-size:20px; }
+			.mnav-box ul li .mnav-box-list .mnav-title{display:inline-block; padding-right:10px;}
+			.mnav-box ul li .mnav-box-list > .pull-right{display:inline-block; font-size:22px; line-height:0; color:#888; position:absolute; right:15px; top:12px;}
+			.mnav-box ul li .mnav-box-list > .pull-right .btn{background:#56c6d6; color:#FFF; border:0; border-radius:1px; margin-top:-2px; width:100px; height:32px; font-size:17px; white-space:pre-line;}
+			#content{padding-left:25px;text-align:left;display:none}
+			.card .back{text-align:left;height:165px;color:#ffffff; display:none; padding:10px; -webkit-box-sizing:border-box; background:#a4a4a5; white-space:normal; overflow: hidden; line-height:20px;}
+			.card .back h3{font-size:14px; font-weight:100; margin:10px 0;}
+			.card .back pre{padding:0; margin:0; border:0; background:none; white-space:pre-line; height:84px; overflow:hidden;}
+			.card-main .head{height:185px; overflow:hidden; -webkit-box-sizing:border-box; background:url('resource/images/card-img-bg.png') no-repeat 0 0; background-size:100% 100%;}
+			.card-main .btn-group{width:100%;}
+			.card-main .btn-group .btn{background:#56c6d6; color:#FFF; border:0; border-radius:0; border-left:1px solid #99d7e0; width:50%; font-size:20px;}
+			.card-main .btn-group .btn:first-child{border-left:0;}
+		</style>
+		
+		{if empty($mcard['status'])}
+		<div class="alert alert-warning" role="alert">
+			您的会员卡已被禁用，如有疑问，请联系{$_W['account']['name']}。
+		</div>
+		{else}
+		<div style="margin-bottom:0;">
+			<div class="card-img text-center">
+				<div class="card img-rounded">
+					<div class="prev" onclick="$(this).hide();$('.back').show()">
+						<div class="cardsn" style="color:{if !empty($setting['color']['number'])}{$setting['color']['number']}{/if}">卡号：{$mcard['cardsn']}</div>
+						<div class="cardtitle" style="color:{if !empty($setting['color']['title'])}{$setting['color']['title']}{/if}">{if !empty($setting['title'])}{$setting['title']}{/if}</div>
+						<div class="cardlogo">{if !empty($setting['logo'])}<img src="{php echo tomedia($setting['logo'])}">{/if}</div>
+						<img class="cardbg"
+							 src="
+									 {if empty($setting['background']['image'])}
+										../attachment/images/global/card/1.png
+									 {elseif $setting['background']['background'] == 'system'}
+									 	../attachment/images/global/card/{$setting['background']['image']}.png
+									 {else}
+									 	{php echo tomedia($setting['background']['image']);}
+									 {/if}
+								 "
+								 width="280px" height="165px" />
+					</div>
+					<div class="back" onclick="$(this).hide();$('.prev').show()" style="background-image:url(resource/images/card_bg09.png);">
+						<span style="color:#000000;">
+							<h3>使用说明：</h3>
+							<pre>
+							1、本卡采取记名消费方式
+							2、持卡人可享受会员专属优惠
+							3、本卡不能与其他优惠活动同时使用
+							4、持卡人可用卡内余额进行消费
+							</pre>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="mnav-box clearfix">
+			<ul>
+				<li>
+					<a class="mnav-box-list" href="javascript:;">
+						<span class="mnav-title"><i class="fa fa-heart-o"></i> 卡号： {$mcard['cardsn']}</span>
+					</a>
+				</li>
+				<li>
+					<a class="mnav-box-list"  href="javascript:;">
+						<span class="mnav-title"><i class="fa fa-calendar"></i> 领取日期： {php echo date('Y-m-d', $mcard['createtime']);}</span>
+					</a>
+				</li>
+				<li>
+					<a class="mnav-box-list" href="{php echo url('mc/profile');}">
+						<span class="mnav-title"><i class="fa fa-pencil"></i> 完善会员资料</span>
+						<span class="pull-right"><i class="fa fa-angle-right"></i></span>
+					</a>
+				</li>
+			</ul>
+			<!--商家信息-->
+			<ul>
+				<li>
+					<a class="mnav-box-list" onclick="$('#content').toggle('fast');">
+						<span class="mnav-title"><i class="fa fa-eye"></i>{$setting['business']['title']}</span>
+						<span class="pull-right"><i id="down-up" class="fa fa-angle-down"></i></span>
+					</a>
+				</li>
+				<li id="content">
+						{if !empty($setting['business']['thumb'])}
+							<p><img style="width:100%;" src="{php echo tomedia($setting['business']['thumb']);}"></p>
+						{/if}
+						<p><b>所属行业 : </b>{$setting['business']['industry1']}-{$setting['business']['industry2']}</p>
+						<p><b>联系QQ : </b>{$setting['business']['qq']}</p>
+						<p><b>商家简介 : </b><p>{php echo nl2br($setting['business']['content'])}</p></p>
+				</li>
+				<li>
+					<a class="mnav-box-list" href="tel:{$setting['business']['phone']}">
+						<span class="mnav-title"><i class="fa fa-phone"></i>{$setting['business']['phone']}</span>
+						<span class="pull-right"><i class="fa fa-angle-right"></i></span>
+					</a>
+				</li>
+				<li>
+					<a class="mnav-box-list" href="
+						{if !empty($setting['business']['lat']) && !empty($setting['business']['lng'])}
+							http://api.map.baidu.com/marker?location={$setting['business']['lat']},{$setting['business']['lng']}&title={php echo urlencode('所在位置');}&content={php echo urlencode($setting['business']['address']);}&output=html
+						{else}
+							javascript:;
+						{/if}
+					">
+					<span class="mnav-title"><i class="fa fa-map-marker"></i> 
+					<span>{$setting['business']['province']}</span>
+					<span>{$setting['business']['city']}</span>
+					<span>{$setting['business']['district']}</span>
+					<span>{$setting['business']['address']}</span>
+				</span>
+						<span class="pull-right"><i class="fa fa-angle-right"></i></span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		{/if}
+{/if}
+
+{if $op == 'email'}
+<style>
+	body{background:#d2e6e9;}
+	.panel{margin:.5em; border:none;}
+	.panel-info>.panel-heading {background: -webkit-gradient(linear, 0 0, 100% 0, from(#ebebeb), to(#f3f9fa), color-stop(30%, #f5f9f9)); color:#666666; border:none;}
+	a{color:#666666;}a:hover{color: #3ebacc;}
+	.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus{color: #3ebacc;}
+	.actions{margin:.8em auto;}
+	.nav.nav-tabs{margin-bottom:.8em;}
+	.btn.btn-primary{background: #56c6d6; color: #FFF; border: 0;}
+</style>
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<h4>资料重置</h4>
+	</div>
+	<div class="panel-body">
+		<div class="alert alert-warning" role="alert">为了保证您的账号安全，请完善以下资料，如果密码丢失可以联系管理员为您重置密码。下面设置的密码将作为您的消费凭证，请妥善保管！</div>
+		<form name="theform" method="post" role="form" id="form1">
+			{if !empty($reregister)}
+			<ul class="nav nav-tabs" role="tablist">
+				<li class="active"><a href="#email" role="tab" data-toggle="tab">重置帐号</a></li>
+				<li><a href="#binding" role="tab" data-toggle="tab">绑定至已有帐号</a></li>
+			</ul>
+			<input type="hidden" id="type" name="type" value="1" />
+			{/if}
+			<div class="tab-content">
+				<div class="tab-pane fade in active" id="email">
+					{if !empty($reregister)}
+					<div class="form-group">
+						<input type="text" name="email" value="" class="form-control input-lg" placeholder="E-Mail地址">
+					</div>
+					{/if}
+					<div class="form-group">
+						<input type="password" name="password" value="" class="form-control input-lg" placeholder="登录密码">
+					</div>
+					<div class="form-group">
+						<input type="password" name="repassword" value="" class="form-control input-lg" placeholder="确认登录密码">
+					</div>
+				</div>
+				{if !empty($reregister)}
+				<div class="tab-pane fade" id="binding">
+					<div class="form-group input-group">
+						<span class="input-group-addon"><i class="fa fa-user"></i></span>
+						<input type="text" name="username" value="" class="form-control input-lg" placeholder="登录账号">
+					</div>
+					<div class="form-group input-group">
+						<span class="input-group-addon"><i class="fa fa-unlock-alt"></i></span>
+						<input type="password" name="oldpassword" value="" class="form-control input-lg" placeholder="登录密码">
+					</div>
+				</div>
+				{/if}
+			</div>
+			<div class="form-group">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" name="submit" class="btn btn-primary btn-block btn-lg" value="立即修改">
+				<button class="btn btn-default btn-block" onclick="javascript:history.go(-1);return false;">返回</button>
+			</div>
+		</form>
+	</div>
+</div>
+<script>
+	require(['util'], function(u){
+		$('#form1').submit(function(){
+			var type = $('#type').val();
+			if (type == 1) {
+				{if !empty($reregister)}
+				if($.trim($('input[name="email"]').val()) == '') {
+					u.message('请输入您的邮箱');
+					return false;
+				}
+				if($.trim($('input[name="email"]').val()).indexOf('@') < 0) {
+					u.message('您输入的邮箱有误');
+					return false;
+				}
+				{/if}
+				if($.trim($('input[name="password"]').val()) == '') {
+					u.message('请输入您的密码');
+					return false;
+				}
+				if($.trim($('input[name="password"]').val()) != $.trim($('input[name="repassword"]').val())) {
+					u.message('您两次输入的密码不一致');
+					return false;
+				}
+			}
+			return true;
+		});
+	});
+	$('.nav li').click(function(){
+		$('#type').val($(this).index()+1);
+	});
+</script>
+{/if}
+
+{if $op == 'mobile'}
+<script>
+	require(['angular', 'bootstrap', 'util'], function(angular, $, u){
+		angular.module('app', []).controller('loginPanel', function($scope, $http){
+			$scope.label = {
+				basic: {
+					error: false
+				},
+				code: {
+					countDown : '',
+					error: false
+				},
+				running: false
+			};
+			$scope.ret = {
+				basic: {
+					mobile : '',
+					oldmobile : '',
+					password : ''
+				},
+				code: {
+					mobile : '',
+					oldmobile : '',
+					password : ''
+				}
+			};
+			$scope.login = function(){
+				if($scope.label.running) {
+					return;
+				}
+				var ret = $scope.ret;
+				var mode = angular.element('li.active a[data-toggle="tab"]').attr('href') == '#basic' ? 'basic' : 'code';
+
+				if(ret[mode].mobile == '' {if $config['smsstatus']} || ret[mode].password == ''{/if}) {
+					$scope.label[mode].error = true;
+					return;
+				}
+				
+				var regBox = {
+       				regMobile : /^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/,//手机
+    			}
+				var mflag = regBox.regMobile.test(ret[mode].mobile);
+				if (!mflag) {
+				    u.message('请输入正确的手机号.');
+					return;
+    			}
+				$scope.label[mode].error = false;
+
+				$scope.label.running = true;
+				var params = angular.copy(ret[mode]);
+				params.mode = mode;
+				$http.post(location.href, params).success(function(dat){
+					if(dat != 'success') {
+						u.message(dat);
+					} else {
+						location.reload();
+					}
+					$scope.label.running = false;
+				});
+			};
+		});
+		angular.bootstrap(document, ['app']);
+
+		$(function(){
+			$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+				if($(e.target).attr('href') == '#code') {
+					$('#code').addClass('fadeInRight');
+				} else {
+					$('#basic').addClass('fadeInLeft');
+				}
+			});
+			$('.btn-sender').on('click', function(){
+				var mode = $('li.active a[data-toggle="tab"]').attr('href') == '#basic' ? 'basic' : 'code';
+				if(mode == 'basic') {
+					return;
+				}
+				var scope = angular.element('.ng-container').scope();
+				var scope = angular.element('.ng-container').scope();
+				if(!scope.ret.code.mobile) {
+					u.message('请输入手机号.');
+					return;
+				}
+				var regBox = {
+       				regMobile : /^13[0-9]{1}[0-9]{8}$|15[0-9]{1}[0-9]{8}$|18[0-9]{1}[0-9]{8}$/,//手机
+    			}
+				var mflag = regBox.regMobile.test(scope.ret.code.mobile);
+				if (!mflag) {
+				    u.message('请输入正确的手机号.');
+					return;
+    			}
+				{if $config['smsstatus']}
+				send_Code(this, scope.ret.code.mobile, function(ret, message){
+					if(ret == 'failed') {
+						u.message('发送验证码失败. 详情: ' + message);
+					}
+				});
+				{/if}
+			});
+		});
+	});
+	/**
+	 * 点击指定的元素, 发送验证码, 并显示倒计时, 并通知发送状态
+	 * @param elm 元素节点
+	 * @param no 要发送验证码的手机号
+	 * @param callback 通知回调, 这个函数接受两个参数
+	 * function(ret, state)
+	 * ret 通知结果, success 成功, failed 失败, downcount 倒计时
+	 * state 通知内容, success 时无数据, failed 时指明失败原因, downcount 时指明当前倒数
+	 */
+	function send_Code(elm, no, callback) {
+		if(!no || !elm || !$(elm).attr('uniacid')) {
+			if($.isFunction(callback)) {
+				callback('failed', '给定的参数有错误');
+			}
+			return;
+		}
+		$(elm).attr("disabled", true);
+		var downcount = 60;
+		$(elm).html(downcount + "秒后重新获取");
+
+		var timer = setInterval(function(){
+			downcount--;
+			if(downcount <= 0){
+				clearInterval(timer);
+				$(elm).html("重新获取验证码");
+				$(elm).attr("disabled", false);
+				downcount = 60;
+			}else{
+				if($.isFunction(callback)) {
+					callback('downcount', downcount);
+				}
+				$(elm).html(downcount + "秒后重新获取");
+			}
+		}, 1000);
+
+		var params = {};
+		params.receiver = no;
+		params.uniacid = $(elm).attr('uniacid');
+		$.post('{php echo $this->createMobileUrl('verifycode','',$noredirect = true)}', params).success(function(dat){
+			if(dat == 'success') {
+				if($.isFunction(callback)) {
+					callback('success', null);
+				}
+			} else {
+				if($.isFunction(callback)) {
+					callback('failed', dat);
+				}
+			}
+		});
+	};
+</script>
+<style>
+	.panel{margin:.5em; border:none;}
+	.panel-info>.panel-heading {background: -webkit-gradient(linear, 0 0, 100% 0, from(#D7D7D7), to(#D7D7D7), color-stop(50%, #EBEBEB)); color:#666666; border:none;}
+	a{color:#666666;}a:hover{color: #3ebacc;}
+	.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus{color: #3ebacc;}
+	.actions{margin:.8em auto;}
+	.nav.nav-tabs{margin-bottom:.8em;}
+	.btn.btn-primary{background: {$config['memberbntcolor']}; color: {$config['memberbnttcolor']}; border: 0;}
+</style>
+<div class="ng-cloak panel panel-info ng-container" ng-controller="loginPanel">
+	<div class="panel-heading">
+		<h4>{if $mobile_exist == 0}绑定{else}重新绑定{/if}手机号</h4>
+	</div>
+	<div class="panel-body">
+	<form name="theform" method="post" role="form" ng-submit="login();">
+		<ul class="nav nav-tabs" role="tablist">
+			<li><!--<a href="#basic" role="tab" data-toggle="tab">账号登录</a>-->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+			<li class="active"><a href="#code" role="tab" data-toggle="tab">温馨提示</a></li>
+		</ul>
+		<div class="tab-content">
+			<!--<div class="tab-pane animated" id="basic">
+				<div class="form-group has-feedback" ng-class="{'has-error': label.basic.error}">
+					<label class="control-label sr-only"></label>
+					<input ng-model="ret.basic.username" type="text" class="form-control" placeholder="手机号/邮箱">
+					<span class="glyphicon glyphicon-remove form-control-feedback" ng-show="label.basic.error"></span>
+				</div>
+				<div class="form-group has-feedback" ng-class="{'has-error': label.basic.error}">
+					<label class="control-label sr-only"></label>
+					<input ng-model="ret.basic.password" type="password" class="form-control" placeholder="密码">
+					<span class="glyphicon glyphicon-remove form-control-feedback" ng-show="label.basic.error"></span>
+				</div>
+			</div>-->
+			<div class="tab-pane animated active" id="code">
+				
+				{if $mobile_exist == 1}
+				<div class="form-group has-feedback">
+					<label class="control-label sr-only"></label>
+					<input type="tel" value="已绑定手机号码：{php echo mb_substr($profile['mobile'],0,3,'utf-8')} ***** {php echo mb_substr($profile['mobile'],8,4,'utf-8')}" class="form-control" disabled="disabled">
+				</div>
+				<div class="form-group has-feedback" ng-class="{'has-error': label.code.error}">
+					<label class="control-label sr-only"></label>
+					<input ng-model="ret.code.oldmobile" type="tel" class="form-control" placeholder="老手机号">
+					<span class="glyphicon glyphicon-remove form-control-feedback" ng-show="label.code.error"></span>
+				</div>
+				<div class="form-group has-feedback" ng-class="{'has-error': label.code.error}">
+					<label class="control-label sr-only"></label>
+					<input ng-model="ret.code.mobile" type="tel" class="form-control" placeholder="新手机号">
+					<span class="glyphicon glyphicon-remove form-control-feedback" ng-show="label.code.error"></span>
+				</div>
+				{else}
+				<div class="form-group has-feedback" ng-class="{'has-error': label.code.error}">
+					<label class="control-label sr-only"></label>
+					<input ng-model="ret.code.mobile" type="tel" class="form-control" placeholder="手机号">
+					<span class="glyphicon glyphicon-remove form-control-feedback" ng-show="label.code.error"></span>
+				</div>
+				{/if}				
+				{if $config['smsstatus']}
+				<div class="form-group">
+					<button class="btn btn-warning btn-block btn-sender" uniacid="{$_W['uniacid']}">获取验证码</button>
+				</div>
+				<div class="form-group has-feedback" ng-class="{'has-error': label.code.error}">
+					<label class="control-label sr-only"></label>
+					<input ng-model="ret.code.password" type="tel" class="form-control" placeholder="验证码">
+					<span class="glyphicon glyphicon-remove form-control-feedback" ng-show="label.code.error"></span>
+				</div>
+				{/if}
+			</div>
+		</div>
+		<button type="submit" class="btn btn-primary btn-block">{if $mobile_exist == 0}绑定{else}重新绑定{/if}手机号</button>
+		<button class="btn btn-default btn-block" onclick="javascript:history.go(-1);return false;">返回</button>
+	</form>	
+	</div>
+</div>
+</div>
+{/if}
+{template 'footer'}

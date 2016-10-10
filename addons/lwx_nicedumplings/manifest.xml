@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.012wz.com" versionCode="0.6">
+	<application setting="true">
+		<name><![CDATA[包粽子送祝福]]></name>
+		<identifie><![CDATA[lwx_nicedumplings]]></identifie>
+		<version><![CDATA[4.0.1]]></version>
+		<type><![CDATA[other]]></type>
+		<ability><![CDATA[来包粽子咯，包粽子送祝福]]></ability>
+		<description><![CDATA[包粽子送祝福，邀请好友一起包粽子]]></description>
+		<author><![CDATA[易福源码网]]></author>
+		<url><![CDATA[http://www.efwww.com]]></url>
+
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="首页入口" do="list" state="" direct="false" />
+		</cover>
+		<menu>
+			<entry title="分享设置" do="shareSet" state="" direct="false" />
+		</menu>
+	</bindings>
+	<install><![CDATA[install.php]]></install>
+	<uninstall><![CDATA[uninstall.php]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

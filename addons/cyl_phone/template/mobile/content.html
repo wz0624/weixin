@@ -1,0 +1,248 @@
+{template 'common/header'}
+<link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.5.9/css/sm.min.css">
+<link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.5.9/css/sm-extend.min.css">
+<script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+<script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp"></script>
+
+<style type="text/css">
+  a{color:#fff}
+  {if $settings['bg']}
+  body{background-image: url({php echo tomedia($settings['bg'])});}
+  {else}
+  body{background-image:url(http://pic.qiantucdn.com/58pic/15/16/22/57V58PICCcQ_1024.jpg);background-size: }
+  {/if}
+  .bar .button-link{color: #fff}
+  .title{color: #fff} 
+  .bar-tab .tab-item{color: #fff}
+  .card{background: rgba(0, 0, 0, 0.7);border-radius: 15px}
+  .card div{color: #fff;z-index: 5} 
+</style>
+<header class="bar bar-nav " style="background:none">
+  <button class="button button-link button-nav pull-left">
+    <span class="icon icon-home"></span>
+    <a class="external" href="{php echo $this->createMobileUrl('index');}">返回主页</a>
+  </button>
+  <a class="button button-link button-nav pull-right open-popup" data-popup=".popup-about">
+      分类
+      <span class="icon icon-menu"></span>
+    </a>  
+  
+</header>
+<nav class="bar bar-tab" style="background:none">
+    <a class="tab-item external" href="{php echo $this->createMobileUrl('index');}">
+      <span class="icon icon-home"></span>
+      <span class="tab-label">首页</span>
+    </a>
+    <a class="tab-item external" href="{php echo $this->createMobileUrl('Mybusiness', array('op'=>'display'));}">
+      <span class="icon icon-settings"></span>
+      <span class="tab-label">申请加入</span>
+    </a>
+</nav>
+<div class="content">
+
+   <div class="card">
+   
+    <div class="card-content"><img src="{$_W['attachurl']}{$business['logo']}" width="100%" style="border-radius: 15px"></div>
+     <div class="list-block">
+    <ul>
+      <li class="item-content">
+        <div class="item-inner">
+          <div class="item-title">名称</div>
+          <div class="item-after">{$business['title']}</div>
+        </div>
+      </li>
+      <li class="item-content">
+        <div class="item-inner">
+          <div class="item-title">分类</div>
+          <div class="item-after">{$categories[$business['categoryid']]['name']}</div>
+        </div>
+      </li>
+    <li class="item-content">
+        <div class="item-inner">
+          <div class="item-title">电话</div>
+          <div class="item-after"><a href="tel:{$business['phone']}">{$business['phone']}</a></div>
+        </div>
+      </li>
+    <li class="item-content">
+        <div class="item-inner">
+          <div class="item-title">所属行业</div>
+          <div class="item-after">{$business['industry_1']}{$business['industry_2']}</div>
+        </div>
+      </li>
+    {if $business['weixin']}
+    <li class="item-content">
+        <div class="item-inner">
+          <div class="item-title">微信号</div>
+          <div class="item-after">{$business['weixin']}</div>
+        </div>
+      </li>
+    {/if}
+    {if $business['url']}
+    <li class="item-content">
+        <div class="item-inner">
+          <div class="item-title">网址</div>
+          <div class="item-after">{$business['url']}</div>
+        </div>
+      </li>
+    {/if}
+     {if $business['ewm']}
+<div class="card demo-card-header-pic">
+    <div valign="bottom" class="card-header color-white no-border no-padding">
+      <img class='card-cover' src="{$_W['attachurl']}{$business['ewm']}" alt="">
+    </div>
+    <div class="card-content">
+      <div class="card-content-inner">        
+        <p style="text-align:center">按住识别二维码</p>
+      </div>
+    </div>
+    
+  </div>
+ {/if}
+    <li class="item-content">
+        <div class="item-inner">
+          <div class="item-title">地址</div>
+          <div class="item-after">{$business['address']}</div>
+        </div>
+      </li>
+    <li class="item-content">
+        <div class="item-inner">
+          <div class="item-title">导航</div>
+          <div class="item-after"><a class="external" href="http://apis.map.qq.com/tools/poimarker?type=0&marker=coord:{$business['lng']},{$business['lat']};title:{$business['title']};addr:{$business['address']}&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77&referer=myapp">一键导航</a></div>
+        </div>
+      </li>
+      <script>
+
+function init() {
+  //设置地图中心点
+  var myLatlng = new qq.maps.LatLng({$business['lng']},{$business['lat']});
+  //定义工厂模式函数
+  var myOptions = {
+    zoom:14,               //设置地图缩放级别
+    center: myLatlng,      //设置中心点样式
+    mapTypeId: qq.maps.MapTypeId.ROADMAP  //设置地图样式详情参见MapType
+  }
+  //获取dom元素添加地图信息
+  var map = new qq.maps.Map(document.getElementById("container"), myOptions);
+}
+  //异步加载地图库函数文件
+function loadScript() {
+  //创建script标签
+  var script = document.createElement("script");
+  //设置标签的type属性
+  script.type = "text/javascript";
+  //设置标签的链接地址
+  script.src = "http://map.qq.com/api/js?v=2.exp&callback=init";
+  //添加标签到dom
+  document.body.appendChild(script);
+}
+  
+window.onload = loadScript;    // dom文档加载结束开始加载 此段代码
+</script>
+<div id="container"></div>
+     {if $business['zy']}
+    <li class="item-content">
+        <div class="item-inner">
+          <div class="item-title">主营</div>
+          <div class="item-after">{$business['zy']}</div>
+        </div>
+      </li>
+     {/if}
+    <li class="item-content">
+        <div class="item-inner">
+          <div class="item-title">简介</div>         
+        </div>
+      </li>
+    <li class="item-content">        
+        <div class="item-inner">          
+          <div>{$business['desc']}</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  </div>
+ 
+  {loop $messagelist $list}
+  <div class="card">
+    <div class="card-header">{$list['nickname']}</div>
+    <div class="card-content">
+      <div class="card-content-inner">{$list['content']}</div>
+    </div>
+    <div class="card-footer">{php echo date('Y-m-d',$list['time']);}</div>
+  </div>
+  {/loop}
+  
+  <div class="card">
+    <div class="card-content">
+      <div class="list-block">
+        <ul>
+          <li>
+            <a href="{php echo $this->createMobileUrl('message', array('id'=>$business['id']));}" class="item-link item-content external">
+              <div class="item-media"><span class="icon icon-friends"></span></div>
+              <div class="item-inner">
+                <div class="item-title">查看更多</div>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <form  id="form" action="" method="post" class="form-inline" enctype="multipart/form-data">
+  <div class="card">
+    <div class="card-header">您的昵称：<input type="text" name="business[nickname]" placeholder="您的昵称" value="{$nickname}" style="color:#000"></div>
+    <div class="card-content">
+      <div class="list-block media-list">
+       <div class="item-input">
+              <textarea name="business[content]" placeholder="您输入您想说的话"></textarea>
+        </div>
+      </div>
+    </div>
+    </div>
+     <div class="content-block">
+    <div class="row" style="text-align:center">
+      <input type="hidden" name="business[contentid]" value="{$business['id']}" />
+      <div class="col-95"><input name="submit" type="submit" class="button button-big button-fill button-success" value="提交"></div>
+      <input type="hidden" name="token" value="{$_W['token']}" />
+    </div>
+  </div>
+   
+  </form>
+
+</div>
+
+</div>
+
+
+<div class="popup popup-about">
+  <header class="bar bar-nav">
+    <a class="button button-link button-nav pull-right close-popup" style="color:#000">
+      关闭
+    </a> 
+    <h1 class="title" style="color:#000">分类</h1>   
+  </header>
+
+  <div class="content">
+  <div class="content-padded grid-demo">
+    
+    <div class="row">
+      <div class="col-33" > <a class="external button button-light" href="{php echo $this->createMobileurl('index')}" style="color:#000;margin:5px 0px">
+  全部分类
+</a></div>
+{loop $categories $cid $category}
+      <div class="col-33" style=""> <a class="external button button-light" href="{php echo $this->createMobileurl('index', array('cid'=>$category['id']));}" style="color:#000;margin:5px 0px">
+  {$category['name']}
+</a></div>
+
+       {/loop}  
+    </div>
+    
+  </div>
+</div>
+
+</div>
+
+<script src="http://m.sui.taobao.org/dist/js/sm.js"></script>
+<script src="http://m.sui.taobao.org/dist/js/sm-extend.js"></script>
+<script src="http://m.sui.taobao.org/dist/js/sm-city-picker.js"></script>
+<script src="http://m.sui.taobao.org/assets/js/demos.js"></script>
+{template 'common/footer'}

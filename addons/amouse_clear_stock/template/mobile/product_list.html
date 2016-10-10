@@ -1,0 +1,222 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>{if $set['copyright']}{$set['copyright']}{else}{$_W['account']['name']}{/if}-清货商场</title>
+    <link rel="stylesheet" href="{AMOUSE_CLEAR_STOCK_RES}css/foundation.css?version=20160110"/>
+    <link rel="stylesheet" href="{AMOUSE_CLEAR_STOCK_RES}css/main.css?version=20160110"/>
+    {php echo register_jssdk(false);}
+    <script src="{AMOUSE_CLEAR_STOCK_RES}js/modernizr.js?version=20160110"></script>
+    <script src="{AMOUSE_CLEAR_STOCK_RES}js/jquery.js?version=20160110"></script>
+    <script src="{AMOUSE_CLEAR_STOCK_RES}js/foundation.js?version=20160110"></script>
+    <script src="{AMOUSE_CLEAR_STOCK_RES}js/main.js?version=20160110"></script>
+    <link rel="stylesheet" href="{AMOUSE_CLEAR_STOCK_RES}css/product.css?version2=20160110"/>
+    <style>
+        img {
+            max-height: 100px;
+            min-height: 100px;
+        }
+        .view {
+            background: #FB7400;
+            line-height: 20px;
+            color: white;
+            font-size: 0.6em;
+            float: right;
+            position: relative;
+            margin-right: 0px;
+            top: 80px;
+            right: -50px;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <div class="content">
+        <div class="dialog" id="tip">
+            <div class="dialog-cnt">
+                <div class="dialog-bd"><h3>提示</h3>
+                    <p class="text"></p><a class="button correct-btn" id="alert_ok">确&nbsp;&nbsp;定</a></div>
+            </div>
+        </div>
+
+        {template 'nav_bar'}
+
+        <!-- 商品类型：1、护肤彩妆 2、男装女装  3、母婴用品 4、手机数码  5、美食  6、养生保健 7、户外运动  8、珠宝首饰 9、虚拟物品  0、其他货源 -->
+        <div class="exchange">
+            <div class="row product_type">
+            <a href="{php echo $this->createMobileUrl('product',array('p'=>0),true)}" class='btn button {if $cid==0}btn_greentype{else}btn_green{/if}'>全部货源</a>
+            {php $i=0}
+            {loop $categorys $index $c}
+                {php  $key=$index+1}
+            <a href="{php echo $this->createMobileUrl('product',array('cid'=>$c['id'],'index'=>$key),true)}" class='btn button {if $cid==$key}btn_greentype{else}btn_green{/if}'>{$c['name']}</a>
+            {/loop}
+            </div>
+        </div>
+
+        <div class="goods">
+            <!--<div class="small-12 medium-12 columns  goods-list">
+                <div class="goods-img"><img src="http://hufen.kuaidianshop.com/upload/product/56c1dbcf23730.jpg" alt=""/><span style="color:#8C8C8C;margin:4px;float:right;font-size:0.8em;">2分钟前 | 已浏览：2+
+                    </span></div>
+                <div class="goods-intro"><span>活酵母.赋活靓颜新生面膜乳</span><span class="integration"><strike style='color:black'>￥278.00</strike>￥258.00</span></div>
+
+            </div>
+            <div class="small-12 medium-12 columns  goods-list">
+                <a class="goods-detail" href="#">
+                <div class="goods-img"><img src="http://hufen.kuaidianshop.com/upload/product/thumb_56c1d4d84a3f2.jpg" alt=""/><span
+                        style="color:#8C8C8C;margin:4px;float:right;font-size:0.8em;">2分钟前 | 已浏览：9+
+                    </span></div>
+                <div class="goods-intro"><span>魔法棒Magic  Pen</span><span class="integration"><strike style='color:black'>￥99.00</strike>￥99.00</span></div>
+            </a>
+            </div>
+            <div class="small-12 medium-12 columns  goods-list">
+                <a class="goods-detail" href="#">
+                <div class="goods-img"><img src="http://hufen.kuaidianshop.com/upload/product/thumb_56c1c95bacb96.jpg" alt=""/><span
+                        style="color:#8C8C8C;margin:4px;float:right;font-size:0.8em;">4分钟前 | 已浏览：7+
+                    </span></div>
+                <div class="goods-intro"><span>广生堂老北京足贴</span><span class="integration"><strike style='color:black'>￥268.00</strike>￥218.00</span></div>
+            </a>
+            </div>
+            <div class="small-12 medium-12 columns  goods-list">
+                <a class="goods-detail" href="#">
+                <div class="goods-img"><img src="http://hufen.kuaidianshop.com/upload/product/56c1e1d3c9f9d.jpg" alt=""/><span style="color:#8C8C8C;margin:4px;float:right;font-size:0.8em;">5分钟前 | 已浏览：17+
+                    </span></div>
+                <div class="goods-intro"><span>奢姿撕拉唇彩</span><span class="integration"><strike style='color:black'>￥68.00</strike>￥38.00</span></div>
+                </a>
+            </div>
+-->
+
+            <div id="loading" class="row loading" style="display:none;margin-left:40%"><p id="loading_text">正在加载中....</p></div>
+
+        </div>
+
+
+
+    </div>
+</div>
+
+
+{template 'bottom_bar'}
+
+<script>
+    function getCookie(name) {
+        var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+        if (arr = document.cookie.match(reg))
+            return unescape(arr[2]);
+        else
+            return null;
+    }
+    /*var $free_vip = getCookie('free_vip');
+    $('.free_vip1').click(function () {
+        if ($free_vip == '') {
+            $('#alert_ok').attr("href", '/index.php?m=Invite');
+            $('#alert_ok').text('分享到朋友圈成为脉客');
+            new_alert('您还不是脉客或者已到期！分享指定文章到朋友圈即可成为脉客');
+            return false;
+        }
+    });*/
+
+    $(document).foundation();
+        alert_ok = null;
+        function new_alert(msg, cb) {
+            alert_ok = cb;
+            $('#tip .text').html(msg);
+            $('#tip').show();
+        }
+        old_alert = window.alert;
+        window.alert = new_alert;
+        $('#alert_ok').click(function () {
+            if (alert_ok) {
+                alert_ok();
+            }
+            $('#tip').hide();
+    });
+
+    var pid={$pid};
+    if(pid>0){
+        pcateid = pid;
+    }else{
+        pcateid = 0;
+    }
+
+    var page=1;
+    var finished=0;
+    var sover=0;
+    //如果屏幕未到整屏自动加载下一页补满
+    var setdefult=setInterval(function (){
+        if(sover==1)
+            clearInterval(setdefult);
+        else if($(".goods").height()<$(window).height())
+            loadmore($(window));
+        else
+            clearInterval(setdefult);
+    },500);
+
+    function loadmore(obj){
+        if(finished==0 && sover==0){
+            var scrollTop = $(obj).scrollTop();
+            var scrollHeight = $(document).height();
+            var windowHeight = $(obj).height();
+
+            if (scrollTop + windowHeight -scrollHeight<=50 ) {
+                finished=1;//防止未加载完再次执行
+                var $loading = $('#loading');//此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
+                var page_url='{php echo $this->createMobileUrl('ajaxAllData',array(),true)}&pageIndex='+page+'&pid='+pcateid+'&_='+Math.random();
+                var result=AjaxReturn(page_url,'get');
+                if(result.status==1) {
+                    $loading.show();
+                    var res = result.html;
+                    var str = '';
+                    $.each(res,function(i,item){
+                        str+='<div class="small-12 medium-12 columns goods-list" data-id="'+item.id+'"><a class="goods-detail"><div class="goods-img"><img src="'+item.logo + '" /><span style="color:#8C8C8C;margin:4px;float:right;font-size:0.8em;">' + item.createtime + ' | 已浏览' + item.viewcount + '</span></div><div class="goods-intro"><span>' + item.product_name + '</span><span class="integration"><strike style="color:black">￥'+item.price + '</strike>￥' + item.clear_price + '</span></div></a></div>' ;
+                    })
+                    // 为了测试，延迟1秒加载
+                    setTimeout(function () {
+                        $(str).insertBefore($loading);
+                        page += 1;
+                        finished = 0;
+                        var lastPage=result.gtotal;//最后一页
+                        if (page==lastPage) {//最后一页
+                            sover = 1;
+                            $("#loading").css("display", "none")
+                        }
+                    }, 1000);
+                }else{
+                    $("#loading").css("display", "")
+                    $('#loading_text').html('该分类还没有货源.....');
+                }
+            }
+        }
+    }
+    //页面滚动执行事件
+    $(window).scroll(function (){
+        loadmore($(this));
+    });
+
+    $('.goods').delegate('.goods-list', 'click', function () {
+        var $item = $(this);
+        window.location = "{php echo $this->createMobileUrl('view',array(),true)}&pk=" + $item.attr('data-id');
+        return false;
+    });
+</script>
+<script>
+    wx.ready(function () {
+        shareMeta = {
+            imgUrl:"{$shareimg}",
+            link: "{$shareurl}",
+            desc : "{$sharedesc}",
+            title : "{$sharetitle}",
+            success: function(){
+            },
+            cancel: function(){
+            }
+        };
+        wx.onMenuShareTimeline(shareMeta);
+        wx.onMenuShareAppMessage(shareMeta);
+        wx.onMenuShareQQ(shareMeta);
+        wx.onMenuShareQZone(shareMeta);
+    });
+</script>
+</body>
+</html>

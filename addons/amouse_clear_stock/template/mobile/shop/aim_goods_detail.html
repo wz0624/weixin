@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-cn" class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>爱陌微微信公众平台</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="msapplication-TileColor" content="#0e90d2">
+    <link rel="stylesheet" href="http://www.aimowei.cn/Public//Plugins/amaze2.5/assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="http://www.aimowei.cn/Public//Plugins/amaze2.5/assets/css/app.css">
+    <!--[if (gte IE 9)|!(IE)]><!-->
+    <script src="http://www.aimowei.cn/Public//Plugins/amaze2.5/assets/js/jquery.min.js"></script>
+    <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+    <script src="http://www.aimowei.cn/Public//Plugins/amaze2.5/assets/js/amazeui.ie8polyfill.min.js"></script>
+    <![endif]-->
+    <script src="http://www.aimowei.cn/Public//Plugins/amaze2.5/assets/js/amazeui.min.js"></script>
+</head>
+<body>
+
+
+<div class="am-g am-container">
+    <h2>非洲进口艾可力魔力净</h2>
+    <img  src="http://www.aimowei.cn/Uploads/Picture/weixin/Qinghuo/2016/0128/5262863156.png" class="am-img-responsive am-center">
+    <p>价格：<span class="am-text-lg am-text-warning" style="font-size: 32px;">15.00</span></p>
+    <p>微信：18865788898，非洲进口艾可力魔力净针对难洗的污渍、油渍等锈渍孩子吃水果蹭到衣服的水果渍、等等，可以清洗马桶、油烟机、玻璃、墙壁、地板、生锈物、桌椅、衣物、鞋、橱具等等任何一样用平时洗衣粉洗衣液洗洁精难洗的污渍，魔力净统统帮你搞定，是各位妈妈干家务的必备小能手！招代理[微笑]可以加上看看，欢迎转发</p>
+    <img src="http://www.aimowei.cn/Uploads/Picture/weixin/Qinghuo/2016/0128/56a9b65282daa.jpeg" class="am-img-responsive"><br/>
+    <img src="http://www.aimowei.cn/Uploads/Picture/weixin/Qinghuo/2016/0128/56a9b6724cb1f.jpeg" class="am-img-responsive"><br/>
+    <img src="http://www.aimowei.cn/Uploads/Picture/weixin/Qinghuo/2016/0128/56a9b70cd2e1f.jpeg" class="am-img-responsive"><br/>
+    <div class="am-panel am-panel-danger">
+    <div class="am-panel-hd">提醒</div>
+    <div class="am-panel-bd">
+        此商品是由用户自发上传，您购买时请直接与卖家联系。
+        商品价格及质量请自行甄别，如购买后出现质量等问题！
+        爱陌微平台概不负责！
+    </div>
+</div>
+    <p class="am-text-center">
+        <a class="am-btn am-btn-primary js-contact">联系卖家</a>&nbsp;&nbsp;
+        <a href="/Mall/Qinghuo/index.html" class="am-btn am-btn-primary">返回</a>
+    </p>
+</div>
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="modal_1">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">长按二维码添加卖家联系
+            <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+        </div>
+        <div class="am-modal-bd">
+            <img class="js-img" src="http://www.aimowei.cn/Uploads/Picture/weixin/user/2016/0127/56a8db101f086.jpeg" style="max-width:100%;max-height:320px;" />
+        </div>
+    </div>
+</div>
+
+<!--<script src="http://www.aimowei.cn/Public//Plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>-->
+<footer class="footer">
+
+</footer>
+
+
+<!--<div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <span>Copyright &copy; <a href="http://www.aimowei.cn/">爱陌微微信公众平台</a></span> |
+                <span><a target="_blank" href="http://www.miibeian.gov.cn/">冀ICP备14005654号-4</a></span>
+            </div>
+        </div>
+    </div>
+</div>-->
+
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("a.js-contact").click(function () {
+            $("#modal_1").modal();
+        });
+
+        $('.js-img').hammer().on('press', function () {
+            var id = "1683";
+            $.get("/Mall/Qinghuo/addNum.html", {'id': id});
+        });
+//微信分享代码
+
+        wx.ready(function () {
+//                wx.hideOptionMenu();
+            wx.hideMenuItems({
+                menuList: ["menuItem:share:qq", "menuItem:share:weiboApp", "menuItem:favorite", "menuItem:share:QZone"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+            });
+            wx.showMenuItems({
+                menuList: ["menuItem:share:timeline", "menuItem:share:appMessage"] // 要显示的菜单项，所有menu项见附录3
+            });
+            var title = "非洲进口艾可力魔力净",
+                    link = "http://www.aimowei.cn/Mall/Qinghuo/show/id/1683/wx_member_id/942199.html",
+                    imgUrl = "http://www.aimowei.cn/Uploads/Picture/weixin/Qinghuo/2016/0128/5262863156.png",
+                    url = "/Mall/Qinghuo/addTuiguang/id/1683/wx_member_id/942199.html";
+
+            wx.onMenuShareAppMessage({
+                title: title, // 分享标题
+                desc: '', // 分享描述
+                link: link, // 分享链接
+                imgUrl: imgUrl, // 分享图标
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                trigger: function (res) {
+//                        // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+//                        alert(222)
+                },
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                    $.get(url, function (data) {
+//                            console.log(data);
+//                            alert(data);
+                    });
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+
+            wx.onMenuShareTimeline({
+                title: title,
+                link: link,
+                imgUrl: imgUrl,
+                trigger: function (res) {
+//                        // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+//                        $.get(url, function(data) {
+//                            console.log(data);
+//                            alert(data);
+//                        });
+                },
+                success: function (res) {
+                    $.get(url, function (data) {
+                        console.log(data);
+                        alert(data);
+                    });
+                },
+                cancel: function (res) {
+                    console.log(res);
+                    //alert('aaaaaaaaaaaaa');
+                    //alert('已取消');
+                }
+
+            });
+        });
+    });
+
+</script>
+</body>
+</html>

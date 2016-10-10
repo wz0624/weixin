@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<!--
+-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>{$list['title']}</title>
+{php echo register_jssdk(false);}
+</head>
+<style>
+*{
+	margin:0; padding:0;
+}
+html,body{
+	width:100%; overflow:hidden
+}
+body{
+	font-size:14px; color:#333; position:relative; font-family:"微软雅黑";
+}
+h1,h2,h3,h4,h5,b,u,i,em{
+	font-size:14px; font-weight:normal; font-style:normal
+}
+ul,li,dl,dt,dd,ol{
+	list-style-type:none
+}
+img{
+	border:none
+}
+a,a:hover,a:visited,a:active,a:link{
+	text-decoration:none; border:none;
+}
+a{
+	color:#333
+}
+.cover{
+	position:relative; width:100%; height:100%; background-color:#ff0
+}
+.cover img{
+	width:100%; height:100%; float:left
+}
+.cover a{
+	position:fixed; left:0; top:0px; right:0; bottom:0 width:100%; height:100%; display:block; z-index:1000
+}
+</style>
+<body>
+<span style="width: 100px; position: absolute; top: 10px; right: 0px;color:{if empty($list['djs_txt_color'])}#ffffff{else}{$list['djs_txt_color']}{/if};z-index:1001" class="am-btn am-btn-xs" id="tjump"><h1>跳过>><font color="red" id="curt">{$list['thumb_time']}</font>&nbsp;秒
+        </h1></span>
+<div class="cover">
+
+<img src="{php echo tomedia($list['open_img'])}" width="100%" height="100%">
+<a href="{if empty($list['open_img_url'])}{php echo $this->createMobileUrl('detail',array('categoryid'=>$categoryid,'listid'=>$list['id']))}{else}{$list['open_img_url']}{/if}"></a>
+
+</div>
+<!-- wechat share -->
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script language="javascript" type="text/javascript" src="{MODULE_URL}template/mobile/js/jqthumb.min.js"></script>
+<script>
+var djs_time;
+var djs_countdown = {$list['thumb_time']};
+$(function(){
+	var w=$(window).width(),h=$(window).height();
+	$('.cover img').jqthumb({
+		width:w,
+		height:h
+	});
+	djs_time = window.setInterval(SetRemainTime, 1000);
+	$("#tjump").click(function(){
+			window.location.href = "{php echo $this->createMobileUrl('detail',array('categoryid'=>$categoryid,'listid'=>$list['id']))}";
+});
+})
+
+function SetRemainTime() {  
+  var time_box = $("#curt");
+    if (djs_countdown == 0) {
+        clearInterval(window.djs_time);//停止计时器  
+		window.location.href = "{php echo $this->createMobileUrl('detail',array('categoryid'=>$categoryid,'listid'=>$list['id']))}";
+    }else {  
+       djs_countdown--;  
+       time_box.text(djs_countdown);  
+    }  
+}
+</script>
+<script type="text/javascript">
+  wx.ready(function () {
+    var shareData = {
+    title: "{$list['share_title']}",
+    desc: "{$list['share_content']}",
+    link: "{php echo $_W['siteroot'].'app/'.$this->createMobileUrl('detail_thumb',array('categoryid'=>$categoryid,'listid'=>$listid,'fd'=>$list_user_id))}",
+    imgUrl: "{php echo tomedia($list['share_img'])}",
+  };
+  
+  //分享朋友
+  wx.onMenuShareAppMessage({
+       title: shareData.title,
+      desc: shareData.desc,
+      link: shareData.link,
+      imgUrl:shareData.imgUrl,
+      trigger: function (res) {
+      },
+      success: function (res) {
+        send_intergal();
+      },
+      cancel: function (res) {
+      },
+      fail: function (res) {
+        alert(JSON.stringify(res));
+      }
+    });
+ //朋友圈
+  wx.onMenuShareTimeline({
+      title: shareData.title+"---"+shareData.desc,
+      link: shareData.link,
+      imgUrl:shareData.imgUrl,
+      trigger: function (res) {
+      },
+      success: function (res) {
+          send_intergal();
+      },
+      cancel: function (res) {
+      },
+      fail: function (res) {
+        
+      }
+    });   
+    
+  });
+
+
+
+function send_intergal(){
+   $.ajax({
+			type:"POST",
+			url:"{php echo $this->createMobileUrl('shareajax',array('categoryid'=>$categoryid,'listid'=>$listid))}",
+			data:{openid:'{$openid}}'},
+			cache:false,
+			success:function(data){
+				
+			}
+		});
+}
+
+
+</script>
+</body>
+</html>

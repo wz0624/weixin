@@ -1,0 +1,34 @@
+{template 'common/header'}
+<div class="container">
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">真心话问题</div>
+  <div class="panel-body">
+    <p>这是一些真心话的问题</p>
+  </div>
+
+  <!-- Table -->
+  <table class="table">
+    <tbody>
+  	{loop $data $key $item}
+  		<tr>
+  			<th>{php echo ++$key;}</th>
+  			<th>{php echo html_entity_decode($item['question']);}</th>
+  			<th><button type="button" class="btn btn-default btn-xs" >
+          <a href="{php echo $this->createMobileUrl('answer',array('id'=>$item['id'],'uniacid'=>$item['uniacid']));}">回答</a>
+        </button></th>
+  		</tr>
+  		{/loop}
+  </tbody>
+</table>
+
+</div>
+{$page}
+ <button type="button" class="btn btn-primary" style="width:100%;">
+  <a href="{php echo $this->createMobileUrl('user',array('uniacid'=>$item['uniacid']));}" style="color:#FFFFFF">我也要提问题</a>
+</button>
+</div>
+
+
+
+{template 'common/footer'}

@@ -1,0 +1,238 @@
+{template 'header'}
+<link type="text/css" rel="stylesheet" href="../addons/j_shakelucky/template/js/sweetalert.css">
+<script type="text/javascript" src="../addons/j_shakelucky/template/js/sweetalert.min.js"></script>
+<style>
+body{background:#F3D556;width:100%;}
+.header{font-size:16px;text-align:center;line-height:40px;position:fixed; left: 0; top:0; right: 0;background:#FFF; z-index:3}
+.header div[class^='boxsize']{border-bottom:1px solid #DDD;}
+.header a{display:block;text-align:center;text-decoration:none;color:#999;font-size:13px;}
+.header a:active{ background:#DDD;}
+.box{display:box;display:-webkit-box;}
+.boxsize-1{-webkit-box-flex:1;box-flex:1;}
+.boxsize-2{-webkit-box-flex:2;box-flex:2;}
+.boxsize-3{-webkit-box-flex:3;box-flex:3;}
+.boxsize-4{-webkit-box-flex:4;box-flex:4;}
+.boxsize-5{-webkit-box-flex:5;box-flex:5;}
+.boxsize-6{-webkit-box-flex:6;box-flex:6;}
+.boxsize-7{-webkit-box-flex:7;box-flex:7;}
+.boxsize-8{-webkit-box-flex:8;box-flex:8;}
+.boxsize-9{-webkit-box-flex:9;box-flex:9;}
+.jtable{display:table; width:100%;}
+.jrow{display:table-row;}
+.j_cell1{ display:table-cell;width:10%}
+.j_cell2{ display:table-cell;width:20%}
+.j_cell3{ display:table-cell;width:30%}
+.j_cell4{ display:table-cell;width:40%}
+.j_cell5{ display:table-cell;width:50%}
+.j_cell6{ display:table-cell;width:60%}
+.j_cell7{ display:table-cell;width:70%}
+.j_cell8{ display:table-cell;width:80%}
+.j_cell9{ display:table-cell;width:90%}
+.boxsize-10{-webkit-box-flex:10;box-flex:10;}
+.fixed_first{ margin-top:50px; height:1px;}
+.client_img{ text-align:center; margin:10px auto;}
+.result_btn_box{ margin:0 15px 15px 15px; background:#d05d44; border:2px solid #f39800; border-radius:8px;color:#FFF;display:-webkit-box;}
+.result_btn_box div{-webkit-box-flex:4;text-align:center;font-size:14px;font-weight:bold;}
+.result_btn_box div span{padding:5px 0;display:block;border-radius:7px;}
+.actvice span{ background:#FFF;color:#d05d44;}
+.result_btn_til{margin:0 auto 5px auto; background:#FFF;border-radius:8px;color:#999;display:table; width:100%;}
+ul.list,ul.list li{margin:0;padding:0;list-style:none;}
+ul.list{margin:0 15px 5px 15px;}
+ul.list li{background:#fff799;border-radius:8px;color:#666;display:table;width:100%;margin:0 0 5px 0; padding:10px 0;}
+.j_row{display:table-row;}
+.j_row div{text-align:center;font-size:14px;padding:8px 0;width:30%}
+.game_btns{ background:#d05d44; border-radius:5px; display:inline-block; padding:5px 20px;color:#FFF; font-size:16px;}
+a:visited{color:#FFF}
+.red{color:#C03}
+.footermenu{ position:fixed;height:40px; border-top:1px solid #DDD; background:#F3D556; bottom:0; left:0;right:0;z-index:3}
+.shake-infobox2{width:96%;margin:10% auto 0 auto;background:#FFF; border-radius:8px; border:#CCC 1px solid;}
+.shake-infobox-head{ border-top-left-radius:8px; border-top-right-radius:8px; padding:10px; background:#EEE; border-bottom:#CCC 1px solid;}
+.shake-infobox-body{background:#FFF;padding:10px;}
+.shake-infobox-footer{text-align:center; padding:10px}
+.ptb5{ padding:5px 0;}
+</style>
+{if $operation=="ok"}
+<Div class="header">
+  <div class="box">
+    <div class="boxsize-2"><A href="javascript:showPrize()"><i class="fa fa-file-text-o"></i></A></div>
+    <div class="boxsize-8">二维码兑换处</div>
+    <div class="boxsize-2"><A href="javascript:location.reload()"><i class="fa fa-refresh"></i></A></div>
+  </div>
+</Div>
+<div class="fixed_first">&nbsp;</div>
+<div class="showbox">
+  <div class="result_btn_til">
+    <div class="j_row">
+      <div class="j_cell3"><span>奖品名称{php echo $sid}</span></div>
+      <div class="j_cell4"><span>兑奖时间</span></div>
+      <div class="j_cell3"><span>兑奖状态</span></div>
+    </div>
+  </div>
+  <ul class="list" id="listbox">
+  </ul>
+  <ul class="list">
+    <li style="padding:10px;">
+      <div style=" padding-bottom:5px; margin:0 0 10px 0; border-bottom:#F3D556 1px solid" class="red"><strong>奖项说明</strong></div>
+      {$item['gamecontent']}</li>
+  </ul>
+</div>
+{template 'footer'}
+<div style="height:50px;">&nbsp;</div>
+<div class="footermenu text-center" style="padding:10px; height:auto;">
+  <button type="button" onClick="qrScan()"  id="scanbtn" disabled class="btn btn-block btn-success">加载中...</button>
+</div>
+
+<!---->
+<div style="display:none">
+  <div class="shake-infobox2">
+    <div class="shake-infobox-head"><strong>游戏情况</strong></div>
+    <div class="shake-infobox-body">
+      <div style="padding:10px 0;">
+        <div class="ptb5">抽奖次数：<b>{$num_playtime}</b> 人次</div>
+        <div class="ptb5">参与人数：<b>{php echo $num_playmen}</b> 人</div>
+        <div class="ptb5">领奖情况：<b>{$num_gettime}</b> / <b>{php echo $num_prizetime-$num_gettime}</b> / <b>{$num_prizetime}</b> </div>
+        <div class="ptb5" style=" border-bottom:#CCC 1px solid; margin-bottom:10px">奖品情况：<b>{$num_prizeremain}</b> / <b>{$num_prizeall}</b> </div>
+        <div class="jtable">
+          <div class="jrow">
+            <div class="j_cell3"><b>奖品名称</b></div>
+            <div class="j_cell3"><b>赞助商</b></div>
+            <div class="j_cell2"><b>总数</b></div>
+            <div class="j_cell2"><b>剩余</b></div>
+          </div>
+          {loop $prizelist $row}
+          <div class="jrow">
+            <div class="j_cell3">{$row['title']}</div>
+            <div class="j_cell3">{$row['sponsor']}</div>
+            <div class="j_cell2">{$row['remain']}</div>
+            <div class="j_cell2" style="color:#F00">{$row['total']}</div>
+          </div>
+          {/loop}
+        </div>
+      </div>
+    </div>
+    <div class="shake-infobox-footer">
+      <button type="button" onClick="close_modal('.shake-infobox2')" class="btn btn-info btn-block">关闭</button>
+    </div>
+  </div>
+</div>
+<script>
+wx.ready(function () {
+	wx.hideOptionMenu();
+	$("#scanbtn").removeAttr("disabled").text("启动兑奖");
+});
+function showPrize(){
+	$('j').Jetsum.modal({target:'.shake-infobox2',do:true})
+}
+function close_modal(obj){
+	$('j').Jetsum.modal({target:obj,do:false})
+}
+function qrScan(){
+	wx.scanQRCode({
+		needResult: 1, 
+		scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+		success: function (res) {
+			var result = res.resultStr;
+			$("#listbox").empty();
+			$.getJSON("{php echo $this->createMobileUrl('ajax',array('op'=>'getuserprize','sid'=>$sid))}",{'code':result},function(data){
+				if(data.success){
+					items=data.item;
+					var temp="";
+					for(var i=0;i<items.length;i++){
+						temp+='<li id="user_'+items[i].id+'"';
+						temp+='><div class="j_row"><div class="j_cell3">'+items[i].prize+'</div><div class="j_cell4">';
+						if(parseInt(items[i].status)>0){
+							temp+=items[i].endtime+'</div><div class="j_cell3 txt">已经领奖</div></div>';
+						}else{
+							temp+='&nbsp;</div><div class="j_cell3 txt"><button  onClick="getprize('+parseInt(items[i].id)+')" class="btn btn-info">点击领奖</button></div></div>';
+						}
+						temp+='</li>';
+					}
+					$("#listbox").append(temp);
+				}else{
+					swal({
+						title: "温馨提示",
+						text:data.msg,  
+						type: "error",
+					});
+				}
+			})
+		}
+	});
+}
+function getprize(n){
+	if(!confirm("是否确认领奖？"))return;
+	$.getJSON("{php echo $this->createMobileUrl('ajax',array('op'=>'dealprize'))}",{'id':n},function(data){
+		if(data.success){
+			$("#user_"+n).removeAttr("onClick");
+			$("#user_"+n+" .j_cell4").text(data.time);
+			$("#user_"+n+" .txt").text("已经领奖");
+		}else{
+			alert("未知错误");
+			swal("未知错误");
+		}
+	})
+}
+</script> 
+{else}
+<form action="" method="post" onsubmit="return formcheck(this)">
+  <div style="padding:50px 10px 10px 10px;">
+    <div class="panel panel-danger">
+      <div class="panel-heading">摇滚吧红包手机兑奖</div>
+      <div class="panel-body">
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">游戏号</label>
+          <div class=" col-xs-12 col-sm-2 col-lg-2">
+            <input class="form-control" name="rid" type="text" maxlength="10" placeholder="输入游戏号">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">商家编号</label>
+          <div class=" col-xs-12 col-sm-2 col-lg-2">
+            <input class="form-control" name="sid" type="text" maxlength="10" placeholder="输入商家编号">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">验证码</label>
+          <div class=" col-xs-12 col-sm-2 col-lg-2">
+            <input class="form-control" name="code" type="password" maxlength="20" placeholder="输入验证码">
+          </div>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <button type="button" onClick="submitForm()" disabled id="btn_submit" class="btn btn-success btn-block">加载中</button>
+      </div>
+    </div>
+  </div>
+</form>
+{template 'footer'} 
+<script language="javascript">
+function submitForm(){
+	var rid=parseInt($("input[name='rid']").val());
+	var code=$("input[name='code']").val();
+	var sid=$("input[name='sid']").val();
+	if(!rid || !code || !sid){
+		alert("信息填写错误！");
+		return;
+	}
+	$.getJSON("{php echo $this->createMobileUrl('ajax',array('op'=>'loginmobile'))}",{
+		"rid":rid,
+		"sid":sid,
+		"code":code,
+	},function(data){
+		if(data.success){
+			if(sid=='1111'){
+				location.href="{php echo $this->createMobileUrl('cancellation',array('op'=>'ok'))}&rid="+rid;
+			}else{
+				location.href="{php echo $this->createMobileUrl('cancellation2',array('op'=>'ok'))}&rid="+rid;
+			}
+		}else{
+			alert(data.msg);
+		}
+	});
+}
+wx.ready(function () {
+	wx.hideOptionMenu();
+	if($("#btn_submit").size())$("#btn_submit").removeAttr("disabled").text("登陆");
+});
+</script> 
+{/if} 

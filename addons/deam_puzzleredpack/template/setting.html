@@ -1,0 +1,71 @@
+{template 'common/header'}
+<div class="main">
+<form action="" method="post" class="form-horizontal form" onsubmit="return formcheck();">
+	<div class="panel panel-default">
+		<div class="panel-heading">红包发放参数设置</div>
+		<div class="panel-body">
+        	<div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">商户号对应的appid</label>
+                <div class="col-sm-9 col-xs-12">
+                    <input type="text" id="appid" name="appid" class="form-control" value="{$settings['appid']}" />
+                    <div class="help-block">如需借权，此处appid需要填写借权服务号的appid</div>
+                </div>
+            </div>
+            
+        	<div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">红包提供者的商户号</label>
+                <div class="col-sm-9 col-xs-12">
+                    <input type="text" id="mch_id" name="mch_id" class="form-control" value="{$settings['mch_id']}" />
+                    <div class="help-block">微信支付分配的商户号</div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">商户密钥</label>
+                <div class="col-sm-9 col-xs-12">
+                    <input type="text" id="partnerkey" name="partnerkey" class="form-control" value="{$settings['partnerkey']}" />
+                    <div class="help-block">商户号密钥</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">服务器IP</label>
+                <div class="col-sm-9 col-xs-12">
+                    <input type="text" id="getip" name="getip" class="form-control" value="{$settings['getip']}" />
+                    <div class="help-block"><font color="#FF0000">建议手动填写</font>，如未填写，程序自动获取</div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">商户支付证书{if $fileCert} <span class="label label-success">已上传</span>{/if}</label>
+                <div class="col-sm-8 col-xs-12">
+                    <textarea class="form-control" name="cert" rows="8" placeholder="为保证安全性, 不显示证书内容. 若要修改, 请直接输入"></textarea>
+                    <div class="help-block">从商户平台上下载支付证书, 解压并取得其中的 <mark>apiclient_cert.pem</mark> 用记事本打开并复制文件内容, 填至此处</div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">支付证书私钥{if $fileKey} <span class="label label-success">已上传</span>{/if}</label>
+                <div class="col-sm-8 col-xs-12">
+                    <textarea class="form-control" name="key" rows="8" placeholder="为保证安全性, 不显示证书内容. 若要修改, 请直接输入"></textarea>
+                    <div class="help-block">从商户平台上下载支付证书, 解压并取得其中的 <mark>apiclient_key.pem</mark> 用记事本打开并复制文件内容, 填至此处</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">支付根证书{if $fileRootca} <span class="label label-success">已上传</span>{/if}</label>
+                <div class="col-sm-8 col-xs-12">
+                    <textarea class="form-control" name="rootca" rows="8" placeholder="为保证安全性, 不显示证书内容. 若要修改, 请直接输入"></textarea>
+                    <div class="help-block">从商户平台上下载支付证书, 解压并取得其中的 <mark>rootca.pem</mark> 用记事本打开并复制文件内容, 填至此处</div>
+                </div>
+            </div>	
+            <input name="submit" type="submit" value="提交" class="btn btn-primary span3" />
+		<input type="hidden" name="token" value="{$_W['token']}" />
+        
+        
+        
+            
+        </div>
+        
+    </div>
+</form>
+</div>
+{template 'common/footer'}

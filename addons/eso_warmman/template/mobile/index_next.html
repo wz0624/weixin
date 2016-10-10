@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0"/>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>{$row['title']}</title>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <link href="{NOW_PATH}files/style.css?v=5" rel="stylesheet" type="text/css">
+</head>
+<body style="position:relative;">
+
+<div class="bao" id="boy_next" style="z-index:9">
+    <img src="{NOW_PATH}files/boy_next/img_1_0.png">
+    <img src="{NOW_PATH}files/boy_next/img_2_0.png">
+    {if intval($user['val']) >= intval($setting['base'])}
+    <img src="{NOW_PATH}files/boy_next/img_3_0s.jpg">
+    {else}
+    <img src="{NOW_PATH}files/boy_next/img_3_0.jpg">
+    {/if}
+</div>
+
+{if intval($user['val']) < intval($setting['base'])}
+<div class="bao-back" onclick="_back(1);">
+    <img src="{NOW_PATH}files/back.png">
+</div>
+{/if}
+
+<div class="image bg-img" style="z-index:8">
+    <img src="{php echo toimage($user['img'])}">
+</div>
+
+<div class="degree_text">{php echo intval($user['val'])}°C</div>
+
+<div class="degree_text_b" style="display:none;">
+    {if intval($user['val']) >= intval($setting['base'])}
+    {else}
+    {php echo intval($user['val'])}°C
+    {/if}
+</div>
+
+<div class="degree_color {php echo val_l($user['val'])}">
+    <span style="width:{php echo intval($user['val'])}%"></span>
+</div>
+<div class="degree_dem {php echo val_l($user['val'])}"></div>
+
+<div class="degree_btn">
+    {if intval($user['val']) >= intval($setting['base'])}
+    <div class="btn_center" onclick="_receive(1);"></div>
+    {else}
+    <div class="btn_left" onclick="window.location.href='{$setting['listurl']}';"></div>
+    <div class="btn_right" onclick="_share(1);"></div>
+    {/if}
+</div>
+
+
+
+<!-- 分享层 -->
+<div class="bao" id="boy_share" style="z-index:11;display:none;" onclick="_share(0);">
+    <img src="{NOW_PATH}files/boy_next/img_1_1.jpg">
+    <img src="{NOW_PATH}files/boy_next/img_2_1.jpg">
+    <img src="{NOW_PATH}files/boy_next/img_3_1.jpg">
+</div>
+<div class="degree_share" id="degree_share" onclick="_share(0);">
+    <div class="bao-back">
+        <img src="{NOW_PATH}files/back.png">
+    </div>
+</div>
+
+<!-- 表单提交层 -->
+<div class="ylpost">
+    <div class="bao-back" onclick="_receive(0);">
+        <img src="{NOW_PATH}files/back.png">
+    </div>
+
+    <div class="bk">
+        <input class="apost-input" type="text" id="realname" placeholder="昵称" value="{$submit['setting']['realname']}">
+        <input class="apost-input" type="text" id="mobilenumber" placeholder="手机号码" value="{$submit['setting']['mobile']}">
+        <input class="apost-input butt" type="button" value="提交" onclick="_button();">
+    </div>
+</div>
+
+<!-- 表单提交以后 -->
+<div class="bao" id="boy_form" style="z-index:11;display:none;" onclick="_form(0);">
+    <img src="{NOW_PATH}files/boy_next/img_1_2.jpg">
+    <img src="{NOW_PATH}files/boy_next/img_2_2.jpg">
+    <img src="{NOW_PATH}files/boy_next/img_3_2.jpg">
+</div>
+<div class="degree_share" id="degree_form" onclick="_form(0);">
+    <div class="bao-back">
+        <img src="{NOW_PATH}files/back.png">
+    </div>
+</div>
+
+<div class="alert_mask"></div>
+
+</body>
+
+<script type="text/javascript" src="{NOW_PATH}files/jquery.js"></script>
+<script type="text/javascript" src="{NOW_PATH}files/jquery.alert.js"></script>
+<script type="text/javascript" src="{NOW_PATH}files/kinetic-v5.1.0.min.js"></script>
+<script type="text/javascript" src="{NOW_PATH}files/TweenMax.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $(".degree_text,.degree_text_b").css({
+            'font-size': $(window).width() * 0.06875
+        });
+    });
+    var shareData = {
+        "imgUrl" : "{php echo toimage($row['share_txt'])}",
+        "link" : "{php echo urwdo('index','',1)}&uid={$user['id']}",
+        "title" : "{$row['share_title']}",
+        "desc" : "{$row['share_desc']}"
+    };
+    var jssdkconfig = {JSONJSSDKCONFIG} || {};
+    //
+    var upData = {
+        "now_path" : "{NOW_PATH}",
+        "img" : "{php echo toimage($user['img'])}",
+        "upfile" : "{php echo urwdo('upfile','',1)}",
+        "unupfile" : "{php echo urwdo('unupfile','',1)}",
+        "index" : "{php echo urwdo('index','',1)}&uid={$user['id']}"
+    };
+</script>
+<script type="text/javascript" src="{NOW_PATH}files/upload.js?v=5"></script>
+</html>

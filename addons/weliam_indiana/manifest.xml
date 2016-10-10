@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.012wz.com" versionCode="0.6">
+	<application setting="true">
+		<name><![CDATA[幸运一元夺宝]]></name>
+		<identifie><![CDATA[weliam_indiana]]></identifie>
+		<version><![CDATA[5.7.0]]></version>
+		<type><![CDATA[other]]></type>
+		<ability><![CDATA[一云夺宝是一种全新的购物方式,是时尚、潮流的风向标,能满足个性、年轻消费者的购物需求]]></ability>
+		<description><![CDATA[一云夺宝是一种全新的购物方式,是时尚、潮流的风向标,能满足个性、年轻消费者的购物需求]]></description>
+		<author><![CDATA[www.efwww.com]]></author>
+		<url><![CDATA[www.efwww.com]]></url>
+
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="首页入口设置" do="index" state="" direct="false" />
+			<entry title="个人中心入口" do="profile" state="" direct="false" />
+		</cover>
+		<menu>
+			<entry title="商品管理" do="goods" state="" direct="false" />
+			<entry title="分类管理" do="category" state="" direct="false" />
+			<entry title="幻灯片管理" do="adv" state="" direct="false" />
+			<entry title="交易记录" do="record" state="" direct="false" />
+			<entry title="订单管理" do="order" state="" direct="false" />
+			<entry title="会员管理" do="member" state="" direct="false" />
+			<entry title="晒单管理" do="showorder" state="" direct="false" />
+			<entry title="首页导航" do="navi" state="" direct="false" />
+		</menu>
+		<home>
+			<entry title="夺宝首页" do="index" state="" direct="false" />
+			<entry title="个人中心" do="profile" state="" direct="false" />
+		</home>
+	</bindings>
+	<install><![CDATA[install.php]]></install>
+	<uninstall><![CDATA[uninstall.php]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

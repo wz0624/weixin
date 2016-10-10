@@ -1,0 +1,75 @@
+<?php
+$footer_menus = pdo_fetchall("SELECT * FROM ".tablename($this->footer_menu_table)." WHERE weid=:weid AND isshow=:isshow ORDER BY displayorder ASC",array(':weid'=>$weid,':isshow'=>'1'));
+?>
+<div class="footer" >
+      <div class="links">
+  	 <p class="mf_o4">{$settings['live_copyright']}</p>
+</div> 
+</div>
+<div style="height:40px; line-height:40px; clear:both;"></div>
+
+<link href="./resource/css/font-awesome.min.css" rel="stylesheet">
+<style>
+/*底部模块*/ 
+.footer { background-color: #F8F8F8; text-align: center; width:100%; overflow:hidden; padding-bottom:10px; padding-top:10px;}
+.footer a { display: inline-block; /*padding: 0 1em*/ }
+.footer span { color: #82858A; }
+.footer .tip { padding: 0 0 1.5em }
+.footer .tip span { font-size: 1.2em }
+.footer .links {width:75%;margin:0 auto; background:none}
+.footer p { text-align: center; line-height: 20px; }
+.mf_o4 { color: #a2a2a2 ;font-size: 10px;}
+.meepo-tabbar {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background-color: #f7f7fa;
+	text-align: center;
+	z-index: 999;
+	border-top: 1px solid #F1EDED;
+}
+
+.meepo-tabbar-item {
+	display: block;
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	-ms-flex: 1;
+	flex: 1;
+	padding: 7px 0 0;
+	height: 45px;
+}
+
+.meepo-tabbar-item span {
+	display: inline-block;
+	width: 100%;
+	height: 20px;
+	vertical-align: top;
+	font-size: 12px;
+	color: {if empty($settings['footer_color'])}#ff6a00{else}{$settings['footer_color']}{/if};
+}
+
+.meepo-tabbar-item .icon {
+	display: inline-block;
+	width: 100%;
+	height: 20px;
+	padding-bottom: 5px;
+}
+
+.meepo-tabbar-item .icon i {
+	font-size: 23px;
+}
+a{outline-style:none }
+a,button,input{-webkit-tap-highlight-color:rgba(255,0,0,0);}
+</style>
+
+<ul class="meepo-tabbar">
+	{loop $footer_menus $val}
+		
+		<li class="meepo-tabbar-item"><a href="{$val['url']}"><span class="icon"><i class="{$val['icon']}"></i></span><span>{$val['name']}</span></a></li>
+	{/loop}
+</ul>

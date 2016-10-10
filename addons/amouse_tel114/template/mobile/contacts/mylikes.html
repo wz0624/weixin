@@ -1,0 +1,87 @@
+<html class="ui-mobile">
+<head>
+    <base href="http://dianhuaben.chaoyuanwuxian.com/webapp/mylikes.html?token=gh_8934a4b3c0d5">
+    <meta charset="utf-8">
+    <title>我的收藏</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.3.css">
+    <link rel="stylesheet" href="css/lichao.css">
+</head>
+<body class="ui-mobile-viewport ui-overlay-a">
+<div data-role="page" id="mylikes" data-url="mylikes" tabindex="0"
+     class="ui-page ui-page-theme-a ui-page-footer-fixed ui-page-active"
+     style="padding-bottom: 62px; min-height: 602px;">
+    <div role="main" class="ui-content" style="padding:0px 10px 0px 10px;">
+        <form class="ui-filterable">
+            <div class="ui-input-search ui-shadow-inset ui-input-has-clear ui-body-inherit ui-corner-all"><input
+                    data-type="search" placeholder="搜索...">
+                <a href="#" class="ui-input-clear ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all ui-input-clear-hidden"
+                                                              title="Clear text">Clear text</a></div>
+        </form>
+        <ul data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="搜索..." id="mylikeslist"
+            class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+            <li data-icon="phone" id="phone" class="ui-li-has-alt ui-first-child ui-last-child">
+                <a href="#detail" data-transition="none"  style="padding-top:3px;padding-bottom:3px" data-no="0"
+                                                                                                   class="ui-btn"><h2>
+                诚信彩钢房制作<img width="10px" src="./css/images/renzheng.png"></h2>
+
+                <p>禹州市</p></a><a href="tel:13733646601" data-icon="phone" title=""
+                                 class="ui-btn ui-btn-icon-notext ui-icon-phone"></a></li>
+        </ul>
+    </div>
+    <div data-role="footer" data-position="fixed" id="footer" role="contentinfo"
+         class="ui-footer ui-bar-inherit ui-footer-fixed slideup"><h5>潮源无线</h5></div>
+</div>
+<div data-role="page" id="detail" data-url="detail">
+    <div data-role="content" id="mylikesdetail">
+    </div>
+    <div data-role="footer" data-position="fixed" id="detailfooter"><h5>潮源无线</h5></div>
+</div>
+<script src="js/jquery-1.11.1.js"></script>
+<script src="js/jquery.mobile-1.4.3.js"></script>
+<script src="js/lichao.js"></script>
+<script>
+    $(document).ready(function () {
+
+        var token = getQueryString("token");
+
+        var cookieopenid = getCookie(token);
+        var from = getQueryString("from");
+        if (cookieopenid) {
+            var url = document.URL.indexOf("#");
+            if (url > 0) {
+                window.location.href = "http://dianhuaben.chaoyuanwuxian.com/webapp/index.html?token=" + token;
+            }
+        } else {
+            document.title = "首次访问，请耐心等待...";
+            if (from) {
+                window.location.href = "http://dianhuaben.chaoyuanwuxian.com/index.php?s=/Home/App/getuserinfo/token/" + token;
+            } else {
+                var openid = getQueryString("openid");
+                if (openid) {
+                    setCookie(token, openid);
+                } else {
+                    window.location.href = "http://dianhuaben.chaoyuanwuxian.com/index.php?s=/Home/App/getuserinfo/token/" + token;
+                }
+
+            }
+        }
+        document.title = "我的收藏";
+        getMylikesList();
+        var footer = [];
+        footer.push('<h5>潮源无线</h5>');
+        $("#footer").html(footer.join(""));
+        $("#detailfooter").html(footer.join(""));
+    });
+</script>
+<script language="javascript" type="text/javascript" src="http://js.users.51.la/17764180.js"></script>
+<a href="http://www.51.la/?17764180" target="_blank" title="51.La 网站流量统计系统">网站统计</a>
+
+<noscript>&lt;a href="http://www.51.la/?17764180" target="_blank"&gt;&lt;img alt="&amp;#x6211;&amp;#x8981;&amp;#x5566;&amp;#x514D;&amp;#x8D39;&amp;#x7EDF;&amp;#x8BA1;"
+    src="http://img.users.51.la/17764180.asp" style="border:none" /&gt;&lt;/a&gt;</noscript>
+
+<div class="ui-loader ui-corner-all ui-body-a ui-loader-default"><span class="ui-icon-loading"></span>
+
+    <h1>loading</h1></div>
+</body>
+</html>

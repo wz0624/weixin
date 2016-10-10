@@ -1,0 +1,41 @@
+{template 'common/header'}
+<div class="container">
+	<div class="row" style="height:40px;line-height:40px;background-color:rgb(245,245,245);border-bottom:1px dashed grey;">
+		<h5><strong>最新科目一题库2015</strong><small>-<2015科目一题库></small></h5>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="list-group">
+			<a class="list-group-item" href="{$_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&do=sequent&m=jiakao_system">
+				<input type="button" class="form-control btn btn-success" value="顺序练习">
+			</a>
+			<a class="list-group-item" href="{$_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&do=randomten&m=jiakao_system">
+			<input type="button" class="form-control btn btn-success" value="随机十题">
+			</a>
+			<a class="list-group-item" href="{$_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&do=imitate&m=jiakao_system">
+			<input type="button" class="form-control btn btn-success" value="模拟考试">
+			</a>
+			<a class="list-group-item" href="{$_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&do=mywrong&m=jiakao_system">
+			我的错题
+			<span class="badge" id="my_wrong_num">0</span>
+			</a>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="{$_W['siteroot']}addons/jiakao_system/js/KaoShi.js"></script>
+<script>
+$(function(){
+	if(localStorage["ct_"])
+	{
+		var obj = eval("("+localStorage["ct_"]+")");
+		var x = 0;
+		for(var i in obj)
+		{
+			x++;
+		}
+		$("#my_wrong_num").html(x);
+	}	 
+})
+</script>
+{template 'common/footer'}

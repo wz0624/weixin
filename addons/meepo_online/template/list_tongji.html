@@ -1,0 +1,156 @@
+{template 'common/header'}
+{template 'nav'}
+{template 'list_nav'}
+<style>
+.account-basicinformation span{font-weight:700;}
+.account-stat-num > div{width:25%; float:left; font-size:16px; text-align:center;}
+.account-stat-num > div span{display:block; font-size:30px; font-weight:bold;}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		直播基本信息
+	</div>
+	<div class="panel-body account-basicinformation">
+		<div class="row">
+			<div class="col-md-6"><span>直播标题 : </span>{$zhibo_list['title']}</div>
+			<div class="col-md-6"><span>直播时间 : </span>{php echo date('Y-m-d H:i:s',$zhibo_list['start_time'])}至{php echo date('Y-m-d H:i:s',$zhibo_list['end_time'])}</div>
+		</div>
+	</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		昨日直播人数统计
+	</div>
+	<div class="panel-body">
+		<div class="account-stat-num row">
+			<div>昨日新增<span>{$yes_new_person}</span></div>
+			<div>昨日累积<span>{$yes_all_person}</span></div>
+		</div>
+	</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		今日直播人数统计
+	</div>
+	<div class="panel-body">
+		<div class="account-stat-num row">
+			<div>今日新增<span>{$today_new_person}</span></div>
+			<div>今日累积<span>{$today_all_person}</span></div>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		直播人数统计
+	</div>
+	<div class="panel-body" id="scroll">
+		<div class="pull-left">
+			<form action="" id="form1">
+				<input type="hidden" name="c" value="site" />
+				<input type="hidden" name="a" value="entry" />
+				<input type="hidden" name="m" value="meepo_online" />
+				<input type="hidden" name="do" value="list_tongji" />
+				<input name="listid" value="{$listid}" type="hidden" />
+				{php echo tpl_form_field_daterange('datelimit', array('start' => date('Y-m-d', $starttime),'end' => date('Y-m-d', $endtime)), '')}
+				<input type="hidden" value="" name="scroll">
+			</form>
+		</div>
+		<div class="pull-right">
+			<div class="checkbox">
+				<label style="color:#57B9E6;"><input checked type="checkbox"> 新增人数</label>&nbsp;
+				<label style="color:#e7a017;"><input checked type="checkbox"> 累积人数</label>
+			</div>
+		</div>
+		<div style="margin-top:20px">
+			<canvas id="myChart" width="1200" height="300"></canvas>
+		</div>
+	</div>
+</div>
+	<script>
+		require(['chart', 'daterangepicker'], function(c) {
+			$('.daterange').on('apply.daterangepicker', function(ev, picker) {
+				$('input[name="scroll"]').val($(document).scrollTop());
+				$('#form1')[0].submit();
+			});
+			{if $scroll} 
+				var scroll = "{$scroll}";
+				$("html,body").animate({scrollTop: scroll}, 300);
+			{/if}
+			var chart = null;
+			var chartDatasets = null;
+			var templates = {
+				flow1: {
+					label: '新关注人数',
+					fillColor : "rgba(36,165,222,0.1)",
+					strokeColor : "rgba(36,165,222,1)",
+					pointColor : "rgba(36,165,222,1)",
+					pointStrokeColor : "#fff",
+					pointHighlightFill : "#fff",
+					pointHighlightStroke : "rgba(36,165,222,1)",
+				},
+				
+				flow2: {
+					label: '累计人数',
+					fillColor : "rgba(231,160,23,0.1)",
+					strokeColor : "rgba(231,160,23,1)",
+					pointColor : "rgba(231,160,23,1)",
+					pointStrokeColor : "#fff",
+					pointHighlightFill : "#fff",
+					pointHighlightStroke : "rgba(231,160,23,1)",
+				}
+			};
+
+			function refreshData() {
+				if(!chart || !chartDatasets) {
+					return;
+				}
+				var visables = [];
+				var i = 0;
+				$('.checkbox input[type="checkbox"]').each(function(){
+					if($(this).attr('checked')) {
+						visables.push(i);
+					}
+					i++;
+				});
+				var ds = [];
+				$.each(visables, function(){
+					var o = chartDatasets[this];
+					ds.push(o);
+				});
+				chart.datasets = ds;
+				chart.update();
+			}
+
+			var url = "{php echo $this->createWebUrl('list_tongji',array('listid'=>$listid,'starttime'=>$starttime,'endtime'=>$endtime))}";
+			$.post(url, function(data){
+				var data = $.parseJSON(data);
+				var datasets = data.datasets;
+				if(!chart) {
+					var label = data.label;
+					var ds = $.extend(true, {}, templates);
+					ds.flow1.data = datasets.new;
+					//ds.flow2.data = datasets.cancel;
+					//ds.flow3.data = datasets.increase;
+					ds.flow2.data = datasets.cumulate;
+					var lineChartData = {
+						labels : label,
+						datasets : [ds.flow1,  ds.flow2]
+					};
+
+					var ctx = document.getElementById("myChart").getContext("2d");
+					chart = new Chart(ctx).Line(lineChartData, {
+						responsive: true
+					});
+					chartDatasets = $.extend(true, {}, chart.datasets);
+				}
+				refreshData();
+			});
+
+			$('.checkbox input[type="checkbox"]').on('click', function(){
+				$(this).attr('checked', !$(this).attr('checked'))
+				refreshData();
+			});
+ 		});
+	</script>
+{template 'common/footer'}

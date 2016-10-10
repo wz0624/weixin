@@ -1,0 +1,32 @@
+{template 'common/_header'}
+<title>我购买的产品</title>
+<style>
+.div-box{font-size:18px;border-bottom:1px solid #999;}
+tr{border-bottom:1px solid #999;width:100%;}
+th,td{font-size:18px;height:2.5em;}
+th{width:40%;text-align:right;}
+td{width:60%;text-align:left;}
+.am-form-field{width:70%}
+</style>
+<table>
+<tr>
+<th><img src="{$_W['attachurl']}{$goods['picimg']}" class="am-img-thumbnail" width="100%"></th>
+<td><div style="margin-left:7px;font-size:16px;">{$goods['title']}<br />￥{$goods['price']}
+<br /><span class="am-badge am-badge-success am-round">剩余库存:{$goods['stock']}件</span>
+</div></td>
+</tr>
+<tr>
+<th>商品类型：</th>
+<td>课程</td>
+</tr>
+<tr>
+<th>商品状态：</th>
+<td><span class="am-badge am-badge-success am-round">正常</span></td>
+</tr>
+</table><br/>
+<div align="center">商品信息：</div>
+<p><span class="am-badge am-badge-success am-round" style="font-size: 18px;">{$goods['content']}</span>
+
+
+
+{template 'common/_footer'}

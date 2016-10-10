@@ -1,0 +1,139 @@
+{template 'common/header'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+		<div class="panel panel-default">
+
+    <div class="panel-heading">
+
+       <h4>借用高级认证设置<small>如果你的公众号没有oauth2接口权限，可以借用别人的接口权限来防止作弊。</small></h4>
+
+    </div>
+
+    <div class="panel-body">
+
+        <div class="form-group">
+
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">AppId</label>
+
+            <div class="col-sm-9 col-xs-12">
+
+               <input type="text" name="appid" class="form-control" value="{$settings['appid']}" />
+
+        </div>
+
+        </div>
+
+		<div class="form-group">
+
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">AppSecret</label>
+
+            <div class="col-sm-9 col-xs-12">
+
+               	 <input type="text" name="appsecret" class="form-control" value="{$settings['appsecret']}" />
+
+            </div>
+
+        </div>
+         <div class="form-group">
+
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+
+            <div class="col-sm-9 col-xs-12">
+
+               	借用说明：必需设置借用高级认证号的OAuth2.0网页授权的回调域名为你公众号第三方平台的全域名。
+
+                如：你的系统域名为：www.xxxx.com ，你必需让借用高级认证号设置OAuth2.0网页授权的回调域名为:www.xxxx.com
+                <br />
+                <img src="../addons/yuexiage_community/images/appid.jpg">
+            </div>
+        </div>
+    </div>
+</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				其他设置
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">管理员名字</label>
+					<div class="col-sm-9 col-xs-12">
+						<textarea name="admin" class="form-control">{$settings['admin']}</textarea>
+						<span class="help-block">多个管理员请使用英文半角“,”分隔</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">过滤词</label>
+					<div class="col-sm-9 col-xs-12">
+						<textarea name="filter" class="form-control">{$settings['filter']}</textarea>
+						<span class="help-block">多个过滤词请使用英文半角“,”分隔，例如：人民,天安门,强拆</span>
+					</div>
+				</div>
+				<div class="form-group" id="templateid" {if !$settings['comment']}style="display: none;"{/if}>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">评论设置</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type="radio" name="public_member" value="1"  {if $settings['public_member'] == 1} checked="true" {/if} onclick="$('#templateid').show();">公开</label>
+						<label class='radio-inline'>
+							<input type="radio" name="public_member" value="0" {if $settings['public_member'] == 0} checked="true" {/if} >只允许会员</label>
+					</div>
+				</div>
+
+
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">积分</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type="radio" name="credit" value="1"  {if $settings['credit'] == 1} checked="true" {/if} onclick="$('#credit_templateid').show();"> 开启</label>
+						<label class='radio-inline'>
+							<input type="radio" name="credit" value="0" {if $settings['credit'] == 0} checked="true" {/if} onclick="$('#credit_templateid').hide();">关闭</label>
+					</div>
+				</div>
+				<div class="form-group" id="credit_templateid" {if !$settings['credit']} style="display: none;"{/if}>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">积分设置</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='control-label'>积分上限</label>
+						<input type="text" name="limit_credit" class="form-control" value="{$settings['limit_credit']}" />
+						<label class='control-label'>分享积分</label>
+						<input type="text" name="share_credit" class="form-control" value="{$settings['share_credit']}" />
+						<label class='control-label'>阅读积分</label>
+						<input type="text" name="chick_credit" class="form-control" value="{$settings['chick_credit']}" />
+						<label class='control-label'>点赞积分</label>
+						<input type="text" name="hits_credit" class="form-control" value="{$settings['hits_credit']}" />
+						<label class='control-label'>评论积分</label>
+						<input type="text" name="comm_credit" class="form-control" value="{$settings['comm_credit']}" />
+						<label class='control-label'>添加内容积分</label>
+						<input type="text" name="content_credit" class="form-control" value="{$settings['content_credit']}" />
+						<label class='control-label'>集阅读积分</label>
+						<input type="text" name="shared_credit" class="form-control" value="{$settings['shared_credit']}" />
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+
+<script language='javascript'>
+	require(['jquery', 'util'], function($, u){
+		$(function(){
+			u.editor($('.richtext')[0]);
+			$('#form1').submit(function(){
+				var result = true;
+				if($('input[name="communityname"]').val() == ''){
+					result = false;
+					util.message('请设置社区名称.');
+				}
+				return result;
+			});
+		});
+	});
+</script>
+
+{template 'common/footer'}

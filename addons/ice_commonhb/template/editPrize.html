@@ -1,0 +1,86 @@
+{template 'common/header'}
+<!-- <script language="javascript" type="text/javascript" src="jscripts/tiny_mce/tiny_mce.js"></script> -->
+<script type="text/javascript" src="resource/js/lib/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="resource/js/lib/jquery-ui-1.10.3.min.js"></script>
+<ul class="nav nav-tabs">
+	<li {if $foo == 'listPrize'}class="active"{/if}><a href="{php echo $this->createWebUrl('prize')}">红包概率列表</a></li>
+	<li {if $foo == 'addPrize'}class="active"{/if}><a href="{php echo $this->createWebUrl('prize', array('foo' => 'addPrize','op' => 'toAddPrize'))}">添加红包概率</a></li>
+</ul>
+<script type = "text/javascript">
+
+function check(){
+	 var money = $.trim($("#money").val());
+	 var prizeodds = $.trim($("#prizeodds").val());
+	 var prizesum = $.trim($("#prizesum").val());
+	if(money == ""||isNaN(money)||money < 100){
+		 alert("红包金额错误!");
+		 return false;
+	 }else if(isNaN(prizeodds) || prizeodds <= 0){
+		 alert("请正确填写中奖概率!");
+		 return false;
+	 }else if(isNaN(prizemun) || prizeodds < 0){
+		 alert("请正确填写奖品数量!");
+		 return false;
+	 }
+	 
+	 return true;
+	 
+	 
+}
+
+
+
+
+</script>
+<div class="main">
+    <form action=""  method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1" >
+        <div class="panel panel-default">
+            <div class="panel-body">
+                  <div class="form-group">
+                    <label class="col-xs-22 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>红包金额</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="money" id = "money" maxlength="32" class="form-control" value="{$res['money']}" />
+                    </div>
+                        <div class="col-sm-9 col-xs-12"  style="margin-left:11%">
+                    <font color="red">单位：分  最低100</font>
+                    </div>
+                </div>
+                       <div class="form-group">
+                    <label class="col-xs-22 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>红包概率</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="prizeodds" id = "prizeodds" maxlength="32" class="form-control" value="{$res['prizeodds']}" />
+                    </div>
+                    <div class="col-sm-9 col-xs-12"  style="margin-left:11%">
+                    <font color="red">所有概率相加等于100为百分比，等于1000为千分比，等于10000为万份比，以此类推</font>
+                    </div>
+                </div>
+                       <div class="form-group">
+                    <label class="col-xs-22 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>红包数量</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="prizesum" id = "prizesum" maxlength="32" class="form-control" value="{$res['prizesum']}" />
+                    </div>
+                </div>
+                
+         
+
+ <script type="text/javascript">
+	require(['jquery', 'util'], function($, u){
+		$(function(){
+			u.editor($('.richtext')[0]);
+
+		});
+	});
+</script>
+
+                </div>
+        </div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1"  onclick="return check();" />
+				<input type="hidden"  name="op"  value="doEditPrize" />
+				<input type="hidden"  name="pid"  value="{$res['id']}" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+    </form>
+</div>
+<div id='msg'></div>
+

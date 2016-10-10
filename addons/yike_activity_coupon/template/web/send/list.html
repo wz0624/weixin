@@ -1,0 +1,123 @@
+{template 'common/header'}
+<div class="panel panel-default">
+    <div class="panel-body table-responsive">
+        <table class="table table-hover"  style="width:100%;z-index:-10;" cellspacing="0" cellpadding="0">
+            <thead class="navbar-inner">
+            <div style="float: right">
+                <button type="button" class="btn btn-info" id="use">推送使用优惠券消息</button>
+                <button type="button" class="btn btn-info" id="overdue">推送优惠券将过期消息</button>
+            </div>
+
+            <tr>
+                <th style="width:90px;">头像</th>
+                <th style="width:150px;">昵称</th>
+                <th style="width:180px;">对应用户</th>
+                <th style="width:80px;">是否关注</th>
+                <th style="width:180px;">关注/取消时间</th>
+                <th style="width:180px;">所属公众号</th>
+                <th style="min-width:70px;" class="text-center">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {loop $list $item}
+            <tr>
+                <td><img src="{if !empty($item['user']['avatar'])}{$item['user']['avatar']}{else}resource/images/noavatar_middle.gif{/if}" width="48"></td>
+                <td>{$item['user']['nickname']}</td>
+                <td>
+                    {if empty($item['uid'])}
+                    <a href="{php echo url('mc/member/post', array('uid' => $item['uid'],'openid' => $item['openid'], 'fanid' => $item['fanid']));}" class="text-danger" title="该用户尚未注册会员，请为其手动注册！">[ 注册为会员 ]</a>
+                    {else}
+                    <a href="{php echo url('mc/member/post', array('uid'=>$item['uid']));}"><span>{if $item['user']['niemmo_effective'] == 1}{$item['user']['niemmo']}{else}{$item['uid']}{/if}</span></a>
+                    {/if}
+                </td>
+                <td>
+                    {if $item['follow'] == '1'}
+                    <span class="label label-success">已关注 </span>
+                    {elseif $item['unfollowtime'] <> '0'}
+                    <span class="label label-warning" >取消关注 </span>
+                    {else}
+                    <span class="label label-danger">未关注 </span>
+                    {/if}
+                </td>
+                <td>
+                    {if $item['follow'] == '1'}{php echo date('Y-m-d H:i:s', $item['followtime'])}{elseif !empty($item['unfollowtime'])}{php echo date('Y-m-d H:i:s', $item['unfollowtime'])}{else}&nbsp;{/if}
+                </td>
+                <td>{$item['account']}</td>
+                <td class="text-right" style="overflow:visible;">
+                    {if !empty($groups[$acid])}
+                    <div class="btn-group">
+                        <button class="btn btn-danger btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                            <span id="{$item['fanid']}-name">{$groups[$item['acid']][$item['groupid']]['name']}</span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            {if !empty($groups[$item['acid']])}
+                            {loop $groups[$item['acid']] $li}
+                            <li><a href="javascript:;" class="groupedit" title="{$li['name']}" data-acid="{$item['acid']}" data-groupid="{$li['id']}" data-openid="{$item['openid']}" data-fanid="{$item['fanid']}">{$li['name']}</a></li>
+                            {/loop}
+                            {/if}
+                        </ul>
+                    </div>
+                    {/if}
+                    <a class="btn btn-info btn-sm send-coupon-btn" data-data="{$item['uid']}" data-openid="{$item['openid']}">发放优惠券</a>
+                    <a href="{php echo url('mc/notice/tpl', array('id' => $item['fanid']));}" id="{$item['fanid']}" class="btn btn-success btn-sm sms">发送消息</a>
+                    <a href="{php echo url('mc/fans/view', array('id' => $item['fanid']));}" class="btn btn-default btn-sm">查看详情</a>
+                </td>
+            </tr>
+            {/loop}
+            </tbody>
+        </table>
+    </div>
+</div>
+{$pager}
+
+<script>
+    $('.send-coupon-btn').click(function() {
+        var r = confirm('是否发放?');
+        if (r) {
+            var uid = $(this).attr('data-data');
+            var openid = $(this).attr('data-openid');
+
+            $.post('{php echo $this->createWebUrl("send", array("op"=>"do"))}', {
+                uid: uid,
+                openid: openid
+            }, function(data) {
+                data = JSON.parse(data);
+                console.log(data);
+                if (data.status == 1) {
+                    alert('发放成功');
+                    window.location.reload();
+                }
+            });
+        }
+    });
+    $('#use').click(function(){
+        var r =confirm('是否推送消息？');
+        if(r){
+            $.post('{php echo $this->createWebUrl("send", array("op"=>"send"))}', {
+                send_type:'use'
+            },function(data){
+                data = JSON.parse(data);
+                if (data.status == 1) {
+                    alert('消息推送成功');
+                    window.location.reload();
+                }
+            })
+        }
+    });
+    $('#overdue').click(function(){
+        var r =confirm('是否推送消息？');
+        if(r){
+            $.post('{php echo $this->createWebUrl("send", array("op"=>"send"))}', {
+                send_type:'overdue'
+            },function(data){
+                data = JSON.parse(data);
+                if (data.status == 1) {
+                    alert('消息推送成功');
+                    window.location.reload();
+                }
+            })
+        }
+    })
+
+</script>

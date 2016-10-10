@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>专业办证30年</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <link rel="stylesheet" href="../addons/hao_cert/template/style/haocert.css">
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+</head>
+<style type="text/css">
+.ct:before {
+    content: "";
+    display: block;
+    background: url('../addons/hao_cert/template/images/bg.gif') no-repeat;
+    background-size: 100%;
+    width: 280px;
+    height: 40px;
+    margin: 33px auto 0;
+}
+.ct{
+    background:url('../addons/hao_cert/template/images/bg2.jpg') no-repeat;
+    background-size:100%;
+    min-height:100%;
+    overflow:hidden;
+}
+</style>
+<body>
+<div class="mask" style="display:none;"></div>
+<div class="ct">
+    <h3>选择您喜欢的证</h3>
+    <div class="cars">
+        <a href="javascript:void(0);" data-s="1" class="cert selected">乞丐证</a>
+        <a href="javascript:void(0);" data-s="2" class="cert">通缉令</a>
+        <a href="javascript:void(0);" data-s="3" class="cert">帅哥证</a>
+        <a href="javascript:void(0);" data-s="4" class="cert">首富证</a>
+        <a href="javascript:void(0);" data-s="5" class="cert">痴呆证</a>
+        <a href="javascript:void(0);" data-s="6" class="cert">潜水证</a>
+        <a href="javascript:void(0);" data-s="7" class="cert">家里蹲</a>
+        <a href="javascript:void(0);" data-s="8" class="cert">好市民</a>
+        <a href="javascript:void(0);" data-s="9" class="cert">MBA</a>
+        <a href="javascript:void(0);" data-s="10" class="cert">良家少妇</a>
+        <a href="javascript:void(0);" data-s="11" class="cert">吹牛逼</a>
+        <a href="javascript:void(0);" data-s="12" class="cert">处女证</a>
+        <a href="javascript:void(0);" data-s="13" class="cert">处男证</a>
+    </div>
+    <form action="{php echo $this->createMobileUrl('getCertType');}" method="post" id="frmData" >
+        <input type="hidden" name="certType" value="1" />
+        <input type="submit" name="submit" id="sub" value="立即办证">
+        <input type="hidden" value="{$_W['token']}" name="token" />
+        <a id="share" href="javascript:void(0);">分享给好友&gt;&gt;</a>
+    </form>
+</div>
+<script>
+   $('.cars a').click(function(){
+       $(this).addClass('selected').siblings().removeClass('selected');
+       var certtype = $(this).attr('data-s');
+       $("input[name='certType']").val(certtype);
+   });
+    $('#share').click(function(){
+        $('.mask').attr('style','');
+    });
+    $('.mask').click(function(){
+        $('.mask').hide();
+    });
+</script>
+<div id="qq-sendUrl-btn"></div>
+<script type="text/javascript">
+// 对浏览器的UserAgent进行正则匹配，不含有微信独有标识的则为其他浏览器
+var useragent = navigator.userAgent;
+if (useragent.match(/MicroMessenger/i) != 'MicroMessenger') {
+// 这里警告框会阻塞当前页面继续加载
+var url = window.location.href;
+window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid={$_W['account']['key']}&redirect_uri='+url+'&response_type=code&scope=snsapi_base&state=YWN0PW1vZHVsZSZuYW1lPXNob3BwaW5nMiZkbz1saXN0JndlaWQ9Mg==&connect_redirect=1#wechat_redirect';
+}
+</script>
+</body>
+</html>

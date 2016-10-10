@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <title>消息发送-{$_SESSION['school_name']}</title>
+    {template 'common'}
+    {template 'tea_common'}
+    <link href="{MODULE_URL}style/css/line_css.css" rel="stylesheet" type="text/css" />
+</head>
+<div class="top-wrap">
+        <div class="fn-clear tr-box top bg_yellow" >
+            <div class='text_center white'>班级圈</div>
+        </div>
+ </div>  
+ 
+<div class="main" style='margin-bottom:60px;'>
+	{if $ac=='list'}
+		<div class="panel-body table-responsive">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th>选择班级</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td><a href="{php echo  $this->createMobileUrl('Tea_line',array('ac'=>'new','cid'=>$item['class_id']))}">{$item['class_name']}</a></td>
+                    
+					<td>
+
+                        <a href="{php echo $this->createMobileUrl('line',array('class_id'=>$item['class_id']))}">班级圈</a>
+                        <a href="{php echo $this->createMobileUrl('Tea_line',array('ac'=>'new','cid'=>$item['class_id']))}">班级记录</a>
+						<a href="{php echo $this->createMobileUrl('Tea_line',array('ac'=>'old','cid'=>$item['class_id']))}">查看</a>
+					</td>
+				</tr>
+				{/loop}
+			</tbody>
+		</table>
+	</div>
+	{/if}
+	{if $ac=='old'}
+		<div class="panel-body table-responsive">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:20%">标题</th>
+					<th style="width:10%">发布老师</th>
+					<th style="width:10%">类型</th>
+					<th style="width:10%">查看数</th>
+					<th style="width:5%">状态</th>
+					<th style="width:10%">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['line_title']}</td>
+					<td>{if $item['teacher_realname']}{$item['teacher_realname']}{else}管理员{/if}</td>
+					<td>{$line_type[$item['line_type']]}</td>
+					<td>{$item['line_look']}</td>
+					<td>{if $item['status'] ==1}正常{else}关闭{/if}</td>
+					<td>{$item['line_look']}</td>
+					<td>
+						<a href="{php echo $this->createMobileUrl('Tea_line',array('ac'=>'edit','lid'=>$item['line_id']))}">编辑</a>
+					</td>
+				</tr>
+				{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+	{/if}
+	{if $ac=='new' || $ac=='edit'}
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+		<input type="hidden" name="cid"   value='{$class['class_id']}' />
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				{if $ac=='new'}新增{else}修改{/if}
+			</div>
+			<div class="panel-body">
+				<div class="tab-content">
+				<div class='form-group'>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>标题</label>
+					<div class="col-sm-9 col-xs-10">
+						<input type='text' value='{$result['line_title']}' name='line_title' class='form-control' >
+					</div>	
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>类型</label>
+					<div class="col-sm-9 col-xs-10">
+						<select name='line_type'  class='form-control' >
+							{loop $line_type  $key $list}
+								<option value='{$key}' {if $result['line_type']==$key} selected {/if}>{$list}</option>
+							{/loop}
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>消息内容</label>
+					<div class="col-sm-9 col-xs-10">
+						<textarea class='form-control' name='line_content' style="height:200px;">{$result['line_content']}</textarea>
+					</div>
+				</div>							
+				{if $ac=='edit'}
+					<div class='form-group'>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>状态</label>
+					<div class="col-sm-9 col-xs-10">
+					<select name='status'  class='form-control'>
+							<option value='1' {if $result['status']==1} selected {/if}>正常</option>
+							<option value='0' {if $result['status']==0} selected {/if}>关闭</option>
+					</select>
+					</div>							
+					</div>
+				{/if}
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+			<div class="col-sm-9 col-xs-10">
+				&nbsp;&nbsp;<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+			</div>
+			</div>
+		</div>		
+	</form>		
+	{/if}
+</div>
+{template 'footer_tea'}

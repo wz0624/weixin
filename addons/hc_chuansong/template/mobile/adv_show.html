@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$_W['account']['name']}特别策划</title>
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+<link href="../addons/hc_chuansong/css/WeChat_wap_style.css?v54" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<div class="box_padding1">
+<div class="arrow"><span></span></div>
+<div class="text3">点击右上角，分享本期活动帖到朋友圈，并附上『<span style="color:#00A8A8">{$item['share_kouhao']}</span>』4字暗号，就可完成报名啦！</div>
+<div class="ios_FX"><img src="http://kzpub.qiniudn.com/weixin/images/ios_FX.jpg" width="100%"/></div>
+</div>
+<script src="http://apps.bdimg.com/libs/jquery/1.8.3/jquery.min.js"></script>	
+
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+{php $signPackage=$_W['account'][jssdkconfig];}	
+<script>
+	function submit(){
+		$.ajax({
+			url : '{php echo $this->createMobileurl('ajax')}',
+			async : false,
+			cache : false,
+			type : 'POST',
+			data : {
+				pid:'{$_GPC['pid']}',
+				b:'{$_GPC['b']}',
+				code:'{$_GPC['code']}',
+				x:'{$_GPC['x']}'
+			},
+			dataType: "json",
+            success: function(data){
+                              if(data.ok == 'ok'){
+                                 if(data.success){
+									location = "{php echo $this->createMobileurl('resutle')}";
+								 }else{
+									alert(data.msg);
+								 }
+                              }else{
+                                  alert('报名程序不小心出了点问题，麻烦重新打开试试');
+                              }
+                         }
+		});
+	}
+	
+
+	
+	
+	
+	wx.config({
+		debug: false,
+		appId: '<?php echo $signPackage["appId"];?>',
+		timestamp: <?php echo intval($signPackage["timestamp"]);?>,
+		nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+		signature: '<?php echo $signPackage["signature"];?>',
+		jsApiList: ['checkJsApi','onMenuShareTimeline','onMenuShareAppMessage','showOptionMenu','hideMenuItems'] 
+	});
+	wx.ready(function(){
+		wx.showOptionMenu();
+		wx.onMenuShareTimeline({
+			title:'{$item['share_title']}',
+			link: '{$_W['siteroot']}/app/{php echo $this->createMobileUrl('share_detail',array('uid'=>$_W['member']['uid']))}',
+			imgUrl: '{php echo toimage($item['share_thumb'])}',
+			success: function () { 
+				submit();
+			},
+			cancel: function () { }
+		});
+		wx.onMenuShareAppMessage({
+			title:'{$item['share_title']}',
+			desc:'{$item['share_desc']}',
+			link: '{$_W['siteroot']}/app/{php echo $this->createMobileUrl('share_detail',array('uid'=>$_W['member']['uid']))}',
+			imgUrl: '{php echo toimage($item['share_thumb'])}',
+			success: function () { 
+				alert('只有分享朋友圈才有效');
+				//submit();				
+			},
+			cancel: function () { }
+		});
+		wx.hideMenuItems({
+			menuList: [
+			'menuItem:openWithSafari',
+			'menuItem:share:email',
+			'menuItem:openWithQQBrowser',
+			'menuItem:share:qq',
+			'menuItem:share:weiboApp',
+			'menuItem:share:QZone',
+			'menuItem:copyUrl',
+			'menuItem:readMode',
+			] // 
+		});
+	});
+</script>
+</body>
+</html>

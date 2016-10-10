@@ -1,0 +1,192 @@
+{template 'common/header'}
+{template 'nav'}
+{template 'list_nav'}
+<style>
+.editable-click, a.editable-click {
+    color: #000 !important;
+    border-bottom:none !important;
+    text-decoration: none;
+}
+.editable-input.editable-has-buttons {
+    width: auto;
+    max-width: 100px;
+}
+.st-sort-ascent:before {
+    content: '\25B2';
+}
+</style>
+<script src="{MODULE_URL}template/mobile/js/jquery-1.7.2.min.js"></script>
+<script>
+	function selectall(obj, name){
+		$('input[name="'+name+'[]"]:checkbox').each(function() {
+			$(this).attr("checked", $(obj).attr('checked') ? true : false);
+		});
+	}
+</script>
+<div class="panel panel-default">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body">
+		<form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+			<input type="hidden" name="c" value="site" />
+			<input type="hidden" name="a" value="entry" />
+			<input type="hidden" name="m" value="meepo_online" />
+			<input type="hidden" name="do" value="dashang" />
+            
+            <input type="hidden" name="listid" value="{$listid}" />
+           
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">粉丝昵称</label>
+				<div class="col-xs-12 col-sm-8 col-lg-8">
+					<input class="form-control" name="nickname" id="" type="text" value="{$_GPC['nickname']}" placeholder="请输入粉丝昵称">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input class="btn btn-primary" id="" type="submit" value="搜索">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<!-- 项目管理 -->
+<div class="panel panel-default">
+	<div class="panel-heading">
+		打赏管理<br><br>
+		<a class="btn {if $status=='1'}btn-success{else}btn-default{/if}" title="已审核" href="{php echo $this->createWebUrl('dashang',array('status'=>'1','listid'=>$listid))}">
+			支付成功
+		</a>
+		<a class="btn {if $status=='0'}btn-success{else}btn-default{/if}" title="待审核" href="{php echo $this->createWebUrl('dashang',array('status'=>'2','listid'=>$listid))}">
+			支付失败
+		</a>
+		<a class="btn btn-success" title="总金额">
+			支付成功共:{if !empty($total_success_money)}{$total_success_money}{else}0{/if}元&nbsp;&nbsp;&nbsp;&nbsp;支付失败共:{if !empty($total_fail_money)}{$total_fail_money}{else}0{/if}元
+		</a>
+	</div>
+	<div class="panel-body">
+	<form action="" method="post">
+		<table  class="table table-striped">
+			<thead>
+				<tr>
+					<th style="width:50px">选择</th>
+					
+					<th style="width:200px;">打赏粉丝</th>
+					<th style="width:100px;">打赏金额</th>
+					<th style="width:400px;">打赏内容</th>
+					<th style="width:150px;">打赏时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{loop $lists $key $row}
+				<tr id="box_{$row['id']}">
+					<td><input type="checkbox" name="select[]" value="{$row['id']}" /></td>
+					
+					<td>
+						<div>
+							<img src="{$row['avatar']}" width=40px height=40px />
+							<div>{$row['nickname']}</div>
+						</div>
+					</td>
+					<td>
+						<font color=red>{$row['money']}</font>元
+					</td>
+					<td>
+						{$row['content']}
+					</td>
+					<td>{php echo date('Y-m-d H:i:s',$row['createtime'])}</td>
+					
+					<td style="overflow:visible">
+						<button class="btn {if $row['cansay']=='0'}btn-danger{else}btn-success{/if}"  onclick="forbiden('{$listid}','{$row['id']}','{$row['openid']}')" id="forbiden_{$row['id']}" >
+							{if $row['cansay']=='0'}禁言{else}解禁{/if}
+						</button>
+						<button class="btn btn-danger" title="删除" onclick="del('{$listid}','{$row['id']}')">
+							删除
+						</button>
+						
+					</td>
+				</tr>
+			{/loop}
+			<tr>
+			<td style="width:50px;" class="row-first"><input type="checkbox" onclick="selectall(this, 'select');" /></td>
+			<td colspan="4">
+								
+				<input type="submit" name="down" value="导出" class="btn btn-success" />
+				<input type="submit" name="downall" value="导出全部" class="btn btn-success" />				
+				<input type="hidden" name="token" value="{$_W['token']}" />
+								
+			</td>
+			</tr>
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+	</form>
+</div>
+<script language="JavaScript">
+{if $status=='10'}
+function myrefresh() 
+{ 
+       window.location.reload(); 
+} 
+setTimeout('myrefresh()',4000); //指定1秒刷新一次 
+{/if}
+function pass_content(a,b){
+	if(a!='' && b!=''){
+		$.ajax({
+		  type:'post',
+		  url:"{php echo $this->createWebUrl('dashang',array('op'=>'ajax'))}",
+		  data:{'ajax_type':'pass','listid':a,'id':b},
+		  async:false,
+		  cache:false,
+		  dataType:"json",
+		  success:function(json){
+				if(json.errno==0){
+					if($('#box_'+b).length > 0){
+						 $('#box_'+b).remove();
+					}
+				}
+		  }
+		  });
+	}
+}
+function forbiden(a,b,c){
+	if(a!='' && b!='' && c!=''){
+		$.ajax({
+		  type:'post',
+		  url:"{php echo $this->createWebUrl('dashang',array('op'=>'ajax'))}",
+		  data:{'ajax_type':'forbide','listid':a,'id':b,'openid':c},
+		  async:false,
+		  cache:false,
+		  dataType:"json",
+		  success:function(json){
+				if(json.errno==0){
+					 window.location.reload(); 
+				}
+		  }
+		});
+	}
+}
+function del(a,b){
+  if(confirm('删除将无法恢复，确认吗？')){
+	if(a!='' && b!=''){
+		$.ajax({
+		  type:'post',
+		  url:"{php echo $this->createWebUrl('dashang',array('op'=>'ajax'))}",
+		  data:{'ajax_type':'del','listid':a,'id':b},
+		  async:false,
+		  cache:false,
+		  dataType:"json",
+		  success:function(json){
+				if(json.errno==0){
+					if($('#box_'+b).length > 0){
+						 $('#box_'+b).remove();
+					}
+				}
+		  }
+		  });
+	}
+  }
+}
+</script>
+{template 'common/footer'}

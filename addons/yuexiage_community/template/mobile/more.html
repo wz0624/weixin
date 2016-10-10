@@ -1,0 +1,117 @@
+{template 'header'}
+<link rel="stylesheet" href="{$_W['siteroot']}addons/yuexiage_community/images/css/swiper.min.css?{TIMESTAMP}">
+<link rel="stylesheet" type="text/css" href="{$_W['siteroot']}addons/yuexiage_community/images/css/base.css?{TIMESTAMP}">
+<link rel="stylesheet" type="text/css" href="{$_W['siteroot']}addons/yuexiage_community/images/css/index.css?{TIMESTAMP}">
+
+<script src="{$_W['siteroot']}addons/yuexiage_community/images/js/swiper.min.js"></script>
+<style>
+    .panel-heading .pull-left,.panel-heading .pull-right{
+        color: #2fa5ff !important;
+    }
+    .tabs .panel-heading{
+        text-align: center;
+    }
+    .tab_title{
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+        padding: 10px 10px;
+    }
+    .tabs ul{
+        background-color: #fff;
+    }
+    .tab_name{
+        padding: 5px 0px;
+        line-height: 1.5;
+    }
+    .btn-sm {
+        padding: 5px 15px;
+        border-radius: 23px;
+    }
+    .swiper-slide a img{
+        height: 100px;
+    }
+    .swiper-slide_up{
+        line-height: 100px;
+        width: 100%;
+        opacity: 0.5;
+        position: absolute;
+        z-index: 9999;
+        height: 100px;
+        color: #fff;
+        background-color: #000;
+    }
+</style>
+<div class="panel panel-default tabs navbar-fixed-top">
+    <div class="panel-heading">
+        <a href="javascript:history.go(-1)" class="navbar-link pull-left"> <i class="glyphicon glyphicon-chevron-left"></i> </a> 
+            更多
+    </div>
+    <ul>
+        {php $i=0;}
+        {loop $cons $key $item}
+        <li>
+            <div class="tab_title">
+                <div class="pull-left tab_name">{$key}&nbsp;共{$item['count']}张</div>
+                <div class="pull-right">
+                    <a href="{php echo $this->createMobileUrl('addcontent', array('tab_key'=>$key));}">
+                    <button type="button" class="btn btn-success btn-sm">使用</button>
+                    </a>
+                </div>
+            </div>
+            <div class="tab_body">
+                <div class="swiper-container{php echo $i;}">
+                    <div class="swiper-wrapper">
+                        {loop $item $k $rom}
+                            {if $k!=(count($item)-3)}
+
+                                <div class="swiper-slide">
+                                    <a href="{php echo $this->createMobileUrl('detail', array('id'=>$rom['id']));}">
+                                        <img src="{php echo tomedia($rom['thumb']);}" style="width:100%"/>
+                                    </a>
+                                </div>
+                            {else}
+                                <div class="swiper-slide">
+
+                                    <a href="{php echo $this->createMobileUrl('tabs_list', array('id'=>$item['id']));}">
+                                        <div class="swiper-slide_up">
+                                        共{php echo count($item)-2}张
+                                        </div>
+                                        <img src="{php echo tomedia($rom['thumb']);}" style="width:100%"/>
+                                    </a>
+                                    
+                                </div>
+                                
+                                {php break;}
+                            {/if}
+                         
+                        
+                        {/loop}
+
+                    </div>
+                </div>
+            </div>
+        </li>
+        <script>
+            var swiper = new Swiper('.swiper-container'+{php echo $i;}, {
+                slidesPerView: 3,
+                spaceBetween: 5,
+                freeMode: true
+            });
+        </script>
+        {php ++$i;}
+        {/loop}
+    </ul>
+</div>
+<script>
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+        WeixinJSBridge.call('hideToolbar');
+        {if $_GPC['do'] == 'more'}
+        WeixinJSBridge.call('hideOptionMenu');
+        {else}
+        WeixinJSBridge.call('showOptionMenu');
+        {/if}
+    });
+</script>
+{template 'footer'}
+

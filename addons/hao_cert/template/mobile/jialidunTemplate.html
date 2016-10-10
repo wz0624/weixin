@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>专业办证30年</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <link rel="stylesheet" href="../addons/hao_cert/template/style/haocert.css">
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    
+</head>
+<style type="text/css">
+.ct:before {
+    content: "";
+    display: block;
+    background: url('../addons/hao_cert/template/images/bg.gif') no-repeat;
+    background-size: 100%;
+    width: 280px;
+    height: 40px;
+    margin: 33px auto 0;
+}
+.ct{
+    background:url('../addons/hao_cert/template/images/bg2.jpg') no-repeat;
+    background-size:100%;
+    min-height:100%;
+    overflow:hidden;
+}
+</style>
+<body>
+<div class="mask" style="display:none;"></div>
+<div class="ct">
+    <h3>长按图片保存</h3>
+    <img src="<?php echo $_W['siteroot'].'app'.ltrim(murl('entry',array('do'=>'TuPianJiaLiDun','m'=>'hao_cert','name'=>$name,'sex'=>$sex,'rank'=>$rank,'image'=>$image),false),'.'); ?>" width="100%">
+</div>
+<div id="qq-sendUrl-btn"></div>
+</body>
+</html>
+

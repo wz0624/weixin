@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <title>{if $_GPC['op']=='work_record'}作业记录{/if}{if $_GPC['op']=='test_record'}考试记录{/if}{if $_GPC['op']=='error_record'}错题记录{/if}{if $_GPC['op']=='jinbu_record'}进步记录{/if}-{$class_name}-{$_SESSION['school_name']}</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{MODULE_URL}style/css/style.css">
+    <link rel="stylesheet" href="{MODULE_URL}style/css/buttons.css">
+    <link href="http://cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="top-wrap">
+	<div class="fn-clear tr-box top">
+	   <div class='text_center'>{if $_GPC['op']=='work_record'}作业记录{/if}{if $_GPC['op']=='test_record'}考试记录{/if}{if $_GPC['op']=='error_record'}错题记录{/if}{if $_GPC['op']=='jinbu_record'}进步记录{/if}</div>
+  </div>
+	<div class="nav">
+		{loop $category $item}
+			<a  href="{php echo $this->createMobileUrl('record',array('op'=> $item['keyword']));}" {if $_GPC['op']==$item['keyword']} class='active' {/if} style="width:{php echo (100-3)/4;}%">
+				{if $item['keyword']=='work_record'}作业记录{/if}{if $item['keyword']=='test_record'}考试记录{/if}{if $item['keyword']=='error_record'}错题记录{/if}{if $item['keyword']=='jinbu_record'}进步记录{/if}</a>
+       {/loop}
+	</div>
+</div>
+  <div id="accordion-305683" class="accordion" style='margin-bottom:60px'>
+    {loop $list $key $row}
+       <div class="accordion-heading" style='height:60px;line-height:25px;background-color:#fff;border-bottom:1px solid #bbb;' >
+           <a class="accordion-toggle collapsed" style="margin-top:10px;font-size:1em;text-align:left;color:#333;display:inline-block;width:100%;height:25px;overflow:hidden;"  href="#accordion-element-{$key}" 
+             data-parent="#accordion-{$key}{$key}" data-toggle="collapse">&nbsp;&nbsp;&nbsp;&nbsp;
+             {if $_GPC['op']=='work_record' || $_GPC['op']=='test_record' }{$row['word']}{/if}
+             {if $_GPC['op']=='error_record' || $_GPC['op']=='jinbu_record' }{$row['content']}{/if}
+           </a>
+           
+           <div class='other_info' style='text-align:left;font-size:0.8em;margin-left:25px;color:#888;position:relative;top:-5px;'>
+               {if  $_GPC['op']=='test_record' }
+               <span><i class="fa fa-flag"></i>&nbsp;{$row['score']}</span>
+               &nbsp;&nbsp;
+               {/if}
+               <span><i class='fa fa-clock-o'></i>&nbsp;{php echo date("m-d",$row['addtime'])}</span>
+               &nbsp;&nbsp;
+               <span><i class="fa fa-graduation-cap"></i>&nbsp;{$row['course_name']}</span>
+           </div>
+           
+       </div>  
+       <div class="accordion-group">
+          <div id="accordion-element-{$key}" class="accordion-body collapse" style="height: 0px;">
+          <div class="accordion-inner" style='margin-top:20px;border-bottom:1px solid #bbb'>
+              {if $_GPC['op']=='work_record'  || $_GPC['op']=='test_record'  }
+                <img src="{php echo $this->imgFrom($row['img'])}" style='width:60%;margin:auto;display:block'><br>
+              {/if}
+              {$row['content']}
+              <br>
+              {$row['content1']}
+          </div>                   
+          </div>                   
+       </div>                   
+    {/loop}
+  </div>
+    {template 'jsweixin'}
+{template 'footer'}

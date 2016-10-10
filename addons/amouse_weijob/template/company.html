@@ -1,0 +1,241 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+    <li {if $op == 'post' && empty($id)}class="active"{/if}><a href="{php echo $this->createWebUrl('company', array('op' => 'post'))}">新增招聘公司</a></li>
+    <li {if $op=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('company', array('op' => 'display'))}">招聘公司管理</a></li>
+    {if !empty($id) && $op=='post'}
+    <li class="active">
+        <a href="{php echo $this->createWebUrl('company',array('op'=>'post','id'=>$id));}">编辑招聘公司</a>
+    </li>
+    {/if}
+</ul>
+{if $op == 'display'}
+<div class="panel panel-info">
+    <div class="panel-heading">筛选</div>
+    <div class="panel-body">
+        <form action="./index.php" method="get" class="form-horizontal" role="form">
+            <input type="hidden" name="c" value="site"/>
+            <input type="hidden" name="a" value="entry"/>
+            <input type="hidden" name="m" value="amouse_weijob"/>
+            <input type="hidden" name="do" value="company"/>
+            <input type="hidden" name="op" value="display"/>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 control-label">关键字</label>
+                <div class="col-sm-8 col-md-8 col-lg-8">
+                    <input class="form-control" name="keyword" id="" type="text" value="{$_GPC['keyword']}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="pull-right col-xs-12 col-sm-2 col-md-2 col-lg-2">
+                    <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="table-responsive panel-body">
+        <table class="table">
+            <thead>
+            <tr>
+              <!--  <th style="width:10%;">排序</th>-->
+                <th style="width:20%;">公司名称</th>
+                <th style="width:80px;">联系电话</th>
+                <th style="width:100px;">LOGO</th>
+                <th style="width:100px;">营业执照</th>
+                <th style="text-align:right; min-width:60px;">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {loop $list $item}
+            <tr>
+                <!--<td class="text-center">
+                    <input type="text" class="form-control" name="displayorder[{$item['id']}]" value="{$item['companyorder']}">
+                </td>-->
+                <td>{$item['title']}</td>
+               <!-- <td>{$item['address']}</td>-->
+                <td>{$item['tel']}</td>
+                <td>
+                    <img src="{$_W['attachurl']}{$item['thumb']}" height="45px" width="45px" />
+                </td>
+                <td>
+                    <img src="{$_W['attachurl']}{$item['thumb1']}" height="45px" width="45px" />
+                </td>
+                <td style="text-align:right;">
+                    <a href="{php echo $this->createWebUrl('employ', array('companyid' => $item['id'], 'op' => 'post'))}" class="btn btn-default btn-sm" title="发布岗位" >
+                        <i class="fa fa-plus-circle">发布岗位</i>
+                    </a>
+                    <a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('employ', array('companyid' => $item['id'], 'op' => 'display'))}" title="查看岗位">
+                        <i class="fa fa-eye">查看岗位</i>
+                    </a>
+                    <a href="{php echo $this->createWebUrl('company', array('id' => $item['id'], 'op' => 'post'))}"
+                       title="编辑" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm"><i class="fa fa-edit">编辑公司</i>
+                    </a>
+                    <a  href="{php echo $this->createWebUrl('company', array('id' => $item['id'], 'op' => 'delete'))}"  onclick="return confirm('此操作不可恢复，确认吗？'); return false;"
+                        title="删除" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm"><i
+                            class="fa fa-times">删除</i>
+                    </a>
+                </td>
+            </tr>
+            {/loop}
+            <!--<tr>
+                <td colspan="5">
+                    <input name="submit" type="submit" class="btn btn-primary" value="批量更新排序">
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </td>
+            </tr>-->
+            </tbody>
+        </table>
+    </div>
+
+    {$pager}
+</div>
+
+{elseif $op == 'post'}
+{template 'common'}
+
+<div class="clearfix">
+    <form class="form-horizontal form" action="" method="post" enctype="multipart/form-data" onsubmit="return formcheck()">
+        <div class="panel panel-default">
+            <div class="panel-heading">公司信息</div>
+            <div class="panel-body">
+                <input type="hidden" name="id" value="{$item[id]}">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">公司名称</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control"  name="title" id="title" value="{$item['title']}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">公司简称</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" name="short" value="{$item['short']}">
+                        <span class="help-block">要短小精干的简称哦</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">公司Logo图片</label>
+                    <div class="col-sm-9">
+                        {php echo tpl_form_field_image('thumb', $item['thumb'])}
+                        <span class="help-block">
+                            建议图片大小为：400*240
+                        </span>
+                    </div>
+                </div>
+
+              <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">公司营业执照图片</label>
+                    <div class="col-sm-9">
+                        {php echo tpl_form_field_image('thumb1', $item['thumb1'])}
+                        <span class="help-block">
+                            建议图片大小为：400*240
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">联系人</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" name="linkman" id="linkman"  value="{$item['linkman']}">
+                    </div>
+                </div>
+
+                <div class="form-group" id="js_music_div">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">固定电话</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" class="form-control" name="tel" id="tel" value="{$item['tel']}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">手机</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <input type="text" class="form-control" name="phone" value="{$item['phone']}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">QQ</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="qq" value="{$item[qq]}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">投简邮箱</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="email" id="email" value="{$item[email]}" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">公司简介</label>
+                    <div class="col-sm-8">
+                        <textarea style="height:100px;" class="span7 richtext-clone" name="content" id="content" cols="70" id="reply-add-text">{$item['content']}</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label"> 显示顺序</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="companyorder" value="{$item[companyorder]}" />
+                         <span class="help-block">
+                           数值越大越靠前！
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">所在地区</label>
+                    <div class="col-sm-9 col-xs-12">
+                        {php echo tpl_form_field_district('district',array('province'=>$item['province'],'city'=>$item['city'],'district'=>$item['dist']))}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">公司地址</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" id="address" name="address"  class="form-control" value="{$item['address']}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">公司坐标</label>
+                    <div class="col-sm-9 col-xs-12" style="padding-left:0;">
+                        {php echo tpl_form_field_coordinate('baidumap',$item)}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <input name="submit" type="submit" value="提交" class="btn btn-primary col-lg-1">
+                <input type="hidden" name="token" value="{$_W['token']}"/>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+function formcheck(){
+    if($("#title").isEmpty()){
+        Tip.focus("title","请填写公司名称!","right");
+        return false;
+    }
+
+    if($("#tel").isEmpty()){
+        Tip.focus("tel","请填写电话号码!","right");
+        return false;
+    }
+    if($("#content").isEmpty()){
+        Tip.focus("content","请填写公司简介，让求职者更清晰的了解公司!","right");
+        return false;
+    }
+    if($("#address").isEmpty()){
+        Tip.focus("address","请通过设置坐标来确定公司地址!","right");
+        return false;
+    }if($("#email").isEmpty()){
+        Tip.focus("email","请输入公司邮箱，否则应聘信息无法发送！!","right");
+        return false;
+    }
+    return true;
+}
+</script>
+{/if}
+{template 'common/footer'}

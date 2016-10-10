@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.012wz.com" versionCode="0.6">
+	<application setting="false">
+		<name><![CDATA[V小收款]]></name>
+		<identifie><![CDATA[bobo_pay]]></identifie>
+		<version><![CDATA[3.1.3]]></version>
+		<type><![CDATA[activity]]></type>
+		<ability><![CDATA[V小收款]]></ability>
+		<description><![CDATA[V小收款]]></description>
+		<author><![CDATA[www.efwww.com]]></author>
+		<url><![CDATA[http://www.efwww.com/]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+	     <cover>
+			<entry title="收款入口设置" do="index" state="" direct="false" />
+		</cover>
+		<menu>
+			<entry title="收款统计管理" do="shoukuan" state="" direct="false" />
+			<entry title="收账员管理" do="user" state="" direct="false" />
+			<entry title="支付宝设置" do="index" state="" direct="false" />
+			<entry title="微信支付设置" do="index1" state="" direct="false" />
+			<entry title="通知公告" do="gengxin" state="" direct="false" />
+		</menu>
+	</bindings>
+	<install><![CDATA[
+CREATE TABLE IF NOT EXISTS `ims_bobo_pay_gonggao` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `weid` int(11) NOT NULL,
+  `gonggaocontent` varchar(300) NOT NULL,
+  `create_at` int(11) NOT NULL,
+  `isshow` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;	
+	
+CREATE TABLE IF NOT EXISTS `ims_bobo_pay_setting` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `weid` int(11) NOT NULL,
+  `pid` varchar(50) NOT NULL,
+  `key` varchar(50) NOT NULL,
+  `out_order_prefix` varchar(50) NOT NULL,
+  `out_order_subject` varchar(50) NOT NULL,
+  `company_seller_email` varchar(50) NOT NULL,
+  `body` varchar(300) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+CREATE TABLE IF NOT EXISTS `ims_bobo_pay_shoukuanlist` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `weid` int(11) NOT NULL,
+  `total_fee` varchar(30) NOT NULL,
+  `out_order` varchar(40) NOT NULL,
+  `paytatus` varchar(255) NOT NULL,
+  `buyeraccount` varchar(50) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `paytype` varchar(50) NOT NULL,
+  `create_time` int(11) NOT NULL,
+  `update_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+CREATE TABLE IF NOT EXISTS `ims_bobo_pay_sitsetting` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `weid` int(11) NOT NULL,
+  `sitetitle` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `ims_bobo_pay_user` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `weid` int(10) NOT NULL,
+  `uname` varchar(100) NOT NULL,
+  `password` char(32) NOT NULL,
+  `utype` int(4) NOT NULL,
+  `create_at` int(11) NOT NULL,
+  `lastlogingtime` int(11) NOT NULL,
+  `jinyong` int(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+CREATE TABLE IF NOT EXISTS `ims_bobo_pay_wxsetting` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `weid` int(11) NOT NULL,
+  `appid` varchar(50) NOT NULL,
+  `mchid` varchar(50) NOT NULL,
+  `key` varchar(50) NOT NULL,
+  `out_order_prefix` varchar(50) NOT NULL,
+  `apiclient_cert` varchar(100) NOT NULL,
+  `apiclient_key` varchar(100) NOT NULL,
+  `body` varchar(300) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;  
+  
+	]]></install>
+	<uninstall><![CDATA[
+	drop table ims_bobo_pay_setting;
+	drop table ims_bobo_pay_shoukuanlist;
+	drop table ims_bobo_pay_gonggao;
+	drop table ims_bobo_pay_user;
+	drop table ims_bobo_pay_wxsetting;
+	]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>

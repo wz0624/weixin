@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta  charset="utf-8">
+<meta  name="viewport"  content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=no">
+<title>职位详情</title>
+<link  type="text/css"  rel="stylesheet"  href="../addons/amouse_weijob/style/css/base.css?v=20150419">
+<link  type="text/css"  rel="stylesheet"  href="../addons/amouse_weijob/style/css/job-detail.css?v=20150419">
+<style>
+    .head a.logo_to_index {
+        position: absolute;
+        right: 0px;
+        left: auto;
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        background: 50% 50% no-repeat #4d71ad;
+        color: rgb(255, 255, 255);
+        font-size: 16px;
+        font-family: 微软雅黑;
+    }
+</style>
+</head>
+
+<body  style="">
+<div  class="head">职位详情
+    <a  href="javascript:history.back(-1);"  class="job-back"></a>
+    <a href="{php echo $this->createMobileUrl('index',array('openid'=>$from_user),true)}"  class="logo_to_index">首页</a>
+</div>
+{php include_once IA_ROOT . '/addons/amouse_weijob/model.php'}
+{php $id = $_GPC['id']}
+{php $job = search_job($id)}
+{php $company = search_company($job['companyid'])}
+<input  type="hidden"  name="position_id"  value="1475"  id="position_id">
+<div  class="contents">
+    <div  class="job jop-position">
+        <div  class="position">
+            <h2>{$job['jobname']}{if $job['type'] == 0}(全职){else if $job['type'] == 1}(兼职){else}(实习){/if}</h2><span>已有{$job['hits']}人浏览该岗位</span>
+            <p>
+                <span  class="money">
+                薪资：{if $job['offer']==0}{php echo '面议'}{else}{$job['offer']}{/if}				</span>
+                 / 工作地：{$job['workplace']}	/ 招聘人数：{if $job['number']==0}若干{else}{$job['number']}{/if}		</p>
+        </div>
+        <p  class="clearfix">
+            <span  class="fl title">联&nbsp;系&nbsp;人&nbsp;：</span>
+            <span  class="fl value">{$company['linkman']}</span>
+        </p>
+        <a href="tel:{$company['tel']}">
+        <p  class="clearfix">
+            <span  class="fl title">联系电话：</span>
+            <span  class="fl value">{$company['tel']}</span>
+        </p>
+        </a>
+        <a href="tel:{$company['phone']}">
+        <p  class="clearfix">
+            <span  class="fl title">手机号码：</span>
+            <span  class="fl value">{$company['phone']}</span>
+        </p>
+        </a>
+        <a href="{php echo $this->createMobileUrl('lbs',array('id'=>$job['companyid']),true)}">
+        <p  class="clearfix">
+            <span  class="fl title">地&nbsp;&nbsp;&nbsp;址&nbsp;：</span>
+            <span  class="fl value">{$company['address']}</span>
+        </p>
+        </a>
+        <p  class="clearfix">
+            <span  class="fl title">发布日期：</span>
+            <span  class="fl value">{php echo date("Y-m-d",$job['createtime'])}</span>
+        </p>
+        <p  class="clearfix">
+            <span  class="fl title">截止日期：</span>
+            <span  class="fl value">{if $job['endtime']!=0}{php echo date('Y-m-d',$job['endtime'])}{/if}</span>
+        </p>
+        </div>
+    <div  class="job">
+        <a href="{php echo $this->createMobileUrl('company',array('id'=>$job['companyid'],'wid'=>$from_user),true)}"  class="clearfix">
+        <div  class="company-name clearfix">
+            <img  {if !empty($company['thumb'])}src="{$_W['attachurl']}{$company['thumb']}"{else}src="../addons/amouse_weijob/icon.jpg"{/if}   class="fl">
+            <div  class="name-txt fl">
+                <p>{$company['short']}</p>
+                <p  class="long-name">{$company['title']}(点击查看该公司其他岗位)</p>
+            </div>
+        </div>
+    </a>
+    </div>
+    {php $job['description'] = htmlspecialchars_decode($job['description']) }
+    <div  class="job">
+        <h2>岗位描述</h2>
+        <div  class="describe-txt">
+            {$job['description']}
+            <p style="color:red;font-weight:bold">注：应聘者请自行核对信息！</p>
+        </div>
+    </div>
+    <div  class="job">
+        <h2>公司简介</h2>
+        <div  class="intro-txt">
+            {$company['content']}
+        </div>
+    </div>
+    <div  class="send-collect">
+    {php $res = get_tjgl($_GPC['id'],$from_user)}
+    {php $cv = search_cv('',$from_user)}
+    {if $endtime > $nowtime || $endtime==$createtime || $job['endtime'] == 0}{if !empty($cv)}{if empty($res)}
+    <a href="{php echo $this->createMobileUrl('mail',array('from_user'=>$from_user,'id'=>$_GPC['id']),true)}" class="send-resume">
+    投简历
+    </a>
+    {else}
+    <a class="send-resume">简历已投，请耐心等待答复</a>
+    {/if}
+    {else}
+    <a href="{php echo $this->createMobileUrl('myresume',array('from_user'=>$from_user),true)}"  class="send-resume">
+     请先设置您的简历
+    </a>
+    {/if}
+        {if !empty($company['phone'])}
+        <a class="resume-collect" href="tel:{$company['phone']}">电话咨询</a>
+        {else}
+        <a class="resume-collect" href="tel:{$company['tel']}">电话咨询</a>
+        {/if}
+    {else}
+    <a class="send-resume" style="width:100%">岗位已过期</a>
+    {/if}
+    </div>
+</div>
+<script  type="text/javascript"  src="../addons/amouse_weijob/style/js/jquery.min.js?v=20150419"></script>
+<script  type="text/javascript"  src="../addons/amouse_weijob/style/js/common.js?v=20150419"></script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script language='javascript'>
+<?php
+    $jssdk = new JSSDK();
+    $signPackage=$jssdk->GetSignPackage();
+    $_shareimg= !empty($company['thumb']) ? $_W['attachurl'].$company['thumb'] : 'http://'.$_SERVER['HTTP_HOST'] . '../addons/amouse_weijob/icon.jpg';
+?>
+
+wx.config({
+    debug: false,
+    appId: '<?php echo $signPackage["appId"];?>',
+    timestamp: <?php echo $signPackage["timestamp"];?>,
+    nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+    signature: '<?php echo $signPackage["signature"];?>',
+    jsApiList: [
+    'onMenuShareAppMessage',
+    'onMenuShareTimeline',
+    'onMenuShareWeibo',
+    'onMenuShareQQ',
+    'onMenuShareQZone']
+});
+var shareMeta = {
+    title: "{$company['title']}",
+    desc: "{$company['content']}\n点击查看更多信息",
+    link: "{$linkUrl}",
+    imgUrl: "{$_shareimg}"
+};
+wx.ready(function(){
+    wx.onMenuShareTimeline(shareMeta);
+    wx.onMenuShareAppMessage(shareMeta);
+    wx.onMenuShareWeibo(shareMeta);
+    wx.onMenuShareQQ(shareMeta);
+    wx.onMenuShareQZone(shareMeta);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,503 @@
+<style>
+    .mkpanel .panel-heading {
+        position: relative;
+    }
+    .mkpanel .panel-collapse {
+        width: 50px;
+        height: 38px;
+        line-height: 38px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        color: #CCC;
+        text-align: center;
+        background: #EEE;
+        border-left: 1px #DDD solid;
+    }
+    .red{
+        color: red;
+    }
+    .clear{width:100%;height:0;clear:both;}
+    .alert{margin:1px 0;padding:10px 15px;background:#F5F5F5;}
+    .item-show .reply-news-list-cover{width:30%;height:100px;float:right;overflow:hidden;}
+    .item-show .reply-news-list-cover img{width:100%;height:auto;}
+    .item-show .reply-news-list-detail{width:65%;float:left;overflow:hidden;height:auto}
+    .item-show .reply-news-list-detail .help-block{margin:5px 0}
+
+    .item-list-first .reply-news-list-cover{width:100%;height:200px;;overflow:hidden;}
+    .item-list-first .reply-news-list-cover img{width:100%;height:auto;}
+    .item-list-first .reply-news-list-detail{width:100%;position:absolute;bottom:0;left:0;overflow:hidden;height:50px;color:#FFF;filter:Alpha(opacity=70);background:#000;background:rgba(0, 0, 0, 0.7);text-shadow:none;font-family:arial,宋体b8b\4f53,sans-serif;}
+    .item-list-first .help-block{padding:0 10px}
+    .item-list-first .pull-right{position:absolute;bottom:10px;right:0}
+</style>
+<input type="hidden" name="sid" value="{$resdata['id']}"/>
+<div class="panel panel-default mkpanel">
+    <div class="panel-heading">
+        <h4 class="panel-title">核心设置</h4>
+        <a class="panel-collapse" data-toggle="collapse" href="#mkframe-2"> <i class="fa fa-chevron-circle-down"></i> </a> </div>
+    <div class="panel-body collapse in" id="mkframe-2">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="red">*</span>阅读权限模式</label>
+            <div class="col-sm-9  col-xs-12">
+                <input type="radio" value="1" name="read_type" {if $resdata['read_type'] == 1}checked="checked"{/if} onchange="javascript:changeReadType('hyjf');"> 会员积分&nbsp;&nbsp;
+                <input type="radio" value="2" name="read_type" {if $resdata['read_type'] == 2}checked="checked"{/if} onchange="javascript:changeReadType('hydj');"/> 会员等级 &nbsp;&nbsp;
+                <!-- <input type="radio" value="3" name="read_type" {if $resdata['read_type'] == 3}checked="checked"{/if} onchange="javascript:changeReadType('xfje');"/> 消费金额  -->
+                <div class="help-block">【会员积分】当会积分达到设定值后自动即拥有阅读图文权限，如果会员积分有所消耗后低于此设定值，则自动失去阅读权限。</br>
+                    【会员等级】：需先在“粉丝营销”中设置好会员组级别，当会员达到某一级别后即拥有阅读图文权限，，且会员有所消耗后低于少于当前所在会员组所需总积分，不会降级。</br>
+                    【黑科技】：拥有阅读权限的粉丝分享图文给朋友时，若此朋友无阅读权限也无法查看此图文，会自动跳转到引导关注链接。</br>
+                    <!-- 【消费金额】：目前仅支持“人人商城”系统交易所产生的消费金额为依据。 -->
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="hyjf" {if $resdata['read_type'] != 1}style="display: none"{/if}>
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">会员积分达到</label>
+            <div class="col-sm-9 form-inline">
+                <div class="input-group">
+                    <input type="number" style="width:80px" maxlength="4" name="order_count" value="{php echo intval($resdata['order_count']) ? intval($resdata['order_count']) : 30}" class="form-control">
+                    <span class="input-group-addon">分</span>
+                </div>
+                <div class="help-block"><span class="red">【会员积分模式】</span>输入正整数代表所需积分，可设置范围为1-9999分。</div>
+            </div>
+        </div>
+        <div class="form-group" id="hydj" {if $resdata['read_type'] != 2}style="display: none"{/if}>
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">会员等级选择</label>
+            <div class="col-sm-9 form-inline">
+                <div class="input-group">
+		            {loop $groups $group}
+		            <label class="checkbox-inline">
+					  <input type="checkbox" id="order_level[]" name="order_level[]" value="{$group['groupid']}" {if in_array($group['groupid'], $selected_groups)} checked {/if}> {$group['title']}
+					</label>
+					{/loop}
+                </div>
+                <div class="help-block"><span class="red">【会员等级模式】</span>选中的等级可以查看。此处可选的会员等级来自系统设置好的会员组，如何设置？请点击：粉丝营销->会员组即可进行设置。</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="red">*</span>回复类型</label>
+            <div class="col-sm-9  col-xs-12">
+                <input type="radio" value="1" name="respond_type" {if $resdata['respond_type'] == 1}checked="checked"{/if} onchange="javascript:changeRespondType('wzhf');"> 文字回复&nbsp;&nbsp;
+                <input type="radio" value="2" name="respond_type" {if $resdata['respond_type'] == 2}checked="checked"{/if} onchange="javascript:changeRespondType('twhf');"/> 图文回复 &nbsp;&nbsp;
+                <div class="help-block">【文字回复】可以添加文字内容的回复，还可以使用表情和链接。</br>
+                    【图文回复】：可以添加图文内容的回复。
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">已关注但无阅读权限时文字提示</label>
+            <div class="col-sm-9 col-xs-12">
+                <textarea class="form-control" placeholder="" name="norule">{$resdata['norule']}</textarea>
+                <div class="help-block"><span class="red">当此人已关注公众号，且是通过点击公众号菜单或关键字触发图文权限，但未达到阅读条件时，回复的文字。</span></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">未关注或无阅读权限时跳转链接</label>
+            <div class="col-sm-9 col-xs-12">
+                <input type="text" id="follow_url" name="follow_url" class="form-control"  value="{$resdata['follow_url']}" />
+                <div class="help-block"><span class="red">当此人未关注公众号或者无权限，且是通过点击有阅读权限的朋友转发的链接时，但未达到阅读条件，回复的引导链接。</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default" id="wzhf" {if $resdata['respond_type'] != 1}style="display: none"{/if}>
+    <div class="panel-heading">
+        文字回复内容设置
+    </div>
+    <ul class="list-group">
+        <li class="row list-group-item" ng-repeat="item in context.items">
+            <div class="block">
+                <div class="col-xs-12 col-sm-8">
+                    <textarea class="form-control content" ng-hide="item.saved" placeholder="添加要回复的内容" ng-model="item.content"></textarea>
+                    <p class="form-control-static" ng-show="item.saved" ng-bind-html="item.content | nl2br"></p>
+                </div>
+                <div class="col-xs-12 col-sm-8 help-block">您还可以使用表情和链接。<a class="emotion-triggers" href="javascript:;" ng-init="initEmotion(this);"><i class="fa fa-github-alt"></i> 表情</a> <a class="emoji-triggers" href="javascript:;" ng-click="selectEmoji(this)" title="添加表情"><i class="fa fa-github-alt"></i> Emoji</a></div>
+            </div>
+            <div class="col-sm-4 control-label">
+                <div class="btn-group">
+                    <a href="javascript:;" class="btn btn-default" ng-click="context.saveItem(item);">{{item.saved ? '编辑' : '保存'}}</a>
+                    <a href="javascript:;" class="btn btn-default" ng-click="context.removeItem(item);">删除</a>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div class="panel-footer">
+        <a href="javascript:;" class="btn btn-default" ng-click="context.addItem();">添加回复条目</a>
+        <span class="help-block">添加多条回复内容时, 随机回复其中一条</span>
+    </div>
+    <input type="hidden" name="replies" />
+</div>
+{php echo tpl_form_field_image('thumb[]', '', '', array('width' => 400, 'class_extra' => 'hide'));}
+<div class="panel panel-default"  id="twhf" {if $resdata['respond_type'] != 2}style="display: none"{/if}>
+    <div class="panel-heading">
+        图文回复内容设置
+    </div>
+    <div class="panel-body" id="new-reply">
+        <div class="row">
+            {if !empty($replies)}
+            {php $i = 0;}
+            {loop $replies $li}
+            <div class="reply-item">
+                <div class="col-sm-12 item-show {if $i < 1}item-list-first{/if}" id="item-show-{$li['id']}">
+                    <div class="alert">
+                        <div style="position:relative">
+                            <div class="reply-news-list-cover">
+                                <img src="{$li['src']}"/>
+                            </div>
+                            <div class="reply-news-list-detail">
+                                <span class="help-block title"><strong>{$li['title']}</strong></span>
+                                <span class="help-block content">{php echo cutstr($li['description'], 30, '...')}</span>
+									<span class="help-block pull-right">
+										<a href="javascript:;" onclick='newsHandler.doEditItem("item-show-{$li['id']}", "item-form-{$li['id']}");'>编辑</a>
+                                        <a href="javascript:;" onclick='newsHandler.doDeleteItem("item-show-{$li['id']}")'>删除</a>
+									</span>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="item-form-{$li['id']}" class="item-form col-sm-12" style="display:none">
+                    <div class="alert">
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-3 col-md-2 control-label">标题</label>
+                            <div class="col-sm-9 col-xs-12">
+                                <input type="text" class="form-control" placeholder="添加图文消息的标题" name="titles[]" value="{$li['title']}"/>
+                                <input type="hidden" name="id[]" value="{$li['id']}" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-3 col-md-2 control-label">作者</label>
+                            <div class="col-sm-9 col-xs-12">
+                                <input type="text" class="form-control" placeholder="添加图文消息的作者" name="authors[]" value="{$li['author']}"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+                            <div class="col-sm-9 col-xs-12">
+                                <input type="text" class="form-control" placeholder="添加排序" name="displayorder[]" value="{$li['displayorder']}"/>
+                                <span class="help-block">排序只能在提交后显示。按照从大到小的顺序对图文排序</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-3 col-md-2 control-label">封面</label>
+                            <div class="col-sm-9 col-xs-12">
+                                {php echo tpl_form_field_image('thumbs[]', $li['thumb'], '', array('width' => 400));}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                            <div class="col-sm-9 col-xs-12">
+                                <label>
+                                    封面（大图片建议尺寸：360像素 * 200像素）
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                            <div class="col-sm-9 col-xs-12">
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="incontent[]" value="1" {if $li['incontent'] == 1}checked{/if}/> 封面图片显示在正文中
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-3 col-md-2 control-label">描述</label>
+                            <div class="col-sm-9 col-xs-12">
+                                <textarea class="form-control" placeholder="添加图文消息的简短描述" name="descriptions[]">{$li['description']}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-md-offset-3 col-lg-offset-2 col-xs-12 col-sm-8 col-md-9 col-lg-10">
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" value="data" class="detail-switch" checked="checked"/> 是否编辑图文详情
+                                </label>
+                                <span class="help-block">必须勾选这里，然后在下面编辑图文的详细内容,才能真正起到阅读权限的判断。</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-3 col-md-2 control-label">详情</label>
+                            <div class="col-sm-9 col-xs-12">
+                                <textarea class="form-control richtext" name="contents[]">{$li['content']}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                            <div class="col-sm-9 col-xs-12">
+                                <button class="btn btn-danger" type="button" onclick="$(this).parent().parent().parent().parent().parent().remove()"><i class="fa fa-times"></i> 取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            {php $i++;}
+            {/loop}
+            {/if}
+            {php unset($li);}
+        </div>
+        <div class="col-sm-12">
+            <div class="alert" style="text-align:center;">
+                <a href="javascript:;" class="btn btn-default" onclick="newsHandler.buildForm();"><i class="fa fa-plus"></i> 添加回复条目</a>
+            </div>
+        </div>
+    </div>
+    <script id="news-form-html" type="text/html">
+        <div class="reply-item">
+            <div class="col-sm-12 item-show" style="display:none" id="(item-add-show)">
+                <div class="alert">
+                    <div style="position:relative">
+                        <div class="reply-news-list-cover">
+                            <img src=""/>
+                        </div>
+                        <div class="reply-news-list-detail">
+                            <span class="help-block title"><strong>{$li['title']}</strong></span>
+                            <span class="help-block content">{php echo cutstr($li['description'], 30, '...')}</span>
+									<span class="help-block pull-right">
+										<a href="javascript:;" onclick='newsHandler.doEditItem("(item-add-show)", "(item-add-form)");'>编辑</a>
+										<a href="javascript:;" onclick='newsHandler.doDeleteItem("(item-add-show)");'>删除</a>
+									</span>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="(item-add-form)" class="item-form col-sm-12">
+                <div class="alert">
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label">标题</label>
+                        <div class="col-sm-9 col-xs-12">
+                            <input type="text" class="form-control" placeholder="添加图文消息的标题" name="titles[]"/>
+                            <input type="hidden" name="id[]" value="" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label">作者</label>
+                        <div class="col-sm-9 col-xs-12">
+                            <input type="text" class="form-control" placeholder="添加图文消息的作者" name="authors[]"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+                        <div class="col-sm-9 col-xs-12">
+                            <input type="text" class="form-control" placeholder="添加排序" name="displayorder[]"/>
+                            <span class="help-block">排序只能在提交后显示。按照从大到小的顺序对图文排序</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label">封面</label>
+                        <div class="col-sm-9 col-xs-12">
+                            {php echo tpl_form_field_image('thumbs[]', $li['thumb'], '', array('width' => 400));}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                        <div class="col-sm-9 col-xs-12">
+                            <label>
+                                封面（大图片建议尺寸：360像素 * 200像素）
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                        <div class="col-sm-9 col-xs-12">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="incontent[]" value="1"/> 封面图片显示在正文中
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label">描述</label>
+                        <div class="col-sm-9 col-xs-12">
+                            <textarea class="form-control" placeholder="添加图文消息的简短描述" name="descriptions[]"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-md-offset-3 col-lg-offset-2 col-xs-12 col-sm-8 col-md-9 col-lg-10">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" value="data" class="detail-switch"/> 是否编辑图文详情
+                            </label>
+                            <span class="help-block">必须勾选这里，然后在下面编辑图文的详细内容,才能真正起到阅读权限的判断。</span>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display:none">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label">图文详情</label>
+                        <div class="col-sm-9 col-xs-12">
+                            <textarea class="form-control richtext" name="contents[]"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                        <div class="col-sm-9 col-xs-12">
+                            <button class="btn btn-danger" type="button" onclick="$(this).parent().parent().parent().parent().parent().remove()"><i class="fa fa-times"></i> 取消</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+        <script>
+
+            require(['util'], function(u){
+                $('.richtext').each(function(){
+                    u.editor($(this)[0]);
+                });
+                $('.link_select').click(function(){
+                    var ipt = $(this).parent().prev();
+                    u.linkBrowser(function(href){
+                        ipt.val(href);
+                    });
+                });
+            });
+
+            $('.detail-switch').click(function(){
+                $(this).parent().parent().parent().next().toggle();
+            });
+
+    </script>
+    <script>
+    require(['util'], function(u){
+        $('.richtext').each(function(){
+            u.editor($(this)[0]);
+        });
+        $('.link_select').click(function(){
+            var ipt = $(this).parent().prev();
+            u.linkBrowser(function(href){
+                ipt.val(href);
+            });
+        });
+    });
+
+    $('.detail-switch').click(function(){
+        $(this).parent().parent().parent().next().toggle();
+    });
+
+    var attachurl = "{php echo $_W['attachurl'];}";
+    var newsHandler = {
+        'buildForm' : function(){
+            if($('#new-reply .item-show').size() >= 8) {
+                require(['util'], function(u){
+                    u.message('单条图文信息最多添加八条内容！', '', 'error');
+                });
+                return false;
+            }
+            this.updateList();
+            var size = $('.reply-item').size();
+            var html_temp = $('#news-form-html').html().replace(/\(item-add-show\)/gm, 'item-show-' + (++size));
+            var html = html_temp.replace(/\(item-add-form\)/gm, 'item-form-' + (size));
+            $('#new-reply .row').append(html);
+        },
+        'updateList' : function(){
+            $('#new-reply .reply-item').each(function(){
+                $(this).find('.item-show').css('display', 'block').siblings().css('display', 'none');
+                var thumb = $(this).find('input[name^="thumb"]').val();
+                if (typeof thumb != 'undefined') {
+                    if(thumb.indexOf("http://") == -1 && thumb.indexOf("https://") == -1) {
+                        thumb = attachurl + thumb;
+                    }
+                    $(this).find('.item-show img').attr('src', thumb);
+                }
+                $(this).find('.item-show .title').html($(this).find("input[name^='title']").val());
+                $(this).find('.item-show .content').html($(this).find("textarea[name^='description']").val());
+            });
+            $('#new-reply .reply-item:first').find('.item-show').addClass('item-list-first')
+        },
+        'doEditItem' : function(showid, formid){
+            this.updateList();
+            $('#' + showid).hide();
+            $('#' + formid).show();
+        },
+        'doDeleteItem' : function(itemid){
+            $('#' + itemid).parent().remove();
+        }
+    };
+    {if empty($replies)}
+    newsHandler.buildForm();
+    {/if}
+    </script>
+<script>
+    window.initReplyController = function($scope) {
+        $scope.context = {};
+        $scope.context.items = {php echo json_encode($replies)};
+        if(!$.isArray($scope.context.items)) {
+            $scope.context.items = [];
+        }
+        if($scope.context.items.length == 0) {
+            $scope.context.items.push({content: ''});
+        }
+        $scope.context.addItem = function(){
+            $scope.context.items.push({
+                content: ''
+            });
+        };
+        $scope.context.saveItem = function(item){
+            item.saved = !item.saved;
+        };
+        $scope.context.removeItem = function(item) {
+            require(['underscore'], function(_){
+                $scope.context.items = _.without($scope.context.items, item);
+                $scope.$digest();
+            });
+        };
+        $scope.initEmotion = function(obj) {
+            require(['util'], function(util){
+                var elm = $('.emotion-triggers').eq(obj.$index);
+                util.emotion(elm[0], elm.parent().parent().find('.content')[0], function(txt, elm, target){
+                    obj.item.content = $(target).val();
+                    $scope.$digest();
+                });
+            });
+        };
+        /*选择Emoji表情*/
+        $scope.selectEmoji = function(obj) {
+            require(['util'], function(util){
+                var elm = $('.emoji-triggers').eq(obj.$index);
+                var textbox = elm.parent().parent().find('.content')[0];
+                util.emojiBrowser(function(emoji){
+                    var unshift = '[U+' + emoji.find("span").text() + ']';
+                    var newstart = textbox.selectionStart + unshift.length;
+                    var insertval = textbox.value.substr(0,textbox.selectionStart) + unshift + textbox.value.substring(textbox.selectionEnd);
+                    obj.item.content = insertval;
+                    $scope.$digest();
+                });
+            });
+        };
+    };
+    window.validateReplyForm = function(form, $, _, util, $scope) {
+        var val = [];
+        $scope.$digest();
+        angular.forEach($scope.context.items, function(v, k){
+            if($.trim(v.content) != '') {
+                this.push(v);
+            }
+        }, val);
+        $scope.$digest();
+        val = angular.toJson(val);
+        $(':hidden[name=replies]').val(val);
+        return true;
+    };
+function changeReadType(readType){
+	if(readType == "hyjf"){
+		$("#hyjf").show();
+		$("#hydj").hide();
+		$("#xfje").hide();
+	}else if(readType == "hydj"){
+		$("#hyjf").hide();
+		$("#hydj").show();
+		$("#xfje").hide();
+	}else if(readType == "xfje"){
+		$("#hyjf").hide();
+		$("#hydj").hide();
+		$("#xfje").show();
+	}
+}
+function changeRespondType(respondType){
+	if(respondType == "wzhf"){
+		$("#wzhf").show();
+		$("#twhf").hide();
+	}else if(respondType == "twhf"){
+		$("#wzhf").hide();
+		$("#twhf").show();
+	}
+}
+</script>

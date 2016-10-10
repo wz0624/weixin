@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>会员中心</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" type="text/css" href="https://res.wx.qq.com/open/libs/weui/0.4.0/weui.css" />
+    {php echo register_jssdk(false);} 
+  </head>
+  <body style="padding-bottom:55px">
+	<div class="weui_msg">
+	    <div class="weui_icon_area" style="margin-bottom:0px"><img src="{$_W['fans']['tag']['avatar']}" width="80" style="border-radius:50%"></div>
+	    <div class="weui_text_area">
+	        <h2 class="weui_msg_title">{if $_W['fans']['nickname']}{$_W['fans']['nickname']}{else}{$userinfo['nickname']}{/if} </h2>
+	        <p class="weui_msg_desc">余额：{$credit['credit2']}元 积分：{$credit['credit1']}分</p>
+	    </div>
+	</div> 
+    {if $_W['fans']['uid']}       
+	{else}
+	<p><a href="{$settings['sharelink']}" class="weui_btn weui_btn_primary">您还未关注我们，点击这里关注，获取更多信息</a></p>
+	{/if}
+  <div class="weui_cells weui_cells_access">
+ {if $settings['articletougao']}
+    <a class="weui_cell" href="{php echo $this->createMobileUrl('memberfabu')}">   
+       <div class="weui_cell_bd weui_cell_primary">
+            <p>我要投稿</p>
+        </div>
+        <div class="weui_cell_ft">
+            投稿奖励
+        </div>
+    </a>
+    {/if}
+    <a class="weui_cell" href="{php echo $this->createMobileUrl('memberfabumanage')}">        
+        <div class="weui_cell_bd weui_cell_primary">
+            <p>投稿管理</p>
+        </div>
+        <div class="weui_cell_ft">
+            点击查看
+        </div>
+    </a>
+</div>
+<div class="weui_cells weui_cells_access"> 
+    <a class="weui_cell" href="javascript:;" id="btnActionSheet">   
+       <div class="weui_cell_bd weui_cell_primary">
+            <p>发布广告</p>
+        </div>
+        <div class="weui_cell_ft">
+            图文或图片
+        </div>
+    </a>
+    
+    <a class="weui_cell" href="{php echo $this->createMobileUrl('gg')}">        
+        <div class="weui_cell_bd weui_cell_primary">
+            <p>图片广告管理</p>
+        </div>
+        <div class="weui_cell_ft">
+            点击查看
+        </div>
+    </a>
+</div>
+<div class="weui_cells weui_cells_access">
+
+    <a class="weui_cell" href="{php echo $this->createMobileUrl('renwu')}" id="btnActionSheet">   
+       <div class="weui_cell_bd weui_cell_primary">
+            <p>任务中心</p>
+        </div>
+        <div class="weui_cell_ft">
+            会员专享
+        </div>
+    </a>
+   
+    <a class="weui_cell" href="{php echo $this->createMobileUrl('tixian')}">        
+        <div class="weui_cell_bd weui_cell_primary">
+            <p>提现管理</p>
+        </div>
+        <div class="weui_cell_ft">
+            最低1元
+        </div>
+    </a>
+    <a class="weui_cell" href="{php echo url('mc/profile')}">        
+        <div class="weui_cell_bd weui_cell_primary">
+            <p>个人资料</p>
+        </div>
+        <div class="weui_cell_ft">
+            修改资料
+        </div>
+    </a>
+</div>
+{template 'footer'}
+<script>
+$(function () {
+	wx.hideAllNonBaseMenuItem();
+    $('#btnActionSheet').on('click', function () {
+        $.weui.actionSheet([
+            {
+                label: '微信图文广告',
+                onClick: function () {
+                    window.location.href="{php echo $this->createMobileUrl('membergg',array('op'=>'tw'))}"; 
+                }
+            },
+            {
+                label: '文章底部图片广告',
+                onClick: function () {
+                    window.location.href="{php echo $this->createMobileUrl('membergg',array('op'=>'tp'))}"; 
+                }
+            },         
+        ]);
+    });
+});
+//# sourceURL=pen.js
+</script>
+</body>
+</html>

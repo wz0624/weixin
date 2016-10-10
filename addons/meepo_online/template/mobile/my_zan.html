@@ -1,0 +1,600 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta name="Generator" content="ECSHOP v2.7.3" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>我赞过的直播</title>
+<meta name="Keywords" content="" />
+<meta name="Description" content="" />
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/user/css/user.css?T={php echo time()}"/>
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}template/mobile/user/css/public.css?T={php echo time()}"/>
+<style>
+.lists .list {
+    padding-top: 15px;
+    background-color: #fafafa;
+}
+.section-1px {
+    position: relative;
+}
+html {
+	background-color: #f8f8f8
+}
+.name-wrap {
+	display: inline-block
+}
+.name-wrap .user-nick {
+	display: inline-block;
+	overflow: hidden;
+	max-width: 115px;
+	font-size: 14px;
+	font-weight: 300;
+	line-height: 19px;
+	vertical-align: middle;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	color: #777!important
+}
+@media (max-width:320px) {
+	.name-wrap .user-nick {
+		max-width: 90px
+	}
+}
+.name-wrap .user-nick-vipno {
+	color: #784dcf!important
+}
+.user-avatar {
+	position: relative
+}
+.user-avatar img {
+	overflow: hidden;
+	position: relative;
+	border-radius: 18px;
+	width: 25px;
+	height: 25px;
+	font-size: 12px;
+	background-color: #efece9
+}
+.user-avatar .g-level {
+	display: block;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	z-index: 1
+}
+.content-wrapper:last-child.img-box {
+	margin-bottom: 0
+}
+.content-wrapper a {
+	color: #324d82
+}
+.content-wrapper img {
+	height: auto;
+	-webkit-user-select: none
+}
+.content-wrapper img.error {
+	width: 65px;
+	height: 65px
+}
+
+.content-wrapper .content {
+	clear: both;
+	margin-bottom: 5px;
+	font-size: 17px;
+	line-height: 27px;
+	word-wrap: break-word;
+	word-break: break-word;
+	
+}
+
+.content-wrapper .content .ph {
+	height: 29px
+}
+
+.content-wrapper .content .face {
+	position: relative;
+	top: -2px;
+	width: 18px!important;
+	height: 18px!important
+}
+.section-1px::after {
+    bottom: -1px;
+}
+.section-1px:before, .section-1px:after {
+    display: block;
+    position: absolute;
+    left: 0;
+    border-top: 1px solid #c8c7cc;
+    width: 100%;
+    content: " ";
+    pointer-events: none;
+}
+.post-title-wrapper .user-info.section-1px:after {
+    border-color: #e5e5e5;
+}
+.content-wrapper .img-box {
+	overflow: hidden;
+	position: relative;
+	margin: 15px auto 0;
+	background: #efece9
+}
+
+.content-wrapper .img-box.pre-size>img {
+	width: 100%
+}
+
+.content-wrapper .img-box.err-img {
+	width: 100%;
+	min-height: 50px;
+	max-height: 228px
+}
+
+.content-wrapper .img-box.err-img img {
+	width: 65px;
+	height: 55px
+}
+
+.content-wrapper .img-box~.img {
+	padding-top: 15px
+}
+
+
+
+.actions {
+	margin-top: 5px;
+	height: 22px;
+	font-size: 12px;
+	color: #bbb
+}
+
+.actions:after {
+	display: block;
+	clear: both;
+	content: ""
+}
+
+.actions .btn-action {
+	float: right;
+	position: relative;
+	z-index: 2;
+	margin-left: 7px;
+	padding-top: 1px;
+	padding-left: 24px;
+	height: 100%;
+	line-height: 22px
+}
+
+.actions .btn-action:active {
+	border-color: #d3d3d3
+}
+
+.actions .btn-action:after {
+	position: absolute;
+	top: 10px;
+	left: 5px;
+	content: ""
+}
+
+.actions .location-area {
+	float: left;
+	margin-right: 8px;
+	max-width: 50%;
+	height: 22px;
+	line-height: 22px
+}
+
+.actions .read-num {
+	float: right;
+	margin-top: 3px
+}
+
+
+.actions .delete {
+	float: left;
+	margin-left: 0;
+	padding: 0;
+	color: #324d82
+}
+
+.actions .report {
+	float: left;
+	margin-left: 3px;
+	padding: 0;
+	color: #324d82
+}
+
+.actions .read-content {
+	float: left;
+	margin: 0 5px 0 3px;
+	padding: 0;
+	color: #324d82
+}
+
+.actions .btn-like {
+	min-width: 26px;
+	text-align: right;
+	color: #fe7956
+}
+
+.actions .reply:after {
+	top: 3px;
+	width: 16px;
+	height: 16px;
+	
+	background-size: 100% 100%
+}
+
+.actions .like {
+	color: #777
+}
+
+.actions .like:after {
+	top: 2px;
+	width: 16px;
+	height: 16px;
+	background: center center no-repeat;
+	
+	background-size: 100% 100%
+}
+
+.actions .liked,.actions .liked-active {
+	color: #324c83
+}
+
+.actions .liked:after,.actions .liked-active:after {
+	background: center center no-repeat;
+	background-size: 16px 16px
+}
+
+.actions .liked-active:after {
+	-webkit-animation-name: like-animate;
+	-webkit-animation-duration: 800ms;
+	-webkit-animation-timing-function: ease
+}
+
+
+
+.detail-comment-list {
+	-webkit-tap-highlight-color: transparent
+}
+
+.detail-comment-list .comment-appreciation-mark {
+	display: inline-block;
+	position: relative;
+	top: -2px;
+	z-index: 1;
+	margin-right: 5px;
+	border: 1px solid #dac173;
+	padding: 2px 7px;
+	height: 10px;
+	font-size: 10px;
+	font-weight: 400;
+	line-height: 10px;
+	vertical-align: middle;
+	color: #dac173
+}
+
+.lists .list {
+	padding-top: 15px;
+	background-color: #fafafa
+}
+
+.lists .list a {
+	color: #324d82
+}
+
+.lists .list .content-wrapper {
+	margin-top: 5px;
+	color: #454545
+}
+
+.lists .list .actions {
+	margin: 4px -15px 0 0;
+	padding-bottom: 7px
+}
+
+.lists .list .actions.new-ui {
+	position: absolute;
+	top: -2px;
+	right: 15px
+}
+
+.lists .list:first-child {
+	margin-top: 1px
+}
+
+.lists .list:first-child:before {
+	border: 0
+}
+
+.lists .list:before {
+	display: none
+}
+
+.lists .list:after {
+	bottom: 0;
+	left: 0;
+	right: 0;
+	width: auto;
+	border-color: #e2e2e6
+}
+
+.lists .list.highlight {
+	-webkit-animation: highlight 1.5s
+}
+
+.lists .list .ph {
+	height: 0
+}
+
+.lists .list.new-ui {
+	padding: 15px 0
+}
+
+.lists .list.new-ui:after {
+	display: none
+}
+
+.lists .list.new-ui .name-wrap {
+	padding-top: 0
+}
+
+.lists .list.new-ui .content-wrapper {
+	margin-top: 4px
+}
+
+.img-box-container {
+	margin: 2px 0 7px
+}
+
+.img-box-container .img-box {
+	position: relative;
+	float: left;
+	overflow: hidden;
+	margin: 3px 3px 0 0
+}
+
+.img-box-container .img-box .img-gif {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 19px;
+	height: 10px;
+	background-size: 100% 100%;
+	
+}
+
+.img-box-container:after {
+	display: block;
+	clear: both;
+	content: ""
+}
+
+.comment-wrapper {
+	position: relative;
+	padding: 0 15px 0 60px
+}
+
+.comment-wrapper .user-avatar {
+	position: absolute;
+	top: 0;
+	left: 15px;
+	padding-right: 9px
+}
+
+.comment-wrapper .user-avatar img {
+	width: 35px;
+	height: 35px
+}
+
+.comment-wrapper .user-avatar .g-level {
+	right: 2px
+}
+
+.comment-wrapper .name-wrap {
+	width: 100%
+}
+
+
+
+.comment-wrapper .name-wrap .author-male,.comment-wrapper .name-wrap .author-female {
+	position: relative;
+	top: -2px
+}
+
+.comment-wrapper .name-wrap .honour {
+	position: relative;
+	top: -2px
+}
+
+.comment-wrapper .floor {
+	float: right;
+	padding-top: 2px;
+	font-size: 12px;
+	color: #bbb
+}
+
+.comment-wrapper .floor.new-ui {
+	float: left;
+	margin-right: 10px;
+	padding-top: 5px
+}
+
+.comment-wrapper .content {
+	margin-bottom: 0;
+	line-height: 23px;
+	overflow: hidden
+}
+
+.comment-wrapper .audio,.comment-wrapper .music {
+	margin: 5px 0 7px
+}
+
+.btn-action.time {
+	float: left;
+	margin: 0 10px 0 0;
+	padding: 0
+}
+
+.btn-action.reply {
+	padding-right: 15px
+}
+
+
+
+
+.btn-comment-operate {
+	height: 34px;
+	font-size: 12px;
+	line-height: 34px;
+	text-align: center
+}
+
+.btn-comment-operate a {
+	display: block
+}
+
+.btn-comment-operate a:before {
+	display: inline-block;
+	margin-top: -2px;
+	margin-right: 7px;
+	vertical-align: middle;
+	content: " "
+}
+
+.btn-comment-operate .qunact-i-publish {
+	padding-left: 15px;
+	font-size: 14px;
+	text-align: left;
+	color: #bbb
+}
+
+.btn-comment-operate .qunact-i-publish:before {
+	display: inline-block;
+	position: relative;
+	top: 5px;
+	margin-right: 5px;
+	width: 19px;
+	height: 19px;
+	background-image: 
+	background-size: 100%;
+	content: " "
+}
+
+.show-inturn {
+	display: none;
+	position: relative;
+	height: 44px;
+	line-height: 44px
+}
+
+.show-inturn.section-1px:before {
+	display: none
+}
+
+.show-inturn.section-1px:after {
+	border-color: #ff6a00
+}
+
+.show-inturn .leftside-all-icon {
+	position: absolute;
+	top: 10px;
+	bottom: 10px;
+	left: 0;
+	width: 5px;
+	content: ""
+}
+
+.show-inturn .leftside-all-icon.hot {
+	background: #ff6a00
+}
+
+.show-inturn .leftside-all-icon.all {
+	background: #ff6a00
+}
+
+.show-inturn span {
+	float: left;
+	margin-left: 15px;
+	font-size: 15px
+}
+
+html,body,ul,ol,img,p,input,button {
+	padding: 0;
+	margin: 0
+}
+
+html,body {
+	font-family: -apple-system-font,"Helvetica Neue",Helvetica,STHeiTi,sans-serif;
+	-webkit-user-select: none;
+	-webkit-overflow-scrolling: touch;
+	-webkit-user-drag: none
+}
+
+a,a:active,a:focus,button,button:active,input,input:focus,select,select:focus,textarea,textarea:focus {
+	outline: 0;
+	-webkit-tap-highlight-color: rgba(255,255,255,0)
+}
+
+a {
+	text-decoration: none;
+	color: #0079ff
+}
+
+ol,ul {
+	list-style: none
+}
+</style>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+</head>
+<body>
+<header>
+      <div class="tab_nav">
+        <div class="header">
+          <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+          <div class="h-mid">我赞过的直播</div>
+          <div class="h-right">
+           
+          </div>
+        </div>
+      </div>
+</header>
+<div id="wrap">
+<div id="comment-block-header" class="btn-comment-operate show-inturn section-1px reverse" style="display: block;"><div class="leftside-all-icon all"></div><span>全部赞</span><div style="float: right;margin-right: 10px;color: gray;">共<font color=red>{if !empty($zan)}{php echo count($zan)}{else}0{/if}</font>次</div></div>
+<ul class="lists" id="comment_page_0">
+{if !empty($zan)}
+{loop $zan $row}
+    <li id="comment_1" class="list  section-1px ">
+		<a href="{php echo $this->createMobileUrl('detail',array('listid'=>$row['listid']))}">
+        <div class="comment-wrapper">
+            <div class="user-avatar">
+                <img src="{$user['avatar']}">
+            </div>
+            <div class="name-wrap">
+                <div class="name-section1">
+                <span class="author user-nick "  style="">{$user['nickname']}</span>
+                </div>
+            </div>
+            <div class="content-wrapper">
+                <div class="content allow-copy">
+				{php $live_title = pdo_fetchcolumn("SELECT `title` FROM ".tablename($this->list_table)." WHERE weid=:weid AND id=:id",array(':weid'=>$weid,':id'=>$row['listid']));}
+				直播主题:　{$live_title}
+            </div>
+            <div class="actions">
+                <span class="btn-action time">{php echo date('Y-m-d H:i:s',$row['createtime']);}</span>
+            </div>
+        </div>
+		</a>
+    </li>
+{/loop}
+{else}
+<div class="main" id="user_goods_ka_1">         
+		  <div id="list_0_0" class="font12">您没赞过哦！</div>
+</div>
+{/if}
+</ul>
+</div>
+{template 'user_nav'}
+</body>
+</html>

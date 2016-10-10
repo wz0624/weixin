@@ -1,0 +1,52 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+  <li class="active"><a href="{php echo $this->createWebUrl('withdraw'); }">提现列表</a></li>
+</ul>
+<div class="main">
+  <div class="category">
+    <form action="" method="post" onsubmit="return formcheck(this)">
+      <div class="panel panel-default">
+        <div class="panel-body table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th style="width:150px;">提现者头像</th>
+                <th style="width:100px;">提现者昵称</th>
+                <th style="width:100px;">提现金额</th>
+                <th style="width:100px;">扣费率</th>
+                <th style="width:100px;">手续费</th>
+                <th style="width:100px;">扣费后收入</th>
+                <th style="width:100px;">到账方式</th>
+                <th style="width:200px;">提现时间</th>
+                <th style="width:150px;">提现状态</th>
+                <th style="width:150px;">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+            {loop $lists $row}
+            <tr>
+              <td><img src="{php echo $row['user']['avatar']; }" width="60" height="60"></td>
+              <td><a href="">{$row['user']['nickname']}</a></td>
+              <td>{$row['money']}</td>
+              <td>{$row['discount']}</td>
+              <td>{$row['fee']}</td>
+              <td>{$row['income']}</td>
+              <td>{if $row['pay_type'] == 1}企业付款{elseif $row['pay_type'] == 2}现金红包{else}--{/if}</td>
+              <td>{php echo date('Y-m-d H:i:s', $row['ctime']); }</td>
+              <td>{if $row['status'] == 0}<span class="label label-primary">提现中</span>{elseif $row['status'] == 1}<span class="label label-success">已提现</span>{elseif $row['status'] == 2}<span class="label label-danger">已驳回</span>{else}--{/if}</td>
+              <td>
+                <a href="{php echo $this->createWebUrl('deal_withdraw', array('id' => $row['id'], 'status'=>2))}" onclick="return confirm('是否要驳回此提现？');return false;" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="驳回提现"><i class="fa fa-times"></i></a>
+                <a href="{php echo $this->createWebUrl('deal_withdraw', array('id' => $row['id'], 'status'=>1))}" onclick="return confirm('同意提现后，系统将会通过企业付款或者现金红包的方式给提现者打款，请确保微信商户平台有足够的余额可用于提现支付。是否同意此提现？');return false;" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="同意提现"><i class="fa fa-check"></i></a>
+              </td>
+            </tr>
+            {/loop}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {$pager}
+    </form>
+  </div>
+</div>
+{template 'common/footer'}

@@ -1,0 +1,121 @@
+{php $title='统计管理'}
+
+{template 'inc/header'}
+	<script type="text/javascript">
+	</script>
+
+	<style>
+
+	</style>
+
+	<!-- 公共变量 -->
+	<input type="hidden" id="is_user_infoed" value="{$is_user_infoed}"/>
+
+		
+	<!-- 首页 -->
+    <div class="app-page" data-page="index_page">
+
+
+		<div class="app-topbar" style="display:none;height:0px;"></div>
+		<div class="app-content" style="background:#F8F8F8;">
+			<div class="app-body">
+				
+				<form id="static_form" class="weui_cells weui_cells_form" action="{php echo $_W['siteroot'] . 'app/' . substr($this->createMobileUrl('admin',array('cmd'=>'static','pid'=>pencode($wall['id']))), 2)}" method="post" style="margin-top:0px;border-top:0px none;">
+					<input type="hidden" name="submit" value="save"/>
+
+					<div class="weui_cell">
+						<div class="weui_cell_hd"><label class="weui_label">已撒</label></div>
+						<div class="weui_cell_bd weui_cell_primary">
+							<input class="weui_input" type="text" name="fake_money" placeholder="已撒钱基数（分）" value="{$wall['fake_money']}"/>
+						</div>
+					</div>
+
+					<div class="weui_cell">
+						<div class="weui_cell_hd"><label class="weui_label">人气</label></div>
+						<div class="weui_cell_bd weui_cell_primary">
+							<input class="weui_input" type="text" name="fake_user" placeholder="人气基数" value="{$wall['fake_user']}"/>
+						</div>
+					</div>
+
+					<div class="weui_cell">
+						<div class="weui_cell_hd"><label class="weui_label">在线</label></div>
+						<div class="weui_cell_bd weui_cell_primary">
+							<input class="weui_input" type="text" name="fake_online" placeholder="在线人数基数" value="{$wall['fake_online']}"/>
+						</div>
+					</div>
+
+				</form>
+
+				<div class="weui_btn_area">
+					<a class="weui_btn weui_btn_primary" href="javascript:" id="btn_save">保存</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- loading toast -->
+		<div id="toast_loading" class="weui_loading_toast" style="display:none;z-index:99999;position:fixed;">
+			<div class="weui_mask_transparent"></div>
+			<div class="weui_toast">
+				<div class="weui_loading">
+					<div class="weui_loading_leaf weui_loading_leaf_0"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_1"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_2"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_3"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_4"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_5"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_6"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_7"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_8"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_9"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_10"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_11"></div>
+				</div>
+				<p class="weui_toast_content">正在保存...</p>
+			</div>
+		</div>
+
+
+
+    </div> <!-- END 首页 -->
+
+
+
+{template 'inc/script'}
+<script type="text/javascript">
+	$(function(){
+
+		App.controller('index_page', function (page) {
+			var toast_loading=$(page).find('#toast_loading');
+
+		
+
+
+			/** 执行保存 **/
+			var form = $(page).find('#static_form');
+			function doPost(){
+				$.post(form.attr('action'), form.serialize(),function(resp) {
+					toast_loading.hide();
+					if(resp.status==0){
+						alert(resp.info);
+					}else{
+						swal({   
+							title: resp.info,
+							type: "success",
+							confirmButtonText: "确定"
+						});
+					}
+				});
+			}
+
+			// 发布
+			$(page).find('#btn_save').on('click',function(){
+				toast_loading.show();
+				doPost();
+			});
+
+		});
+
+		App.load('index_page','fade');
+	});
+</script>
+{template 'inc/footer'}

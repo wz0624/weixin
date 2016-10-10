@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0"/>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>{$row['title']}</title>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <link href="{NOW_PATH}files/style.css?v=5" rel="stylesheet" type="text/css">
+</head>
+<body style="position:relative;">
+
+<div class="bao">
+    <img src="{NOW_PATH}files/girl/img_1_0.png?v=5">
+    <img src="{NOW_PATH}files/girl/img_2_0.png?v=5">
+    <img src="{NOW_PATH}files/girl/img_3_0.jpg?v=5">
+</div>
+
+<div class="bao-back" onclick="_back();">
+    <img src="{NOW_PATH}files/back.png">
+</div>
+
+<div class="bao-tag">
+    <div class="tag" onclick="_tag(this);" data-l="g1" data-text="腐宅小师妹"><img src="{NOW_PATH}files/g/g1.png"></div>
+    <div class="tag" onclick="_tag(this);" data-l="g2" data-text="文艺小清新"><img src="{NOW_PATH}files/g/g2.png"></div>
+    <div class="tag" onclick="_tag(this);" data-l="g3" data-text="摩登女神经"><img src="{NOW_PATH}files/g/g3.png"></div>
+
+    <div class="tag" onclick="_tag(this);" data-l="g4" data-text="霸气女汉子"><img src="{NOW_PATH}files/g/g4.png"></div>
+    <div class="tag" onclick="_tag(this);" data-l="g5" data-text="顾家美辣妈"><img src="{NOW_PATH}files/g/g5.png"></div>
+    <div class="tag" onclick="_tag(this);" data-l="g6" data-text="干练女强人"><img src="{NOW_PATH}files/g/g6.png"></div>
+</div>
+
+<div class="bao-next">
+    <img src="{NOW_PATH}files/next.png" onclick="saveToSever();">
+</div>
+
+<div class="bao-xuan" onclick="_whirl();"><img src="{NOW_PATH}files/flip.png"></div>
+
+<div class="tbg-top iw100"><img src="{NOW_PATH}files/img_1_0_t_r1_c2.png?v=5"></div>
+<div class="tbg-right iw100"><img src="{NOW_PATH}files/img_1_0_t_r2_c3.png?v=5"></div>
+<div class="tbg-bottom iw100"><img src="{NOW_PATH}files/img_1_0_t_r3_c2.png?v=5"></div>
+<div class="tbg-left iw100"><img src="{NOW_PATH}files/img_1_0_t_r1_c1.png?v=5"></div>
+<div class="image bg-img" id="canvas"></div>
+
+<div class="loading_alert">
+    <div class="container">
+        <div class="nuan"></div>
+        <div class="sun"></div>
+        <div class="tips"></div>
+    </div>
+</div>
+<div class="alert_mask"></div>
+
+</body>
+
+<script type="text/javascript" src="{NOW_PATH}files/jquery.js"></script>
+<script type="text/javascript" src="{NOW_PATH}files/jquery.alert.js"></script>
+<script type="text/javascript" src="{NOW_PATH}files/kinetic-v5.1.0.min.js"></script>
+<script type="text/javascript" src="{NOW_PATH}files/mobileBUGFix.mini.js"></script>
+<script type="text/javascript" src="{NOW_PATH}files/TweenMax.min.js"></script>
+<script type="text/javascript">
+    var shareData = {
+        "imgUrl" : "{php echo toimage($row['share_txt'])}",
+        "link" : "{php echo urwdo('index','',1)}&uid={$user['id']}",
+        "title" : "{$row['share_title']}",
+        "desc" : "{$row['share_desc']}"
+    };
+    var jssdkconfig = {JSONJSSDKCONFIG} || {};
+    //
+    var upData = {
+        "now_path" : "{NOW_PATH}",
+        "img" : "{php echo toimage($user['img'])}",
+        "upfile" : "{php echo urwdo('upfile','',1)}",
+        "unupfile" : "{php echo urwdo('unupfile','',1)}",
+        "flip" : "{php echo urwdo('flip','',1)}"
+    };
+</script>
+<script type="text/javascript" src="{NOW_PATH}files/upload.js?v=5"></script>
+</html>

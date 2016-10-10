@@ -1,0 +1,89 @@
+{template 'common/header'}
+
+<script type="text/javascript" src="resource/js/lib/jquery-1.11.1.min.js">
+</script>
+<ul class="nav nav-tabs">
+	<li {if $foo == 'listPrize'}class="active"{/if}><a href="{php echo $this->createWebUrl('prize')}">红包概率列表</a></li>
+	<li {if $foo == 'addPrize'}class="active"{/if}><a href="{php echo $this->createWebUrl('prize', array('foo' => 'addPrize','op' => 'toAddPrize'))}">添加红包概率</a></li>
+</ul>
+<!-- 
+ <div class="panel panel-info">
+        <div class="panel-body">
+				<a href="{php echo $this->createWebUrl('manage', array('foo' => 'listAct','op' => 'toAddAdditive','aid'=>$aid))}">添加活动附加项</a>
+        </div>
+    </div>
+ -->
+<style>
+.album_list{overflow:hidden; list-style: none; padding:0; margin:0;}
+.album_list li{border:1px #DDD solid; width:232px; float:left; margin-right:15px; margin-bottom:10px;padding:4px;}
+.album_list li .album_pic{display:block; width:224px; height:130px; overflow:hidden;}
+.album_list li .album_pic img{display:block; height:129px; margin:0 auto;}
+.album_list li .album_main{padding:10px; overflow:hidden;}
+.album_list li .album_main .album_title{font-size:16px; height:20px; width:217px; overflow:hidden;}
+.album_list li .album_main .pull-left{color:#999;}
+.album_manage .table th{width:120px;}
+.album_manage #albums_head img{margin-right:10px; max-height:70px;}
+</style>
+<div class="panel-body table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th style="width:10px;"></th>
+								<th style="width:80px;">红包金额</th>
+								<th style="width:150px;">中奖概率</th>
+								<th style="width:150px;">奖品数量</th>
+								<th style="width:150px;">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+						{loop $list $row}
+						<tr>
+							<td>{if count($list) > 0}{/if}</td>
+							<td>
+								<div class="type-parent">{php echo $row['money']/100}元&nbsp;&nbsp;
+
+								</div>
+								</td>
+								<td>
+								<div class="type-parent">{$row['prizeodds']}&nbsp;&nbsp;
+
+								</div>
+								</td>
+								<td>
+								<div class="type-parent">{$row['prizesum']}&nbsp;&nbsp;
+
+								</div>
+								</td>
+							<td>
+								<a href="{php echo $this->createWebUrl('prize', array('op' => 'toEditPrize','foo'=>'listPrize', 'pid' => $row['id']))}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="编辑"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
+								<a href="{php echo $this->createWebUrl('prize', array('op' => 'deletePrize', 'pid' => $row['id']))}" onclick="return confirm('确认删除吗？');return false;" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="删除"><i class="fa fa-times"></i></a>
+							</td>
+						</tr>
+						{/loop}
+						</tbody>
+					</table>
+				</div>
+				 {$pager}
+<div id='msg'></div>
+<script language="javascript">
+function ajaxopen(url) {
+	$.get(url+'&time='+new Date().getTime(), function(data){ 
+                        $("#msg").html(data);
+	});	
+	return false;
+}
+var category = {php echo json_encode($children)};
+function fetchChildCategory(cid) {
+	var html = '<option value="0">请选择二级分类</option>';
+	if (!category || !category[cid]) {
+		$('#cate_2').html(html);
+		return false;
+	}
+	for (i in category[cid]) {
+		html += '<option value="'+category[cid][i][0]+'">'+category[cid][i][1]+'</option>';
+	}
+	$('#cate_2').html(html);
+}
+</script>
+
+{template 'common/footer'}

@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>{$list['title']}</title>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+</head>
+	
+<style>
+#rC_F { background:rgb(52, 73, 94); border:1px solid rgb(52, 73, 94);  }
+</style>
+<script src="http://demo.sc.chinaz.com//Files/DownLoad/webjs1/201505/jiaoben3349/js/jquery.knob.min.js"></script>
+<script src="http://demo.sc.chinaz.com//Files/DownLoad/webjs1/201505/jiaoben3349/js/jquery.ba-throttle-debounce.min.js"></script>
+<script src="http://demo.sc.chinaz.com//Files/DownLoad/webjs1/201505/jiaoben3349/js/jquery.redcountdown.js"></script>
+<body>
+<div id="rC_F" class="redCountdownDemo"></div>
+<script >
+$('#rC_F').redCountdown({
+		end: '1390868325',
+		now: '1388461323',
+		labels: true,
+		labelsOptions: {
+			lang: {
+				days: '天',
+				hours: '时',
+				minutes: '天',
+				seconds: '秒'
+			},
+			style: 'font-size:0.5em; text-transform:uppercase;'
+		},
+		style: {
+			element: "",
+			textResponsive: .5,
+			daysElement: {
+				gauge: {
+					thickness: .1,
+					bgColor: "rgba(0,0,0,0)",
+					fgColor: "#ff6a00"
+				},
+				textCSS: 'font-size:25px; font-weight:300; color:#fff;'
+			},
+			hoursElement: {
+				gauge: {
+					thickness: .1,
+					bgColor: "rgba(0,0,0,0)",
+					fgColor: "#ff6a00"
+				},
+				textCSS: 'font-size:25px; font-weight:300; color:#fff;'
+			},
+			minutesElement: {
+				gauge: {
+					thickness: .1,
+					bgColor: "rgba(0,0,0,0)",
+					fgColor: "#ff6a00"
+				},
+				textCSS: 'font-size:25px; font-weight:300; color:#fff;'
+			},
+			secondsElement: {
+				gauge: {
+					thickness: .1,
+					bgColor: "rgba(0,0,0,0)",
+					fgColor: "#ff6a00"
+				},
+				textCSS: 'font-size:25px; font-weight:300; color:#fff;'
+			}
+			
+		},
+		onEndCallback: function() {$("#rC_F").hide()}
+	});
+	
+</script>
+</body>
+</html>

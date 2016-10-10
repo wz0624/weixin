@@ -1,0 +1,50 @@
+{if $show_footer}
+
+	{if $this->footer['diymenu']}
+		<div id="designer-nav" style="display: none">
+		{template 'designer/menu'}	
+		</div>
+
+	{else}
+		<style type="text/css">
+			{if $this->footer['commission']}
+			footer#footer-nav .menu-list li { width:20%} 
+			{/if} 
+		</style>
+
+		<footer id="footer-nav" style="display: none">
+						<ul class="menu-list" style="margin:0;">
+							<li {if $footer_current=='first'}class='active'{/if}><a href="{php echo $this->footer['first']['url']}"><i class="fa fa-{php echo $this->footer['first']['ico']}"></i><span>{php echo $this->footer['first']['text']}</span></a></li>
+							<li {if $footer_current=='second'}class='active'{/if}><a href="{php echo $this->footer['second']['url']}"><i class="fa fa-{php echo $this->footer['second']['ico']}"></i><span>{php echo $this->footer['second']['text']}</span></a></li>
+						{if $this->footer['commission']}
+							<li {if $footer_current=='commission'}class='active'{/if}><a href="{php echo $this->footer['commission']['url']}"><i class="fa fa-{php echo $this->footer['commission']['ico']}"></i><span>{php echo $this->footer['commission']['text']}</span></a></li>
+						 {/if} 
+							<li {if $footer_current=='cart'}class='active'{/if}><a href="{php echo $this->createMobileUrl('shop/cart')}"><i class="fa fa-shopping-cart"></i><span>购物车</span></a></li>
+							<li {if $footer_current=='member'}class='active'{/if}><a href="{php echo $this->createMobileUrl('member')}"><i class="fa fa-user"></i><span>会员中心</span></a></li>
+						</ul>
+		</footer>
+	{/if}
+{/if} 
+
+{php $systemcopyright = false}
+{php $psystem = p('system')}
+{if $psystem}
+	   {php $systemcopyright = $psystem->getCopyright()}
+{/if}
+{if $show_footer && $show_copyright}
+     <div style='display:none;margin:0;padding:0;padding-bottom:0px;float:left;width:100%;background-color:{$systemcopyright['bgcolor']}' id="systemcopyright">
+	   {php echo $systemcopyright['copyright']}
+	</div>
+	<div style='height:50px; width:100%;margin:0;padding:0;float:left;display:block;'></div>
+{elseif $show_copyright}
+    <div style='display:none;margin:0;padding:0;padding-bottom:0px;float:left;width:100%;background-color:{$systemcopyright['bgcolor']}' id="systemcopyright">
+	   {php echo $systemcopyright['copyright']}
+   </div>
+   {if $footertype==2 || $hide_footer=1}
+	<div style='height:50px; width:100%;margin:0;padding:0;float:left;display:block;'></div>
+   {/if}
+{elseif $show_footer}
+     <div style='height:50px; width:100%;margin:0;padding:0;float:left;display:block;'></div>
+{/if}
+
+{template 'common/footer_base'} 

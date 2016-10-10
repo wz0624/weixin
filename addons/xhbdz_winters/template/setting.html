@@ -1,0 +1,273 @@
+{template 'common/header'}
+
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" id="setting-form">
+		<div class="panel panel-default">
+			<div class="panel-heading">基本参数设置</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">平台名称</label>
+					<div class="col-sm-8">
+						<input type="text" name="data[name]" class="form-control" value="{$settings['name']}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">首页轮播图</label>
+					<div class="col-sm-8">
+						{php echo tpl_form_field_image('data[logo]', $settings['logo']);}
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">首页轮播图2</label>
+					<div class="col-sm-8">
+						{php echo tpl_form_field_image('data[logo2]', $settings['logo2']);}
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">首页轮播图3</label>
+					<div class="col-sm-8">
+						{php echo tpl_form_field_image('data[logo3]', $settings['logo3']);}
+					</div>
+				</div>
+</div>
+</div>
+
+<div class="panel panel-default">
+			<div class="panel-heading">代理返利设置</div>
+			<div class="panel-body">
+			<div align="center">
+ <div class="input-group form-group" style="width:700px;">
+            <span class="input-group-addon">下一级</span>
+            <input type="text" name="data[parent1]" id="marketprice" class="form-control" value="{$settings['parent1']}" />
+            <span class="input-group-addon">元</span>
+       </div>
+        
+        <div class="input-group form-group" style="width:700px;">
+            <span class="input-group-addon">下二级</span>
+            <input type="text" name="data[parent2]" id="productprice" class="form-control" value="{$settings['parent2']}" />
+            <span class="input-group-addon">元</span>
+        </div>
+
+
+        <div class="input-group form-group" style="width:700px;">
+            <span class="input-group-addon">下三级</span>
+            <input type="text" name="data[parent3]" id="costprice" class="form-control" value="{$settings['parent3']}" />
+            <span class="input-group-addon">元</span>
+        </div>
+        
+        <div class="input-group form-group" style="width:700px;">
+            <span class="input-group-addon">上一级</span>
+            <input type="text" name="data[parent4]" id="costprice" class="form-control" value="{$settings['parent4']}" />
+            <span class="input-group-addon">元</span>
+        </div>
+        
+        <div class="input-group form-group" style="width:700px;">
+            <span class="input-group-addon">上二级</span>
+            <input type="text" name="data[parent5]" id="costprice" class="form-control" value="{$settings['parent5']}" />
+            <span class="input-group-addon">元</span>
+        </div>
+
+
+        <div class="input-group form-group" style="width:700px;">
+            <span class="input-group-addon">上三级</span>
+            <input type="text" name="data[parent6]" id="costprice" class="form-control" value="{$settings['parent6']}" />
+            <span class="input-group-addon">元</span>
+        </div>
+        
+        <div class="input-group form-group" style="width:700px;">
+            <span class="input-group-addon">上四级</span>
+            <input type="text" name="data[parent7]" id="costprice" class="form-control" value="{$settings['parent7']}" />
+            <span class="input-group-addon">元</span>
+        </div>
+        <div class="input-group form-group" style="width:700px;">
+            <span class="input-group-addon">上五级</span>
+            <input type="text" name="data[parent8]" id="costprice" class="form-control" value="{$settings['parent8']}" />
+            <span class="input-group-addon">元</span>
+        </div>
+        <div class="input-group form-group" style="width:700px;">
+            <span class="input-group-addon">上六级</span>
+            <input type="text" name="data[parent9]" id="costprice" class="form-control" value="{$settings['parent9']}" />
+            <span class="input-group-addon">元</span>
+        </div>
+				</div>
+	</div>
+
+				
+	<div class="panel panel-default">
+			<div class="panel-heading">代理红包限制</div>
+			<div class="panel-body">
+			<div align="center">
+		 <div class="input-group form-group" style="width:700px;">
+            <span class="input-group-addon">一级代理</span>
+            <input type="text" name="data[hongbao1]" id="productprice" class="form-control" value="{$settings['hongbao1']}" />
+            <span class="input-group-addon">个红包</span>
+        </div>
+
+
+		<div class="input-group form-group" style="width:700px;">
+            <span class="input-group-addon">二级代理</span>
+            <input type="text" name="data[hongbao2]" id="productprice" class="form-control" value="{$settings['hongbao2']}" />
+            <span class="input-group-addon">个红包</span>
+        </div>
+				
+	        <div class="input-group form-group" style="width:700px;">
+            <span class="input-group-addon">三级代理</span>
+            <input type="text" name="data[hongbao3]" id="productprice" class="form-control" value="{$settings['hongbao3']}" />
+            <span class="input-group-addon">个红包</span>
+        </div>
+         <span style="color:red;font-size :16px">设置0为无限制</span>
+        </div>
+				</div>
+	</div>
+
+	<div class="panel panel-default">
+			<div class="panel-heading">商品关联</div>
+			<div class="panel-body">
+			<div align="center">
+		 <div class="input-group form-group" style="width:700px;">
+            <span class="input-group-addon">一级代理</span>
+            <input type="text" name="data[link1]" id="productprice" class="form-control" value="{$settings['link1']}" />
+            <span class="input-group-addon">商品ID</span>
+        </div>
+
+
+		<div class="input-group form-group" style="width:700px;">
+            <span class="input-group-addon">二级代理</span>
+            <input type="text" name="data[link2]" id="productprice" class="form-control" value="{$settings['link2']}" />
+            <span class="input-group-addon">商品ID</span>
+        </div>
+				
+	        <div class="input-group form-group" style="width:700px;">
+            <span class="input-group-addon">三级代理</span>
+            <input type="text" name="data[link3]" id="productprice" class="form-control" value="{$settings['link3']}" />
+            <span class="input-group-addon">商品ID</span>
+        </div>
+        </div>
+        </div>
+		</div>
+
+	<div class="panel panel-default">
+			<div class="panel-heading">代理名称设置</div>
+			<div class="panel-body">
+			<div align="center">
+			
+		<div class="input-group form-group" style="width:700px;">
+            <span class="input-group-addon">无级别代理</span>
+            <input type="text" name="data[name0]" id="productprice" class="form-control" value="{$settings['name0']}" />
+            <span class="input-group-addon">名称</span>
+        </div>	
+		 <div class="input-group form-group" style="width:700px;">
+            <span class="input-group-addon">一级代理</span>
+            <input type="text" name="data[name1]" id="productprice" class="form-control" value="{$settings['name1']}" />
+            <span class="input-group-addon">名称</span>
+        </div>
+
+
+		<div class="input-group form-group" style="width:700px;">
+            <span class="input-group-addon">二级代理</span>
+            <input type="text" name="data[name2]" id="productprice" class="form-control" value="{$settings['name2']}" />
+            <span class="input-group-addon">名称</span>
+        </div>
+				
+	        <div class="input-group form-group" style="width:700px;">
+            <span class="input-group-addon">三级代理</span>
+            <input type="text" name="data[name3]" id="productprice" class="form-control" value="{$settings['name3']}" />
+            <span class="input-group-addon">名称</span>
+        </div>
+        </div>
+        </div>
+		</div>
+
+
+		<div class="panel panel-default">
+			<div class="panel-heading">二维码设置</div>
+			<div class="panel-body">
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">二维码图片</label>
+					<div class="col-sm-8">
+						{php echo tpl_form_field_image('data[qr]', $settings['qr']);}
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">二维码X位置</label>
+					<div class="col-sm-8">
+						<input type="text" name="data[qrx]" class="form-control" value="{$settings['qrx']}" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">二维码Y位置</label>
+					<div class="col-sm-8">
+						<input type="text" name="data[qry]" class="form-control" value="{$settings['qry']}" />
+					</div>
+				</div>
+				<a class="btn btn-primary" href="{php echo $this->createWebUrl('setting', array('a'=>'module','c'=>'profile','op'=>'qrtru'));}">清除海报缓存</a>
+				</div>
+				</div>
+				
+					<div class="panel panel-default">
+			<div class="panel-heading">提现设置</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">appid</label>
+					<div class="col-sm-8">
+						<input type="text" name="data[appid]" class="form-control" value="{$settings['appid']}" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">支付商户ID</label>
+					<div class="col-sm-8">
+						<input type="text" name="data[machid]" class="form-control" value="{$settings['machid']}" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">支付商户密钥</label>
+					<div class="col-sm-8">
+						<input type="text" name="data[key]" class="form-control" value="{$settings['key']}" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">红包名称</label>
+					<div class="col-sm-8">
+						<input type="text" name="data[act_name]" class="form-control" value="{$settings['act_name']}" />
+						<br /><span style="color:red;font-size :16px">请自行将证书上传至【cert】根目录中</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-xs-12 col-sm-9 col-md-10 col-lg-10 col-sm-offset-3 col-md-offset-2 col-lg-offset-2">
+						<input name="submit" type="submit" value="提交" class="btn btn-primary" />
+						<input type="hidden" name="token" value="{$_W['token']}" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script>
+require(['jquery', 'util'], function($, util){
+	$(function(){
+		$('#setting-form').submit(function(){
+			var result = true;
+			if($('input[name="data[name]"]').val() == ''){
+				result = false;
+				util.message('平台名称.');
+			}
+			if($('input[name="data[logo]"]').val() == ''){
+				result = false;
+				util.message('未填加首页轮播');
+			}
+			return result;
+		});
+	});
+});
+</script>
+
+{template 'common/footer'}

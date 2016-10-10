@@ -1,0 +1,59 @@
+{template 'common/header'}
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">问题列表</div>
+  <div class="panel-body">
+    <!-- <p>...</p> -->
+  </div>
+
+  <!-- Table -->
+  <table class="table">
+   <thead class="navbar-inner" style="">
+						<tr>
+							<th style="width:30px;text-align: center;">ID</th>
+							<th style="width:40px;text-align: center;">问题名称</th>
+							<th style="width:100px;text-align: center;">状态</th>
+							<th style="width:100px;text-align: center;">修改</th>
+						</tr>
+					</thead>
+
+					<tbody style="text-align: center;">
+					{loop $accounts $num $item}
+					<tr>
+							<td>{$num}</td>
+							<td>{$item['title']}</td>
+							<td>
+								<label data="2" class="label label-default label-info" onclick="setProperty(this,{$item['id']},'status')">显示</label>
+								</td>
+							<td>
+								<a href="{php echo $this->createWebUrl('Category', array('op' => 'edit', questionid=> $item['id']));}" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="" data-original-title="编辑"><i class="fa fa-pencil"></i></a>
+								<a href="{php echo $this->createWebUrl('Category', array('op' => 'delete', questionid=> $item['id']));}" onclick="return confirm('确认删除？');return false;" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="删除"><i class="fa fa-times"></i>
+							</a>
+								
+							</td>
+						</tr>
+						{/loop}
+					</tbody>
+  </table>
+</div>
+
+<script>
+	function setProperty(obj,id,type){
+		$(obj).html($(obj).html() + "...");
+		$.post("{php echo $this->createWebUrl('Category', array('op' => 'hold'));}"
+			,{id:id,type:type, data: obj.getAttribute("data")}
+			,function(d){
+				$(obj).html($(obj).html().replace("...",""));
+				if(type=='status'){
+				 $(obj).html( d.data=='2'?'显示':'隐藏');
+				}
+				$(obj).attr("data",d.data);
+				if(d.result==1){
+					$(obj).toggleClass("label-info");
+				}
+			}
+			,"json"
+		);
+	}
+</script>
+{template 'common/footer'}

@@ -1,0 +1,17 @@
+﻿<script type="text/javascript">
+	require(['jquery', 'util'], function($, util){
+		var sharedata = {
+	        "imgUrl" : "{php echo tomedia($config['sharepic'])}",
+	        "link" : "{$_W['siteroot']}app{php echo substr($this->createMobileUrl('member'),1,strlen($this->createMobileUrl('member')))}",
+	        "desc" : "{$config['sharedesc']}",
+	        "title" : "{$config['sharetitle']}"
+	    };		
+		wx.ready(function () {
+			wx.showOptionMenu();
+			wx.onMenuShareAppMessage(sharedata);
+			wx.onMenuShareTimeline(sharedata);
+			wx.onMenuShareQQ(sharedata);
+			wx.onMenuShareWeibo(sharedata);
+		});
+	});
+</script>

@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.012wz.com" versionCode="0.6">
+	<application setting="false">
+		<name><![CDATA[ 客栈免费住]]></name>
+		<identifie><![CDATA[hc_chuansong]]></identifie>
+		<version><![CDATA[1.2.1]]></version>
+		<type><![CDATA[services]]></type>
+		<ability><![CDATA[客栈免费住]]></ability>
+		<description><![CDATA[]]></description>
+		<author><![CDATA[易福源码]]></author>
+		<url><![CDATA[http://www.efwww.com/]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+	</platform>
+	<bindings>
+    <cover>
+        <entry title="候选名单入口" do="userlist" />
+    </cover>
+		<menu>
+			<entry title="活动管理" do="list" state="" direct="false" />
+			<entry title="使用说明" do="help" state="" direct="false" />
+							</menu>
+		<home call="getHomeTiles">
+		</home>
+		<profile>
+
+		</profile>
+	</bindings>
+	<install><![CDATA[
+DROP TABLE IF EXISTS `ims_hc_chuansong_list`;
+CREATE TABLE `ims_hc_chuansong_list` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `weid` int(11) DEFAULT NULL,
+  `title` varchar(50) DEFAULT NULL,
+  `thumb` varchar(255) DEFAULT NULL,
+  `str1` varchar(50) DEFAULT NULL,
+  `page_title` varchar(50) DEFAULT NULL,
+  `desc` varchar(255) DEFAULT NULL,
+  `valid_valid` int(11) DEFAULT NULL,
+  `starttime` int(11) DEFAULT NULL,
+  `endtime` int(11) DEFAULT NULL,
+  `page_parttime` int(11) NOT NULL,
+  `part_time` int(11) NOT NULL COMMENT '两次领奖的时间间隔',
+  `total_nums` int(11) NOT NULL,
+  `join_nums` int(11) NOT NULL COMMENT '参加人数',
+  `limit_nums` int(11) NOT NULL,
+  `is_default` tinyint(4) NOT NULL,
+  `result_thumb` varchar(255) NOT NULL,
+  `houxuan_thumb` varchar(255) DEFAULT NULL,
+  `status` tinyint(4) NOT NULL,
+  `create_time` int(10) NOT NULL,
+  `share_title` varchar(50) DEFAULT NULL,
+  `share_thumb` varchar(255) DEFAULT NULL,
+  `share_desc` varchar(255) DEFAULT NULL,
+  `share_link` varchar(255) DEFAULT NULL,
+  `home_color` varchar(20) DEFAULT NULL,
+  `regist_color` varchar(20) DEFAULT NULL,
+  `share_detail` text,
+  `share_kouhao` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `ims_hc_chuansong_reply`;
+CREATE TABLE `ims_hc_chuansong_reply` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `weid` int(11) DEFAULT NULL,
+  `rid` int(11) DEFAULT NULL,
+  `istype` tinyint(1) DEFAULT NULL,
+  `hc_chuansongid` int(11) NOT NULL,
+  `title` varchar(50) DEFAULT NULL,
+  `cover` varchar(255) DEFAULT NULL,
+  `desc` text,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `ims_hc_chuansong_user`;
+CREATE TABLE `ims_hc_chuansong_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `weid` int(11) DEFAULT NULL,
+  `pid` int(11) DEFAULT NULL,
+  `from_user` varchar(50) DEFAULT NULL,
+  `nickname` varchar(50) DEFAULT NULL,
+  `headimgurl` varchar(255) DEFAULT NULL,
+  `realname` varchar(50) DEFAULT NULL,
+  `mobile` varchar(20) DEFAULT NULL,
+  `award_no` int(11) NOT NULL,
+  `hits` int(11) NOT NULL,
+  `create_time` int(10) NOT NULL,
+  `status` tinyint(2) NOT NULL,
+  `is_award` tinyint(1) NOT NULL COMMENT '是否获奖',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+    ]]></install>
+	<uninstall><![CDATA[
+DROP TABLE IF EXISTS `ims_hc_chuansong_user`;
+DROP TABLE IF EXISTS `ims_hc_chuansong_reply`;
+DROP TABLE IF EXISTS `ims_hc_chuansong_list`;
+
+    ]]></uninstall>
+	<upgrade><![CDATA[update.php]]></upgrade>
+</manifest>

@@ -1,0 +1,233 @@
+{template 'common/header'}
+<div>
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
+                                                  data-toggle="tab">编辑优惠活动</a></li>
+        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">消息推送设置</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="home">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label" style="margin-top: 10px">活动名称:</label>
+                        <div class="col-sm-9 col-xs-12 col-md-10">
+                            <p class="form-control-static" style="margin-top: 10px">
+                                <input type="text" class="form-control" id="name" value="{$activity['name']}">
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label" style="margin-top: 10px">发放总数:</label>
+
+                        <div class="col-sm-9 col-xs-12 col-md-10">
+                            <p class="form-control-static" style="margin-top: 10px">
+                                <input type="text" class="form-control" id="total" value="{$activity['total']}">
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label" style="margin-top: 10px">优惠券id列表:</label>
+
+                        <div class="col-sm-9 col-xs-12 col-md-10">
+                            <p class="form-control-static" style="margin-top: 10px">
+                                <input type="text" class="form-control" id="coupon_ids"
+                                       value="{$activity['coupon_ids']}">
+                                <!-- Button trigger modal -->
+                            </p>
+
+                            <p class="form-control-static" style="margin-top: 10px">
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#myModal">
+                                    选择优惠券
+                                </button>
+                            </p>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label" style="margin-top: 10px">首页图片</label>
+
+                        <div class="col-sm-9 col-xs-12 col-md-10" style="margin-top: 10px">
+                            {php echo tpl_form_field_image('thumb', $activity['thumb'])}
+                            <span class="help-block">图片建议为640X300</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label" style="margin-top: 10px">图片跳转地址:</label>
+
+                        <div class="col-sm-9 col-xs-12 col-md-10">
+                            <p class="form-control-static" style="margin-top: 10px">
+                                <input type="text" class="form-control" id="url" value="{$activity['url']}">
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+
+                        <div class="col-sm-9 col-xs-12 col-md-10" style="margin-top: 10px">
+                            <input type="hidden" id="id" value="{$activity['id']}">
+                            <button type="button" class="btn btn-primary" id="submit">修改活动信息</button>
+                            <a class="btn btn-default" href="/index.php?c=home&a=welcome&do=ext&m=yike_activity_coupon">返回</a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="profile">
+            <div class="panel panel-default">
+                <div class="panel-body table-responsive">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">获得代金券通知</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" placeholder="填写模板ID" id="getId">
+
+                                <p>*公众平台模板消息标题: 优惠券领取成功通知,公众平台模板消息编号: OPENTM200474379</p>
+                            </div>
+                            <div class="col-sm-offset-2 col-sm-8">
+                                <input class="form-control" placeholder="首部消息" id="getHead">
+                                <p>*顶部提示消息，例：尊敬的客户，您已获得唯品会代金券</p>
+                            </div>
+                            <div class="col-sm-offset-2 col-sm-8">
+                                <input class="form-control" placeholder="尾部消息" id="getTail">
+                                <p>*尾部提示消息，例：如有疑问，请拨打咨询热线4006789888。</p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">代金券过期通知</label>
+
+                            <div class="col-sm-8">
+                                <input class="form-control" placeholder="填写模板ID" id="overId">
+                                <p>*公众平台模板消息标题: 优惠券使用通知,公众平台模板消息编号: OPENTM206702416</p>
+                            </div>
+                            <div class="col-sm-offset-2 col-sm-8">
+                                <input class="form-control" placeholder="首部消息" id="overHead">
+                                <p>*顶部提示消息，例：尊敬的用户您有优惠券即将过期</p>
+                            </div>
+                            <div class="col-sm-offset-2 col-sm-8">
+                                <input class="form-control" placeholder="尾部消息" id="overTail">
+                                <p>*尾部提示消息，例：如有疑问，请拨打咨询热线4006789888。</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">代金券使用通知</label>
+
+                            <div class="col-sm-8">
+                                <input class="form-control" placeholder="填写模板ID" id="useId">
+                                <p>*公众平台模板消息标题: 优惠券过期提醒,公众平台模板消息编号: OPENTM206706184</p>
+                            </div>
+                            <div class="col-sm-offset-2 col-sm-8">
+                                <input class="form-control" placeholder="首部消息" id="useHead">
+                                <p>*顶部提示消息，例：尊敬的用户您有优惠券可以使用</p>
+                            </div>
+                            <div class="col-sm-offset-2 col-sm-8">
+                                <input class="form-control" placeholder="尾部消息" id="useTail">
+                                <p>*尾部提示消息，例：如有疑问，请拨打咨询热线4006789888。</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-8">
+                                <button type="button" class="btn btn-success" id="save"> 保存</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">优惠券列表</h4>
+            </div>
+            <div class="modal-body">
+                <div class="checkbox">
+                    {loop $all_activity $activit}
+                    <label>
+                        <input type="checkbox" value="{$activit['couponid']}" id="checked">
+                        {$activit['title']}
+                    </label><br>
+                    {/loop}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="over">取消</button>
+                <button type="button" class="btn btn-primary" id="check">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#save').click(function () {
+
+        console.log($('#getTail').val());
+        $.post('{php echo $this->createWebUrl("activity", array("op"=>"send"))}', {
+            getId: $('#getId').val(),
+            getHead:$('#getHead').val(),
+            getTail:$('#getTail').val(),
+            overId: $('#overId').val(),
+            overHead: $('#overHead').val(),
+            overTail: $('#overTail').val(),
+            useId: $('#useId').val(),
+            useHead: $('#useHead').val(),
+            useTail: $('#useTail').val(),
+        },function(data){
+            data = JSON.parse(data);
+            if (data.status == 1) {
+                alert('保存通知成功');
+                window.location.reload();
+            }
+
+        })
+    })
+    ;
+    $('#myTabs a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show')
+    });
+    var coupon_ids = [];
+    $('#check').click(function () {
+        coupon_ids = [];
+        $("input[type='checkbox']").each(function () {
+            if ($(this).is(":checked")) {
+                coupon_ids.push($(this).val());
+            }
+        });
+        $('#over').click();
+    });
+    $('#submit').click(function () {
+        var id = $('#id').val();
+        var name = $('#name').val();
+        var total = $('#total').val();
+        var url = $('#url').val();
+        var thumb = $("input[name='thumb']").val();
+        $.post('{php echo $this->createWebUrl("activity", array("op"=>"details"))}', {
+            id: id,
+            name: name,
+            total: total,
+            coupon_ids: coupon_ids.join(','),
+            url: url,
+            thumb: thumb
+        }, function (data) {
+            data = JSON.parse(data);
+            if (data.status == 1) {
+                alert('修改活动成功');
+                window.location.reload();
+            }
+        })
+    })
+</script>

@@ -1,0 +1,276 @@
+<script>
+require(['bootstrap.switch', 'util'], function($, u){
+	$(function(){
+		$('.make-switch').bootstrapSwitch();
+	});
+});
+</script>
+<div class="panel panel-default">
+  <div class="panel-heading"> 添加活动 </div>
+  <input type="hidden" name="reply_id" value="{$reply['id']}" />
+  <div class="panel-body"> {if $reply['rid']}
+  	<div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">连接</label>
+      <div class="col-sm-9">{$_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&do=enter&m=j_shakelucky&id={php echo $rid}</div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">查看内容</label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> 
+        <a href="{php echo $this->createWebUrl('joiner', array('id' => $reply['rid']))}" target="_blank" class="btn btn-default">查看中奖情况</a>
+        <a href="{php echo $this->createWebUrl('export', array('rid' => $reply['rid'],'op'=>'excel'))}" target="_blank" class="btn btn-default">导出中奖纪录</a>
+        </p>
+      </div>
+    </div>
+    {/if}
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">活动标题</label>
+      <div class="col-sm-9">
+        <input type="text" value="{$reply['title']}" class="form-control" name="title" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">状态</label>
+      <div class="col-sm-9">
+        <label class="radio-inline">
+          <input type="radio" name="status" value="1" {if $reply['status'] == 1} checked{/if} />
+          开始</label>
+        <label class="radio-inline">
+          <input type="radio" name="status" value="2" {if $reply['status'] == 2} checked{/if} />
+          结束</label>
+        <label class="radio-inline">
+          <input type="radio" name="status" value="3" {if $reply['status'] == 3} checked{/if} />
+          关闭报名</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">活动图片</label>
+      <div class="col-sm-9"> {php echo tpl_form_field_image('picture', $reply['picture']);}
+        <div class="help-block">用于单图文回复的显示,400*300px</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">转发时小图</label>
+      <div class="col-sm-9">{php echo tpl_form_field_image('clientpic', $reply['clientpic']);}
+        <div class="help-block">转发到朋友圈或者朋友时的图标，120*120</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">顶部图片</label>
+      <div class="col-sm-9">{php echo tpl_form_field_image('titleimg', $reply['titleimg']);}
+        <div class="help-block">手机端，游戏顶部图片680*290</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">游戏底部颜色</label>
+      <div class="col-sm-9">{php echo tpl_form_field_color("bodycolor", $reply['bodycolor'])}
+        <div class="help-block"></div>
+      </div>
+    </div>
+    
+    
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">客户端图片</label>
+      <div class="col-sm-9">{php echo tpl_form_field_image('qrcode', $reply['qrcode']);}
+        <div class="help-block">手机端，中奖纪录顶部图片</div>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">简介</label>
+      <div class="col-sm-9">
+        <textarea style="height:150px;" name="description" class="form-control" cols="60">{$reply['description']}</textarea>
+        <div class="help-block">用于图文显示的简介和转发到朋友圈</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">游戏时间</label>
+      <div class="col-sm-9"> {php echo tpl_form_field_daterange('acttime', array('start' => date('Y-m-d H:i', $reply['starttime']),'end'=> date('Y-m-d H:i', $reply['endtime'])),true)} </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">游戏时段</label>
+      <div class="col-sm-9 form-inline">
+      <div class="input-group ">
+          <span class="input-group-addon">开始</span>
+          {php $game_s=explode(":",$reply['gamestarttime'])}
+          <input type="number" max="24" min="0" value="{php echo $game_s[0]}" style="width:80px" class="form-control" name="gamestarttime_h" >
+          <span class="input-group-addon">
+          	<select name="gamestarttime_m">
+            	<option value="00" {if $game_s[1]=='00'}selected{/if}>00</option>
+                <option value="30" {if $game_s[1]=='30'}selected{/if}>30</option>
+                <option value="59" {if $game_s[1]=='59'}selected{/if}>59</option>
+            </select>
+          </span> </div>
+          
+          <div class="input-group ">
+          <span class="input-group-addon">结束</span>
+          {php $game_e=explode(":",$reply['gameendtime'])}
+          <input type="text" max="24" min="0" value="{php echo $game_e[0]}" style="width:80px" class="form-control" name="gameendtime_h" >
+          <span class="input-group-addon">
+          <select name="gameendtime_m">
+            	<option value="00" {if $game_e[1]=='00'}selected{/if}>00</option>
+                <option value="30" {if $game_e[1]=='30'}selected{/if}>30</option>
+                <option value="59" {if $game_e[1]=='59'}selected{/if}>59</option>
+            </select>
+          </span> </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">活动规则</label>
+      <div class="col-sm-9">
+      {php echo tpl_ueditor('rule', $reply['rule']);}
+        <div class="help-block">活动的相关说明。</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">奖品说明</label>
+      <div class="col-sm-9">
+      	{php echo tpl_ueditor('gamecontent', $reply['gamecontent']);}
+        <div class="help-block">活动奖品介绍。</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">领取方式</label>
+      <div class="col-sm-9">
+        <textarea style="height:150px;" name="content" class="form-control" cols="60">{$reply['content']}</textarea>
+        <div class="help-block">奖品领取方式。</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">限制每人中奖1次</label>
+      <div class="col-sm-9">
+        <label class="radio-inline">
+          <input type="radio" name="onlyone" value="0" {if $reply['onlyone'] == 0} checked{/if} />
+          关闭</label>
+        <label class="radio-inline">
+          <input type="radio" name="onlyone" value="1" {if $reply['onlyone'] == 1} checked{/if} />
+          开启</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">每日可玩次数</label>
+      <div class="col-sm-9 form-inline">
+        <div class="input-group">
+          <input type="text" value="{php echo intval($reply['maxlottery'])}" style="width:60px" class="form-control" name="maxlottery" >
+          <span class="input-group-addon">次</span> </div>
+        <div class="help-block">每日可以多少次；超出后分享给好友可增加次数</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">助力次数</label>
+      <div class="col-sm-9 form-inline">
+        <div class="input-group">
+          <input name="sharehelp" type="text" class="form-control" style="width:60px" value="{php echo intval($reply['sharehelp'])}" maxlength="2" >
+          <span class="input-group-addon">次</span> </div>
+        <div class="help-block">助力最大次数。请到参数设置中开启。最大次数为99次</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">关联活动平台</label>
+      <div class="col-sm-9 form-inline">
+         <select name="fid" class="form-control">
+         	<option value="0">不关联</option>
+            {loop $actList $row}
+            <option value="{$row['id']}" {if $row['id']==$reply['fid']}selected{/if}>{$row['title']}</option>
+            {/loop}
+         </select>
+         <select name="fstatus" class="form-control">
+         	<option value="0">不限</option>
+            <option value="2" {if $reply['fstatus']==2}selected{/if}>仅限审核通过</option>
+         </select>
+         <select name="fattend" class="form-control">
+         	<option value="0" {if $reply['fattend']==0}selected{/if}>不限</option>
+            <option value="1" {if $reply['fattend']==1}selected{/if}>仅限已签到</option>
+         </select>
+        <div class="help-block">如果需要关联活动平台中的活动，请选择活动名称。关联活动后，系统将匹对对方是否参与了活动平台报名，并且满足上面条件方可进入游戏界面。</div>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">参与人数限制</label>
+      <div class="col-sm-9 form-inline">
+        <div class="input-group ">
+          <input type="text" value="{php echo intval($reply['quota'])}" style="width:80px" class="form-control" name="quota" >
+          <span class="input-group-addon">人</span> </div>
+        <div class="help-block">参与人数限制,设置0为不限制</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">验证码</label>
+      <div class="col-sm-9 form-inline">
+          <input type="text" value="{$reply['code']}" style="width:120px" class="form-control" name="code" >
+        <div class="help-block">用于手机端登陆时，验证的作用</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-12 col-sm-3 col-md-2 control-label">奖项设置</label>
+      <div class="col-sm-9 form-inline">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>是否奖品</th>
+              <th style="width:140px"><a href="#" title="奖品的名称" data-toggle="tooltip" data-placement="bottom" class="tips">标题</a></th>
+              <th>赞助商</th>
+              <th>总数量</th>
+              <th>剩余数量</th>
+              <th><a href="#" title="累加最好等于100" data-toggle="tooltip" data-placement="bottom" class="tips">中奖几率</a></th>
+              <th><a href="#" title="加入抽奖" data-toggle="tooltip" data-placement="bottom" class="tips">加入抽奖</a></th>
+              <th><a href="#" title="前台显示的数量会加上这个数字" data-toggle="tooltip" data-placement="bottom" class="tips">加数</a></th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="award">
+          	{loop $list $row}
+            <tr class="awardrow" id="{$row['id']}">
+              <td><input type="checkbox" value="1" name="award-isprize[{$row['id']}]" {if $row['isprize']==1}checked{/if} /></td>
+              <td><input type="text" name="award-title[{$row['id']}]"  style="width:100px" placeholder='如手机' class="form-control"  value="{$row['title']}" /></td>
+              <td><input type="text" name="award-sponsor[{$row['id']}]" style="width:120px" placeholder='如移动，联通' class="form-control"  value="{$row['sponsor']}" /></td>
+              <td><input type="text" name="award-remain[{$row['id']}]" style="width:90px"  class="form-control"  value="{$row['remain']}" /></td>
+              <td><input type="text" name="award-total[{$row['id']}]" style="width:90px" class="form-control"  value="{$row['total']}" /></td>
+              <td><input type="text" name="award-probalilty[{$row['id']}]" style="width:70px" class="form-control"  value="{$row['probalilty']}" /></td>
+              <td><input type="checkbox" value="1" name="award-absolute[{$row['id']}]" {if $row['absolute']==1}checked{/if} /></td>
+              <td><input type="text" name="award-othernum[{$row['id']}]" style="width:70px" class="form-control"  value="{$row['othernum']}" /></td>
+              <td><a onclick="delPrize('{$row['id']}')" class="btn btn-default tips" title="删除" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-times-circle-o"></i></a></td>
+            </tr>
+            {/loop}
+          </tbody>
+        </table>
+        <button onclick="addPrize()" type="button" class="btn btn-default"><i class="fa fa-plus-circle"></i> 添加奖品</button>
+      </div>
+    </div>
+    
+  </div>
+  <!----> 
+</div>
+<script charset="utf-8" src="./resource/script/kindeditor-4.1.10/kindeditor.js"></script>
+<script charset="utf-8" src="./resource/script/kindeditor-4.1.10/lang/zh_CN.js"></script>
+<script type="text/javascript">
+KindEditor.ready(function(K) {
+		window.editor = K.create('.rich-text2');
+		window.editor = K.create('.rich-text3');
+});
+var countattr=0;
+function addPrize(){
+	var temp='<tr class="awardrow" id="n_'+countattr+'"><td><input type="checkbox" value="1" name="award-isprize-new['+countattr+']" checked /></td><td><input type="text" name="award-title-new['+countattr+']"  style="width:100px" placeholder="如手机" class="form-control"/></td>';
+    temp+='<td><input type="text" style="width:120px" name="award-sponsor-new['+countattr+']" placeholder="如移动，联通" class="form-control" /></td><td><input type="text" style="width:90px" readonly class="form-control" /></td><td><input type="text" style="width:90px" name="award-total-new['+countattr+']" class="form-control" /></td>';
+	temp+='<td><input type="text" name="award-probalilty-new['+countattr+']" class="form-control" style="width:70px"  /></td>';
+    temp+='<td><input type="checkbox" name="award-absolute-new['+countattr+']" checked /></td>';
+	temp+='<td><input type="text" name="award-othernum-new['+countattr+']" class="form-control" style="width:70px"  /></td>';
+    temp+='<td><a onclick="delPrize(\'n_'+countattr+'\')" class="btn btn-default tips" title="删除" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-times-circle-o"></i></a></td></tr>';
+	$("#award").append(temp);
+	countattr++;
+}
+function delPrize(id){
+	if(id.indexOf("n")>-1){
+		$("#"+id).remove();
+	}else{
+		if(confirm('确认删除吗？')){
+			$.getJSON("{php echo $this->createWebUrl('ajax',array('op'=>'delaward'))}",{'id':id},function(data){
+				if(data.success){
+					$(".awardrow[id='"+id+"']").remove();
+				}
+			})
+		}
+	}
+}
+</script>

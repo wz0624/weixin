@@ -1,0 +1,81 @@
+<?php defined('IN_IA') or exit('Access Denied');?><?php  include $this->display('common/header'); ?>
+<?php  include $this->display('common'); ?>
+<!-- 引入sweetalert -->
+<link rel="stylesheet" href="../addons/we7_framework//Public//plugins/sweetalert/sweetalert.css">
+<script src="../addons/we7_framework//Public//plugins/sweetalert/sweetalert.min.js"></script>
+<!-- 引入公共js文件 -->
+<script src="../addons/we7_framework//Public//js/public.js"></script>
+
+<ul class="nav nav-tabs">
+	<li><a href="<?php  echo $this->createWebUrl('Nav', array('op' => 'index'))?>">管理导航</a></li>
+	<li class="active"><a href="<?php  echo $this->createWebUrl('Nav', array('op' => 'add'))?>">添加导航</a></li>
+</ul>
+<script>
+	require(['bootstrap'],function($){
+		$('.btn').hover(function(){
+			$(this).tooltip('show');
+		},function(){
+			$(this).tooltip('hide');
+		});
+	});
+</script>
+<div class="main">
+	<form action="" method="post" class="form-horizontal form add_nav" enctype="multipart/form-data" id="form1">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				添加导航
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">选择类型</label>
+					<div class="col-sm-9 col-xs-12">
+						<select name="entry" class="form-control">
+							<?php  if(is_array($nav_list)) { foreach($nav_list as $key => $v) { ?>
+							<option value="<?php  echo $key;?>"><?php  echo $v;?></option>
+							<?php  } } ?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>名称</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="title" class="form-control" placeholder="请输入在导航侧显示的名称" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>操作名</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="do_" class="form-control" value="" />
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="<?php  echo $_W['token'];?>" />
+		</div>
+	</form>
+</div>
+<script>
+	$('.add_nav').submit(function(){
+		var post_data = $(this).serialize();
+		var url = $(this).attr('action');
+		$.ajax({
+			type:'post',
+			url: url,
+			data: post_data,
+			dataType:'json',
+			success:function(res){
+				swal({title:CheckCode(res.Code),text: res.Message,type: CheckCode(res.Code,2)},function(){
+					if(res.Data.url)
+						window.location.href = res.Data.url;
+				});
+			},
+			error:function(){ swal("Error", "请检查您的网络", "error"); }
+		});
+		return false;
+	});
+
+</script>
+<?php  include $this->display('common/footer'); ?>

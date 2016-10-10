@@ -1,0 +1,17 @@
+{template 'common/header'}
+<div class="main">
+<ol>
+	{loop $res $category}
+	<li><a target="_blank" href="{$category['link']}"><h3>{$category['name']}</h3></a></li>
+		<ul>
+			{loop $category['article'] $key $article}
+				<li><a target="_blank" href="{$article['link']}">{$article['title']}</a></li>
+				
+			{/loop}
+			<p style="margin-top:10px;"><a target="_blank" style="color:green;" href="{$category['link']}">点击查看更多</a></p>
+		</ul>
+	<hr/>
+	{/loop}
+</ol>
+</div>
+{template 'common/footer'}

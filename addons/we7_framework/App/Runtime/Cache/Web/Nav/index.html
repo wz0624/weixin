@@ -1,0 +1,95 @@
+<?php defined('IN_IA') or exit('Access Denied');?><?php  include $this->display('common/header'); ?>
+<?php  include $this->display('common'); ?>
+<!-- 引入sweetalert -->
+<link rel="stylesheet" href="../addons/we7_framework//Public//plugins/sweetalert/sweetalert.css">
+<script src="../addons/we7_framework//Public//plugins/sweetalert/sweetalert.min.js"></script>
+<!-- 引入公共js文件 -->
+<script src="../addons/we7_framework//Public//js/public.js"></script>
+
+<ul class="nav nav-tabs">
+	<li class="active"><a href="<?php  echo $this->createWebUrl('Nav', array('op' => 'index'))?>">管理导航</a></li>
+	<li><a href="<?php  echo $this->createWebUrl('Nav', array('op' => 'add'))?>">添加导航</a></li>
+</ul>
+<script>
+	require(['bootstrap'],function($){
+		$('.btn').hover(function(){
+			$(this).tooltip('show');
+		},function(){
+			$(this).tooltip('hide');
+		});
+	});
+</script>
+<div class="main">
+	<div class="category">
+		<form action="" method="post" onsubmit="return formcheck(this)">
+			<div class="panel panel-default">
+				<div class="panel-body table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th style="width:80px;">ID</th>
+								<th style="width:300px;">类型</th>
+								<th style="width:150px;">名称</th>
+								<th style="width:150px;">操作名</th>
+								<th style="width:150px;">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+						<?php  if(is_array($modules)) { foreach($modules as $v) { ?>
+						<tr>
+							<td>
+								<div class="type-parent"><?php  echo $v['eid'];?>
+								</div>
+							</td>
+							<td>
+								<div class="type-parent"><?php  echo $nav_list[$v['entry']];?>
+								</div>
+							</td>
+							<td><?php  echo $v['title'];?>
+							</td>
+							<td>
+								<span class="label label-warning">
+								<?php  echo $v['do'];?>
+							</span>
+							</td>
+							<td>
+								<a href="<?php  echo $this->createWebUrl('Nav', array('op' => 'edit', 'id' => $v['eid']))?>" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="编辑"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
+								<a href="<?php  echo $this->createWebUrl('Nav', array('op' => 'del', 'id' => $v['eid']))?>" class="btn btn-default btn-sm del_nav" data-toggle="tooltip" data-placement="bottom" title="删除"><i class="fa fa-times"></i></a>
+							</td>
+						</tr>
+						<?php  } } ?>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script>
+	$('.del_nav').click(function(){
+		var url = $(this).attr('href');
+		swal({
+			title: "确定要删除吗？",
+			text: "",
+			type: "warning",
+			showCancelButton: true,
+			closeOnConfirm: false,
+			showLoaderOnConfirm: true,
+		}, function () {
+            $.ajax({
+                url: url,
+				dataType:'json',
+                success:function(res){
+                    swal({title:CheckCode(res.Code),text: res.Message,type: CheckCode(res.Code,2)},function(){
+                        if(res.Data.url)
+                            window.location.href = res.Data.url;
+                    });
+                },
+                error:function(){ swal("Error", "请检查您的网络", "error"); }
+            });
+		});
+		return false;
+	});
+
+</script>
+<?php  include $this->display('common/footer'); ?>

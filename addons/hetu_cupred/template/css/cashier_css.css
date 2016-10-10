@@ -1,0 +1,25 @@
+.shop_logo{
+	text-align: center;
+	padding: 100px 0;
+}
+
+.shop_logo h4{
+	margin-top: 10px;
+}
+.shop_logo .ui-avatar-one{
+	margin: 0 auto;
+}
+
+#form_input input{
+	height: 43px;
+	line-break: 43px;
+}
+.paylist button a{
+	display: block;
+}
+.pay_box{
+	margin-top: 150px;
+}
+.pay_info{
+	text-align: center;
+}

@@ -1,0 +1,79 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li><a href="{php echo $this->createWebUrl('list')}">管理圈子</a></li>
+	<li><a href="{php echo $this->createWebUrl('add')}">创建圈子</a></li>
+	<li class="active"><a href="{php echo $this->createWebUrl('view', array('wall_id' => $_GPC['wall_id']))}">{$wall['topic']}数据</a></li>
+</ul>
+
+
+<style>
+	.account-stat{overflow:hidden; color:#666;}
+	.account-stat .account-stat-btn{width:100%; overflow:hidden;}
+	.account-stat .account-stat-btn > div{text-align:center; margin-bottom:5px;float:left;width:33%; height:80px; padding-top:10px;font-size:16px; border-left:1px #DDD solid;}
+	.account-stat .account-stat-btn > div:first-child{border-left:0;}
+	.account-stat .account-stat-btn > div span{display:block; font-size:30px; font-weight:bold}
+</style>
+
+<div class="page-header">
+	<h4>{$wall['topic']}</h4>
+</div>
+<div class="panel panel-default" style="padding:1em;">
+
+	<div class="account-stat">
+		<div class="account-stat-btn">
+			<div>撒钱人数 <span>{$static_piece['u']}</span></div>
+			<div>撒钱次数 <span>{$static_piece['i']}</span></div>
+			<div>撒钱总额<span>{php echo $static_piece['t']/100} 元</span></div>
+		</div>
+	</div>
+
+</div>
+
+<div class="panel panel-default" style="padding:1em;">
+	<div class="account-stat">
+		<div class="account-stat-btn">
+			<div>已抢人数<span>{$static_rob['u']}</span></div>
+			<div>已抢次数<span>{$static_rob['i']}</span></div>
+			<div>抢钱总额<span>{php echo $static_rob['m']/100} 元</span></div>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default" style="padding:1em;">
+	<div class="account-stat">
+		<div class="account-stat-btn">
+			<div>提现人数<span>{$static_transfer['u']}</span></div>
+			<div>提现次数<span>{$static_transfer['i']}</span></div>
+			<div>提现总额<span>{php echo $static_transfer['m']/100} 元</span></div>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default" style="padding:1em;">
+	<div class="account-stat">
+		<div class="account-stat-btn">
+			<div>总人数<span>{$static_user}</span></div>
+			<div>未提现人数<span>{$static_user2['i']}</span></div>
+			<div>未提现总额<span>{php echo $static_user2['m']/100} 元</span></div>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default" style="padding:1em;">
+	<div class="account-stat">
+		<div class="account-stat-btn">
+			<div>收入总额<span>{php echo $static_piece['p']/100} 元</span></div>
+			<div>支出总额<span>{php echo $static_transfer['m']/100 + $static_user2['m']/100} 元</span></div>
+			<div>净利润<span>{php echo $static_piece['p']/100 - $static_transfer['m']/100 - $static_user2['m']/100} 元</span></div>
+		</div>
+	</div>
+</div>
+
+
+
+<script type="text/javascript">
+
+
+</script>
+
+{template 'common/footer'}

@@ -1,0 +1,13 @@
+{template 'header'}
+<style>section{text-align:center}section p{color:#b9a093}</style>
+<header>
+    <span>查看失败</span>
+</header>
+
+<section>
+    <img class="responsive-img" src="{IMG_PATH}error.png">
+    <p>您不是管理员，无法查看订单内容</p>
+    <p>如有任何疑问，可随时联系我们</p>
+    <p>{$config['tel']}</p>
+</section>
+{template 'footer'}

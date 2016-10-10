@@ -1,0 +1,20 @@
+{php echo register_jssdk(false);}
+<script type="text/javascript">
+    wx.ready(function () {
+        sharedata = {
+            title: "{php echo str_replace('#name',$userInfo['nickname'],str_replace('#price',$user['price'],$xkwkj['share_title']))}",
+            desc: "{php echo str_replace('#name',$userInfo['nickname'],str_replace('#price',$user['price'],$xkwkj['share_content']))}",
+            link: "{php echo $this->getShareUrl($xkwkj['id'], $user['id'])}",
+            imgUrl: "{$_W['attachurl']}{$xkwkj['share_icon']}",
+            success: function(){
+
+            },
+            cancel: function(){
+                // alert("分享失败，可能是网络问题，一会儿再试试？");
+            }
+        };
+        wx.onMenuShareAppMessage(sharedata);
+        wx.onMenuShareTimeline(sharedata);
+    });
+
+</script>

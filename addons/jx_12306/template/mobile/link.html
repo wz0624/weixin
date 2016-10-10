@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>{$jx_12306_title}</title>
+    <link type="text/css" rel="stylesheet" href="{RES}mobile/css/main_6226fe8.css">
+
+
+</head>
+<body>
+<!-- 正文 -->
+<div class="wrap">
+    <div class="top" style="background-image:url('{if $photoss}{$_W['attachurl']}{$photoss}{else}../addons/jx_12306/template/mobile/images/top_11bfa29.png{/if}')"></div>
+    <div class="list" id="J_List">
+
+    </div>
+    <div class="btn">
+        <a class="submit-btn" href="javascript:;" id="J_Sub">提交订单</a>
+    </div>
+ 
+</div>
+<div class="alert_wrap" id="J_Alert">
+    <div class="alert_con">
+        <div class="t">温馨提示</div>
+        <div class="c"></div>
+        <div class="b">确定</div>
+    </div>
+</div>
+<div class="tips" id="J_Tips"><span></span></div>
+<div class="shareTip" id="J_ShareTip"><span></span></div>
+<!-- 正文 end -->
+
+<script type="text/javascript" charset="utf-8" src="{RES}mobile/js/zepto_98b86a5.js"></script>
+<script type="text/javascript" charset="utf-8" src="{RES}mobile/js/main_d3b94c9.js"></script>
+<!--分享相关 start-->
+
+<script src="{RES}mobile/js/wx.js"></script>
+<script src="{RES}mobile/js/share.js"></script>
+ {php echo register_jssdk(false);} 
+ 
+		 	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+					{php echo register_jssdk(false);}
+			<script type="text/javascript">
+				wx.ready(function () {
+					sharedata = {
+						title: "{$share_title}",
+						desc: "{$share_desc}",
+						link: "{$homeurl}",
+						imgUrl: "{$_W['attachurl']}{$photo}",
+						success: function(){
+								 window.location.href="{if $jx_12306_url}{$jx_12306_url}{else}{$homeurl}{/if}";
+						},
+						cancel: function(){
+							// alert("分享失败，可能是网络问题，一会儿再试试？");
+							window.location.href="{if $jx_12306_url}{$jx_12306_url}{else}{$homeurl}{/if}";
+							
+						}
+					};
+					wx.onMenuShareAppMessage(sharedata);
+					wx.onMenuShareTimeline(sharedata);
+				});
+
+			</script>
+<!--分享相关 start-->
+
+</body>
+</html>
+

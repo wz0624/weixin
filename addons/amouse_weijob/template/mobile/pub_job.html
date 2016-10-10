@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=no">
+<title>求职</title>
+<link type="text/css" rel="stylesheet" href="../addons/amouse_weijob/style/css/base.css?v=20150419">
+<link type="text/css" rel="stylesheet" href="../addons/amouse_weijob/style/css/resume.css?v=20150419">
+<style>
+    .head {
+        text-align: left;
+        padding-top: 0px;
+        height: 50px;
+        line-height: 50px;
+        background-image: none;
+    }
+    .head a.job-back {
+        width: 80px;
+        height: 50px;
+        background: url("../addons/amouse_weijob/style/images/icon_job_back.png") left center no-repeat;
+        background-size: 11px 15px;
+    }
+</style>
+    <script  type="text/javascript"  src="../addons/amouse_weijob/style/js/jquery.min.js?v=20150419"></script>
+<body style="">
+<div class="mm-page">
+    <div class="head" style="text-align: center;">
+        <a href="{php echo $this->createMobileUrl('index',array('wid'=>$from_user),true)}" style="margin-left:10px" class="job-back">
+            <span style="color:white;font-size:15px;">找工作</span>
+        </a>
+        发布求职
+        <a href="{php echo $this->createMobileUrl('resumeRecod',array('from_user'=>$from_user),true)}" class="right-pic" style="margin-right:10px">
+            <span style="padding-right:15px;">投简记录</span>
+        </a>
+    </div>
+    <div class="contents">
+        <div class="resume-tabs">
+            <form action="" method="post" enctype="multipart/form-data" id="myform" name="myform">
+                <input type="hidden" name="id" value="{$item[id]}">
+                <p class="clearfix form-item" style="padding-top:20px">
+                    <label><span class="red-color">*</span>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</label>
+                    <input type="text" name="name" value="{$item['name']}" placeholder="填写你的姓名">
+                    <label class="error"></label>
+                </p>
+
+                <p class="clearfix form-item">
+                    <label><span class="red-color">*</span>联系电话</label>
+                    <input type="text" name="mobile" value="{$item['mobile']}" placeholder="请输入你的电话">
+                    <label class="error"></label>
+                </p>
+
+                <p class="clearfix form-item">
+                    <label>期望工作</label>
+                    <input type="text" name="work" value="{$item['work']}">
+                </p>
+
+
+                <p class="clearfix form-item">
+                    <label class="mysex" data-id="1">
+                        <span class="red-color">*</span>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别</label>
+                    <label class="person-sex">
+                        <input type="radio" class="resume_sex" name="sex" id="sex" value="0" {if $item['sex'] == 0}checked="checked"{/if}>男</label>
+                    <label class="person-sex">
+                        <input type="radio" class="resume_sex" name="sex" value="1" id="sex" {if $item['sex'] == 1}checked="checked"{/if}>女</label>
+                </p>
+
+                <p class="clearfix form-item">
+                    <label for="age"><span class="red-color">*</span>出生年月</label>
+                    <input type="text"  name="age" id="age" value="{$item['age']}" readonly="readonly" />
+                    <label class="error"></label>
+                    <link rel="stylesheet" href="../addons/amouse_weijob/style/css/mobiscroll.custom-2.6.2.min.css"  />
+                    <script src="../addons/amouse_weijob/style/js/mobiscroll.custom-2.6.2.min.js?v=2014060101"></script>
+                    <script type="text/javascript">
+                        $(function () {
+                            var opt = {
+                                preset: 'date', //日期
+                                theme: 'ios', //皮肤样式
+                                display: 'modal', //显示方式
+                                mode: 'scroller', //日期选择模式
+                                dateFormat: 'yy-mm-dd', // 日期格式
+                                setText: '确定', //确认按钮名称
+                                cancelText: '取消',//取消按钮名籍我
+                                dateOrder: 'yymmdd', //面板中日期排列格式
+                                dayText: '日', monthText: '月', yearText: '年', //面板中年月日文字
+                                startYear:1970,
+                                endYear:2023, //结束年份
+                                display:'bottom'
+                            };
+                            $('#age').mobiscroll(opt);
+                        });
+                    </script>
+                </p>
+
+                <p class="clearfix form-item">
+                    <label for="person_age"><span class="red-color">*</span>学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;历</label>
+                    <select  id="selectEdu" name="selectEdu" style="float: left; width: 65%; height: 35px; border: 1px solid #e2e2e2; border-radius: 4px;background-color: #fff; line-height: 35px; color: #6a6c6c; margin-left: 15px;">
+                            <option value="-1" disabled="disabled">请选择最高学历</option>
+                            <option value="高中以下" {if $item['edu']=='高中以下'}selected{/if}>高中以下</option>
+                            <option value="高中" {if $item['edu']=='高中'}selected{/if}>高中</option>
+                            <option value="中专/技校" {if $item['edu']=='中专/技校'}selected{/if}>中专/技校</option>
+                            <option value="大专" {if $item['edu']=='大专'}selected{/if}>大专</option>
+                            <option value="本科" {if $item['edu']=='本科'}selected{/if}>本科</option>
+                            <option value="硕士" {if $item['edu']=='硕士'}selected{/if}>硕士</option>
+                            <option value="博士" {if $item['edu']=='博士'}selected{/if}>博士</option>
+                            <option value="MBA/EMBA" {if $item['edu']=='MBA/EMBA'}selected{/if}>MBA/EMBA</option>
+                        </select>
+                    </select>
+                    <label class="error"></label>
+                </p>
+
+                <p class="clearfix form-item">
+                    <label for="person_age"><span class="red-color">*</span>期望工资</label>
+                    <select  id="salary" name="salary" style="float: left; width: 65%; height: 35px; border: 1px solid #e2e2e2; border-radius: 4px;background-color: #fff; line-height: 35px; color: #6a6c6c; margin-left: 15px;">
+                        <option value="-1" disabled="disabled">请选择您期望的薪资</option>
+                        <option value="面议" {if $item['salary']=='面议'}selected{/if}>面议</option>
+                        <option value="1000以下" {if $item['salary']=='1000以下'}selected{/if}>1000以下</option>
+                        <option value="1000-2000" {if $item['salary']=='1000-2000'}selected{/if}>1000-2000</option>
+                        <option value="2000-3000" {if $item['salary']=='2000-3000'}selected{/if}>2000-3000</option>
+                        <option value="3000-5000" {if $item['salary']=='3000-5000'}selected{/if}>3000-5000</option>
+                        <option value="5000-8000" {if $item['salary']=='5000-8000'}selected{/if}>5000-8000</option>
+                        <option value="8000以上" {if $item['salary']=='8000以上'}selected{/if}>8000以上</option>
+                    </select>
+                    </select>
+                    <label class="error"></label>
+                </p>
+
+
+                <p class="clearfix form-item">
+                    <label>工作地点</label>
+                    <input type="text" name="addr" placeholder="填写您的工作位置" value="{$item['addr']}">
+                </p>
+
+
+                <p class="clearfix form-item">
+                    <label><span class="red-color">*</span>自我介绍</label>
+                    <textarea name="description" placeholder="说说您的经历和个人亮点" type="text">{$item['description']}</textarea>
+                    <label class="error"></label>
+                </p>
+
+                <button type="submit" onclick="sub()" class="submit" name="submit" value="保存">保存</button>
+                <input type="hidden" name="token" value="{$_W['token']}"/>
+            </form>
+        </div>
+
+    </div>
+</div>
+<div class="footer"></div>
+<div id="mm-blocker" style="opacity: 0;"></div>
+</body>
+<script type="text/javascript" src="../addons/amouse_weijob/style/js/alert.js?v=20150419"></script>
+<script type="text/javascript" src="../addons/amouse_weijob/style/js/resume.js?v=20150419"></script>
+<script>
+    function sub() {
+        alert('本人确认以上填写信息属实，如填写虚假信息，愿意为此承担全部责任!');
+    }
+</script>
+</html>

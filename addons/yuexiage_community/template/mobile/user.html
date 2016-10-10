@@ -1,0 +1,152 @@
+{template 'header'}
+<link rel="stylesheet" type="text/css" href="{$_W['siteroot']}addons/yuexiage_community/images/css/base.css?{TIMESTAMP}">
+<link rel="stylesheet" type="text/css" href="{$_W['siteroot']}addons/yuexiage_community/images/css/index.css?{TIMESTAMP}">
+<link rel="stylesheet" type="text/css" href="{$_W['siteroot']}addons/yuexiage_community/images/css/jquery-sinaEmotion-2.1.0.min.css" />
+<script type="text/javascript" src="{$_W['siteroot']}addons/yuexiage_community/images/js/jquery-sinaEmotion-2.1.0.min.js"></script>
+<style>
+    .panel-heading .pull-left,.panel-heading .pull-right{
+        color: #2fa5ff !important;
+    }
+    .detail .panel-heading{
+        text-align: center;
+    }
+    .avatar{
+        float: left;
+        width: 50px;
+        margin-right: 15px;
+    }
+    .avatar img{
+        width: 50px;
+        height: 50px;
+        border-radius: 25px;
+    }
+    .detail .panel-body {
+        line-height: 50px;
+        padding: 10px;
+    }
+    .detail .navbar-fixed-bottom{
+        border-top: 1px solid #e5e5e5
+    }
+    .btn-sm {
+        margin: 5px;
+        padding: 0px 15px;
+        border-radius: 23px;
+    }
+    #mcover{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0, 0, 0, 0.7);display:none;z-index:20000;}
+    #mcover img{position:fixed;right: 18px;top:5px;width:260px;height:180px;z-index:20001;}
+    #mbutton{padding:15px 10px 15px 10px; overflow:hidden; border-bottom:1px #DDD solid;}
+    #mbutton > span{float:right; display:inline-block; background:#58a3ff; border:1px #63a0eb solid; color:#FFF; height:30px; line-height:30px; padding:0 10px; margin-left:10px;}
+    #mcover{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0, 0, 0, 0.7);display:none;z-index:20000;}
+    #mcover img{position:fixed;right: 18px;top:5px;width:260px;height:180px;z-index:20001;}
+    .content_list img{    
+        padding: 5px;
+        float: left;
+    }
+    .content_list a{
+        height: auto;
+        overflow: hidden;
+    }
+    .content_list h4{
+        padding:5px;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .del{
+        border-radius: 25px;
+        position: absolute;
+        float: right;
+        right: 5px;
+        padding:10px;
+        top: 10px;
+        border: #ccc 1px solid;
+    }
+</style>
+
+<script type="text/javascript">
+    function nofind(){
+        var img=event.srcElement;
+        img.src="resource/images/heading.jpg";
+        img.onerror=null; 
+    }
+</script>
+<div class="panel panel-default detail ">
+    <div class="panel-heading">
+        <a href="javascript:history.go(-1)" class="navbar-link pull-left"> <i class="glyphicon glyphicon-chevron-left"></i> </a> 
+            用户信息
+    </div>
+    <div class="panel-body">
+        <div class="avatar">
+            <img src="{$user['avatar']}" alt="" onerror="nofind();">
+        </div>
+        {$user['nickname']}
+        <div class="createtime pull-right">
+            积分 {$user['credit1']}
+        </div>
+    </div>
+
+    <div class="list-group content_list">
+        {loop $contents $content}
+            <a href="{php echo $this->createMobileUrl('detail', array('id'=>$content['id']));}" class="list-group-item">
+                <img src="{php echo tomedia($content['thumb']);}" width="80px" height="80px;" >
+                <h4 class="list-group-item-heading">{php echo $content['title'];}</h4>
+                <p class="list-group-item-text">{php echo mb_substr(strip_tags($content['content']), 0, 20, 'utf-8');}</p>
+                <input type="hidden" class="id" value="{php echo $content['id'];}">
+            </a>
+        {/loop}
+    </div>
+
+
+<script>
+    sharedata = {
+        title: "{$user['nickname']}",
+        desc: "",
+        link: "{php echo $_W['siteroot'].$this->createMobileUrl('user', array('uid'=>$uid));}",
+        imgUrl: "{$user['avatar']}",
+        success: function(){
+            //alert('xixi');
+        }
+    };
+
+</script>
+   
+<script>
+    var timeOutEvent=0;
+    $(function(){
+        $(".content_list a").on({
+            touchstart: function(e){
+                id = $(".id",this).val();
+                title=$("h4",this).text();
+                index = $(this).index();
+                timeOutEvent = setTimeout("longPress(id,title,index)",1500);
+            },
+            touchmove: function(){
+                    clearTimeout(timeOutEvent); 
+                    timeOutEvent = 0; 
+            },
+            touchend: function(){
+                clearTimeout(timeOutEvent);
+            }
+        })
+    });
+    function longPress(id,title,index){ 
+        timeOutEvent = 0; 
+        if (confirm("你确定删除"+title+"吗？")) {  
+            
+            $.post("{php echo $this->createMobileUrl('delContent', array('id'=>id));}",{id: id},function(data){
+               if (data==1) {
+                    $(".content_list a:eq("+index+")").remove(); 
+               };
+            });
+        }  
+        
+    } 
+</script>
+
+
+</div>
+<div id="mcover" onclick="$(this).hide()"><img src="./resource/images/guide.png"></div>
+
+{template 'footer'}
+

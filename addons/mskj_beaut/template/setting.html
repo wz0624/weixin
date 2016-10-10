@@ -1,0 +1,32 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+    <li class="active"><a href="javascript:;">模块功能说明</a></li>
+</ul>
+<div class="clearfix">
+    <div class="alert alert-info">
+        <h4>功能说明</h4>
+        <p>
+            添加好关键字(如: 美女, 福利)以后, 接入微信公众号. 粉丝在直接输入关键字, 系统将自动搜素网络并抓取图片发送给粉丝
+        </p>
+        <p>
+            简单粗暴, 直接有效. 宅男都喜欢
+        </p>
+    </div>
+    <div class="alert alert-danger" style="line-height:1.8em;">
+        <h4>系统说明</h4>
+        <p>
+            系统将自动抓取网络上的图片发送给粉丝(主要是通过百度或搜狗之类的搜索引擎)
+        </p>
+        <br>
+        <h4>今日已经使用过的搜素关键词</h4>
+        <p>
+            {if !empty($alreadyWords)}
+            {loop $alreadyWords $word}
+            <a class="btn btn-default" href="javascript:;">{$word}</a> &nbsp;
+            {/loop}
+            {/if}
+        </p>
+    </div>
+</div>
+{template 'common/footer'}
+

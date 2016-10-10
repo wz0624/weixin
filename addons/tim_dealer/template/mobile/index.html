@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<meta name="viewport"  content="width=device-width,user-scalable=no">
+	<meta name="copyright" content="">
+	<meta name="Keywords" content="">
+	<meta name="description" content="">
+	<title>{$setting[0]['title']}</title>
+</head>
+<link href="<?php echo MODULE_URL;?>/template/mobile/css/style.css?f=tt34" rel="stylesheet" type="text/css" />
+<body>
+	<div id="content">
+			<div id="slideBox" class="slideBox">
+				<div class="bd">
+					<ul>
+						{loop $ppt_list $row}
+						<li>
+							<a class="pic" href="{$row['url']}"><img src="{$_W['attachurl']}{$row['picture']}" /></a>
+							<a class="tit" href="{$row['url']}">{$row['pic_intro']}</a>
+						</li>
+						{/loop}
+					</ul>
+				</div>
+				<div class="hd"><ul></ul></div>
+			</div>
+			<div class="searchForm">
+				<h3>{$setting[0]['title']}</h3>
+				<form method="post" action="{php echo $this->createMobileUrl('search')}">
+				<p>所属省份</p>
+				<div class="styled-select">
+					<select id="s_province" name="province"></select>
+				</div>
+				<p>所属城市</p>
+				<div class="styled-select">
+    				<select id="s_city" name="city" ></select>
+    			</div>
+    			<input type="submit" value="查询经销商" />
+				</form>
+			</div>
+	</div>
+	<div class="buttom_pic"><img src="{$_W['attachurl']}{$setting[0]['page_cover']}"/></div>
+	<div class="footer">{$setting[0]['copyright']}</div>
+	<script src="<?php echo MODULE_URL;?>/template/mobile/js/TouchSlide.1.1.js"></script>
+	<script src="<?php echo MODULE_URL;?>/template/mobile/js/area.js"></script>
+	<script type="text/javascript">_init_area();</script>
+	<script type="text/javascript">
+		function Gid($){
+			return document.getElementById($);
+		}
+		var showArea = function(){
+			Gid('show').innerHTML = "<h3>省" + Gid('s_province').value + " - 市" + 	
+			Gid('s_city').value + " - 县/区" + 
+			Gid('s_county').value + "</h3>"
+		}
+	</script>
+	<script type="text/javascript">
+		TouchSlide({ 
+			slideCell:"#slideBox",
+			titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+			mainCell:".bd ul", 
+			effect:"leftLoop", 
+			interTime: 3000,
+			autoPage:true,//自动分页
+			autoPlay:true //自动播放
+		});
+	</script>
+	{php echo register_jssdk(false);}
+<script type="text/javascript">
+    initShare();
+    function initShare(){
+        wx.ready(function () {
+            sharedata = {
+                title: "{php echo $setting[0]['share_title']}",
+                desc: "{php echo $setting[0]['share_content']}",
+                link: window.location.href,
+                imgUrl: "{$_W['attachurl']}{$setting[0]['share_icon']}",
+                success: function(){
+
+                },
+                cancel: function(){
+                    //alert("分享失败，可能是网络问题，一会儿再试试？");
+                }
+            };
+            wx.onMenuShareAppMessage(sharedata);
+            wx.onMenuShareTimeline(sharedata);
+        });
+    }
+
+</script>
+</body>
+</html>

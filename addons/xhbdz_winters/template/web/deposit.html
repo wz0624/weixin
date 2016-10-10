@@ -1,0 +1,38 @@
+{template 'common/header'}
+<div class="panel panel-default ">
+	<div class="panel-heading">
+		红包信息列表
+	</div>	
+	<div class="table-responsive panel-body">
+	<table class="table table-hover">
+		<thead class="navbar-inner">
+			<tr>
+				<th style="width:60px;">ID</th>
+				<th>红包单号</th>
+				<th>发送人openid</th>
+				<th>接收人openid</th>
+				<th>红包金额</th>
+				<th>是否领取</th>
+				<th>创建时间</th>
+			</tr>
+		</thead>
+		<tbody>
+		{loop $deposit_list $deposit}
+			<tr>
+				<td>{$deposit['id']}</td>
+				<td>{$deposit['depositsn']}</td>
+				<td>{$deposit['from_openid']}</td>
+				<td>{$deposit['openid']}</td>
+				<td>{$deposit['amount']}</td>
+				<td>{if ($deposit['state']) == 1}已领取{else}未领取{/if}</td>
+				<td>{php echo date('Y-m-d H:i:s', $deposit['createtime'])}</td>
+			</tr>
+		{/loop}
+		</tbody>
+	</table>
+</div>
+</div>
+{if $op == 'packet'}
+	{$pager}
+{/if}
+{template 'common/footer'}

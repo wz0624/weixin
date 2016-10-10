@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta  charset="utf-8">
+<meta  name="viewport"  content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes">
+<title>投简记录</title>
+<link  type="text/css"  rel="stylesheet"  href="../addons/amouse_weijob/style/css/base.css?v=20150419">
+<link  type="text/css"  rel="stylesheet"  href="../addons/amouse_weijob/style/css/mycollect.css?v=20150419">
+<link  type="text/css"  rel="stylesheet"  href="../addons/amouse_weijob/style/css/zebra_dialog.css?v=20150419"></head>
+<style>
+    a.job-back{width: 80px;height: 50px;background: url("../addons/amouse_weijob/style/images/icon_job_back.png") left center no-repeat;background-size: 11px 15px;}
+</style>
+<body  style="">
+<input  type="hidden"  name="is_ccollect"  value="record">
+<div  class="mm-page">
+    <div  class="head fix">
+    <a  href="javascript:history.back(-1);"  class="job-back" style="color:white;font-size:15px;margin-left:10px">返回</a>
+            投简记录
+        <a  style="width:auto;left: auto;right: 0px;background-color:#4d71ad;padding: 0px 8px;color: #fff;font-size: 15px;line-height: 50px" href="javascript:void(0);" id="del_model">删除</a>
+    </div>
+    <div  class="contents">
+        <div  class="record-lists own-lists">
+            <div  class="select-all clearfix">
+                <label><input  type="checkbox"  class="checkall"  name="select_all">全选</label>
+            </div>
+            <ul  class="items record-items clearfix" id="container">
+            {loop $result $v}
+                <li  class="clearfix" style="padding:10px 5px 10px 20px">
+                    <input  type="checkbox"  name="record_item"  value="{$v['tjjlid']}">
+         <a href="{php echo $this->createMobileUrl('job',array('from_user'=>$from_user,'id'=>$v['jobid']),true)}" class="item-link">
+                        <img  {if !empty($v['thumb'])}src="{$_W['attachurl']}{$v['thumb']}"{else}src="../addons/amouse_weijob/icon.jpg"{/if}   class="fl">
+                        <div  class="item-infor fl">
+                            <p  class="clearfix">
+                                <span  class="position-name">{$v['company_name']}-{$v['jobname']}</span>
+                            </p>
+                            <p  class="place clearfix">
+                                <span>{$v['workplace']}  ●  薪资：{if $v['offer']==0}{php echo '面议';}{else}{$v['offer']}{/if}</span>
+                            </p>
+                        </div>
+                    </a>
+                </li>
+            {/loop}
+            </ul>
+            <a class="see-more" href="{php echo $this->createMobileUrl('tjglsearch',array('from_user'=>$from_user,'page'=>1),true)}" style="display:none"></a>
+        </div>
+    </div>
+    <div  class="footer"  style="display:none">
+    </div>
+</div>
+<script  type="text/javascript"  src="../addons/amouse_weijob/style/js/jquery.min.js?v=20150419"></script>
+<script  type="text/javascript"  src="../addons/amouse_weijob/style/js/common.js?v=20150419"></script>
+<script  type="text/javascript"  src="../addons/amouse_weijob/style/js/zebra_dialog.js?v=20150419"></script>
+<script  type="text/javascript"  src="../addons/amouse_weijob/style/js/jquery.infinitescroll.js?v=20150419"></script>
+<script type="text/javascript" src="../addons/amouse_weijob/style/js/alert.js?v=20150419"></script>
+<script  type="text/javascript">
+    $(document).ready(function(){
+        $(".checkall").click(function(){
+            $("input[name='record_item']").prop("checked",this.checked);
+        });
+        var $record_item=$("input[name='record_item']");
+        $record_item.click(function(){
+            $(".checkall").prop("checked",$record_item.length==$("input[name='record_item']:checked").length?true:false);
+        });
+        $("#del_model").click(function() {
+        // 判断是否至少选择一项
+            var checkedNum = $("input[name='record_item']:checked").length;
+            if(checkedNum == 0) {
+                alert("请选择至少一项！");
+                return;
+            }
+            if(confirm("确定要删除所选项目？")) {
+                var checkedList = new Array();
+                $("input[name='record_item']:checked").each(function() {
+                checkedList.push($(this).val());
+                });
+                var subUrl="{php echo $this->createMobileUrl('resumeRecodDel',array('from_user'=>$from_user),true)}";
+                $.ajax({
+                    type: "POST",
+                    url: subUrl,
+                    data: {'tjjlid':checkedList.toString()},
+                    success: function(result) {
+                        $("[name ='record_item']:checkbox").attr("checked", false);
+                        window.location.reload();
+                    }
+                });
+            }
+
+        });
+    });
+
+var _renderItem = function(n) {
+	var newElement='<li  class="clearfix" ><input  type="checkbox"  name="record_item"  value="'+n["id"]+'">';
+		newElement+='<a href="{php echo $this->createMobileUrl('job',array('from_user'=>$from_user),true)}&id='+n['jobid']+'"  class="item-link">';
+		if(n['thumb']){newElement += '<img  src="{$_W['attachurl']}'+n['thumb']+'"  class="fl">';  }
+		else{newElement += '<img  src="../addons/amouse_weijob/icon.jpg"  class="fl">';}
+		newElement+='<div  class="item-infor fl"><p  class="clearfix"><span  class="position-name">'+n['company_name']+' - '+n['jobname']+'</span></p>';
+		newElement+='<p  class="place clearfix"><span>'+n['workplace']+' ●  薪资：';
+		if(n["offer"] == 0){newElement += '面议';}else{newElement += n["offer"];}
+		newElement +='</span></p></div></a></li>';
+	return newElement;
+}
+		
+function infinitescroll(){
+    $(".record-items").infinitescroll({
+        loading:{
+            msgText:"加载中...",
+            finishedMsg:"没有新数据了...",
+            img:'../addons/amouse_weijob/style/images/loading.gif'
+        },
+        navSelector:"a.see-more:first",
+        nextSelector:"a.see-more:first",
+        itemSelector:".record-items li",
+        dataType:"json",
+        debug:true,
+        all_page:1,
+        appendCallback:false
+
+    },function(response){
+        console.log(response);
+        var jsondate=response.data;
+        for(var i=0;i<jsondate.length;i++){
+            var item=_renderItem(jsondate[i]);
+            $(".record-items").append(item);
+        }
+    });
+}
+</script>
+<div  id="mm-blocker"  style="opacity: 0;"></div>
+</body>
+</html>

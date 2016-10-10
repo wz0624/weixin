@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.012wz.com" versionCode="0.6">
+	<application setting="false">
+		<name><![CDATA[并读新闻(微转/微赚)]]></name>
+		<identifie><![CDATA[nets_bd_news]]></identifie>
+		<version><![CDATA[1.9]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[并读新闻]]></ability>
+		<description><![CDATA[汇聚主流媒体，体验资讯阅读快感，了解好友观点态度，读者获利阅读平台，随手可得的现金奖励，为你的每次阅读带来更大价值]]></description>
+		<author><![CDATA[]]></author>
+		<url><![CDATA[]]></url>
+
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="首页入口设置" do="news" state="" direct="false" />
+		</cover>
+		<menu>
+			<entry title="基础设置" do="hxsset" state="" direct="false" />
+			<entry title="内容管理" do="hxsnews" state="" direct="false" />
+			<entry title="会员管理" do="hxsmember" state="" direct="true" />
+			<entry title="礼品商城" do="hxsshop" state="" direct="true" />
+			<entry title="活动管理" do="hxsgame" state="" direct="false" />
+			<entry title="提现管理" do="hxscash" state="" direct="false" />
+		</menu>
+	</bindings>
+	<install><![CDATA[CREATE TABLE IF NOT EXISTS `ims_netsbd_adlist` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `uid` int(10) DEFAULT NULL,
+  `uniacid` int(10) DEFAULT NULL,
+  `title` varchar(500) DEFAULT NULL,
+  `picture` varchar(500) DEFAULT NULL,
+  `ad_script` varchar(500) DEFAULT NULL,
+  `url` varchar(500) DEFAULT NULL,
+  `state` int(11) DEFAULT NULL,
+  `click_num` int(11) DEFAULT NULL,
+  `click_price` decimal(8,2) DEFAULT NULL,
+  `createtime` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='广告投放列表' AUTO_INCREMENT=4 ;
+CREATE TABLE IF NOT EXISTS `ims_netsbd_ad_price` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `uid` int(10) DEFAULT NULL,
+  `uniacid` int(10) DEFAULT NULL,
+  `click_price` decimal(8,2) DEFAULT NULL,
+  `createtime` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='站长设置的广告价格列表' AUTO_INCREMENT=10 ;
+CREATE TABLE IF NOT EXISTS `ims_netsbd_authsite` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `site_name` varchar(50) DEFAULT NULL,
+  `site_ip` varchar(50) DEFAULT NULL,
+  `site_url` varchar(200) DEFAULT NULL,
+  `site_state` int(11) DEFAULT NULL,
+  `site_createtime` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+CREATE TABLE IF NOT EXISTS `ims_netsbd_integral_game_record` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `uid` int(10) DEFAULT NULL,
+  `uniacid` int(10) DEFAULT NULL,
+  `gameid` int(10) DEFAULT NULL,
+  `prize` varchar(255) DEFAULT NULL,
+  `state` int(11) DEFAULT NULL COMMENT '0未中奖\r\n            1中奖',
+  `createtime` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='积分小游戏参与记录' AUTO_INCREMENT=1 ;
+CREATE TABLE IF NOT EXISTS `ims_netsbd_integral_game_set` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `uid` int(10) DEFAULT NULL,
+  `uniacid` int(10) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `picture` varchar(255) DEFAULT NULL,
+  `content` varchar(5000) DEFAULT NULL,
+  `integral_eq_game` int(10) DEFAULT NULL COMMENT '1是赞\r\n            2是评论',
+  `num_eq_result` int(10) DEFAULT NULL,
+  `prize` varchar(255) DEFAULT NULL,
+  `state` int(11) DEFAULT NULL,
+  `ishome` int(11) DEFAULT NULL,
+  `begintime` datetime DEFAULT NULL,
+  `endtime` datetime DEFAULT NULL,
+  `createtime` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='积分小游戏设置' AUTO_INCREMENT=1 ;
+CREATE TABLE IF NOT EXISTS `ims_netsbd_mc_members_relation` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `uid` int(10) DEFAULT NULL,
+  `p_uid` int(10) DEFAULT NULL,
+  `createtime` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='会员关系表' AUTO_INCREMENT=1 ;
+CREATE TABLE IF NOT EXISTS `ims_netsbd_news` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `uid` int(10) DEFAULT NULL,
+  `cid` int(10) DEFAULT NULL,
+  `uniacid` int(10) DEFAULT NULL,
+  `title` varchar(150) DEFAULT NULL,
+  `brief` varchar(255) DEFAULT NULL,
+  `picture` varchar(200) DEFAULT NULL,
+  `isshowdetail` int(10) DEFAULT NULL,
+  `content` text,
+  `source` varchar(30) DEFAULT NULL,
+  `source_url` varchar(200) DEFAULT NULL,
+  `author` varchar(50) DEFAULT NULL,
+  `tag` varchar(200) DEFAULT NULL,
+  `like_num` int(11) DEFAULT NULL,
+  `click_num` int(11) DEFAULT NULL,
+  `comment_num` int(11) DEFAULT NULL,
+  `share_num` int(11) DEFAULT NULL,
+  `ishome` int(11) DEFAULT NULL,
+  `ishide` int(11) DEFAULT NULL,
+  `sort` int(11) DEFAULT NULL,
+  `createtime` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='新闻内容表' AUTO_INCREMENT=820 ;
+CREATE TABLE IF NOT EXISTS `ims_netsbd_news_category` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `uid` int(10) DEFAULT NULL,
+  `uniacid` int(10) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `remark` varchar(255) DEFAULT NULL,
+  `ismenu` int(11) DEFAULT NULL,
+  `ishide` int(11) DEFAULT NULL,
+  `createtime` int(10) DEFAULT NULL,
+  `sort` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='新闻分类表' AUTO_INCREMENT=1 ;
+CREATE TABLE IF NOT EXISTS `ims_netsbd_news_comment` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `uid` int(10) DEFAULT NULL,
+  `uniacid` int(10) DEFAULT NULL,
+  `newsid` int(10) DEFAULT NULL,
+  `comment_content` varchar(255) DEFAULT NULL,
+  `type` int(1) DEFAULT NULL COMMENT '1是赞\r\n            2是评论\r\n            3是转发',
+  `like_num` int(10) DEFAULT NULL,
+  `ishide` int(11) DEFAULT NULL,
+  `createtime` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='新闻评论表\r\n包括赞、转发也在里面' AUTO_INCREMENT=1 ;
+CREATE TABLE IF NOT EXISTS `ims_netsbd_readlate` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(10) DEFAULT NULL,
+  `newid` int(10) DEFAULT NULL,
+  `createtime` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+CREATE TABLE IF NOT EXISTS `ims_netsbd_set` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `uid` int(10) DEFAULT NULL,
+  `uniacid` int(10) DEFAULT NULL,
+  `today_income` decimal(10,2) DEFAULT NULL,
+  `integral_eq_blance` decimal(8,2) DEFAULT NULL COMMENT '多少积分可兑换余额\r\n            积分满多少时自动兑换',
+  `share_eq_integral` decimal(8,2) DEFAULT NULL,
+  `max_share_today` decimal(8,2) DEFAULT NULL,
+  `click_eq_integral` decimal(8,2) DEFAULT NULL,
+  `max_click_today` decimal(8,2) DEFAULT NULL,
+  `beclick_eq_integral` decimal(8,2) DEFAULT NULL,
+  `max_beclick` decimal(8,2) DEFAULT NULL,
+  `good_eq_integral` decimal(8,2) DEFAULT NULL COMMENT '0 未审核\r\n            1 提现中\r\n            2 已完成',
+  `max_good_today` decimal(8,2) DEFAULT NULL,
+  `comment_eq_integral` decimal(8,2) DEFAULT NULL,
+  `max_comment_today` decimal(8,2) DEFAULT NULL,
+  `begood_eq_integral` decimal(8,2) DEFAULT NULL,
+  `max_begood` decimal(8,2) DEFAULT NULL,
+  `becomment_eq_integral` decimal(8,2) DEFAULT NULL,
+  `max_becomment` decimal(8,2) DEFAULT NULL,
+  `login_eq_integral` decimal(8,2) DEFAULT NULL,
+  `reregster_eq_integral` decimal(8,2) DEFAULT NULL,
+  `today_maxregister` decimal(8,2) DEFAULT NULL,
+  `clickad_eq_integral` decimal(8,2) DEFAULT NULL,
+  `today_maxclickad` decimal(8,2) DEFAULT NULL,
+  `cashshare_eq_integral` decimal(8,2) DEFAULT NULL,
+  `today_maxshare` decimal(8,2) DEFAULT NULL,
+  `changegood_eq_integral` decimal(8,2) DEFAULT NULL,
+  `today_maxchange` decimal(8,2) DEFAULT NULL,
+  `palygame_eq_integral` decimal(8,2) DEFAULT NULL,
+  `today_maxpalygame` decimal(8,2) DEFAULT NULL,
+  `list_ad_top` varchar(255) DEFAULT NULL,
+  `list_ad_middle` varchar(255) DEFAULT NULL,
+  `list_ad_bottom` varchar(1000) DEFAULT NULL,
+  `detail_ad_top` varchar(255) DEFAULT NULL,
+  `detail_ad_middle` varchar(255) DEFAULT NULL,
+  `detail_ad_bottom` varchar(1000) DEFAULT NULL,
+  `share_img` varchar(255) DEFAULT NULL,
+  `share_title` varchar(255) DEFAULT NULL,
+  `share_desc` varchar(255) DEFAULT NULL,
+  `mchid` varchar(255) DEFAULT NULL,
+  `follow_title` varchar(255) DEFAULT NULL,
+  `follow_url` varchar(255) DEFAULT NULL,
+  `follow_ico` varchar(255) DEFAULT NULL,
+  `register_eq_money` decimal(8,2) DEFAULT NULL,
+  `member_level1dis` int(11) DEFAULT NULL,
+  `member_level2dis` int(11) DEFAULT NULL,
+  `member_level3dis` int(11) DEFAULT NULL,
+  `template_msg1` varchar(50) DEFAULT NULL,
+  `template_msg2` varchar(50) DEFAULT NULL,
+  `template_msg3` varchar(50) DEFAULT NULL,
+  `template_msg4` varchar(50) DEFAULT NULL,
+  `createtime` int(10) DEFAULT NULL,
+  `min_cashmoney` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='商户基础设置' AUTO_INCREMENT=2 ;
+CREATE TABLE IF NOT EXISTS `ims_netsbd_user_exchange_cash` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `uid` int(10) DEFAULT NULL,
+  `uniacid` int(10) DEFAULT NULL,
+  `cash` int(10) DEFAULT NULL,
+  `cash_type` int(1) DEFAULT NULL COMMENT '1支付宝\r\n            2微信',
+  `remark` varchar(50) DEFAULT NULL,
+  `state` int(1) DEFAULT NULL COMMENT '0 未审核\r\n            1 提现中\r\n            2 已完成',
+  `createtime` int(10) DEFAULT NULL,
+  `finishtime` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='会员提现表' AUTO_INCREMENT=1 ;
+	]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>

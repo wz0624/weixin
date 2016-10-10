@@ -1,0 +1,19 @@
+{template 'header'}
+<header>
+    <a href="{php echo $this->createMobileUrl('list',array('catid'=>$item['catid']))}" class="waves-effect waves-teal btn-flat go_back"><i class="fa fa-angle-left"></i></a>
+    <span>{$item['name']}</span>
+</header>
+<section>
+    <div class="row" style="padding-top:20px;margin-bottom:0">
+        <div class="col s12">
+            {$item['content']}
+        </div>
+    </div>
+</section>
+<section>
+    <div class="row" style="margin-bottom:0">
+        <div class="col s6" style="color: #999">{php echo date('Y-m-d',$item['createtime'])}</div>
+        <div class="col s6" style="text-align: right; color: #632714">Views {$item['viewtimes']}</div>
+    </div>
+</section>
+{template 'footer'}

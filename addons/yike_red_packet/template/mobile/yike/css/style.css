@@ -1,0 +1,51 @@
+/* Empty. Add your own CSS if you like */
+#tab-dash .input-label {
+    width: 20%;
+}
+#account .row .col-one {
+    text-align: center;
+    background-size: 152px 150px;
+}
+
+#account .row .col-one div {
+    height: 140px;
+    width: 140px;
+    border-radius: 50%;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+}
+
+#account .row .col-one .img-one {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    left: 26px;
+    top: 11px;
+    position: absolute;
+}
+
+#account .row .col-one .img-two {
+    position: absolute;
+    top: -5px;
+    width: 145px;
+    left: -4px;
+}
+
+#account .row .col-one .img-three {
+    position: absolute;
+    top: 88px;
+    width: 26px;
+    left: 97px;
+}
+
+#account .row .col-one .number {
+    color: white;
+    margin-bottom: 0;
+    margin-top: -5px;
+}
+
+#account .row .col-one .account-font {
+    margin-top: 2px;
+    margin-bottom: 0;
+}

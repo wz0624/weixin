@@ -1,0 +1,62 @@
+{template 'common/header'}
+<div class="main">
+	<form class="form-horizontal form" id="" action="" method="POST">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				影讯设置
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">城市</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="movie_city" class="form-control span3" placeholder="北京" name="movie_city" value="{$settings['movie_city']}">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">API</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="movie_api" class="form-control span7" placeholder="" name="movie_api" value="{$settings['movie_api']}">
+					</div>
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						需要使用聚合数据的API，<a href="https://www.juhe.cn/docs/api/id/94/aid/250" >点这里免费申请</a>
+					</div>
+				</div>
+<!-- 				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">版权所属</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="movie_copyright" class="form-control span7" placeholder="出现在手机页底部" name="movie_copyright" value="{$settings['movie_copyright']}">
+					</div>
+				    </div> -->
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">头版图片</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_image('movie_banner',$settings['movie_banner']);}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">头版链接</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="movie_ad" class="form-control span7" placeholder="默认是时光网所在城市页面，需加http://" name="movie_ad" value="{$settings['movie_ad']}">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group col-sm-12">
+			<input name="token" type="hidden" value="{$_W['token']}" />
+			<input type="submit" class="btn btn-primary col-lg-1" name="submit" value="提交" />
+		</div>
+	</form>
+</div>
+
+<script language='javascript'>
+require(['jquery', 'util'], function($, u) {
+	$(function() {
+
+	});
+});
+</script>
+{template 'common/footer'}

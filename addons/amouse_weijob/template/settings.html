@@ -1,0 +1,85 @@
+{template 'common/header'}
+<div class="main">
+<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        参数设置
+    </div>
+    <div class="panel-body">
+        <div class="panel panel-default">
+            <div class="panel-heading">活动参数设置</div>
+            <div class="form-group">
+                <label class=" col-sm-3 col-md-2 control-label">设置邮箱</label>
+                <div class="col-sm-9 col-xs-12">
+                    <a type="submit" class="btn btn-primary span3" href="../web/index.php?c=profile&a=notify&"
+                       target="_blank" value="去设置邮箱">去设置邮箱</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">借用高级认证设置(自己是认证服务号忽悠此项)</div>
+    <div class="panel-body">
+        <div class="form-group">
+            <label class=" col-sm-3 col-md-2 control-label">新用户关注引导页</label>
+            <div class="col-sm-9 col-xs-12">
+                <input type="text" id="followurl" class="form-control" name="followurl" value="{$settings['followurl']}"/>
+                  <span class="help-block">
+                      此处为空，就是不需要关注也能参与活动，如果要粉丝关注才能参与活动，请先在微信官方发布一条引导关注的图文信息，然后把地址填入，
+                      必须http://开头
+                      <a target="_blank" href="http://www.dwz.cn/">短网址转换</a>
+                  </span>
+            </div>
+        </div>
+
+      <!-- <div class="form-group">
+            <label class=" col-sm-3 col-md-2 control-label">AppId：</label>
+            <div class="col-sm-9 col-xs-12">
+                <input type="text" id="appid" name="appid" class="form-control" value="{$settings['appid']}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class=" col-sm-3 col-md-2 control-label">AppSecret：</label>
+
+            <div class="col-sm-9 col-xs-12">
+                <input type="text" name="secret" class="form-control" value="{$settings['secret']}"/>
+            </div>
+        </div>
+
+        <div class="help-block">借用说明：必需设置借用高级认证号的OAuth2.0网页授权的回调域名为你公众号第三方平台的全域名。
+            如：你的域名为：xx.cn ，你必需让借用高级认证号设置OAuth2.0网页授权的回调域名为:xx.cn
+        </div>-->
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input name="token" type="hidden" value="{$_W['token']}"/>
+                <button type="submit" class="btn btn-success col-sm-2" name="submit" value="提交">
+                    <i class="fa fa-check-circle"></i> 提交
+                </button>
+            </div>
+        </div>
+
+       <!-- <div class="form-group">
+            <label class=" col-sm-3 col-md-2 control-label">
+            </label>
+            <div class="col-sm-9 col-xs-12">
+                <b>1.借用说明：为了更好的借用分享功能,设置JS安全域名即可。</b>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class=" col-sm-3 col-md-2 control-label">
+            </label>
+            <div class="col-sm-9 col-xs-12">
+                <a href="../addons/amouse_weijob/style/images/jssdk.png" target='_blank'>
+                    <img src="../addons/amouse_weijob/style/images/jssdk.png" width="400"></a>
+            </div>
+        </div>-->
+
+
+    </div>
+</div>
+
+
+{template 'common/footer'}

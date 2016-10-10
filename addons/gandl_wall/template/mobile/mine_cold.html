@@ -1,0 +1,106 @@
+{php $title=$wall['topic']}
+
+{template 'inc/header'}
+	<script type="text/javascript">
+	</script>
+
+	<style>
+		.weui_cell_bd em{color:#45c01a;}
+	</style>
+
+	<!-- 公共变量 -->
+	<input type="hidden" id="is_user_infoed" value="{$is_user_infoed}"/>
+
+		
+	<!-- 首页 -->
+    <div class="app-page" data-page="index_page">
+
+
+		<div class="app-topbar" style="display:none;height:0px;"></div>
+		<div class="app-content" style="background:#F8F8F8;">
+			<div class="app-body">
+				
+				<div class="weui_cells" style="text-align:center;padding:40px 10px 10px 10px;margin-top:0px;border-top:0px none;">
+					<img src="{MODULE_URL}/static/mobile/images/cold.png" style="width:64px;"/>
+					<h4 style="margin-top:20px;">我的抢钱间隔时间</h4>
+					<h2 style="font-size:36px;">{php echo time_to_text($mine_cold_time);}</h2>
+					{if $wall['task_follow']>0 || $wall['task_invite']>0}
+					<h4>已缩短{php echo time_to_text($wall['cold_time']-$mine_cold_time);}</h4>
+					{/if}
+				</div>
+				
+				{if $wall['task_follow']>0 || $wall['task_invite']>0}
+				<div class="weui_cells_title">完成以下任务可缩短间隔时间</div>
+				<div class="weui_cells weui_cells_access">
+					{if $wall['task_follow']>0}
+					<a class="weui_cell" href="{$wall['follow_url']}">
+						<div class="weui_cell_bd weui_cell_primary">
+							<p>粉丝福利</p>
+							<h4>关注我们可<em>缩短{php echo time_to_text($wall['task_follow']);}</em></h4>
+						</div>
+						<div class="weui_cell_ft">
+							{if $mine['follow']==1}
+								已完成
+							{else}
+								<em>未完成</em>
+							{/if}
+						</div>
+					</a>
+					{/if}
+					{if $wall['task_invite']>0}
+					<a id="btn_invite" class="weui_cell" href="javascript:;">
+						<div class="weui_cell_bd weui_cell_primary">
+							<p>呼朋唤友</p>
+							<h4>每邀请一位新人可<em>缩短{$wall['task_invite']}秒,上限{php echo time_to_text($wall['task_invite_max']);}</em></h4>
+						</div>
+						<div class="weui_cell_ft"><em>-{php echo time_to_text(($wall['task_invite']==0?0:($mine['rob_fast']>$wall['task_invite_max']?$wall['task_invite_max']:$mine['rob_fast'])));}</em></div>
+					</a>
+					{/if}
+				</div>
+				{/if}
+				
+				<div class="app-botblank"></div>
+			</div>
+		</div>
+
+
+		<!-- 底部菜单区 -->
+		{php $bmenu='mine'}
+		{template 'inc/bmenu'}
+
+    </div> <!-- END 首页 -->
+
+
+
+{template 'inc/script'}
+<script type="text/javascript">
+	$(function(){
+
+		App.controller('index_page', function (page) {
+			initBottomMenu(page);
+
+			var toast_loading=$(page).find('#toast_loading');
+
+			// 助力相关
+			$(page).find('#btn_invite').on('click',function(){
+				swal({
+					title:'',
+					text:'让朋友扫码邀请对方加入',
+					imageUrl:"{php echo $this->createMobileUrl('qr', array('raw' => base64_encode($_W['siteroot'] . 'app/' . substr($this->createMobileUrl('index',array('cmd'=>'invite','pid'=>pencode($wall['id']),'src'=>pencode($mine['id']))), 2))))}",
+					imageSize:"160x160",
+					showCancelButton: true,
+					confirmButtonText: "扫好了",
+					cancelButtonText: "返回"
+				}, function(isConfirm){
+					if(isConfirm){
+						location.reload();
+					}
+				});
+			});
+
+		});
+
+		App.load('index_page','fade');
+	});
+</script>
+{template 'inc/footer'}

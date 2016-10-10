@@ -1,0 +1,26 @@
+<ion-view view-title="我的" id="account">
+    <ion-content>
+        <div class="row" style="background-color: #f84546;min-height: 210px;position:relative">
+            <div class="col col-25"></div>
+            <div class="col col-50 col-one">
+                <div>
+                    <img class="img-one" ng-src="{{user.avatar || '/addons/yike_red_packet/template/mobile/huiyigou/img/tmp/images/head-edit.png'}}"/>
+                    <img class="img-two" src="/addons/yike_red_packet/template/mobile/huiyigou/img/img-three.png">
+                </div>
+                <p class="number">昵称：{{user.nickname}}</p>
+                <p class="number">会员id：{{user.uid}}</p>
+                <p class="number">会员等级：{{user.inviterLevelName}}</p>
+            </div>
+            <div class="col col-25"></div>
+        </div>
+        <div class="gray-wide-line"></div>
+        <div class="list">
+            <a class="item item-avatar" ng-repeat="item in data.list">
+                <img ng-src="{{item.avatar || '/addons/yike_red_packet/template/mobile/huiyigou/img/tmp/images/head-edit.png'}}">
+                <h2>{{item.nickname}}</h2>
+                <p>加入时间:{{item.created_time * 1000 | date: 'yyyy-MM-dd HH:mm'}}</p>
+            </a>
+            <p class="text-center padding" ng-if="data.flag">您暂时还没有该级别下级</p>
+        </div>
+    </ion-content>
+</ion-view>

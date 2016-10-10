@@ -1,0 +1,234 @@
+<input type="hidden" name="reply_id" value="{$reply['id']}" />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        回复设置
+    </div>
+    <div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">标题</label>
+            <div class="col-sm-9 col-xs-12">
+                <input type="text" value="{$reply['title']}" class="form-control" name="title">
+                <div class="help-block">用户发送关键词返回的图文主题。</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">封面</label>
+            <div class="col-sm-9 col-xs-12">
+                {php echo tpl_form_field_image('thumb', $reply['thumb'])}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">描述</label>
+            <div class="col-sm-9 col-xs-12">
+                <textarea name="description" class="form-control" cols="60">{$reply['description']}</textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        活动设置
+    </div>
+    <div class="panel-body">
+
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">活动时间</label>
+            <div class="col-sm-9 col-xs-12">
+                {php echo tpl_form_field_daterange('datelimit', array('starttime'=>date('Y-m-d',$reply['starttime']),'endtime'=>date('Y-m-d',$reply['endtime'])))}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">中奖名单地址</label>
+            <div class="col-sm-9 col-xs-12">
+                <input type="text" value="{$reply['setting']['listurl']}" class="form-control" name="setting[listurl]">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        规则设置
+    </div>
+    <div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">默认获得暖值</label>
+            <div class="col-sm-9 col-xs-12">
+                <div class="input-group">
+                    <input type="text" value="{$reply['setting']['default']['min']}" class="form-control" name="setting[default][min]">
+                    <span class="input-group-addon">至</span>
+                    <input type="text" value="{$reply['setting']['default']['max']}" class="form-control" name="setting[default][max]">
+                </div>
+                <div class="help-block">参与活动默认获得的暖值（留空默认1）。</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">增值规则 (<a href="javascript:;" onclick="addregular();">添加</a>)</label>
+            <div class="col-sm-9 col-xs-12">
+                {php $ri = 0;}
+                <table class="table" style="margin-bottom:0">
+                    <thead>
+                    <tr>
+                        <th>暖值(大于)</th>
+                        <th>添加范围</th>
+                        <th style="width:80px">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="regulartemp">
+                    {loop $reply['setting']['regular'] $iow}
+                    <tr>
+                        <td><input type="text" value="{$iow['money']}" class="form-control" name="setting[regular][][money]"></td>
+                        <td>
+                            <div class="input-group">
+                                <input type="text" value="{$iow['min']}" class="form-control" name="setting[regular][][min]">
+                                <span class="input-group-addon">至</span>
+                                <input type="text" value="{$iow['max']}" class="form-control" name="setting[regular][][max]">
+                            </div>
+                        </td>
+                        <td><a class="btn btn-default btn-sm" href="javascript:;" onclick="delregular(this);"><i class="fa fa-times"></i> 删除</a></td>
+                    </tr>
+                    {/loop}
+                    {if !$reply['setting']['regular']}
+                    <tr>
+                        <td><input type="text" value="" class="form-control" name="setting[regular][][money]"></td>
+                        <td>
+                            <div class="input-group">
+                                <input type="text" value="" class="form-control" name="setting[regular][][min]">
+                                <span class="input-group-addon">至</span>
+                                <input type="text" value="" class="form-control" name="setting[regular][][max]">
+                            </div>
+                        </td>
+                        <td><a class="btn btn-default btn-sm" href="javascript:;" onclick="delregular(this);"><i class="fa fa-times"></i> 删除</a></td>
+                    </tr>
+                    {/if}
+                    </tbody>
+                </table>
+                <div class="help-block">不满足以上条件时系统默认加1。</div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            function reregular() {
+                var trthis = $("#regulartemp").find("tr");
+                var ri = 0;
+                trthis.each(function(){
+                    $(this).find("input").each(function(){
+                        var _name = $(this).attr("name");
+                        $(this).attr("name", _name.replace(/setting\[regular\]\[(.*?)\]/g, "setting[regular]["+ri+"]"));
+                    });
+                    ri++;
+                });
+            }
+            reregular();
+            function delregular(obj) {
+                var rthis = $("#regulartemp");
+                if (rthis.find("tr").length <= 1) {
+                    rthis.find("input").val("");
+                }else{
+                    $(obj).parents("tr").remove();
+                }
+            }
+            function addregular() {
+                var rthis = $("#regulartemp");
+                $intemp = $(rthis.find("tr:eq(0)").prop('outerHTML'));
+                $intemp.find("input").val("");
+                rthis.append($intemp);
+                reregular();
+            }
+        </script>
+
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">领奖暖值数</label>
+            <div class="col-sm-9 col-xs-12">
+                <input type="text" value="{$reply['setting']['base']}" class="form-control" name="setting[base]">
+                <div class="help-block">暖值达到指定数显示领奖按钮（留空默认：100）。</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">暖值最大数</label>
+            <div class="col-sm-9 col-xs-12">
+                <input type="text" value="{$reply['setting']['maxval']}" class="form-control" name="setting[maxval]">
+                <div class="help-block">暖值最大值（留空默认：100）。</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">规则说明</label>
+            <div class="col-sm-9 col-xs-12">
+                <textarea style="height:180px;" id='regular' name="regular" class="form-control richtext">{$reply['regular']}</textarea>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="panel panel-default" style="display:none;">
+    <div class="panel-heading">
+        订阅号借用服务号app接口
+    </div>
+    <div class="panel-body">
+
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">借用</label>
+            <div class="col-sm-9 col-xs-12">
+                <select name="setting[borrow]" class="form-control">
+                    <option value="0">请选择公众号</option>
+                    {loop $accounts $acid $name}
+                    <option value="{$acid}" {if $reply['setting']['borrow'] == $acid}selected{/if}>{$name}</option>
+                    {/loop}
+                    {if !$accounts}
+                    <option value="0">=没有可借用的=</option>
+                    {/if}
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        分享设置（可使用 “@会员名”、“@标签” 变量）
+    </div>
+    <div class="panel-body">
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">分享标题</label>
+            <div class="col-sm-9 col-xs-12">
+                <input type="text" id="share_title" class="form-control" placeholder="" name="share_title" value="{$reply['share_title']}">
+            </div>
+        </div>
+        <div class="form-group" style="display:none;">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">分享地址</label>
+            <div class="col-sm-9 col-xs-12">
+                <input type="text" id="share_url" class="form-control" placeholder="" name="share_url" value="{$reply['share_url']}">
+                <div class="help-block">分享的链接，留空为首页地址! 推荐转成短地址。<a target="_blank" href="http://www.dwz.cn/">短网址转换</a></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">分享图片</label>
+            <div class="col-sm-9 col-xs-12">
+                {php echo tpl_form_field_image('share_txt',$reply['share_txt']);}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">分享描述</label>
+            <div class="col-sm-9 col-xs-12">
+                <textarea style="height:150px;" id='share_txt' name="share_desc" class="form-control richtext">{$reply['share_desc']}</textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    require(['jquery', 'util'], function($, u){
+        $(function(){
+            u.editor($('#regular')[0]);
+        });
+    });
+</script>

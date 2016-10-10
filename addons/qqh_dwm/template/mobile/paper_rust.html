@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="yes" name="apple-touch-fullscreen" />
+<meta name="robots" content="none" />
+<meta name="viewport" id="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+{php echo register_jssdk();} 
+<title>答不出这10道题，我们就不要在一起了。</title>
+
+
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}public/css/style.css?v1.01">
+
+<script src="{MODULE_URL}public/js/jquery-1.8.3.min.js"></script>
+</head>
+<body>
+	<div class="wrap rel">
+	<img src="{$result['avatar']}" style="left:-3000px;position: absolute;">
+
+
+<div class="title mcenter">
+	<img src="{$md_config[logo]}" />
+</div>
+<div class="prompt">
+	<p>{$result_view}</p>
+</div>
+
+<div class="gamedec mcenter">
+	<button class="gamedec_btn" id="onMenuShareTimeline">邀请好友回答</button>
+	<a class="gamedec_btn" href="{$_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&topic={$_GPC['topic']}&op=topic&do=user_question&m=qqh_dwm">查看结果</a>
+</div>
+	<script>
+wx.ready(function () {
+
+		  // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+  document.querySelector('#onMenuShareTimeline').onclick = function () {
+    wx.onMenuShareTimeline({
+      title: '谁是{$nickname}的知己？- 情感大考验',
+      link: "{$_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&topic={$_GPC['topic']}&op=topic&do=user_question&m=qqh_dwm",
+      imgUrl: '{$avatar}',
+      success: function (res) {
+        url ='/app/index.php?i={$_W['uniacid']}&c=entry&topic={$_GPC['topic']}&op=topic&do=user_question&m=qqh_dwm';
+        location.href=url;
+      },
+      cancel: function (res) {
+        url ='/app/index.php?i={$_W['uniacid']}&c=entry&topic={$_GPC['topic']}&op=topic&do=user_question&m=qqh_dwm';
+        location.href=url;
+      },
+      fail: function (res) {
+        alert(JSON.stringify(res));
+      }
+    });
+    alert('点击右上角分享');
+  };
+
+
+  var shareData = {
+    title: '谁是{$nickname}的知己？- 情感大考验',
+    desc: '敢玩吗？看看你有多了解我',
+    link: "{$_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&topic={$_GPC['topic']}&op=topic&do=user_question&m=qqh_dwm",
+    imgUrl: '{$avatar}'
+  };
+  wx.onMenuShareAppMessage(shareData);
+  wx.onMenuShareTimeline(shareData);
+});
+
+wx.error(function (res) {
+  alert(res.errMsg);
+});
+</script>
+	</div>
+	<p class="coop_info">{$md_config['name']}</p>
+</body>
+</html>

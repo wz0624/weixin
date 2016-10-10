@@ -1,0 +1,101 @@
+view-source:http://www.hymanwu.com/plugin.php?id=hwh_guestbook
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="gbk">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="format-detection" content="telephone=no" />
+    <title>留言板</title>
+    <meta name="keywords" content="留言板,海曼工作室" />
+    <meta name="description" content="留言板" />
+    <link rel="stylesheet" href="source/plugin/hwh_guestbook/static/style/touch.css"><script src="http://www.hymanwu.com/plugin.php?id=hwh_guestbook&a=jslang&charset=gbk" type="text/javascript" charset="gbk"></script>
+    <script src="source/plugin/hwh_guestbook/static/js/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="source/plugin/hwh_guestbook/static/js/Validform_v5.3.2_min.js" type="text/javascript"></script>
+    <script src="source/plugin/hwh_guestbook/static/js/touch.js" type="text/javascript"></script>
+    <script>
+        var jsvar=new Array()
+        jsvar['admin_name'] = 'admin';
+        jsvar['ismobile'] = 1;
+        jsvar['night_mod'] = 1;
+        jsvar['max_page'] = 4;
+        jsvar['curpage_num'] = 10;
+        jsvar['request'] = 'http://www.hymanwu.com/plugin.php?id=hwh_guestbook&a=loading';
+        jsvar['request_checkall'] = 'http://www.hymanwu.com/plugin.php?id=hwh_guestbook&a=check_all';
+        jsvar['background_image'] = 'source/plugin/hwh_guestbook/static/images/line.png';
+    </script></head>
+<body id="hwh_guestbook"><header><p><a href="http://www.hymanwu.com/"><img src="source/plugin/hwh_guestbook/static/images/home.png"></a>大家有什么问题、宝贵建议或者意见都可以在这里给我留言，我们会第一时间回复您，谢谢!</p></header>
+<div id="main">
+    <ul>
+    </ul>
+
+    <div class="loading">
+        <div class="rect1"></div>
+        <div class="rect2"></div>
+        <div class="rect3"></div>
+        <div class="rect4"></div>
+        <div class="rect5"></div>
+    </div>
+    <div class="empty">没有了</div>
+</div>
+<!-- /#main -->
+
+<div id="add_main" class="form">
+    <form action="http://www.hymanwu.com/plugin.php?id=hwh_guestbook&a=add">
+        <em>更换头像<i></i></em>
+        <img class="chose_avatar" src="source/plugin/hwh_guestbook/static/images/avatar/mask.jpg" data-key="mask.jpg">
+        <input type="text" name="guestname" datatype="*2-10" errormsg="请正确填写昵称(2~10字)" nullmsg="请填写昵称" placeholder="昵称" value="">
+        <textarea id="message" name="content" datatype="*10-300" errormsg="请正确填写内容(10~300字)" nullmsg="请填写内容" placeholder="内容"></textarea>
+        <div class="avatar_list"><img src="source/plugin/hwh_guestbook/static/images/avatar/1.jpg" data-key="1.jpg">
+            <img src="source/plugin/hwh_guestbook/static/images/avatar/2.jpg" data-key="2.jpg">
+            <img src="source/plugin/hwh_guestbook/static/images/avatar/3.jpg" data-key="3.jpg">
+            <img src="source/plugin/hwh_guestbook/static/images/avatar/4.jpg" data-key="4.jpg">
+            <img src="source/plugin/hwh_guestbook/static/images/avatar/5.jpg" data-key="5.jpg">
+            <img src="source/plugin/hwh_guestbook/static/images/avatar/6.jpg" data-key="6.jpg">
+            <img src="source/plugin/hwh_guestbook/static/images/avatar/7.jpg" data-key="7.jpg">
+            <img src="source/plugin/hwh_guestbook/static/images/avatar/8.jpg" data-key="8.jpg">
+            <img src="source/plugin/hwh_guestbook/static/images/avatar/9.jpg" data-key="9.jpg">
+            <img src="source/plugin/hwh_guestbook/static/images/avatar/10.jpg" data-key="10.jpg">
+        </div>
+        <div class="face">
+            <img src="static/image/smiley/comcom/1.gif" data-key="1" />
+            <img src="static/image/smiley/comcom/2.gif" data-key="2" />
+            <img src="static/image/smiley/comcom/3.gif" data-key="3" />
+            <img src="static/image/smiley/comcom/4.gif" data-key="4" />
+            <img src="static/image/smiley/comcom/5.gif" data-key="5" />
+            <img src="static/image/smiley/comcom/6.gif" data-key="6" />
+            <img src="static/image/smiley/comcom/7.gif" data-key="7" />
+            <img src="static/image/smiley/comcom/8.gif" data-key="8" />
+            <img src="static/image/smiley/comcom/9.gif" data-key="9" />
+            <img src="static/image/smiley/comcom/10.gif" data-key="10" />
+            <img src="static/image/smiley/comcom/11.gif" data-key="11" />
+            <img src="static/image/smiley/comcom/12.gif" data-key="12" />
+            <img src="static/image/smiley/comcom/13.gif" data-key="13" />
+            <img src="static/image/smiley/comcom/14.gif" data-key="14" />
+            <img src="static/image/smiley/comcom/15.gif" data-key="15" />
+            <img src="static/image/smiley/comcom/16.gif" data-key="16" />
+            <img src="static/image/smiley/comcom/17.gif" data-key="17" />
+            <img src="static/image/smiley/comcom/18.gif" data-key="18" />
+            <img src="static/image/smiley/comcom/19.gif" data-key="19" />
+            <img src="static/image/smiley/comcom/20.gif" data-key="20" />
+            <img src="static/image/smiley/comcom/21.gif" data-key="21" />
+            <img src="static/image/smiley/comcom/22.gif" data-key="22" />
+            <img src="static/image/smiley/comcom/23.gif" data-key="23" />
+            <img src="static/image/smiley/comcom/24.gif" data-key="24" />
+            <img src="static/image/smiley/comcom/25.gif" data-key="25" />
+            <img src="static/image/smiley/comcom/26.gif" data-key="26" />
+            <img src="static/image/smiley/comcom/27.gif" data-key="27" />
+            <img src="static/image/smiley/comcom/28.gif" data-key="28" />
+            <img src="static/image/smiley/comcom/29.gif" data-key="29" />
+            <img src="static/image/smiley/comcom/30.gif" data-key="30" />
+        </div>
+        <input type="hidden" name="avatar" value="mask.jpg">
+        <input type="hidden" name="formhash" value="669819c1">
+        <a class="cancel">取消</a><input type="submit" value="提交">
+    </form>
+</div>
+<!-- /#add_main -->
+
+<a id="add" class="add_bt"><img src="source/plugin/hwh_guestbook/static/images/add.png"></a>
+</body>
+</html>

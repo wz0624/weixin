@@ -1,0 +1,217 @@
+{template 'common/header'}
+{template 'nav'}
+<form action="" method="post" class="form-horizontal" role="form" id="form1" >
+<div class="panel panel-default">
+	<div class="panel-heading">
+		全局基本设置
+	</div>
+	<div class="panel-body">
+		
+			<input type="hidden" name="id" value="{$setting['id']}"> 
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">看直播用户是否必须关注</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<label class="radio-inline">
+						<input type="radio" name="gz_must" value="1" id="xh" {if $setting['settings']['gz_must'] == '1'}checked="true"{/if}> 是
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="gz_must" value="0" id="xh"  {if $setting['settings']['gz_must'] == '0'}checked="true"{/if}>否
+					</label>
+					<span class="help-block">看直播用户是否必须关注、针对认证服务号有效</span>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">粉丝引导关注素材链接</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input type="text" name="gz_url"  class="form-control" value="{$setting['settings']['gz_url']}">
+					<span class="help-block">粉丝引导关注素材链接</span>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">微信无头像用户默认头像</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					{php echo tpl_form_field_image('no_avatar',$setting['settings']['no_avatar'])}
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">版权设置</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input type="text" value="{$setting['settings']['live_copyright']}" class="form-control" name="live_copyright">
+					<span class="help-block">版权设置</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">直播列表标题设置</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input type="text" value="{$setting['settings']['live_list_title']}" class="form-control" name="live_list_title">
+					<span class="help-block">直播列表标题设置</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">精选直播标题设置</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input type="text" value="{$setting['settings']['live_jingxuan_title']}" class="form-control" name="live_jingxuan_title">
+					<span class="help-block">精选直播标题设置</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">底部菜单颜色</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					{php echo tpl_form_field_color('footer_color',$setting['settings']['footer_color']);}
+
+					<span class="help-block">底部菜单颜色</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">node.JS SOCKET.URL</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input type="text" value="{$setting['settings']['socket_url']}" class="form-control" name="socket_url">
+					<span class="help-block">node.JS SOCKET.URL 格式:域名:1409 如:<strong>baidu.com:1409</strong></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">50r短网址appkey</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input type="text" value="{$setting['settings']['sina_key']}" class="form-control" name="sina_key">
+					<span class="help-block"><a href="http://50r.cn/users/openapi" target="__blank">去注册</a></span>
+				</div>
+			</div>
+			
+			
+			
+		
+	</div>
+</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				消息通知设置/注意：若是摇一摇或者预约等模板消息发送不出来、请检查功能选项->微信消息设置 里的模板消息是否配置了
+			</div>
+			<div class="panel-body">
+								<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">购买成功通知模板id</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$setting['settings']['consumer_tpl']}" class="form-control" name="consumer_tpl">
+											<span class="help-block">模板库搜 购买成功通知 行业 IT科技 互联网|电子商务</span>
+										</div>
+								</div>
+								<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">购买成功客服消息图片</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											{php echo tpl_form_field_image('consumer_customer_img', $setting['settings']['consumer_customer_img']);}
+											<span class="help-block">购买成功客服消息图片/规格:660*350</span>
+										</div>
+								</div>
+								<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">中奖结果通知模板id</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$setting['settings']['award_tpl']}" class="form-control" name="award_tpl">
+											<span class="help-block">模板库搜 中奖结果通知 行业 IT科技 互联网|电子商务</span>
+										</div>
+								</div>
+								<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">中奖结果客服消息图片</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											{php echo tpl_form_field_image('award_customer_img', $setting['settings']['award_customer_img']);}
+											<span class="help-block">中奖结果客服消息图片/规格:660*350</span>
+										</div>
+								</div>
+								<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">直播预约通知模板id</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$setting['settings']['yuyue_tpl']}" class="form-control" name="yuyue_tpl">
+											<span class="help-block">模板库搜 预约提醒 行业 其他 其他</span>
+										</div>
+								</div>
+								<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">预约提醒客服消息图片</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											{php echo tpl_form_field_image('yuyue_customer_img', $setting['settings']['yuyue_customer_img']);}
+											<span class="help-block">预约提醒客服消息图片/规格:660*350</span>
+										</div>
+								</div>
+								
+						  
+					</div>
+			     </div><!--tab_news-->
+<div class="panel panel-default">
+			<div class="panel-heading">
+				首页、精选页、分类列表分享参数
+			</div>
+			<div class="panel-body">
+								<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">首页分享标题</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$setting['settings']['index_share_title']}" class="form-control" name="index_share_title">
+											<span class="help-block">首页分享标题</span>
+										</div>
+								</div>
+								<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">首页分享内容</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$setting['settings']['index_share_content']}" class="form-control" name="index_share_content">
+											<span class="help-block">首页分享内容</span>
+										</div>
+								</div>
+								<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">首页分享缩略图</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											{php echo tpl_form_field_image('index_share_img', $setting['settings']['index_share_img']);}
+											<span class="help-block">首页分享缩略图</span>
+										</div>
+								</div>
+								<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">精选分享标题</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$setting['settings']['jingxuan_share_title']}" class="form-control" name="jingxuan_share_title">
+											<span class="help-block">精选分享标题</span>
+										</div>
+								</div>
+								<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">精选分享内容</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$setting['settings']['jingxuan_share_content']}" class="form-control" name="jingxuan_share_content">
+											<span class="help-block">精选分享内容</span>
+										</div>
+								</div>
+								<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">精选页分享缩略图</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											{php echo tpl_form_field_image('jingxuan_share_img', $setting['settings']['jingxuan_share_img']);}
+											<span class="help-block">精选页分享缩略图</span>
+										</div>
+								</div>
+								<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">分类页分享标题</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$setting['settings']['list_share_title']}" class="form-control" name="list_share_title">
+											<span class="help-block">分类页分享标题</span>
+										</div>
+								</div>
+								<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">分类页分享内容</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											<input type="text" value="{$setting['settings']['list_share_content']}" class="form-control" name="list_share_content">
+											<span class="help-block">分类页分享内容</span>
+										</div>
+								</div>
+								<div class="form-group">
+										<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">分类页页分享缩略图</label>
+										<div class="col-sm-8 col-lg-9 col-xs-12">
+											{php echo tpl_form_field_image('list_share_img', $setting['settings']['list_share_img']);}
+											<span class="help-block">分类页页分享缩略图</span>
+										</div>
+								</div>
+								<div class="form-group">
+									<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label"></label>
+									<div class="col-sm-8 col-lg-9 col-xs-12">
+										<input type="submit" class="btn btn-success" value="提交">
+										<input type="hidden" name="token" value="{$_W['token']}">
+									</div>
+								</div>
+						  
+					</div>
+			     </div><!--tab_news-->
+</form>
+{template 'common/footer'}

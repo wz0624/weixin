@@ -1,0 +1,50 @@
+{template 'common/header'}
+<div class="panel panel-default">
+    <div class="panel-body table-responsive">
+        <table class="table table-hover"  style="width:100%;z-index:-10;" cellspacing="0" cellpadding="0">
+            <thead class="navbar-inner">
+            <tr>
+                <th style="width:90px;">头像</th>
+                <th style="width:150px;">昵称</th>
+                <th style="width:180px;">对应用户</th>
+                <th style="width:80px;">发放时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            {loop $list $item}
+            <tr>
+                <td><img src="{if !empty($item['user']['avatar'])}{$item['user']['avatar']}{else}resource/images/noavatar_middle.gif{/if}" width="48"></td>
+                <td>{$item['nickname']}</td>
+                <td>
+                    {if empty($item['uid'])}
+                    <a href="{php echo url('mc/member/post', array('uid' => $item['uid'],'openid' => $item['openid'], 'fanid' => $item['fanid']));}" class="text-danger" title="该用户尚未注册会员，请为其手动注册！">[ 注册为会员 ]</a>
+                    {else}
+                    <a href="{php echo url('mc/member/post', array('uid'=>$item['uid']));}"><span>{if $item['user']['niemmo_effective'] == 1}{$item['user']['niemmo']}{else}{$item['uid']}{/if}</span></a>
+                    {/if}
+                </td>
+                <td>{php echo date('Y-m-d H:i:s', $item['create_time'])}</td>
+            </tr>
+            {/loop}
+            </tbody>
+        </table>
+    </div>
+</div>
+{$pager}
+
+<script>
+    $('.send-coupon-btn').click(function() {
+        var r = confirm('是否发放?');
+        if (r) {
+            var uid = $(this).attr('data-data');
+            $.post('{php echo $this->createWebUrl("send", array("op"=>"do"))}', {
+                uid: uid
+            }, function(data) {
+                data = JSON.parse(data);
+                if (data.status == 1) {
+                    alert('发放成功');
+                    window.location.reload();
+                }
+            });
+        }
+    })
+</script>

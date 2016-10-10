@@ -1,0 +1,65 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+  <li><a href="{php echo $this->createWebUrl('record',array('rid'=>$rid));}">红包发放记录</a></li>
+  <li class="active"><a href="{php echo $this->createWebUrl('user',array('rid'=>$rid));}">会员管理</a></li>
+</ul>
+<script>
+require(['bootstrap'],function($){
+	$('.btn').hover(function(){
+		$(this).tooltip('show');
+	},function(){
+		$(this).tooltip('hide');
+	});
+});
+</script>
+{if $op == 'post'}
+
+{elseif $op == 'display'}
+<div class="main">
+  <div class="category">
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data"  onsubmit="return formcheck(this)">
+      <div class="panel panel-default">
+      <div class="panel-body table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th style="width:50px;">ID</th>
+            <th style="width:90px;"></th>
+            <th style="width:120px;">昵称</th>
+            <th style="width:120px;">分享地址</th>
+            <th style="width:100px;">关注时间</th>
+            <th style="width:100px;">数据相关</th>
+            <th style="width:100px;">总计</th>
+            <th style="width:100px;">上级ID</th>
+            <th style="width:100px;">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+        {loop $list $row}
+        <tr>
+          <td>{$row['id']}</td>
+          <td><img src="{$row['headimgurl']}" width="64" height="64" class="img-rounded" /></td>
+          <td>{$row['nickname']}</td>
+          <td><input type="text" class="form-control" value="{php echo $_W['siteroot'].str_replace('./','app/',$this->createMobileurl('index',array('fid'=>$row['id'],'r_id'=>$rid)))}"/></td>
+          <td>{if $row['subscribe'] == 1} <span class="label label-success">{php echo date('y-m-d H:i:s',$row['subscribe_time'])}</span> {else} <span class="label label-info">未关注</span> {/if}</td>
+          <td> {$row['vnums']}/{$row['unums']}/{$row['hnums']} </td>
+          <td> {php $total=pdo_fetchcolumn('select sum(fee) from '.tablename('j_pocketmoney_records').' where from_user=:from_user',array(':from_user'=>$row['from_user']))}
+            {if $total==false}
+            未领取
+            {else}
+            {php echo $total/100}元
+            {/if} </td>
+          <td> {$row['upid']} </td>
+          <td><a href="{php echo $this->createWeburl('user',array('op'=>'delete','rid'=>$rid,'uid'=>$row['id']))}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="删除" onclick="return confirm('确认删除此吗？删除不可恢复');return false;"><i class="fa fa-times"></i></a></td>
+        </tr>
+        {/loop}
+          </tbody>
+      </table>
+    </form>
+  </div>
+</div>
+{$pager}
+</div>
+</div>
+{/if}
+{template 'common/footer'} 

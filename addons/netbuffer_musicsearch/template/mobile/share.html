@@ -1,0 +1,16 @@
+{php echo register_jssdk(false);}
+<!-- imgUrl -->
+<script>
+wx.ready(function () {
+	sharedata = {
+		title: '来首音乐吧',
+		desc: '来首音乐吧~',
+		link: location.href,
+		success: function(){
+		},
+		cancel: function(){
+		}
+	};
+	wx.onMenuShareAppMessage(sharedata);
+});
+</script>

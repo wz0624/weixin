@@ -1,0 +1,448 @@
+
+<!DOCTYPE html>
+<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0, maximum-scale=1.0,user-scalable=0">
+<meta name="format-detection" content="telephone=no"/>
+<title>男神女神榜单</title>
+<link href="{MEEPORES}/static/friend/css/search_love.css?a={$suijinum}" rel="stylesheet" type="text/css">
+<link href="{MEEPORES}/static/friend/css/info.css?a={$suijinum}" rel="stylesheet" type="text/css">
+<link href="{MEEPORES}/static/friend/css/nmenu.css?a={$suijinum}" rel="stylesheet" type="text/css">
+{php echo register_jssdk(false);}
+<script src="{MEEPORES}/static/friend/js/jquery.js" ></script>
+<script type="text/javascript" src="{MODULE_URL}template/mobile/sweetalert.min.js"></script>
+<link rel="stylesheet" href="{MODULE_URL}template/mobile/sweetalert.css" />
+ <script type="text/javascript">
+function hitlikeone(m,n){
+			 var love = document.getElementById(n);
+			 swal({
+			  title: "温馨提示",
+			  text: '请输入鲜花数量',
+			  type: 'input',
+			  showCancelButton: true,
+			  confirmButtonColor: "#DD6B55",  
+			  confirmButtonText: "确定",  
+			 cancelButtonText: "取消",  
+			 closeOnConfirm: false,   
+			 closeOnCancel: true,
+			  animation: "slide-from-top"
+			}, function(isConfirm){  
+			   if (isConfirm) {   
+				 var flower_num = parseInt(isConfirm);
+				 if(flower_num > 0){
+							swal({   
+								 title: "温馨提示", 
+								 text: flower_num+"朵鲜花、将消耗你"+(flower_num*{$flower_jifen})+'积分哦！',  
+								 type: "warning",  
+								 showCancelButton: true,  
+								 confirmButtonColor: "#DD6B55",  
+								 confirmButtonText: "确定送",  
+								 cancelButtonText: "不送了",  
+								 closeOnConfirm: false,   
+								 closeOnCancel: true 
+								 }, 
+								 function(isConfirm2){  
+								   
+								   if (isConfirm2) {   
+									 
+									 		$.ajax({
+												type:"POST",
+												dataType:'JSON',
+												url:"{php echo $this->createMobileUrl('likeajax')}",
+												data:{uid:m,toopenid:n,flower_num:flower_num},
+												cache:false,
+												success:function(data){
+												
+													if(data.errno == '-1'){
+														swal.close();
+													   _loading_toast._show(data.message);
+													  
+													}else if(data.errno =='-2'){
+														 swal({   
+															 title: "温馨提示", 
+															 text: "你还未完善个人资料，先去完善吧！",
+															 type: "warning",  
+															 showCancelButton: true,  
+															 confirmButtonColor: "#DD6B55",  
+															 confirmButtonText: "好的",  
+															 cancelButtonText: "知道了",  
+															 closeOnConfirm: true,   
+															 closeOnCancel: true 
+															 }, 
+															 function(isConfirm4){  
+															   if (isConfirm4) {   
+							window.location.href="{php echo  $this->createMobileUrl('userinfo')}";
+															   } else {     
+																  swal.close();
+															   } 
+															});
+													}else if(data.errno=='-3'){
+													  
+													  swal({   
+															 title: "温馨提示", 
+															 text: data.message,
+															 type: "warning",  
+															 showCancelButton: true,  
+															 confirmButtonColor: "#DD6B55",  
+															 confirmButtonText: "去充值",  
+															 cancelButtonText: "知道了",  
+															 closeOnConfirm: true,   
+															 closeOnCancel: true 
+															 }, 
+															 function(isConfirm3){  
+															   if (isConfirm3) {   
+																	{if empty($cfg['lowurl'])}
+								window.location.href="{php echo  $this->createMobileUrl('payjifen')}";
+																	{else}
+									window.location.href="{$cfg['lowurl']}";
+																	{/if}
+															   } else {     
+																  swal.close();
+															   } 
+															});
+													  
+													}else{
+														swal.close();
+														love.innerHTML = data.message;
+														_loading_toast._show("赠送成功！");
+													}
+												}
+											});
+								   } else {     
+									  swal.close();
+								   } 
+								});
+				 }else{
+				   swal.showInputError("鲜花数量必须是大于0的整数");
+				 }
+			   } else {     
+				  swal.close();
+			   } 
+			});
+			 
+    }
+
+var _loading_toast= {
+    _center: function() {
+		var _left = ($(window).width() - $("#toast").outerWidth()) / 2 + "px";
+        $("#toast").css({
+            "top": "50%",
+            "left": _left
+        });
+    },
+    _show: function(text, fun) {
+        $("#toast").html(text);
+        _loading_toast._center();
+        $("#toast").show();
+        $("#toast").bind("resize", _loading_toast._center);
+        setTimeout(function() {
+            _loading_toast._hide(fun);
+        }, 2 * 1000);
+    },
+    _hide: function(fun) {
+        $("#toast").hide();
+        $("#toast").unbind("resize");
+        if (fun) {
+            (fun)();
+        }
+    }
+};
+	</script>
+<style type="text/css">
+.subject,.friends{
+	width:98%;height:31.5px;
+	margin:9px auto;
+	border:1px solid #dcdcdc;
+	background-color:#FFF;
+}
+.lanmu1,.lanmu2,.lanmu3,.lanmu4{
+	width:24.7%;
+	height:100%;
+	font-size:13.5px;
+	line-height:31.5px;
+	text-align:center;
+	float:left;
+	color:#6e6e6e;background-color:#fff;
+}
+.lanmu1,.lanmu2,.lanmu3{
+	border-right:1px solid #dcdcdc;
+}
+.subject .active{color:#fff;background-color:#ff3600;}
+.cur{color:#fff;background-color:#ff3600;}
+*{ margin:0; padding:0; font-family:"黑体";}
+.back_box{ width:100%; height:100%; background:rgba(0,0,0,0.5); position:absolute; top:0; left:0; z-index:100;}
+.nav_info{ width:219px; height:186px; background:url(http://wx.yzjbh.com/resources/css/images/guide_bg.png) no-repeat; background-size:100% 100%; position:absolute; left:10px; bottom:10px; z-index:110}
+.nav_info dl{ width:139px; text-align:center; margin:41px 0 0 64px;}
+.arrDown{width: 18px; height: 10px; margin: 0 0 0 10px;}
+.arrUp{width: 18px; height: 10px; margin: 0 0 0 10px;}
+.myLetter {
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  z-index: 11;
+  background: rgba(249,249,249,1);
+   height: 50px;
+ 
+}
+
+.myLetter .meeponew,.myLetter .meepohot,.myLetter .meepobangdan,.myLetter .myInfo,.myLetter .zuipei{
+  width: 33%;
+ 
+  font:12px/180% Arial, Helvetica, sans-serif, "宋体";
+  float: left;
+  
+  text-align: center;
+}
+.myLetter .meeponew span,.myLetter .meepohot span,.myLetter .meepobangdan span,.myLetter .myInfo span,.myLetter .zuipei span{
+margin-top:4px;
+ display:block;text-align:center;height:24px
+}
+.f3{background:url("{MEEPORES}/static/friend/caidan/hpdi_menu_paihangbang2.png") center center no-repeat;background-size: 24px 24px;}
+
+
+.f4{background:url("{MEEPORES}/static/friend/caidan/hpdi_menu_me2.png") center center no-repeat;background-size: 24px 24px;}
+
+
+.f5{background:url("{MEEPORES}/static/friend/caidan/hpdi_menu_2.png") center center no-repeat;background-size: 24px 24px;}
+
+.cur{ border-top:1px solid #ff3600;}
+#toast {
+    display: none;
+    position: fixed;
+    padding: 9px 15px;
+    background-color: #333;
+    z-index: 8000;
+    border-radius: 5px;
+	font-size: 16px;
+    color: #ffffff;
+    line-height: 20px;
+    text-align: center;
+	
+}
+
+</style>
+</head>
+
+	
+<body>
+
+<div class="subject">
+		<div id="lanmu1" class="lanmu1 cur" num="lanmu1" date="week" s="women">
+		<span>女神周榜</span>
+		</div>
+		<div id="lanmu2" class="lanmu2 " num="lanmu2" date="all" s="women">
+		<span>女神总榜</span>
+		</div>
+		<div id="lanmu3" class="lanmu3 " num="lanmu3" date="week" s="men">
+		<span>男神周榜</span>
+		</div>
+		<div id="lanmu4" class="lanmu4 " num="lanmu4" date="all" s="men">
+		<span>男神总榜</span>
+		</div>
+</div>
+<div  id="loading"></div>
+<div class="box" id="content" style="position: relative;overflow:hidden;text-align:center" >
+     {if !empty($list2)}
+     {loop $list2 $row}
+		<div class="search_list">
+				<article>
+				<div class="list_info">
+				<p><img src="{if preg_match('/http:(.*)/',$row['avatar'])}{$row['avatar']} {else if preg_match('/images(.*)/',$row['avatar'])} {$_W['attachurl']}{$row['avatar']}     {else} {MEEPORES}/static/friend/images/cdhn80.jpg{/if}" height="30" width="30"></p>
+				<dl>
+				<dt><a href="{php echo  $this->createMobileUrl('others',array('openid'=>$row['from_user']))}">{php echo cutstr($row['realname'],5,true);}</a><span>{$row['age']} | {$row['resideprovincecity']}</span>
+				</dt>
+				</dl>
+				
+				<a class="search_hi likeit1" onclick="hitlikeone('{$row['id']}','{$row['from_user']}')" ><span id="{$row['from_user']}">&nbsp;{$row['love']}<span></a>
+				
+				
+				</div>
+				<ul id="all">
+				{loop $photos[$row['id']] $ph}
+				<li><img src="{$_W['attachurl']}{$ph['url']}" height="120" width="90"  class="btn2"></li>
+				{/loop}
+				</ul>
+				</article>
+		</div>
+    {/loop}
+    {else}
+   	暂无女神周榜数据！
+	{/if}
+</div>
+<div class="subject">
+		<div id="lanmu1" class="lanmu1 cur" num="lanmu1" date="week" s="women">
+		<span>女神周榜</span>
+		</div>
+		<div id="lanmu2" class="lanmu2 " num="lanmu2" date="all" s="women">
+		<span>女神总榜</span>
+		</div>
+		<div id="lanmu3" class="lanmu3 " num="lanmu3" date="week" s="men">
+		<span>男神周榜</span>
+		</div>
+		<div id="lanmu4" class="lanmu4 " num="lanmu4" date="all" s="men">
+		<span>男神总榜</span>
+		</div>
+</div>
+<div class="myLetter">
+	 <span  class="meepobangdan"><span class="f4"></span><span>首页</span></span>
+	 <span  class="myInfo"><span class="f4"></span><span>{if empty($cfg['fourcard'])}个人中心{else}{$cfg['fourcard']}{/if}</span></span>
+	 <span  class="zuipei" ><span class="f5"></span><span>{if empty($cfg['fivecard'])}与我相关{else}{$cfg['fivecard']}{/if}</span></span>
+</div>
+</div>
+
+<div id="toast"></div>
+<script type="text/javascript">
+$(document).ready(function () { 
+     $(".subject div").click(function () {
+	 $(this).addClass("cur").siblings().removeClass("cur");
+	 var time = $(this).attr("date");
+	var type = $(this).attr("s");
+	$('#content').empty();
+    $('#first').remove();
+	$("#loading").html(
+	     "<img src='{MEEPORES}/static/forum/css/img/loading.gif'/ style='display:block; margin:0 auto;height:30px;width:30px'>");
+ 	var submitData = {time:time,type:type};
+	 $.ajax({
+                     type: "POST",
+                     dataType: "json",
+					 timeout: 12000,//（毫秒）
+                     url: "{php echo $this->createMobileUrl('bangdanajax')}",
+                     data: submitData,
+					 error: function(XMLHttpRequest, textStatus, errorThrown){      
+							if(textStatus=="timeout"){
+							   $("#loading").html("<div style='text-align:center'>网络超时，请重试</div>");
+							   
+							}else{
+							   $("#loading").html("<div style='text-align:center'>加载出现未知错误，请重试！</div>");
+							}
+							return;
+                     },
+                     success: function(e)
+                     {
+						$("#loading").empty();
+                        if(e=="0"){  
+							if(time=='week' && type=="men"){
+							   $('#content').html('<div style="height:40px;line-height:40px;text-align:center;color:red;">暂无男神周榜数据！<div>');
+							   }
+							   else if(time=='week' && type=="women"){
+							      $('#content').html('<div style="height:40px;line-height:40px;text-align:center;color:red;">暂无女神周榜数据！<div>');
+							   }
+							   else if(time=='all' && type=="women"){
+							       $('#content').html('<div style="height:40px;line-height:40px;text-align:center;color:red;">暂无女神全榜数据！<div>');
+							   }else{
+							        $('#content').html('<div style="height:40px;line-height:40px;text-align:center;color:red;">暂无男神全榜数据！<div>');
+							   }
+                           
+						}else{
+                           $('#content').append(e);                      
+                            return;                    
+
+                        }
+                     }
+                  });
+	 });
+ });
+ </script>  
+<script type="text/javascript">
+  wx.ready(function () {
+    var shareData = {
+    title: "{$settings['title']}",
+    desc: "{$settings['share_content']}",
+    link: "{$settings['share_link']}",
+    imgUrl: "{$_W['attachurl']}{$settings['share_logo']}",
+  };
+  
+  //分享朋友
+  wx.onMenuShareAppMessage({
+       title: shareData.title,
+      desc: shareData.desc,
+      link: shareData.link,
+      imgUrl:shareData.imgUrl,
+      trigger: function (res) {
+      },
+      success: function (res) {
+        send_intergal();
+      },
+      cancel: function (res) {
+      },
+      fail: function (res) {
+        alert(JSON.stringify(res));
+      }
+    });
+ //朋友圈
+  wx.onMenuShareTimeline({
+      title: shareData.title+"---"+shareData.desc,
+      link: shareData.link,
+      imgUrl:shareData.imgUrl,
+      trigger: function (res) {
+      },
+      success: function (res) {
+          send_intergal();
+      },
+      cancel: function (res) {
+      },
+      fail: function (res) {
+        alert("分享失败,网络超时！！！！");
+      }
+    });   
+    
+  });
+
+
+
+function send_intergal(){
+   $.ajax({
+			type:"POST",
+			url:"{php echo $this->createMobileUrl('shareajax')}",
+			data:{openid:'{$openid}}'},
+			cache:false,
+			success:function(data){
+				if(data=="no"){
+					alert("分享成功,抱歉，网络超时，获取积分失败！！！");
+                   
+				}
+				else if(data=="over"){
+				   alert("分享成功,你今天的分享次数已经超过上限哦，请明天再来吧！！！");
+				
+				}
+				else{
+				   alert("分享成功,恭喜您，获得{$settings['share_jifen']}个奖励积分！今天你还有"+data+"次分享赚积分机会哦！");
+				}
+			}
+		});
+}
+
+
+        </script>
+<script >
+$(document).ready(function () {
+	$("body").on("click",'.btn2',function () { 
+        var curSrc = $(this).attr("src");
+		var newall = new Array();
+	    var allp = $(this).parent().parent().children("li");
+		for(var j=0;j<allp.length;j++){
+				newall.push(allp.eq(j).find("img").attr('src'));
+		}
+	
+		  wx.previewImage({
+						  current:curSrc,
+						  urls: newall
+						});
+		
+	  });	
+	  $(".meepobangdan").click(function () { 
+         window.location.href = "{php echo $this->createMobileUrl('alllist')}";
+	  });
+	  $(".myInfo").click(function () { 
+         window.location.href = "{php echo $this->createMobileUrl('homecenter')}";
+	  });
+	  $(".zuipei").click(function () { 
+         window.location.href = "{php echo $this->createMobileUrl('mynews')}";
+	  });
+});	
+</script>
+		{template 'footer'}

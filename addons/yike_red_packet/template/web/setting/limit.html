@@ -1,0 +1,60 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+
+    <li><a href="{php echo $this->createWebUrl('setting', array('op'=>'pay'));}">支付设置</a></li>
+
+    <li class="active"><a href="{php echo $this->createWebUrl('setting', array('op'=>'limit'));}">红包控制</a></li>
+    <li><a href="{php echo $this->createWebUrl('setting', array('op'=>'poster'));}">海报设置</a></li>
+    <li><a href="{php echo $this->createWebUrl('setting', array('op'=>'banner'));}">广告设置</a></li>
+
+</ul>
+
+<div class="main">
+    <div class="panel panel-default">
+        <div class='panel-body'>
+            <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+                <input type="hidden" name="id" value="{$item['id']}"/>
+                <input type="hidden" name="c" value="site"/>
+                <input type="hidden" name="a" value="entry"/>
+                <input type="hidden" name="m" value="yike_red_packet"/>
+                <input type="hidden" name="do" value="setting"/>
+                <input type="hidden" name="op" value="limit"/>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span
+                            style="color:red">*</span>单日提现总额</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" id='limit' name="limit" class="form-control" value="{$set['limit']}"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span
+                            style="color:red">*</span>是否开启直接升级</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="radio" name="is_upgrade" value="1" {if $set['is_upgrade'] == '1'}checked{/if}> 是
+                        <input type="radio" name="is_upgrade" value="0" {if $set['is_upgrade'] == '0'}checked{/if}> 否
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span
+                            style="color:red">*</span>提现是否需要审核</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="radio" name="is_withdraw" value="1" {if $set['is_withdraw'] == '1'}checked{/if}> 是
+                        <input type="radio" name="is_withdraw" value="0" {if $set['is_withdraw'] == '0'}checked{/if}> 否
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1"/>
+                        <input type="hidden" name="token" value="{$_W['token']}"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{template 'common/footer'}

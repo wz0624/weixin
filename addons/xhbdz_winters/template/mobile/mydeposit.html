@@ -1,0 +1,57 @@
+{template 'common/_header'}
+<title>提现申请</title>
+	<form method="post" action="{php echo $this->createMobileUrl('mydeposit', array('op' => 'edit'))}"  class="am-form" id="doc-vld-msg">
+  <fieldset>
+  
+    <div class="am-form-group">
+      <label for="doc-vld-email-2-1">真实姓名</label>
+      <input type="text" name="truename"  data-validation-message="请正确输入您的真实姓名" placeholder="请输入您的真实姓名" value="{$member['truename']}" required/>
+    </div>
+  
+    <div class="am-form-group">
+      <label for="doc-vld-name-2-1">微信号码</label>
+      <input type="text" name="wechat" data-validation-message="请输入您的微信号码" placeholder="请输入您的微信号码" value="{$member['wechat']}" required/>
+    </div>
+
+    <div class="am-form-group">
+      <label for="doc-vld-url-2-1">手机号码</label>
+      <input type="tel" minlength="11" maxlength="11" name="mobile" data-validation-message="请正确输入您的手机号码"  placeholder="请输入手机号码" value="{$member['mobile']}" required/>
+    </div>
+    
+        <div class="am-form-group">
+      <label for="doc-vld-url-2-1">提现金额</label><span class="am-badge am-badge-danger am-text-sm" style="font-size:12px;margin-left:2%">最大可提现{$member['amount']}元 </span>
+      <input type="tel" minlength="1" maxlength="6" id="amount" name="amount"  data-validation-message="请输入您的提现金额" placeholder="请输入您的提现额度"  required/>
+    </div>
+	</fieldset>
+<button name="submit" type="submit" style="width:100%;height:5rem;"class="am-btn am-btn-success am-radius" >申请提现</button>
+	</form>
+<script type="text/javascript">
+$(function() {
+	  $('#doc-vld-msg').validator({
+	    onValid: function(validity) {
+	      $(validity.field).closest('.am-form-group').find('.am-alert').hide();
+	    },
+
+	    onInValid: function(validity) {
+	      var $field = $(validity.field);
+	      var $group = $field.closest('.am-form-group');
+	      var $alert = $group.find('.am-alert');
+	      // 使用自定义的提示信息 或 插件内置的提示信息
+	      var msg = $field.data('validationMessage') || this.getValidationMessage(validity);
+	      /*
+		    var amount = {php echo 15};
+			   alert(amount);*/
+	      if (!$alert.length) {
+	        $alert = $('<div class="am-alert am-alert-danger"></div>').hide().
+	          appendTo($group);
+	      }
+
+	      $alert.html(msg).show();
+	    }
+
+	  });
+	});
+</script>
+	
+	
+{template 'common/_footer'}

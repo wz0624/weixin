@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>{if !empty($title)}{$title} - {elseif !empty($_W['page']['title'])}{$_W['page']['title']} - {/if}{if !empty($_W['page']['sitename'])}{$_W['page']['sitename']}{else}{$_W['account']['name']}{/if}{if IMS_FAMILY != 'x'} - Powered by vqiyi.cn{/if}</title>
+	<meta name="format-detection" content="telephone=no, address=no">
+	<meta name="apple-mobile-web-app-capable" content="yes" /> <!-- apple devices fullscreen -->
+	<meta name="apple-touch-fullscreen" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="keywords" content="{$_W['page']['keywords']}" />
+	<meta name="description" content="{$_W['page']['description']}" />
+	<link rel="shortcut icon" href="{$_W['siteroot']}{$_W['config']['upload']['attachdir']}/{if !empty($_W['setting']['copyright']['icon'])}{$_W['setting']['copyright']['icon']}{else}images/global/wechat.jpg{/if}" />
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript" src="{$_W['siteroot']}app/resource/js/app/util.js"></script>
+	<script src="{$_W['siteroot']}app/resource/js/require.js"></script>
+	<script src="{$_W['siteroot']}app/resource/js/app/config.js"></script>
+	<script type="text/javascript" src="{$_W['siteroot']}app/resource/js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="{$_W['siteroot']}app/resource/js/lib/mui.min.js"></script>
+	<script type="text/javascript" src="{$_W['siteroot']}app/resource/js/app/common.js"></script>
+	<link rel="stylesheet" href="{TEMPLATE_WEUI}style/weui.min.css">
+	<link rel="stylesheet" href="{TEMPLATE_WEUI}style/weui.css"/>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=2700be6aa0fd672d91bd3b8a50e743ac"></script>
+	<script type="text/javascript">
+	if(navigator.appName == 'Microsoft Internet Explorer'){
+		if(navigator.userAgent.indexOf("MSIE 5.0")>0 || navigator.userAgent.indexOf("MSIE 6.0")>0 || navigator.userAgent.indexOf("MSIE 7.0")>0) {
+			alert('您使用的 IE 浏览器版本过低, 推荐使用 Chrome 浏览器或 IE8 及以上版本浏览器.');
+		}
+	}
+	window.sysinfo = {
+		{if !empty($_W['uniacid'])}'uniacid': '{$_W['uniacid']}',{/if}
+		{if !empty($_W['acid'])}'acid': '{$_W['acid']}',{/if}{if !empty($_W['openid'])}'openid': '{$_W['openid']}',{/if}
+		{if !empty($_W['uid'])}'uid': '{$_W['uid']}',{/if}
+		'siteroot': '{$_W['siteroot']}',
+		'siteurl': '{$_W['siteurl']}',
+		'attachurl': '{$_W['attachurl']}',
+		'attachurl_local': '{$_W['attachurl_local']}',
+		'attachurl_remote': '{$_W['attachurl_remote']}',
+		{if defined('MODULE_URL')}'MODULE_URL': '{MODULE_URL}',{/if}
+		'cookie' : {'pre': '{$_W['config']['cookie']['pre']}'}
+	};
+	// jssdk config 对象
+	jssdkconfig = {php echo json_encode($_W['account']['jssdkconfig']);} || {};
+	// 是否启用调试
+	jssdkconfig.debug = false;
+	jssdkconfig.jsApiList = [
+		'checkJsApi',
+		'onMenuShareTimeline',
+		'onMenuShareAppMessage',
+		'onMenuShareQQ',
+		'onMenuShareWeibo',
+		'hideMenuItems',
+		'showMenuItems',
+		'hideAllNonBaseMenuItem',
+		'showAllNonBaseMenuItem',
+		'translateVoice',
+		'startRecord',
+		'stopRecord',
+		'onRecordEnd',
+		'playVoice',
+		'pauseVoice',
+		'stopVoice',
+		'uploadVoice',
+		'downloadVoice',
+		'chooseImage',
+		'previewImage',
+		'uploadImage',
+		'downloadImage',
+		'getNetworkType',
+		'openLocation',
+		'getLocation',
+		'hideOptionMenu',
+		'showOptionMenu',
+		'closeWindow',
+		'scanQRCode',
+		'chooseWXPay',
+		'openProductSpecificView',
+		'addCard',
+		'chooseCard',
+		'openCard'
+	];
+	</script>
+</head>
+<body>
+<style type='text/css'>
+	#poptip { position: fixed; top:40%;left:50%;width:160px;margin-left:-80px;height: 27px;background:#000; opacity: 0.7;filter:alpha(opacity=0.7); color:#fff;z-index: 999;  border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;}
+	#poptip_content { position: fixed; top:40%;left:50%;width:160px;margin-left:-80px; height: 27px; color:#fff;text-align:center;font-size:14px;z-index: 9909}
+</style>
+<script language='javascript'>
+function tip(msg,autoClose){
+	var div = $("#poptip");
+	var content =$("#poptip_content");
+	if(div.length<=0){
+		div = $("<div id='poptip'></div>").appendTo(document.body);
+		content =$("<div id='poptip_content'>" + msg + "</div>").appendTo(document.body);
+	}else{
+		content.html(msg);
+		content.show(); div.show();
+	}
+	if(autoClose) {
+		setTimeout(function(){
+			content.fadeOut(500);
+			div.fadeOut(500);
+		},1000);
+	}
+}
+function tip_close(){
+	$("#poptip").fadeOut(500);
+	$("#poptip_content").fadeOut(500);
+}
+</script>
+<style>
+body{background-color:#f0f0f0;}
+h4 span{font-weight:300;font-size:12px;}
+
+.shopcart-main{background:#fcfcfc;color:#999;}
+.shopcart-main1{background:#e0f2f1;color:#333}
+
+.shopcart-footer{width:100%; height:40px; line-height:40px; color:#FFF; padding:0 10px; background:#6d7081; position:fixed; bottom:45px; left:0; filter:alpha(opacity=95); opacity:.95; font-weight:bold;}
+.shopcart-footer .btn{margin-top:3px;}
+.addadd{margin:10px 0 0;}
+</style>
+<div class="weui_btn_primary weui-header "> 
+	<div class="weui-header-left"><a class="iconfont f-white f18" href="javascript:history.back();">&#xe60c;</a></div>
+		<h1 class="weui-header-title">我的联系方式</h1>
+	<div class="weui-header-right"><a class="icon icon-10 f-white"></a></div> 
+</div>
+
+<div class="weui_tab">
+    <div class="weui_tab_bd">
+<form class="form-horizontal" method="post" role="form">
+	<input type="hidden" name="goodstype" value="{$goodstype}" />
+		<div id="myaddress">
+		{loop $addresses $row}
+		<div id='address_{$row['id']}' class="weui_panel {if $row['isdefault']==1}shopcart-main1{else}shopcart-main{/if} address_item" onclick='editAddress({$row['id']},{php echo $row['isdefault']==1?'1':'0'})'>
+            <div class="weui_panel_bd">
+                <div class="weui_media_box weui_media_text">
+                    <h4 class="weui_media_title">{$row['username']} <span class="iconfont f14 tright">&#xe601; {$row['mobile']}</span></h4>
+                    <p class="weui_media_desc"><i class="iconfont f12">&#xe60e;</i> {$row['province']} {$row['city']} {$row['district']} {$row['address']}</p>
+                    <ul class="weui_media_info">
+                        <li class="weui_media_info_meta"><a href="javascript:;" onclick='editAddress({$row['id']},{php echo $row['isdefault']==1?'1':'0'})' class="weui_btn weui_btn_mini weui_btn_default"><i class="iconfont">&#xe627;</i> 修改</a></li>
+                        <li class="weui_media_info_meta"><a href="javascript:;" onclick="removeAddress(event,{$row['id']})" class="weui_btn weui_btn_mini weui_btn_default"><i class="iconfont">&#xe625;</i> 删除</a></li>
+                        <li class="weui_media_info_meta weui_media_info_meta_extra"><a href="javascript:;" onclick="saveDefaultAddress(event,{$row['id']})" class="weui_btn weui_btn_mini weui_btn_primary right"><i class="iconfont">&#xe626;</i> 设为默认</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+		{/loop}
+        <div class="weui_btn_area"><button type="button" class="weui_btn bg-blue" onclick="addAddress()"><i class="fa fa-plus"></i> 添加联系方式</button></div>
+		
+		<div class="add-address" id="addAddressPanel" {if !empty($addresses)} style="display:none;"{/if}>
+		<div class="weui_cells_title">请填写联系方式：</div>
+		<div class="weui_cells weui_cells_form">
+    <div class="weui_cell">
+        <div class="weui_cell_hd"><label class="weui_label">联系人：</label></div>
+        <div class="weui_cell_bd weui_cell_primary">
+            <input class="weui_input" id="realname" type="text" placeholder="请输入联系人姓名">
+        </div>
+    </div>
+    <div class="weui_cell">
+        <div class="weui_cell_hd"><label class="weui_label">联系电话：</label></div>
+        <div class="weui_cell_bd weui_cell_primary">
+            <input class="weui_input" id="mobile" type="tel" placeholder="请输入联系电话">
+        </div>
+    </div>
+	
+              <div class="weui_cell weui_cell_select">
+                <div class="weui_cell_bd weui_cell_primary">
+						<select id="sel-provance" onChange="selectCity();" class="weui_select" style="width:30%; margin-right:2%;">
+							<option value="" selected="true">省/直辖市</option>
+						</select>
+						<select id="sel-city" onChange="selectcounty()" class="weui_select" style="width:30%; margin-right:2%;">
+							<option value="" selected="true">请选择</option>
+						</select>
+						<select id="sel-area" class="weui_select" style="width:30%;">
+							<option value="" selected="true">请选择</option>
+						</select>
+                </div>
+            </div>
+    <div class="weui_cell">
+        <div class="weui_cell_hd"><label class="weui_label">详细地址：</label></div>
+        <div class="weui_cell_bd weui_cell_primary">
+            <input class="weui_input" id="address" type="text" name="gpsaddress" placeholder="请输入详细地址">
+        </div>
+    </div>
+
+	<div class="weui_cell row">
+				<input type="hidden" id="addressid" value="" />
+		<div class="col-50"><button type="button" class="weui_btn weui_btn_primary" onclick="saveAddress()"><i class="iconfont">&#xe613;</i> 保存</button></div>
+		<div class="col-50"><button type="button" class="weui_btn weui_btn_default" onclick="addAddress();$('#addAddressPanel').hide();$('#addressid').val('');"><i class="iconfont">&#xe614;</i> 取消</button></div>
+	</div>
+			</div>
+		</div>
+</div>
+</form>
+	</div>
+</div>
+<script type="text/javascript" src="../app/resource/components/area/cascade.js"></script>
+<script type="text/javascript">
+	var from='{$_GPC['from']}';
+	var returnurl = '{$_GPC['returnurl']}';
+	cascdeInit('','','');
+
+	function saveAddress() {
+		var realname = $('#realname').val();
+		var mobile = $('#mobile').val();
+		var province = $('#sel-provance').val();
+		var city = $('#sel-city').val();
+		var area = $('#sel-area').val();
+		var address = $('#address').val();
+		if (!realname) {
+			alert('请输入联系人！');
+			return false;
+		}
+		if (!mobile) {
+			alert('请输入联系电话！');
+			return false;
+		}
+		if (mobile.search(/^([0-9]{11})?$/) == -1) {
+			alert('请输入正确的联系电话！');
+			return false;
+		}
+//		if (!address) {
+//			alert('请输入您的详细地址！');
+//			return false;
+//		}
+		tip("正在处理数据...");
+		$.post('{php echo $this->createMobileUrl('address')}', {
+			'op' : 'post',
+			'realname' : realname,
+			'mobile' : mobile,
+			'province' : province,
+			'city' : city,
+			'area' : area,
+			'address' : address,
+			'id' : $('#addressid').val()
+		}, function(s) {
+			tip_close();
+			if (s.message != 0) {
+				if (from == 'mycart') {
+					if (returnurl != '') {
+						window.location.href = decodeURIComponent(returnurl);;
+						return;
+					}
+					window.location.href = '{php echo $this->createMobileUrl('mycart')}';
+				}
+				$("input [name='address']").attr('checked', false);
+				
+				var html='<div class="weui_panel shopcart-main1 address_item" onclick="editAddress(' + s.message +')">';
+				var html1='<div class="weui_panel_bd">' +
+					'<div class="weui_media_box weui_media_text">' +
+					'<h4 class="weui_media_title">' +realname+' <span class="iconfont f14 tright">&#xe601; '+mobile+'</span></h4>' +
+					'<p class="weui_media_desc"><i class="iconfont f12">&#xe60e;</i>'+province+' '+city+' '+area+' '+''+address+' '+'</p>' +
+					'<ul class="weui_media_info">' +
+					'<li class="weui_media_info_meta"><a href="javascript:;" onclick="saveDefaultAddress('+ s.message +')" class="weui_btn weui_btn_mini weui_btn_primary"><i class="fa fa-check"></i> 设为默认</a></li>' +
+					'</ul>' +
+					'</div>' +
+					'</div>';
+				var html2= '</div>';
+
+				if ($('#address_'+s.message).get(0)) {
+					$('#address_'+s.message).html(html1);
+				} else {
+					$(".address_item").removeClass("shopcart-main1").addClass("shopcart-main");
+					$('#myaddress').append($(html + html1 + html2));
+				}
+
+				$('#realname').val('');
+				$('#mobile').val('');
+				$('#address').val('');
+				cascdeInit('','','');
+			}
+			$('#addAddressPanel').hide();
+		}, 'json');
+	}
+
+	function addAddress() {
+		$('#addAddressPanel').show();
+		$('#realname').val('');
+		$('#mobile').val('');
+		$('#address').val('');
+		cascdeInit('','','');
+		$('#addressid').val('');
+	}
+
+	function saveDefaultAddress(e,id) {
+		tip("正在处理数据...");
+		$.post('{php echo $this->createMobileUrl('address', array('op' => 'default'))}', {
+			'id' : id,
+		}, function(s) {
+			$(".address_item").removeClass("shopcart-main1").addClass("shopcart-main");
+			$("#address_"+id).addClass("shopcart-main1");
+			tip_close();
+		}, 'json');
+		e.stopPropagation() ;
+	}
+
+	function removeAddress(e,id){
+		if(confirm('确认要删除此联系地址吗?')){
+			 tip("正在处理数据...");
+			$.post('{php echo $this->createMobileUrl('address', array('op' => 'remove'))}',
+					{ 'id' : id,},
+					function(s) {
+						$("#address_"+id).remove();
+						if(s.maxid!='0'){
+							$(".address_item").removeClass("shopcart-main1").addClass("shopcart-main");
+							$("#address_"+s.maxid).addClass("shopcart-main1");
+						}
+						tip_close();
+					},
+					'json');
+			e.stopPropagation() ;
+		}
+	}
+
+	var isdef = 0;
+
+	function editAddress(id) {
+		if (false && from == 'mycart'){
+			tip("正在处理数据...");
+			$.post('{php echo $this->createMobileUrl('address', array('op' => 'default'))}', {'id' : id}, function(s) {
+				tip_close();
+				if (returnurl != '') {
+					window.location.href = returnurl;
+					return;
+				}
+				window.location.href = '{php echo $this->createMobileUrl('mycart')}';
+			});
+			return;
+		}
+
+		tip("正在处理数据...");
+		$.get('{php echo $this->createMobileUrl('address', array('op' => 'detail'))}', {'id' : id}, function(s){
+			tip_close();
+			if (s.message) {
+				$('#addAddressPanel').show();
+				$('#realname').val(s.message.username);
+				$('#mobile').val(s.message.mobile);
+				$('#address').val(s.message.address);
+				cascdeInit(s.message.province,s.message.city,s.message.district);
+				$('#addressid').val(s.message.id);
+			}
+		}, 'json');
+	}
+</script>
+{php $footer_off = 1;}
+{template 'footers'}

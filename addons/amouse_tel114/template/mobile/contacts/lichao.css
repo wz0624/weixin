@@ -1,0 +1,45 @@
+.ui-block-a{
+    /*background-color: lightgray;*/
+    /*margin-bottom: 20px;*/
+    /*border-style: solid; */
+    /*border-width: 1px;*/
+    /*border-color: #AAAAAA;*/
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    height: 140px;
+    width: 33%;
+}
+.ui-block-b
+{
+    /*background-color: lightgray;*/
+
+    height: 70px;
+    width: 16%;
+    font-size: 4px;
+    font-weight: bold;
+    text-align: center;
+}
+.ad{
+    /*background-color: lightgray;*/
+    height: 120px;
+    width: 100%;
+    text-align: center;
+}
+.imgright{
+    position:absolute;
+    right: 15px;
+    top:10px;
+}
+.imgright-1{
+    position:absolute;
+    right: 15px;
+
+}
+#phone .ui-icon{
+    background:url(../css/images/phone.png);
+
+}
+
+#button-special { height:80px; padding: 0px 0px 20px 0px !important;}
+h1,h3,h4,h5 {text-align:center}

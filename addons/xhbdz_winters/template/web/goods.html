@@ -1,0 +1,58 @@
+{template 'common/header'}
+<div class="panel-body">
+<a class="btn btn-default" target="_blank" href="{php echo $this->createWebUrl('goods', array('op'=>'edit'));}"><i class="fa fa-plus"></i> 添加商品</a>
+</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">商品列表({$total}个商品)</div>
+		<div class="panel-body">
+			<div class="table-responsive panel-body">
+				<table class="table table-hover" style="min-width: 300px;">
+					<thead class="navbar-inner">
+						<tr>
+							<th class="col-sm-1">商品ID</th>
+							<th class="col-sm-2">商品名称</th>
+							<th class="col-sm-1">商品图片</th>
+							<th class="col-sm-1">商品价格</th>
+							<th class="col-sm-1">平台奖</th>
+							<th class="col-sm-1">排位奖</th>
+							<th class="col-sm-1">拦截奖</th>
+							<th class="col-sm-1">状态</th>
+							<th class="col-sm-1">编辑商品</th>
+							<th class="col-sm-1">删除商品</th>
+						</tr>
+					</thead>
+					<tbody>
+						{loop $goodses $goodid $goods}
+						<tr>
+							<td>{$goods['id']}</td>
+							<td>{$goods['title']}</td>
+							<td><image src="{php echo $_W['attachurl_local'].$goods['picimg']}" style="max-width: 48px; max-height: 48px; border: 1px dotted gray" /></td>
+							<td>{$goods['price']}</td>
+							<td>{$goods['ptpic']}</td>
+							<td>{$goods['pwpic']}</td>
+							<td>{$goods['ljpic']}</td>
+							<td>{php echo $goods['status']?'上架':'下架'}</td>
+							<td><a href="{php echo $this->createWebUrl('goods', array('op'=>'edit', 'id'=>$goods['id']));}" class="btn btn-default"><i class="fa fa-pencil"></i></a></td>
+							<td>
+								<a href="{php echo $this->createWebUrl('goods', array('op'=>'delete', 'id'=>$goods['id']));}" class="btn btn-default" onclick="return confirm('确认删除此商品？');return false;">
+								<i class="fa fa-times"></i>
+								</a>
+							</td>
+						</tr>
+						{/loop}
+						{if empty($goodses)}
+						<tr>
+							<td colspan="8">
+								尚未添加商品
+							</td>
+						</tr>
+						{/if}
+					</tbody>
+				</table>
+				{$pager}
+			</div>
+		</div>
+	</div>
+</div>
+
+{template 'common/footer'}

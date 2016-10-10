@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../addons/stonefish_lottery/template/css/reset.css?{php echo time()}" media="all" />
+<link rel="stylesheet" type="text/css" href="../addons/stonefish_lottery/template/css/index.css?{php echo time()}" media="all" />
+<link href="../addons/stonefish_lottery/template/css/style.css?{php echo time()}" rel="stylesheet" type="text/css" />
+<script src="{$_W['siteroot']}app/resource/js/lib/jquery-1.11.1.min.js?{php echo time()}"></script>
+<title>{$reply['title']}</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<meta name="Keywords" content="{$reply['title']}" />
+<meta name="Description" content="{$reply['description']}" />
+<!-- Mobile Devices Support @begin1 -->
+<meta content="application/xhtml+xml;charset=UTF-8" http-equiv="Content-Type">
+<meta content="telephone=no, address=no" name="format-detection">
+<meta name="apple-mobile-web-app-capable" content="yes" /> <!-- apple devices fullscreen -->
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<!-- Mobile Devices Support @end -->
+<link rel="shortcut icon" href="{$_W['siteroot']}{$_W['config']['upload']['attachdir']}/{if !empty($_W['setting']['copyright']['icon'])}{$_W['setting']['copyright']['icon']}{else}images/global/wechat.jpg{/if}" />
+</head>
+<body onselectstart="return true;" ondragstart="return false;">
+<style type="text/css">
+	{if empty($fans)}
+	.container {
+        background:url('{php echo toimage($reply['bmimg'])}') no-repeat;
+        -webkit-background-size: 100%;
+    }
+	{else}
+	.container {
+        background:url('{php echo toimage($reply['bgimg'])}') no-repeat;
+        -webkit-background-size: 100%;
+    }
+	{/if}
+	{if !empty($firend['headimgurl'])}
+	.panel-box .icon-prize-useless{background-image: url({php echo toimage($firend['headimgurl'])});}
+	{/if}
+	{if !empty($fans)}
+	.panel-box .panel-content{height:300px;}
+	{/if}
+</style>
+<body onselectstart="return true;" ondragstart="return false;" id="page-index" >
+    <div data-role="container" class="container {if empty($fans)}baoming{else}choujiang{/if}">
+        <header data-role="header"><!----></header>
+        <section data-role="body" class="body">
+            
+        </section>
+        <footer data-role="footer">
+            <span class="copyright">©{$reply['copyright']}</span>
+        </footer>
+    </div>
+<!--报名项-->
+<div class="panel-box" id="panel_box"{if !empty($fans)} style="display:block"{/if}>
+    <div class="panel-content" id="panel-content">
+        <div class="panel-close" id="panel-close"></div>
+        <span class="icon-prize-useless" id="panelimg"></span><br/>
+		{if !empty($fans)}
+		<div id="result_info1">
+			<div style="margin-top:10px;">请核定您的资料是否正确<br/>如果出错,请联系<a href="tel:13999999999">4008706370</a></div>
+			 <hr class="common-hr" />
+			<div style="margin-top:10px;">姓名:{$fans['realname']}</div>
+			<div style="margin-top:10px;">电话:{$fans['mobile']}</div>
+			<div style="margin-top:10px;"><input class="btn-confirm" id="gosquares" type="button" value="确认无误 进入活动"> </div>
+		</div>		
+		{else}
+		<div id="result_info">
+		    <div id="cccc">{$exchange['awarding_tips']}</div>
+		    <hr class="common-hr" />
+			<div id="isfans">
+            {if $exchange['isrealname']}<div style="float: left;width:100%;"><label>{$isfansname[0]}</label><input name="realname" class="px" id="realname" value="{$profile['realname']}" type="text" placeholder="请输入{$isfansname[0]}"></div>{/if}
+			{if $exchange['ismobile']}<div style="float: left;width:100%;"><label>{$isfansname[1]}</label><input name="mobile" class="px" id="mobile" value="{$profile['mobile']}" type="tel" placeholder="请输入{$isfansname[1]}"></div>{/if}
+			{if $exchange['isqq']}<div style="float: left;width:100%;"><label>{$isfansname[2]}</label><input name="qq" class="px" id="qq" value="{$profile['qq']}" type="tel" placeholder="请输入{$isfansname[2]}"></div>{/if}
+			{if $exchange['isemail']}<div style="float: left;width:100%;"><label>{$isfansname[3]}</label><input name="email" class="px" id="email" value="{$profile['email']}" type="email" placeholder="请输入{$isfansname[3]}"></div>{/if}
+			{if $exchange['isaddress']}<div style="float: left;width:100%;"><label>{$isfansname[4]}</label><input name="address" class="px" id="address" value="{$profile['address']}" type="text" placeholder="请输入{$isfansname[4]}"></div>{/if}
+			{if $exchange['isgender']}<div style="float: left;width:100%;"><label>{$isfansname[5]}</label><select name="gender" id="gender" class="form-control">
+				<option value="0"{if $profile['gender']==0} selected {/if}>选择{$isfansname[5]}</option>
+				<option value="1"{if $profile['gender']==1} selected {/if}>男</option>
+				<option value="2"{if $profile['gender']==2} selected {/if}>女</option>
+			</select></div>{/if}
+			{if $exchange['istelephone']}<div style="float: left;width:100%;"><label>{$isfansname[6]}</label><input name="telephone" class="px" id="telephone" value="{$profile['telephone']}" type="tel" placeholder="请输入{$isfansname[6]}"></div>{/if}
+			{if $exchange['isidcard']}<div style="float: left;width:100%;"><label>{$isfansname[7]}</label><input name="idcard" class="px" id="idcard" value="{$profile['idcard']}" type="text" placeholder="请输入{$isfansname[7]}"></div>{/if}
+			{if $exchange['iscompany']}<div style="float: left;width:100%;"><label>{$isfansname[8]}</label><input name="company" class="px" id="company" value="{$profile['company']}" type="text" placeholder="请输入{$isfansname[8]}"></div>{/if}
+			{if $exchange['isoccupation']}<div style="float: left;width:100%;"><label>{$isfansname[9]}</label><input name="occupation" class="px" id="occupation" value="{$profile['occupation']}" type="text" placeholder="请输入{$isfansname[9]}"></div>{/if}
+			{if $exchange['isposition']}<div style="float: left;width:100%;"><label>{$isfansname[10]}</label><input name="position" class="px" id="position" value="{$profile['position']}" type="text" placeholder="请输入{$isfansname[10]}"></div>{/if}
+		    </div>
+            <div id="result_info_tip"></div>
+			<div class="btn-layout">
+				<input class="btn-confirm" name="提交资料" id="save-btn" type="button" value="提交资料">
+            </div>
+        </div>
+		{/if}		
+    </div>
+</div>
+<!--报名项-->
+{if $reply['music']==1}
+<!--音乐控制-->
+<div class="audio-controls on"></div>
+<!-- 背景音乐 -->
+<audio id="audio" {if $reply['mauto']}autoplay="autoplay"{/if} {if $reply['mloop']}loop="loop"{/if}>
+	<source src="{php echo toimage($reply['musicurl'])}" type="audio/mpeg" />
+</audio>
+<!-- 背景音乐 -->
+<!--音乐控制-->
+{/if}
+</body>
+<script type="text/javascript">
+{if !empty($fans)}
+<!--进入九宫格抽奖-->
+    $("#gosquares,.choujiang").click(function(){
+		window.location.href='{php echo $this->createMobileUrl('squares', array('rid' => $rid,'gourl' => 'index'))}';
+	});
+<!--进入九宫格抽奖-->
+{else}
+<!--保存数据-->
+$("#save-btn").bind("click",function () {
+    var btn = $(this);
+    {if $exchange['isrealname']}
+	var realname = $("#realname").val();
+	if (realname == '') {
+	    $("#result_info_tip").text("请输入{$isfansname[0]}");
+	    return;
+	}
+	var partten = /[\u4e00-\u9fa5]/g;
+	if(!partten.test(realname)){
+	    $("#result_info_tip").text("请输入正确的{$isfansname[0]}");
+	    return;
+	}
+	{/if}
+	{if $exchange['ismobile']}
+	var mobile = $("#mobile").val();
+	if (mobile == '') {
+	    $("#result_info_tip").text("请输入{$isfansname[1]}");
+	    return;
+	}
+	var partten = /^1\d{10}$/;
+	if(!partten.test(mobile)){
+	    $("#result_info_tip").text("请输入正确的{$isfansname[1]}");
+	    return;
+	}
+	{/if}
+	{if $exchange['isqq']}
+	var qq = $("#qq").val();
+	if (qq == '') {
+	    $("#result_info_tip").text("请输入{$isfansname[2]}");
+	    return;
+	}			
+	var partten = /^[1-9]{1}\d{4,11}$/;
+	if(!partten.test(qq)){
+	    $("#result_info_tip").text("请输入正确的{$isfansname[2]}");
+	    return;
+	}
+	{/if}
+	{if $exchange['isemail']}
+	var email = $("#email").val();
+	if (email == '') {
+	    $("#result_info_tip").text("请输入{$isfansname[3]}");
+	    return;
+	}
+	var partten = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+	if(!partten.test(email)){
+	    $("#result_info_tip").text("请输入正确的{$isfansname[3]}");
+	    return;
+	}
+	{/if}
+	{if $exchange['isaddress']}
+	var address = $("#address").val();
+	if (address == '') {
+	    $("#result_info_tip").text("请输入{$isfansname[4]}");
+	    return;
+	}
+	{/if}
+	{if $exchange['isgender']}
+	var gender = $("#gender").val();
+	if (gender == '0') {
+	    $("#result_info_tip").text("请选择{$isfansname[5]}");
+	    return;
+	}
+	{/if}
+	{if $exchange['istelephone']}
+	var telephone = $("#telephone").val();
+	if (telephone == '') {
+	    $("#result_info_tip").text("请输入{$isfansname[6]}");
+	    return;
+	}
+	{/if}
+	{if $exchange['isidcard']}
+	var idcard = $("#idcard").val();
+	if (idcard == '') {
+	    $("#result_info_tip").text("请输入{$isfansname[7]}");
+	    return;
+	}
+	{/if}
+	{if $exchange['iscompany']}
+	var company = $("#company").val();
+	if (company == '') {
+	    $("#result_info_tip").text("请输入{$isfansname[8]}");
+	    return;
+	}
+	{/if}
+	{if $exchange['isoccupation']}
+	var occupation = $("#occupation").val();
+	if (occupation == '') {
+	    $("#result_info_tip").text("请输入{$isfansname[9]}");
+	    return;
+	}
+	{/if}
+	{if $exchange['isposition']}
+	var position = $("#position").val();
+	if (position == '') {
+	    $("#result_info_tip").text("请输入{$isfansname[10]}");
+	    return;
+	}
+	{/if}
+	var submitData = {
+        {if $exchange['isrealname']}realname: realname,{/if}
+		{if $exchange['ismobile']}mobile: mobile,{/if}
+		{if $exchange['isqq']}qq: qq,{/if}
+		{if $exchange['isemail']}email: email,{/if}
+		{if $exchange['isaddress']}address: address,{/if}
+		{if $exchange['isgender']}gender: gender,{/if}
+		{if $exchange['istelephone']}telephone: telephone,{/if}
+		{if $exchange['isidcard']}idcard: idcard,{/if}
+		{if $exchange['iscompany']}company: company,{/if}
+		{if $exchange['isoccupation']}occupation: occupation,{/if}
+		{if $exchange['isposition']}position: position,{/if}
+	};
+	$.post('{php echo $this->createMobileUrl('regfans', array('rid' => $rid,'from_user' => $page_from_user))}', submitData, function(data) {
+	if (data.success == 1) {
+		$("#result_info").text(data.msg);
+		setTimeout(function () {
+			$("#panel_box").hide();
+			location.reload();
+		},3000)
+		return;
+	}else{
+		$("#result_info_tip").text(data.msg);
+		return;
+	}
+	},"json")
+});	
+<!--保存数据-->
+{/if}
+<!--常用弹出关闭-->
+    $(".baoming").click(function(){
+		$("#panel_box").show();
+	});
+	$("#panel-close").click(function(){
+		$("#panel_box").hide();
+	});
+	$("#savebtn").click(function(){
+		$("#panel_box").hide();
+	});
+	$("#closebtn").click(function(){
+		$("#panel_box").hide();
+	});
+	$("#share_close").click(function(){
+		$("#share_box").hide();
+	});
+	$("#sharebtn").click(function(){
+		$("#share_box").hide();
+	});
+<!--常用弹出关闭-->
+</script>
+{if $share['share_open_close']}
+{template 'jssdk'}
+{else}
+{template 'jssdkhide'}
+{/if}
+<script>
+{if $isfans}
+	$("#result_info").show();
+	$("#panel_box").show();
+{/if}
+{if $reply['music']==1}
+<!-- 音频暂停播放 -->
+var audioAuto = document.getElementById('audio');
+{if $reply['mauto']}
+	audioAuto.play();
+{else}
+	$(".audio-controls").removeClass("on");
+{/if}
+$(".audio-controls").click(function (){ 
+	if (audioAuto.paused) {
+		audioAuto.play();
+		$(".audio-controls").addClass("on");
+    }else{
+		audioAuto.pause();
+		$(".audio-controls").removeClass("on");
+    }
+});
+<!-- 音频暂停播放 -->
+{/if}
+{if $share['share_open_close']==1}
+$("#shareimg").click(function(){
+	$("#pop_share").show();
+});
+$("#pop_share").click(function(){
+	$("#pop_share").hide();
+});
+{/if}
+</script>
+</body>
+</html>

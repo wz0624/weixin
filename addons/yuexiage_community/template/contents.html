@@ -1,0 +1,470 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li {if $do == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('contents', array('op' => 'post'))}">添加内容</a>
+	</li>
+
+	<li {if $do == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('contents', array('op' => 'display'))}">内容列表</a></li>
+</ul>
+<style>
+.table td span{display:inline-block;margin-top:4px;}
+.table td input{margin-bottom:0;}
+.close {
+    font-size: 21px;
+    font-weight: 700;	
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+    opacity: .2;
+    cursor: pointer;
+        float: none;
+}
+</style>
+{if $do == 'display'}
+<div class="panel panel-info">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body">
+		<form action="./index.php" method="get" class="form-horizontal" role="form">
+			<input type="hidden" name="c" value="site" />
+			<input type="hidden" name="a" value="entry" />
+			<input type="hidden" name="m" value="yuexiage_community" />
+			<input type="hidden" name="do" value="contents" />
+			<input type="hidden" name="op" value="display" />
+			
+			<div class="form-group col-xs-6">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">关键字</label>
+				<div class="col-xs-12 col-sm-8 col-lg-9">
+					<input class="form-control" name="keyword" id="" type="text" value="{$_GPC['keyword']}">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-xs-6">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">发布</label>
+					<div class="col-xs-12 col-sm-8 col-lg-9">
+						<select name="status" class='form-control'>
+							<option value=""  {if $_GPC['status'] == ''} selected{/if} >全部</option>
+							<option value="1" {if $_GPC['status'] == '1'} selected{/if}>发布</option>
+							<option value="0" {if $_GPC['status'] == '0'} selected{/if}>未发布</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group col-xs-6">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">来源</label>
+					<div class="col-xs-12 col-sm-8 col-lg-9">
+						<select name="source" class='form-control'>
+							<option value="" {if $_GPC['source'] == ''} selected{/if}>全部</option>
+							<option value="1" {if $_GPC['source'] == '1'} selected{/if}>官方后台</option>
+							<option value="0" {if $_GPC['source'] == '0'} selected{/if}>前台用户</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="pull-right col-xs-12 col-sm-2 col-md-2 col-lg-2">
+					<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="table-responsive panel-body">
+		<table class="table">
+			<thead>
+				<tr>
+					<th style="width:50px">排序</th>
+					<th>标题</th>
+					<th style="width:100px;">属性</th>
+					<th style="width:100px;">来源</th>
+					<th style="width:100px;">状态</th>
+					<th style="width:150px; text-align:right;">操作</th>
+					
+					
+					<th style="width:80px;">创建者</th>
+					<th style="width:150px;">创建时间</th>
+				
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['displayorder']}</td>
+					<td style="    overflow: inherit;">
+						<a href="{php echo $this->createWebUrl('contents', array('op' => 'post','id' => $item['id']))}" style="color:#333;">{$item['title']}
+						</a>
+					</td>
+					<td>
+						{if $item['ishot']}<span class="label label-success">头条</span>{/if}
+						{if $item['iscommend']}<span class="label label-warning">推荐</span>{/if}
+					</td>
+					<td>
+						{if $item['source'] == '1'}
+							<span class="label label-primary">官方后台</span>
+						{/if}
+						{if $item['source'] == '0'}
+							<span class="label label-primary">前台用户</span>
+						{/if}
+						
+					</td>
+					<td>
+						{if $item['status']}
+							<span class="label label-success">已发布</span>
+						{else}
+							<span class="label label-warning">未发布</span>
+						{/if}
+					</td>
+					<td style="text-align:right; position:relative;">
+						<a href="{php echo $this->createWebUrl('contents', array('op' => 'post','id' => $item['id']))}" title="编辑">编辑</a>&nbsp;-&nbsp;
+						{if $item['status'] == '0'}
+						<a  href="{php echo $this->createWebUrl('contents', array('op' => 'delete','id' => $item['id'],'status'=>1))}" title="发布">发布</a>
+						{else}
+						<a  href="{php echo $this->createWebUrl('contents', array('op' => 'delete','id' => $item['id']))}" title="取消发布">取消发布</a>
+						{/if}
+					</td>
+				
+						<td>
+							{$item['createname']}
+						</td>
+						<td>
+							{php echo date("Y-m-d H:i:s",$item['createtime'])}
+						</td>
+					
+				</tr>
+				{/loop}
+			</tbody>
+		</table>
+	</div>
+</div>
+{$pager}
+{elseif $do == 'post'}
+<div class="clearfix">
+<form class="form-horizontal form" action="" method="post" enctype="multipart/form-data">
+	<div class="panel panel-default">
+		<div class="panel-heading">文章管理</div>
+		<div class="panel-body">
+				<input type="hidden" name="id" value="{$item[id]}">
+				{if !empty($item) && empty($item['linkurl']) && $id > 0}
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">访问地址</label>
+						<div class="col-sm-8 col-xs-12">
+							<p class="form-control-static"><a href="{$_W['siteroot']}app/index.php?c=entry&m=yuexiage_community&do=detail&id={$item['id']}&i={$_W['uniacid']}" target="_blank">{$_W['siteroot']}app/index.php?c=entry&m=yuexiage_community&do=detail&id={$item['id']}&i={$_W['uniacid']}</a></p>
+							<div class="help-block">您可以根据此地址，添加回复规则，设置访问。</div>
+						</div>
+					</div>
+				{/if}
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">排序</label>
+					<div class="col-sm-8 col-xs-12">
+						<input type="text" class="form-control" placeholder="" name="displayorder" value="{$item['displayorder']}">
+						<span class="help-block">文章的显示顺序，越大则越靠前</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">标题</label>
+					<div class="col-sm-8 col-xs-12">
+						<input type="text" class="form-control" placeholder="" name="title" value="{$item['title']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">文章触发关键字</label>
+					<div class="col-sm-8 col-xs-12">
+						<input type="text" class="form-control" placeholder="" name="keyword" value="{$keywords}">
+						<div class="help-block">添加关键字以后,系统将生成一条图文规则,用户可以通过输入关键字来阅读文章。多个关键字请用英文“,”隔开</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">自定义属性</label>
+					<div class="col-sm-8 col-xs-12">
+						<label class="checkbox-inline"><input type="checkbox" name="option[hot]" value="1" {if $item['ishot']} checked{/if}> 头条[h]</label>
+						<label class="checkbox-inline"><input type="checkbox" name="option[commend]" value="1" {if $item['iscommend']} checked{/if}> 推荐[c]</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">发布</label>
+					<div class="col-sm-8 col-xs-12">
+						<label class="radio-inline">
+							<input type="radio" name="status" value="1" {if $item['status'] == 1} checked{/if} > 发布
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="status" value="0" {if $item['status'] == 0} checked{/if} > 不发布
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">标签:</label>
+					<div class="input-group col-sm-8 col-xs-12">
+						<div class="tabslist">
+							{loop $tabs $val}
+								<span class='label label-primary'>{$val['name']}
+									<span>
+										<a onclick='del()' class='tab_del' href='javascript:void'>x</a>
+									</span>
+									<input class='tabs_list' type='hidden' name='tabs_list[]'  value='{$val['name']}'>
+								</span>
+								
+							{/loop}
+						</div>
+	                </div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">标签:</label>
+					<div class="input-group col-sm-8 col-xs-12">
+						<input type="text" class="form-control" id="tabs">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            </ul>
+                        </div>
+	                </div>
+				</div>
+				<style>
+					.tabslist .label-primary{
+						padding: 5px;
+						margin: 5px;
+					}
+					.tabslist .label-primary a{
+						padding: 5px;
+						margin: 5px;
+						color:#fff;
+					}
+					.tabslist .label-primary a:hover{
+						color:#666;
+					}
+				</style>
+				<script src="{$_W['siteroot']}addons/yuexiage_community/images/js/bootstrap-suggest.js"></script>
+				<script type="text/javascript">
+				    var testBsSuggest = $("#tabs").bsSuggest({
+				        //url: "/rest/sys/getuserlist?keyword=",
+				        url: "{php echo $this->createWebUrl('gettabs', array())}",
+				        /*effectiveFields: ["userName", "shortAccount"],
+				        searchFields: [ "shortAccount"],
+				        effectiveFieldsAlias:{userName: "姓名"},*/
+				        showBtn: false,
+				        allowNoKeyword: false, 
+				        idField: "id",
+				        keyField: "name"
+				    }).on('onDataRequestSuccess', function (e, result) {
+				        console.log('onDataRequestSuccess: ', result);
+				    }).on('onSetSelectValue', function (e, keyword) {
+				        console.log('onSetSelectValue: ', keyword);
+				    }).on('onUnsetSelectValue', function (e) {
+				        console.log("onUnsetSelectValue");
+				    });
+
+				    $(function(){
+				    	$("#tabs").bind('keypress',function(){
+				    		if(event.keyCode==32){
+						        var tab = $("#tabs").val();
+						        tab = tab.trim();
+						        if(tab!=""){
+						        	if ($('.tabs_list').length>=5) {
+						        		alert("标签过多!");
+						        		return false;
+						        	};
+						        	var ex = false;
+						        	$('.tabs_list').each(function(){
+									    if($(this).val()== tab){
+									    	alert("标签已存在!");
+						        			ex = true;
+									    }
+									})
+
+						        	if (ex) return false;
+						        	$(".tabslist").append("<span class='label label-primary'>"+tab+"<span><em class='close' style=''  onclick='deleteImg(this)'>×</em></span><input class='tabs_list' type='hidden' name='tabs_list[]'  value='"+tab+"'></span>");
+						        	$("#tabs").val('');
+						        }							
+						    }
+				    	});
+
+				    	
+
+
+				    });
+				</script>
+				<script>
+				function deleteImg(obj){
+				    $(obj).parent().parent().remove();
+				}
+				</script>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">文章作者</label>
+					<div class="col-sm-8 col-xs-12">
+						<input type="text" class="form-control" id="writer" name="author" value="{$item['author']}">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">来源</label>
+					<div class="col-sm-8 col-xs-12">
+						<select name="source" class='form-control'>
+							<option value="1" {if $item['source'] == '1'} selected {/if} >官方后台</option>
+							<option value="0" {if $item['source'] == '0'} selected {/if}>前台用户</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">缩略图</label>
+					<div class="col-sm-8 col-xs-12">
+						{php echo tpl_form_field_image('thumb', $item['thumb'])}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label>
+						封面（大图片建议尺寸：360像素 * 200像素）
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="checkbox-inline">
+							<input type="checkbox" name="incontent" value="1" {if !empty($item['incontent'])} checked="checked" {/if} /> 封面图片显示在正文中
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">简介</label>
+					<div class="col-sm-8 col-xs-12">
+						<textarea class="form-control" name="description" rows="5">{$item['description']}</textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label"></label>
+					<div class="col-sm-8">
+						<div class="help-block"><label class="checkbox-inline"><input type="checkbox" name="autolitpic" value="1"{if empty($item['thumb'])} checked="true"{/if}>提取内容的第一个图片为缩略图</label></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">内容</label>
+					<div class="col-sm-8 col-xs-12">
+						{php echo tpl_ueditor('content', $item['content']);}
+					</div>
+				</div>
+				<!-- <div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">直接链接</label>
+					<div class="col-sm-8 col-xs-12">
+						{php echo tpl_form_field_link('linkurl', $item['linkurl']);}
+					</div>
+				</div> -->
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">阅读次数</label>
+					<div class="col-sm-8 col-xs-12">
+						<input type="text" name="click" value="{$item['click']}" class="form-control"/>
+						<div class="help-block">默认为0。您可以设置一个初始值,阅读次数会在该初始值上增加。</div>
+					</div>
+				</div>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">积分设置</div>
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">是否赠送积分</label>
+				<div class="col-sm-8 col-xs-12">
+					<label class="radio-inline"><input type="radio" name="credit[status]" value="1" {if $item['credit']['status'] == 1} checked{/if} id="credit1"> 赠送</label>
+					<label class="radio-inline"><input type="radio" name="credit[status]" value="-1" {if $item['credit']['status'] == -1} checked{/if} id="credit0"> 不赠送</label>
+					<label class="radio-inline"><input type="radio" name="credit[status]" value="0" {if $item['credit']['status'] == 0} checked{/if} id="credit2"> 继承</label>
+					<span class="help-block">设置赠送积分后,粉丝在分享时赠送积分.粉丝的好友在点击阅读时,也会赠送积分</span>
+				</div>
+			</div>
+			<div id="credit-status1" {if $item['credit']['status'] == 1}style="display:block"{else}style="display:none"{/if}>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">赠送积分上限</label>
+					<div class="col-sm-8 col-xs-12">
+						<input type="text" class="form-control" name="credit[limit]" value="{$item['credit']['limit']}">
+						<span class="help-block">设置赠送积分的上限,到达上限后将不再赠送积分</span>
+						{if !empty($id)}
+							<span class="help-block">已经赠送了<strong class="text-danger"> {$credit_num} </strong>积分,还可以赠送<strong class="text-danger"> {$credit_yu} </strong>积分</span>
+						{/if}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">转发赠送积分</label>
+					<div class="col-sm-8 col-xs-12">
+						<input type="text" class="form-control"  name="credit[share]" value="{$item['credit']['share']}">
+						<span class="help-block">设置转发时赠送积分</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">阅读赠送积分</label>
+					<div class="col-sm-8 col-xs-12">
+						<input type="text" class="form-control" name="credit[click]" value="{$item['credit']['click']}">
+						<span class="help-block">设置阅读时赠送给分享人的积分</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">点赞赠送积分</label>
+					<div class="col-sm-8 col-xs-12">
+						<input type="text" class="form-control" name="credit[hit]" value="{$item['credit']['hit']}">
+						<span class="help-block">点赞赠送的积分</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">评论赠送积分</label>
+					<div class="col-sm-8 col-xs-12">
+						<input type="text" class="form-control" name="credit[comm]" value="{$item['credit']['comm']}">
+						<span class="help-block">评论赠送的积分</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">集阅读积分</label>
+					<div class="col-sm-8 col-xs-12">
+						<input type="text" class="form-control" name="credit[shared_credit]" value="{$item['credit']['shared_credit']}">
+						<span class="help-block">集阅读积分的积分</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		<div class="panel panel-default">
+		<div class="panel-heading">推广设置</div>
+		<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">产品图</label>
+					<div class="col-sm-8 col-xs-12">
+						{php echo tpl_form_field_image('advertisement_img', $item['advertisement_img'])}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label>
+						封面（大图片建议尺寸：360像素 * 200像素）
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">产品链接</label>
+					<div class="col-sm-8 col-xs-12">
+						{php echo tpl_form_field_link('advertisement_link', $item['advertisement_link']);}
+					</div>
+				</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-12">
+			<input name="submit" type="submit" value="提交" class="btn btn-primary col-lg-1">
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</div>
+</form>
+</div>
+<script type="text/javascript">
+	$('#credit1').click(function(){
+		$('#credit-status1').show();
+	});
+	$('#credit0').click(function(){
+		$('#credit-status1').hide();
+	});
+	$('#credit2').click(function(){
+		$('#credit-status1').hide();
+	});
+</script>
+{/if}
+{template 'common/footer'}

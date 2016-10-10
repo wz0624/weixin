@@ -1,0 +1,120 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+
+    <li><a href="{php echo $this->createWebUrl('user', array('op'=>'list'));}">会员列表</a></li>
+
+    <li class="active"><a href="{php echo $this->createWebUrl('user', array('op'=>'level'));}">等级设置</a></li>
+
+</ul>
+
+<div class="clearfix">
+
+    <div class="panel panel-default">
+
+        <div class="panel-heading">等级设置</div>
+
+        <div class="panel-body">
+            <div class="main">
+                <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="{$item['id']}"/>
+                    <input type="hidden" name="c" value="site"/>
+                    <input type="hidden" name="a" value="entry"/>
+                    <input type="hidden" name="m" value="yike_red_packet"/>
+                    <input type="hidden" name="do" value="user"/>
+                    <input type="hidden" name="op" value="edit_level"/>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span
+                                style="color:red">*</span>等级名称</label>
+                        <div class="col-sm-9 col-xs-12">
+                            <input type="text" id='name' name="name" class="form-control" value="{$item['name']}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span
+                                style="color:red">*</span>激活费用</label>
+                        <div class="col-sm-9 col-xs-12">
+                            <input type="text" id='money' name="money" class="form-control" value="{$item['money']}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span
+                                style="color:red">*</span>1级奖励</label>
+                        <div class="col-sm-9 col-xs-12">
+                            <input type="text" id='level1_money' name="level1_money" class="form-control" value="{$item['level1_money']}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span
+                                style="color:red">*</span>1级分成人数</label>
+                        <div class="col-sm-9 col-xs-12">
+                            <input type="text" id='level1_count' name="level1_count" class="form-control" value="{$item['level1_count']}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span
+                                style="color:red">*</span>2级奖励</label>
+                        <div class="col-sm-9 col-xs-12">
+                            <input type="text" id='level2_money' name="level2_money" class="form-control" value="{$item['level2_money']}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span
+                                style="color:red">*</span>2级分成人数</label>
+                        <div class="col-sm-9 col-xs-12">
+                            <input type="text" id='level2_count' name="level2_count" class="form-control" value="{$item['level2_count']}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span
+                                style="color:red">*</span>3级奖励</label>
+                        <div class="col-sm-9 col-xs-12">
+                            <input type="text" id='level3_money' name="level3_money" class="form-control" value="{$item['level3_money']}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span
+                                style="color:red">*</span>3级分成人数</label>
+                        <div class="col-sm-9 col-xs-12">
+                            <input type="text" id='level3_count' name="level3_count" class="form-control" value="{$item['level3_count']}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span
+                                style="color:red">*</span>额外奖励</label>
+                        <div class="col-sm-9 col-xs-12">
+                            <input type="text" id='other_money' name="other_money" class="form-control" value="{$item['other_money']}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span
+                                style="color:red">*</span>额外分成人数</label>
+                        <div class="col-sm-9 col-xs-12">
+                            <input type="text" id='other_count' name="other_count" class="form-control" value="{$item['other_count']}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group"></div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                        <div class="col-sm-9 col-xs-12">
+                            <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1"/>
+                            <input type="hidden" name="token" value="{$_W['token']}"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{template 'common/footer'}

@@ -1,0 +1,109 @@
+{template 'common/header'}
+<div class="main">
+	<form class="form-horizontal form" id="" action="" method="post">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				设置
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">应用标题</label>
+					<div class="col-sm-9 col-xs-12">
+						<input class="form-control" name="hc_mynzj_title" type="text" value="{if $subject['hc_mynzj_title']}{$subject['hc_mynzj_title']}{else}{$item['hc_mynzj_title']}{/if}">
+					</div>	
+				</div>	
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">分享标题</label>
+					<div class="col-sm-9 col-xs-12">
+						<input class="form-control" name="share_title" type="text" value="{if $subject['share_title']}{$subject['share_title']}{else}{$item['share_title']}{/if}">
+					</div>	
+				</div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">分享时候缩略图</label>
+                    <div class="col-sm-8 col-xs-12">
+					{php echo tpl_form_field_image('share_pic',$subject['share_pic'])}
+                       
+                    </div>
+                </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">分享描述</label>
+					<div class="col-sm-9 col-xs-12">
+						<input class="form-control" name="share_desc" type="text" value="{if $subject['share_desc']}{$subject['share_desc']}{else}{$item['share_desc']}{/if}">
+					</div>	
+				</div>
+		
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">引导链接</label>
+					<div class="col-sm-9 col-xs-12">
+						<input class="form-control" name="hc_mynzj_url" type="text" value="{if $subject['hc_mynzj_url']}{$subject['hc_mynzj_url']}{else}{$item['hc_mynzj_url']}{/if}">
+					</div>	
+				</div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">背景图</label>
+                    <div class="col-sm-8 col-xs-12">
+					{php echo tpl_form_field_image('hc_bg',$subject['hc_bg'])}
+                       
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">结果图</label>
+                    <div class="col-sm-8 col-xs-12">
+					{php echo tpl_form_field_image('hc_bg2',$subject['hc_bg2'])}
+                       
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">左边按钮</label>
+                    <div class="col-sm-8 col-xs-12">
+					{php echo tpl_form_field_image('hc_nt1',$subject['hc_nt1'])}
+                       
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">右边按钮</label>
+                    <div class="col-sm-8 col-xs-12">
+					{php echo tpl_form_field_image('hc_nt2',$subject['hc_nt2'])}
+                       
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">分数背景</label>
+                    <div class="col-sm-8 col-xs-12">
+					{php echo tpl_form_field_image('hc_top',$subject['hc_top'])}
+                       
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">引导分享提示图</label>
+                    <div class="col-sm-8 col-xs-12">
+					{php echo tpl_form_field_image('hc_tips',$subject['hc_tips'])}
+                       
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">加载时候的图，建议圆形的比较好看，放LOGO也是不错的</label>
+                    <div class="col-sm-8 col-xs-12">
+					{php echo tpl_form_field_image('loading',$subject['loading'])}
+                       
+                    </div>
+                </div>
+			</div>
+		</div>
+
+		<div class="form-group col-sm-12">
+			<input name="token" type="hidden" value="{$_W['token']}" />
+			<input type="submit" class="btn btn-primary col-lg-1" name="submit" value="提交" />
+		</div>
+	</form>
+</div>
+
+<script language='javascript'>
+require(['jquery', 'util'], function($, u) {
+	$(function() {
+
+	});
+});
+</script>
+
+{template 'common/footer'}

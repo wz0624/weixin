@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="../addons/stonefish_lottery/template/css/reset.css?{php echo time()}" media="all" />
+<link rel="stylesheet" type="text/css" href="../addons/stonefish_lottery/template/css/index.css?{php echo time()}" media="all" />
+<link href="../addons/stonefish_lottery/template/css/style.css?{php echo time()}" rel="stylesheet" type="text/css" />
+<script src="{$_W['siteroot']}app/resource/js/lib/jquery-1.11.1.min.js?{php echo time()}"></script>
+<title>{$reply['title']}</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<meta name="Keywords" content="{$reply['title']}" />
+<meta name="Description" content="{$reply['description']}" />
+<!-- Mobile Devices Support @begin1 -->
+<meta content="application/xhtml+xml;charset=UTF-8" http-equiv="Content-Type">
+<meta content="telephone=no, address=no" name="format-detection">
+<meta name="apple-mobile-web-app-capable" content="yes" /> <!-- apple devices fullscreen -->
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<!-- Mobile Devices Support @end -->
+<link rel="shortcut icon" href="{$_W['siteroot']}{$_W['config']['upload']['attachdir']}/{if !empty($_W['setting']['copyright']['icon'])}{$_W['setting']['copyright']['icon']}{else}images/global/wechat.jpg{/if}" />
+</head>
+<body onselectstart="return true;" ondragstart="return false;">
+<style type="text/css">
+	.container {
+        background:url('{php echo toimage($reply['startimg'])}') no-repeat;
+        -webkit-background-size: 100%;
+    }
+</style>
+<body onselectstart="return true;" ondragstart="return false;" id="page-index" >
+    <div data-role="container" class="container">
+        <header data-role="header"><!----></header>
+        <section data-role="body" class="body">
+            
+        </section>
+        <footer data-role="footer">
+            <span class="copyright">©{$reply['copyright']}</span>
+        </footer>
+    </div>
+</body>
+<script type="text/javascript">
+<!--进入九宫格抽奖-->
+    $(".container").click(function(){
+		window.location.href='{php echo $this->createMobileUrl('index', array('rid' => $rid,'uid' => $uid,'go' => 'yes'))}';
+	});
+<!--进入九宫格抽奖-->
+</script>
+{if $share['share_open_close']}
+{template 'jssdk'}
+{else}
+{template 'jssdkhide'}
+{/if}
+</body>
+</html>

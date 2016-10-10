@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<meta name="format-detection" content="telephone=no"/>
+
+
+<link href="{DZ}mobile/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{DZ}mobile/css/lift.css" />
+
+
+<script src="{DZ}mobile/js/jquery.min.js"></script>
+<script src="{DZ}mobile/js/bootstrap.min.js"></script>
+{php echo register_jssdk(false);}
+<script type="text/javascript">
+ wx.ready(function () {
+        url = 
+        sharedata = {
+            title: "今天是我活着的第{$Days}天",
+            desc: "珍惜生活，感恩每一个遇到的朋友，生命万岁",
+            link: "{$url}",
+            imgUrl: "{$_W['siteroot']}addons/dzduocai_life/icon.jpg",
+            success: function(){
+                
+                
+
+            },
+            cancel: function(){
+                alert("分享失败，可能是网络问题，一会儿再试试？");
+            }
+        };
+        wx.onMenuShareAppMessage(sharedata);
+        wx.onMenuShareTimeline(sharedata);
+    });
+
+
+
+
+</script>
+
+<title>生命计算器</title>
+</head>
+<body class="l_list">
+    <div class="container">
+        <div class="media">
+          <div class="media-left">
+            <a href="#">
+              <img alt="64x64"  class="media-object img-circle" style="width: 64px; height: 64px;" src="{DZ}mobile/images/a1.png">
+            </a>
+          </div>
+          <div class="media-body">
+            <h5 class="media-heading text-muted">你已经</h5>
+            <h3><strong><span id="age">{$nian2}</span>岁了</strong></h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div> <!-- E header -->
+
+
+    <div class="list_area container">
+        <ul class="list-unstyled">
+            <li class="list_first"> <h6 class="text-muted">你已经存在了</h6> </li>
+            <li> <strong>{$nian}</strong> 年 </li>
+            <li> <strong>{$yue}</strong> 月 </li>
+            <li> <strong>{$zhou}</strong> 周 </li>
+            <li> <strong>{$Days}</strong> 天</li>
+            <li> <strong>{$xiaoshi}</strong> 小时 </li>
+            <li> <strong>{$fen}</strong> 分钟 </li>
+            <li> <strong>{$miao}</strong> 秒 </li>
+        </ul>
+
+        <div class="buttons text-center">
+            <a href="{php echo $this->createMobileUrl('future',array('date_time'=>$date_time))}" class="btn btn-default btn-lg">未来</a>
+
+
+
+        </div> <!-- E buttons -->
+    </div> <!-- E list_area -->
+</body>
+<script>
+function CheckDateTime(str){
+    if(!parseInt(str)) return false;
+    return true;
+}
+
+$("#calculation").on('click', function() {
+    var date_time = $("#date_time").val();
+    if(date_time) {
+        if(CheckDateTime(date_time))
+           
+        else
+            $("#date_time_error").show();
+    } else {
+        $("#date_time_error").show();
+    }
+});
+
+
+</script>
+<script>
+function show() {
+    var age = $("#age").text();
+    age = parseFloat(age);
+    var age2 = age + 0.00000011;
+    age2 = age2.toFixed(8);
+    $("#age").text(age2);
+}
+setInterval("show()",1000);
+</script>
+
+</html>

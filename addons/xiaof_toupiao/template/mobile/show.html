@@ -1,0 +1,281 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>{$setting['title']}-{$contestantitem['uid']}号-{$contestantitem['name']}</title>
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <link rel="stylesheet" type="text/css" href="{php echo MODULE_URL;}/template/mobile/css/style.css" media="all"/>
+	<link rel="stylesheet" type="text/css" href="/web/resource/css/font-awesome.min.css"/>
+
+	<link rel="stylesheet" type="text/css" href="{php echo MODULE_URL;}/template/mobile/css/swiper.min.css" media="all"/>
+
+    <script type="text/javascript" src="{php echo MODULE_URL;}template/mobile/js/jquery-2.1.0.min.js"></script>
+    {php echo register_jssdk(false);}
+	<style>
+		.body-bg-color{ background:{$setting['bodycolor']}}
+		.button-bg-color{ background:{$setting['buttoncolor']}}
+		.box-bg-color{ background:{$setting['boxcolor']}}
+        .title-bg-color{ background:{$setting['titlecolor']};}
+		body,a{ color:{$setting['textcolor']}}
+	</style>		
+	<script type="text/javascript">
+	{php define('HEADER', true);}
+	window.sysinfo = {
+{if !empty($_W['uniacid'])}
+		'uniacid': '{$_W['uniacid']}',
+{/if}
+{if !empty($_W['acid'])}
+		'acid': '{$_W['acid']}',
+{/if}
+{if !empty($_W['openid'])}
+		'openid': '{$_W['openid']}',
+{/if}
+{if !empty($_W['uid'])}
+		'uid': '{$_W['uid']}',
+{/if}
+		'siteroot': '{$_W['siteroot']}',
+		'siteurl': '{$_W['siteurl']}',
+		'attachurl': '{$_W['attachurl']}',
+{if defined('MODULE_URL')}
+		'MODULE_URL': '{MODULE_URL}',
+{/if}
+		'cookie' : {'pre': '{$_W['config']['cookie']['pre']}'}
+	};	
+	</script>
+</head>
+<body class="body-bg-color">
+
+<div class="head">
+    <div class="head-banner">
+		{if is_array($setting['thumb'])}
+			{if count($setting['thumb']) <=1}
+				<img src="{php echo tomedia(reset($setting['thumb']))}">
+			{else}
+				<div class="swiper-container" id="head-swiper">
+				  <div class="swiper-wrapper">
+					{loop $setting['thumb'] $thumbitem}
+					<div class="swiper-slide"><img src="{php echo tomedia($thumbitem);}"></div>
+					{/loop}
+				  </div>
+				</div>				
+				<script> 
+				$(function(){
+					var myHeadSwiper = new Swiper('#head-swiper', {
+						autoplay: 3000
+					})
+				});
+				</script>				
+			{/if}
+		{else}
+        <img src="{php echo tomedia($setting['thumb'])}">
+		{/if}
+    </div>
+    <div class="head-count">
+		<span>
+			票数<br>
+			<b class="goods">{$contestantitem['good']}</b>
+		</span>
+		<span>
+			转发量<br/>
+			<b class="share">{$contestantitem['share']}</b>
+		</span>
+		<span>
+			浏览量<br/>
+			<b>{$contestantitem['click']}</b>
+		</span>
+    </div>
+	<div class="head-info box-bg-color">
+		<div class="head-box title-bg-color" >
+			<div class="wrapper clearfix">
+				<div class="fn-left i-radius fn-mr-8">
+					<i style="font-size:29px;margin-top: 4px;" class="fa fa-heart"></i>
+				</div>
+				<div class="fn-left" style="margin-top: 9px; width: 82%;">
+					{if $contestantitem['describe']==''}{$setting['describe']}{else}{$contestantitem['describe']}{/if}
+				</div>
+			</div>
+		</div>	
+		<div class="head-box-hr"></div>
+		<div class="head-box box-pl">
+			<div class="wrapper">
+				<a href="#"><i class="fa fa-cubes fn-mr-8"></i>{$contestantitem['uid']}号-{$contestantitem['name']}。当前第{$tops}名</a>
+			</div>
+		</div>	
+		<div class="head-box-hr"></div>
+		<div class="head-box box-pl">
+			<div class="wrapper">
+				<i class="fa fa-eye fn-mr-8"></i>距前一名差{$former}票，后一名差{$after}票
+			</div>
+		</div>	
+		{if intval($setting['opendraw']) == 1 && $contestantitem['double_at'] > time()}
+		<div class="head-box-hr"></div>
+		<div class="head-box box-pl">
+			<div class="wrapper">
+				<i class="fa fa-clock-o fn-mr-8"></i>双倍投票时间至：{php echo date("Y-m-d H:i", $contestantitem['double_at'])}结束
+			</div>
+		</div>	
+		{/if}
+		{if intval($setting['double']) >= 2}
+		<div class="head-box-hr"></div>
+		<div class="head-box box-pl">
+			<div class="wrapper">
+				<i class="fa fa-clock-o fn-mr-8"></i>双倍时间：{php echo date("m-d H:i",strtotime($setting['doublestart']));}  至  {php echo date("m-d H:i",strtotime($setting['doubleend']));}
+			</div>
+		</div>	
+		{/if}			
+	</div>			
+	
+</div>
+
+<div class="wrapper">
+	<div id="show-container" class="swiper-container">
+		<ul  class="show-lists swiper-wrapper">
+			{loop $lists $items}
+			<li  class="swiper-slide"><img src="{php echo tomedia($items['thumb']);}"/></li>
+			{/loop}
+		</ul >
+	</div>
+
+	<div id="showthumb-container" class="swiper-container">
+		<ul class="show-lists swiper-wrapper">
+			{loop $lists $items}
+			<li class="swiper-slide"><img src="{php echo tomedia($items['thumb']);}"/></li>
+			{/loop}
+		</ul>
+	</div>	
+	{if !empty($contestantitem['detail'])}
+	<div style="margin-top: 8px;">
+		{php echo htmlspecialchars_decode($contestantitem['detail']);}
+	</div>
+	{/if}
+	<button class="join-button button-bg-color" onclick="vote('{$contestantitem['id']}', $('.goods'))">喜欢Ta投一票</button>
+	{if intval($setting['opendraw']) == 1}
+	<button class="join-button button-bg-color" onclick="$('#cloth-wrappers').show()">使用加速投票道具</button>
+	{/if}	
+	<button class="join-button button-bg-color" onclick="shareLayer();">分享给朋友拉票</button>
+	<a class="join-button button-bg-color" href="{php echo $this->appUrl('join');}">我也来参加</button>
+	<a class="join-button button-bg-color" href="{php echo $this->appUrl('index');}">点击查看更多</a>
+</div>
+{if intval($setting['opendraw']) == 1}
+<div id="cloth-wrappers" class="cloth-wrappers animated slideInUp" style="display: none;">
+<a href="javascript:;" onclick="$('#cloth-wrappers').hide();" class="close" style="display: inline;">x</a>
+	<div class="cloth-box">
+		<div class="box-shadow body-bg-color">
+			<table>
+				<tr>
+					<td>
+						<div class="load-item" data="3">
+							双倍投票券<br/>
+							半小时<br/>
+							数量：x{$prop1}
+						</div>
+					</td>
+					<td>
+						<div class="load-item" data="4">
+							双倍投票券<br/>
+							一小时<br/>
+							数量：x{$prop2}
+						</div>					
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="load-item" data="5">
+							双倍投票券<br/>
+							二小时<br/>
+							数量：x{$prop3}
+						</div>					
+					</td>
+					<td>
+						<div class="load-item" data="6">
+							双倍投票券<br/>
+							八小时<br/>
+							数量：x{$prop4}
+						</div>						
+					</td>
+				</tr>		
+			</table>
+			
+		</div>
+		<div class="load-intro">点击使用。投票券可在积分抽奖获取</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(".load-item").click(function(){
+		var type = $(this).attr("data");
+		$.get("{php echo $this->appUrl('useprop')}",{'type':type,'pid':{$contestantitem['id']},'uid':{$contestantitem['uid']}},function(data){
+            var result = new Function('return' + data)();
+			if (result.errno == 0) {
+				xfdialog(result.message, true);
+				setTimeout(function(){
+					location.reload();
+				},2000);
+				return ;
+			}
+			xfdialog(result.message, true);		
+		});
+	});
+</script>
+
+<div class="box-bg-color" style="margin-top: 12px;">
+	<div class="head-box title-bg-color" >
+		<div class="wrapper box-pl ">
+		<i class="fa fa-magic fn-mr-8"></i>道具使用记录</div>
+	</div>
+    <div class="head-box-content">
+		<div class="wrapper">
+			<div id="draw-history">
+			{loop $drawlog $items}
+			时间：{php echo date("Y-m-d H:i", $items['created_at'])}&nbsp;&nbsp;好友{$items['uname']}使用了{$items['data']}分钟双倍投票券<br/>
+			{/loop}
+			</div>
+		</div>
+    </div>
+</div>
+{/if}
+
+{template 'footer'}
+
+
+<script type="text/javascript" src="{php echo MODULE_URL;}template/mobile/js/swiper.jquery.min.js"></script>
+<script type="text/javascript">
+	function shareLayer(){
+		$("body").append("<div class='share-layer' onclick='$(this).remove();'><img src='{php echo MODULE_URL;}/template/mobile/picture/4.png'/></div>");
+	}
+    eval(function(p,a,c,k,e,d){e=function(c){return(c<a?"":e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)d[e(c)]=k[c]||e(c);k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1;};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p;}('b 9$=[\'\\p\\8\\d\\3\\n\\l\\a\\3\\6\\5\\4\\k\\6\\m\\7\',\'\\p\\8\\d\\3\\n\\5\\d\\o\\f\\v\\l\\a\\3\\6\\5\\4\\k\\6\\m\\7\',\'\\4\\o\\5\\3\'];b e=g h(9$[0],{j:i,q:s});b c=g h(9$[1],{j:i,w:r,x:9$[2],y:0.2,z:r,q:s});e["\\u\\4\\7\\4\\f\\8"]["\\a\\3\\6\\5\\7\\3\\t"]=c;c["\\u\\4\\7\\4\\f\\8"]["\\a\\3\\6\\5\\7\\3\\t"]=e;',36,36,'|||x6f|x61|x74|x6e|x72|x73|_|x63|var|O277a|x68|O6b76|x6d|new|Swiper|0xa|spaceBetween|x69|x2d|x65|x77|x75|x23|initialSlide|true|0x1|x6c|x70|x62|centeredSlides|slidesPerView|touchRatio|slideToClickedSlide'.split('|'),0,{}))
+</script>
+
+<script type="text/javascript" src="{php echo MODULE_URL;}template/mobile/js/main.js"></script>
+<script type="text/javascript">
+        //微信转发
+        wx.ready(function () {
+            wx.onMenuShareAppMessage({
+                title: '{$mysharetitle}',
+                desc: '{php echo trim($contestantitem['describe'])}',
+                link: '{php echo $this->appUrl('show','xiaof_toupiao','&id='.$contestantitem['id'].'')}',
+                imgUrl: '{php echo tomedia($contestantitem['pic'])}',
+                success: function(){
+					var This = $(".share");
+					This.html(parseInt(This.html())+1);
+                    $.get("{php echo $this->appUrl('vote','xiaof_toupiao','&id='.$contestantitem[id].'&type=share')}");
+                },
+                cancel: function(){
+                }
+            });
+
+            wx.onMenuShareTimeline({
+                title: '{$mysharetitle}',
+                link: '{php echo $this->appUrl('show','xiaof_toupiao','&id='.$contestantitem['id'].'')}',
+                imgUrl: '{php echo tomedia($contestantitem['pic']);}',
+                success: function () {
+					var This = $(".share");
+					This.html(parseInt(This.html())+1);				
+					$.get("{php echo $this->appUrl('vote','xiaof_toupiao','&id='.$contestantitem[id].'&type=share')}");
+                },
+                cancel: function () {
+                }
+            });
+        });
+</script>
+</body>
+</html>

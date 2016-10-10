@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.efwww.com" versionCode="0.6">
+	<application setting="true">
+		<name><![CDATA[智慧众筹]]></name>
+		<identifie><![CDATA[hx_zhongchou]]></identifie>
+		<version><![CDATA[3.9.1]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[为有梦想、有创意、有项目的朋友提供募资、投资、孵化、运营一站式综合众筹服务,协助您实现自己的创业梦想。]]></ability>
+		<description><![CDATA[为有梦想、有创意、有项目的朋友提供募资、投资、孵化、运营一站式综合众筹服务,协助您实现自己的创业梦想。]]></description>
+		<author><![CDATA[易福源码网]]></author>
+		<url><![CDATA[http://www.efwww.com/]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="众筹入口设置" do="list" state="" direct="false" />
+		</cover>
+		<menu>
+			<entry title="订单管理" do="order" state="" direct="false" />
+			<entry title="项目管理" do="project" state="" direct="false" />
+			<entry title="项目分类" do="category" state="" direct="false" />
+			<entry title="配送方式" do="dispatch" state="" direct="false" />
+			<entry title="物流管理" do="express" state="" direct="false" />
+			<entry title="幻灯片管理" do="adv" state="" direct="false" />
+			<entry title="新闻资讯" do="news" state="" direct="false" />
+		</menu>
+		<home>
+			<entry title="众筹" do="list" state="" direct="false" />
+		</home>
+		<profile>
+			<entry title="我的众筹" do="myorder" state="" direct="false" />
+		</profile>
+	</bindings>
+	<install><![CDATA[
+
+]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>

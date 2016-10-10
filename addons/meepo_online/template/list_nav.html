@@ -1,0 +1,75 @@
+
+<style>
+.btn-group{margin:5px !important;}
+</style>
+<div class="navbar navbar-default navbar-static-top">
+  <div class="container-fluid" style="background-color: rgb(238, 238, 238);padding:0px;margin:0px;">
+		<div class="btn-group">
+		<a class="btn {if $_GPC['do']=='how_do'}btn-success{else}btn-default{/if}" href="{php echo $this->createWebUrl('how_do',array('listid'=>$listid))}">触发方式</a>
+		</div>
+		<div class="btn-group">
+		<a class="btn {if $_GPC['do']=='list_fans' && !empty($listid) && $op=='list'}btn-success{else}btn-default{/if}" href="{php echo $this->createWebUrl('list_fans',array('op'=>'list','listid'=>$listid))}">观看粉丝管理</a>
+		</div>
+		<div class="btn-group">
+		<a class="btn {if $_GPC['do']=='pinglun' && !empty($listid) && $op=='list'}btn-success{else}btn-default{/if}" href="{php echo $this->createWebUrl('pinglun',array('op'=>'list','listid'=>$listid))}">评论管理</a>
+		</div>
+		<div class="btn-group">
+		<a class="btn {if $_GPC['do']=='dashang' && !empty($listid) && $op=='list'}btn-success{else}btn-default{/if}" href="{php echo $this->createWebUrl('dashang',array('op'=>'list','listid'=>$listid))}">打赏红包管理</a>
+		</div>
+		<div class="btn-group">
+		<a class="btn {if $_GPC['do']=='gift_record' && !empty($listid) && $op=='list'}btn-success{else}btn-default{/if}" href="{php echo $this->createWebUrl('gift_record',array('op'=>'list','listid'=>$listid))}">送礼记录管理</a>
+		</div>
+		<div class="btn-group">
+		<a class="btn {if $_GPC['do']=='zan' && !empty($listid) && $op=='list'}btn-success{else}btn-default{/if}" href="{php echo $this->createWebUrl('zan',array('op'=>'list','listid'=>$listid))}">赞管理</a>
+		</div>
+		<div class="btn-group">
+		<a class="btn {if $_GPC['do']=='shake_record' && !empty($listid) && $op=='list'}btn-success{else}btn-default{/if}" href="{php echo $this->createWebUrl('shake_record',array('op'=>'list','listid'=>$listid))}">摇一摇记录</a>
+		</div>
+		<div class="btn-group">
+			<a class="btn {if $_GPC['do']=='share' && !empty($listid) && $op=='list'}btn-success{else}btn-default{/if}" href="{php echo $this->createWebUrl('share',array('op'=>'list','listid'=>$listid))}">分享记录</a>
+		</div>
+		<div class="btn-group">
+			<a class="btn {if $_GPC['do']=='pay_look' && !empty($listid) && $op=='list'}btn-success{else}btn-default{/if}" href="{php echo $this->createWebUrl('pay_look',array('op'=>'list','listid'=>$listid))}">付费观看记录</a>
+		</div>
+		<div class="btn-group">
+			<a class="btn {if $_GPC['do']=='yuyue_record' && !empty($listid) && $op=='list'}btn-success{else}btn-default{/if}" href="{php echo $this->createWebUrl('yuyue_record',array('op'=>'list','listid'=>$listid))}">预约记录</a>
+		</div>
+		<div class="btn-group">
+			<a class="btn {if $_GPC['do']=='list_tongji' && !empty($listid) && $op=='list'}btn-success{else}btn-default{/if}" href="{php echo $this->createWebUrl('list_tongji',array('op'=>'list','listid'=>$listid))}">数据统计</a>
+		</div>
+		<div class="btn-group">
+		<a class="btn {if $_GPC['do']=='list_menu' && !empty($listid) && $op=='list'}btn-success{else}btn-default{/if}" href="{php echo $this->createWebUrl('list_menu',array('op'=>'list','listid'=>$listid))}">直播菜单管理</a>
+		</div>
+		{if ($_GPC['do']=="list_menu" &&  $op=='post' && !empty($listid))}
+			<div class="btn-group">
+			<a class="btn btn-success" href="{php echo $this->createWebUrl('list_menu',array('op'=>'post','listid'=>$listid))}">{if empty($id)}添加{else}编辑{/if}直播菜单</a>
+			</div>
+		{/if}
+		
+		<div class="btn-group">
+		<a class="btn {if $_GPC['do']=='gift' && !empty($listid) && $op=='list'}btn-success{else}btn-default{/if}" href="{php echo $this->createWebUrl('gift',array('op'=>'list','listid'=>$listid))}">直播礼物</a>
+		</div>
+		{if $_GPC['do']=='gift'}
+		<div class="btn-group">
+		<a class="btn {if $_GPC['do']=='gift' && !empty($listid) && $op=='post'}btn-success{else}btn-default{/if}" href="{php echo $this->createWebUrl('gift',array('op'=>'post','listid'=>$listid))}">{if empty($id)}添加礼物{else}编辑礼物{/if}</a>
+		</div>
+		{/if}
+		<div class="btn-group">
+		<a class="btn {if $_GPC['do']=='need_input' && !empty($listid) && $op=='list'}btn-success{else}btn-default{/if}" href="{php echo $this->createWebUrl('need_input',array('op'=>'list','listid'=>$listid))}">填写资料观看设置</a>
+		</div>
+		{if $_GPC['do']=='need_input'}
+		<div class="btn-group">
+		<a class="btn {if $_GPC['do']=='need_input' && !empty($listid) && $op=='post'}btn-success{else}btn-default{/if}" href="{php echo $this->createWebUrl('need_input',array('op'=>'post','listid'=>$listid))}">{if empty($id)}新增填写项{else}编辑填写项{/if}</a>
+		</div>
+		{/if}
+		<div class="btn-group">
+		<a class="btn {if $_GPC['do']=='shake_award' && !empty($listid) && $op=='list'}btn-success{else}btn-default{/if}" href="{php echo $this->createWebUrl('shake_award',array('op'=>'list','listid'=>$listid))}">摇一摇奖品</a>
+		</div>
+		{if $_GPC['do']=='shake_award'}
+		<div class="btn-group">
+		<a class="btn {if $_GPC['do']=='shake_award' && !empty($listid) && $op=='post'}btn-success{else}btn-default{/if}" href="{php echo $this->createWebUrl('shake_award',array('op'=>'post','listid'=>$listid))}">{if empty($id)}添加奖品{else}编辑奖品{/if}</a>
+		</div>
+		{/if}
+	
+</div>
+</div>

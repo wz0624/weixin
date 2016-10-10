@@ -1,0 +1,66 @@
+{template 'common/header'}
+<div class="container">
+	<div class="row" style="height:40px;line-height:40px;background-color:rgb(245,245,245);border-bottom:1px dashed grey;">
+		<h5><strong>最新科目一题库2015</strong><small>-我的易错题 <span class="label label-success" id="t_ct_num"></span> 个</small></h5>
+	</div>
+</div>
+<div class="container">
+	<div class="navbar">
+		<div class="row" id="title" style="font-size:14px;">
+		</div>
+		<div class="row" id="pic">
+		</div>
+	</div>
+	<div class="row">
+			<span class="label label-success" id="t_sort"></span>
+			<span class="label label-info" id="t_type"></span>
+		</div>
+	<div class="row" id="items">
+	</div>
+	<div class="row" id="alert">
+	</div>
+	<div class="row">
+		<input type="hidden" value="" id="t_id_hidden">
+		<input class="col-md-6 col-xs-6 btn btn-primary btn-lg" type="button" id="prev" value="上一题">
+		<input class="col-md-6 col-xs-6 btn btn-primary btn-lg" type="button" id="next" value="下一题">
+	</div>
+</div>
+<!--modal-->
+<input type="hidden" id="t_id_arr" value="{$t_id_arr}">
+<script type="text/javascript" src="{$_W['siteroot']}addons/jiakao_system/js/KaoShi.js"></script>
+<script>
+$(function(){
+	//页面初次加载完成，那么需要获取第一个题目
+	KaoShi.web_root = "{$_W['siteroot']}";
+	//生成错题id数组
+	var obj = eval("("+localStorage["ct_"]+")");
+	
+	var id_arr ='['
+	var x=0;
+	
+	for(var i in obj)
+	{
+		id_arr += i+","
+		x++;
+	}
+	id_arr +="]";
+	
+	//生成数量
+	$("#t_ct_num").html(x);
+	KaoShi.init(id_arr,"ct_",x);
+	//向下翻页
+	$("#next").click(function(){
+		KaoShi.next();
+	})
+	//向上翻页
+	$("#prev").click(function(){
+		KaoShi.prev();
+	})
+	//确认跳转
+	$("#t_id_change_confrim").click(function(){
+		var t_id = $("#t_id_change").val();
+		KaoShi.changeitem(t_id);
+	})
+})
+</script>
+{template 'common/footer'}

@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+	<meta charset="UTF-8">
+
+	<!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 -->
+
+	<meta name="HandheldFriendly" content="true">
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+
+	<!-- 微软的老式浏览器 -->
+
+	<meta name="MobileOptimized" content="320">
+
+	<!-- UC QQ强制竖屏 -->
+
+	<meta name="screen-orientation" content="portrait">
+
+	<meta name="x5-orientation" content="portrait">
+
+  <link rel="stylesheet" type="text/css" href="{MODULE_URL}/template/public/css/normalize.min.css?t=1461157831">
+
+  <link rel="stylesheet" type="text/css" href="{MODULE_URL}/template/public/css/style.css?t=1461157831">
+
+	<script>
+        var gSound ="{$config['mp3']}";
+    </script>
+    <div id="audiocontainer"></div>
+    <script src="{MODULE_URL}/template/public/img/sound.js"  type="text/javascript"></script>
+
+	<title>我的账户</title>
+
+	{php echo register_jssdk(false);}
+
+	<style type="text/css">
+
+		#share_img{
+
+          width: 100%;
+
+          height: 100%;
+
+          position: absolute;
+
+          background: #000;
+
+          opacity: 0.8;
+
+          z-index: 999;
+
+        }
+
+        .payorder{
+
+        	border: 1px solid #ccc;
+
+        	width: 96%;
+
+        	margin: 5px auto;
+
+        	text-align: center;
+
+        }
+
+        .payorder th{
+
+        	border: 1px solid #ccc;
+
+        	font-size: 12px;
+
+        	color: #333;
+
+        	padding: 5px 0px;
+
+        }
+
+        .payorder td{
+
+        	border: 1px solid #ccc;
+
+        	font-size: 12px;
+
+        	color: #333;
+
+        	padding: 5px 0px;
+
+        }
+
+
+
+        .weui_mask {
+
+            position: fixed;
+
+            z-index: 1;
+
+            width: 100%;
+
+            height: 100%;
+
+            top: 0;
+
+            left: 0;
+
+            background: rgba(0, 0, 0, 0.6);
+
+        }
+
+
+
+        .weui_dialog {
+
+            position: fixed;
+
+            z-index: 9999;
+
+            width: 85%;
+
+            top: 50%;
+
+            left: 50%;
+
+            -webkit-transform: translate(-50%, -50%);
+
+            transform: translate(-50%, -50%);
+
+            background-color: #FAFAFC;
+
+            text-align: center;
+
+            border-radius: 3px;
+
+        }
+
+
+
+        .weui_dialog_title {
+
+            font-weight: 400;
+
+            font-size: 17px;
+
+        }
+
+
+
+        .weui_dialog_ft {
+
+            position: relative;
+
+            line-height: 42px;
+
+            margin-top: 20px;
+
+            font-size: 17px;
+
+            display: -webkit-box;
+
+            display: -webkit-flex;
+
+            display: -ms-flexbox;
+
+            display: flex;
+
+        }
+
+
+
+        .weui_dialog_confirm .weui_dialog_ft a {
+
+            position: relative;
+
+        }
+
+        .weui_btn_dialog.default {
+
+            color: #353535;
+
+        }
+
+
+
+        .weui_btn_dialog.primary {
+
+            color: #0BB20C;
+
+        }
+
+
+
+        .weui_dialog_ft a {
+
+            display: block;
+
+            -webkit-box-flex: 1;
+
+            -webkit-flex: 1;
+
+            -ms-flex: 1;
+
+            flex: 1;
+
+            color: #3CC51F;
+
+            text-decoration: none;
+
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+        }
+
+
+
+        .weui_dialog_bd {
+
+            padding: 0 20px;
+
+            font-size: 15px;
+
+            color: #888;
+
+            word-wrap: break-word;
+
+            word-break: break-all;
+
+        }
+
+
+
+        .weui_dialog_hd {
+
+            padding: 1.2em 0 .5em;
+
+        }
+
+
+
+        .rank_list_hide{
+
+            display: none !important;
+
+        }
+
+
+
+        .rank_list_show{
+
+            display: block !important;
+
+        }
+
+	</style>
+
+</head>
+
+<body>
+
+	<img id="share_img" src="{MODULE_URL}/template/public/img/share.png" style="display:none" />
+
+ <header class="headerWords"; style="background-image:url({$_W['attachurl']}{$config['qdymac_img']});background-size:100% 100%;>
+
+		<div id="assist"></div>
+
+		<img  src="{$my['avatar']}"><span>{$my['nickname']}</span>
+
+	</header>
+
+	<div id="money">
+
+		<span class="icon iconfont">&#xe607;</span>
+
+		<span>账户余额：<span>&yen {$my['blance']}</span></span>
+
+	</div>
+
+	<!-- <div class="award">
+
+		<span class="icon iconfont">&#xe604;</span>
+
+		<span>继续努力新一任的帮主非你莫属</span>
+
+	</div>	 -->
+
+
+
+	<div class="statements">
+
+    <span class="haveMoney"><span class="icon iconfont">&#xe641;</span>&nbsp;&nbsp;总收入:&nbsp; &yen {$my['income']}</span>
+
+    <span class="noMoney"><span class="icon iconfont">&#xe67f;</span>&nbsp;&nbsp;已提现:&nbsp; &yen {$my['withdraw']}</span>
+
+	</div>
+
+
+
+	<div class="share">
+
+		<!-- <button onclick="share();">分享出去看看谁能帮助你</button>	 -->
+
+		<button data-on="0" id="withdraw_btn">申请提现</button>	
+
+	</div>
+
+
+
+	<section id="rank_list">
+
+		<div class="rank_select">
+
+			<span class="select_checked" id="payorder_nav">收入明细</span><span class="select_unchecked" id="withdraw_nav">提现记录</span>
+
+		</div>
+
+		<div class="rank_list_show" id="payorder_content">
+
+			{php $n=1; }
+
+			<table class="payorder">
+
+			<tr>
+
+				<th>好友昵称</th>
+
+				<th>支付金额</th>
+
+				<th>支付时间</th>
+
+			</tr>
+
+			{loop $payorders $k $v}
+
+			<tr>
+
+				<td>{$v['user']['nickname']}</td>
+
+				<td>{$v['price']}</td>
+
+				<td>{php echo date('Y-m-d H:i:s', $v['add_time']); }</td>
+
+			</tr>
+
+			{php $n+=1; }
+
+			{if $n>10}{php break; }{/if}
+
+			{/loop}
+
+			</table>
+
+		</div>	
+
+		<div class="rank_list_hide" id="withdraw_content">
+
+			{php $n=1; }
+
+			<table class="payorder">
+
+			<tr>
+
+				<th>提现金额</th>
+
+				<th>提现状态</th>
+
+				<th>提现时间</th>
+
+			</tr>
+
+			{loop $withdraw $k $v}
+
+			<tr>
+
+				<td>{$v['money']}</td>
+
+				<td>{if $v['status'] == 1}已提现{elseif $v['status'] == 2}已驳回{else}处理中{/if}</td>
+
+				<td>{php echo date('Y-m-d H:i:s', $v['ctime']); }</td>
+
+			</tr>
+
+			{php $n+=1; }
+
+			{if $n>10}{php break; }{/if}
+
+			{/loop}
+
+			</table>
+
+		</div>
+
+	</section>
+
+
+
+	<!-- <footer id="footer">{$config['bottom_tip']}</footer> -->
+
+
+
+<!-- 	
+
+	<div id="bodyAssist"></div>
+
+	<img  id="arrow" src="http://cdn.yeyeapp.in/assets/scheme/moments/src/res/arrow.png">
+
+	<span id="shareWords">分享到朋友圈<br>坐等变土豪吧！</span> 
+
+-->
+
+<div class="weui_dialog_confirm" id="dialog1" style="display:none">
+
+    <div class="weui_mask"></div>
+
+    <div class="weui_dialog">
+
+        <div class="weui_dialog_hd"><strong class="weui_dialog_title">系统提示</strong></div>
+
+        <div class="weui_dialog_bd message">自定义弹窗内容，居左对齐显示，告知需要确认的信息等</div>
+
+        <div class="weui_dialog_ft">
+
+            <a href="javascript:;" class="weui_btn_dialog default no">取消</a>
+
+            <a href="javascript:;" class="weui_btn_dialog primary yes">确定</a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="weui_dialog_alert" id="dialog2" style="display:none">
+
+    <div class="weui_mask"></div>
+
+    <div class="weui_dialog">
+
+        <div class="weui_dialog_hd"><strong class="weui_dialog_title">系统提示</strong></div>
+
+        <div class="weui_dialog_bd message">弹窗内容，告知当前页面信息等</div>
+
+        <div class="weui_dialog_ft">
+
+            <a href="javascript:;" class="weui_btn_dialog primary">确定</a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+    <script src="{MODULE_URL}/template/public/js/zepto.1.1.6.min.js"></script>
+
+    <script src="{MODULE_URL}/template/public/js/zepto.touch.js"></script>
+
+    <script src="{MODULE_URL}/template/public/js/global.js?t=1461157831"></script>
+
+	<script type="text/javascript">
+
+		var rank_list_left = document.body.clientWidth;
+
+		var rank_list_show_height = $(".rank_list_show").offset().height+$('.rank_select').offset().height+45+'px';
+
+		var rank_list_hide_height = $(".rank_list_hide").offset().height+$('.rank_select').offset().height+45+'px';
+
+		$('#rank_list').css('height',rank_list_show_height);
+
+		$('.rank_list_hide').css({
+
+			//'left':rank_list_left+'px',
+
+		});
+
+
+
+		$("#share_btn").click(function() {
+
+            $("#share_img").show();
+
+        });
+
+
+
+        $(".rank_image").click(function() {
+
+        	//window.location.href = $(this).attr('data-url');
+
+        });
+
+
+
+        $("#payorder_nav").click(function(){
+
+            window.document.getElementById("payorder_content").setAttribute("class", 'rank_list_show');
+
+            window.document.getElementById("withdraw_content").setAttribute("class", 'rank_list_hide');
+
+        });
+
+
+
+        $("#withdraw_nav").click(function(){
+
+            window.document.getElementById('payorder_content').setAttribute("class", 'rank_list_hide');
+
+            window.document.getElementById('withdraw_content').setAttribute("class", 'rank_list_show');
+
+        });
+
+
+
+        var withdraw_line = "{$config['withdraw_line']}";                          // 提现起额
+
+        var withdraw_max = "{$config['withdraw_max']}";                           // 单次最大提现额
+
+        var discount = "{$config['withdraw_discount']}";                            // 折扣
+
+        var blance = parseFloat("{$my['blance']}");     // 账户余额
+
+
+
+        var withdraw_money;                             // 提现额
+
+        if (blance < withdraw_max) {
+
+            withdraw_money = blance;                    // 如果账户余额少于提现最大额，则本次提现额为当前账户余额
+
+        } else {
+
+            withdraw_money = withdraw_max;              // 本次提现额为单次最大提现额
+
+        }
+
+        var fee = 0;
+
+        fee = parseFloat(withdraw_money*discount).toFixed(2);      // 手续费
+
+        var income = (withdraw_money-fee).toFixed(2);                // 实际到账的收入
+
+
+
+        $("#withdraw_btn").click(function() {
+
+        	if (blance < withdraw_line) {               // 当前账户余额小于提现起额 
+
+        		$("#dialog2 .message").html('你的金额不足'+withdraw_line+'元，暂时不能提现哦~');
+
+        		$("#dialog2").show();
+
+        	} else if (income < 1) {
+
+                $("#dialog2 .message").html('本次提现'+withdraw_money+'元，扣除手续费'+fee+'元后，实际到账'+income+'元，实际到账金额不足1元，不能提现');
+
+                $("#dialog2").show();
+
+            } else {
+
+                $("#dialog1 .message").html('本次提现'+withdraw_money+'元，将扣除手续费'+fee+'元，实际将会到账'+income+'元，是否确认提现？');
+
+                $("#dialog1").show();
+
+            }
+
+        });
+
+        	
+
+    	$("#dialog1 .yes").click(function() {
+
+    		// 发送提现申请
+
+    		$.ajax({
+
+    			url : "{php echo $this->createMobileUrl('deal_withdraw')}",
+
+    			type : "post",
+
+    			dataType : "json",
+
+    			data : {
+
+    				withdraw_money : withdraw_money,
+
+                    discount : discount,
+
+                    fee : fee,
+
+                    income : income
+
+    			},
+
+    			success : function(data) {
+
+    				if (data.errcode == 1111) {
+
+    					$("#dialog1").hide();
+
+    					$("#dialog2 .message").html(data.errmsg);
+
+    					$("#dialog2").show();
+
+    					$("#dialog2 .weui_btn_dialog").click(function() {
+
+    						$("#dialog2").hide();
+
+                            window.location.href = data.url;
+
+    					});
+
+    				} else {
+
+                        $("#dialog1").hide();
+
+    					$("#dialog2 .message").html(data.errmsg);
+
+    					$("#dialog2").show();
+
+                        $("#dialog2 .weui_btn_dialog").click(function() {
+
+                            $("#dialog2").hide();
+
+                            window.location.href = data.url;
+
+                        });
+
+    				}			
+
+    			},
+
+    			error : function() {
+
+    				$("#dialog2 .message").html('发送提现请求失败，请稍后再试');
+
+    				$("#dialog2").show();
+
+    			}
+
+    		});  
+
+            return false;		
+
+    	});
+
+
+
+    	$("#dialog1 .no").click(function() {
+
+    		$("#dialog1").hide();
+
+            return false;
+
+    	});
+
+        
+
+        $("#dialog2 .weui_btn_dialog").click(function() {
+
+            $("#dialog2").hide();
+
+        });
+
+	</script>
+
+	<script type="text/javascript">
+
+  	wx.ready(function () {
+
+		sharedata = {
+
+			title: "{$config['share_title']}",
+
+			desc: "{$config['share_desc']}",
+
+			link: "{$config['link']}",
+
+			imgUrl: "{$config['share_cover']}",
+
+			success: function(){
+
+				var share_ok_url = "{$config['share_ok_url']}";
+
+				if (share_ok_url) {
+
+					window.location.href = share_ok_url;
+
+				}
+
+				
+
+			},
+
+			cancel: function(){
+
+				//alert('cancel');
+
+			}
+
+		};
+
+		wx.onMenuShareAppMessage(sharedata);
+
+		wx.onMenuShareTimeline(sharedata);
+
+	});
+
+
+
+	</script>
+
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258680054'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "w.cnzz.com/q_stat.php%3Fid%3D1258680054' type='text/javascript'%3E%3C/script%3E"));</script>
+
+  </body>
+
+</html>

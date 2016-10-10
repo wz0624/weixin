@@ -1,0 +1,332 @@
+{template 'common/header'}
+{template 'nav'}
+{template 'list_nav'}
+<style>
+.editable-click, a.editable-click {
+    color: #000 !important;
+    border-bottom:none !important;
+    text-decoration: none;
+}
+.editable-input.editable-has-buttons {
+    width: auto;
+    max-width: 100px;
+}
+.st-sort-ascent:before {
+    content: '\25B2';
+}
+</style>
+<!-- 项目管理 -->
+{if $op=='list'}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		直播菜单管理
+	</div>
+	<div class="panel-body">
+		<table  class="table table-striped">
+			<thead>
+				<tr>
+					<th style="width:50px;">序号</th>
+					<th style="width:100px;">菜单名称</th>
+					<th style="width:150px;">类型</th>
+					<th style="width:50px;">状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{loop $menus $row}
+				<tr>
+					<td>
+						{$row['displayorder']}
+					</td>
+					<td>
+						{$row['name']}
+					</td>
+					<td>
+						{$row['type']}
+					</td>
+					<td>
+						{if $row['isshow']=='1'}显示{else}隐藏{/if}
+					</td>
+					<td style="overflow:visible">
+						<a class="btn btn-default" title="编辑" href="{php echo $this->createWebUrl('list_menu',array('op'=>'post','listid'=>$listid,'id'=>$row['id']))}">
+							<i class="fa fa-gear"></i>
+						</a>
+						<a class="btn btn-default" title="删除" href="{php echo $this->createWebUrl('list_menu',array('op'=>'del','listid'=>$listid,'id'=>$row['id']))}" onclick="return confirm('删除将无法恢复，确认吗？');return false;">
+							<i class="fa fa-times"></i>
+						</a>
+					</td>
+				</tr>
+			{/loop}
+			</tbody>
+		</table>
+		
+	</div>
+	<div class="panel-footer">
+		<a href="{php echo $this->createWebUrl('list_menu',array('op'=>'post','listid'=>$listid))}" class="btn btn-sm btn-success">
+			<i class="glyphicon glyphicon-plus"></i>新增菜单
+		</a>
+	</div>
+</div>
+{elseif $op=='post'}
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		{if !empty($menu['id'])}编辑{else}新增{/if}菜单
+	</div>
+	<div class="panel-body">
+		<form action="" method="post" class="form-horizontal" role="form" id="form1" >
+			<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2  col-lg-2 control-label">选择菜单类型</label>
+						<div class="col-sm-9 col-lg-10">
+							<label class="radio-inline">
+								<input type="radio" name="menu_type" value="html" onclick="change_menu1()" {if $menu['type']=='html'}checked{/if}>第三方调查链接
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="menu_type" value="content" onclick="change_menu2()" {if $menu['type']=='content'}checked{/if}>纯文本内容
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="menu_type" value="comment" onclick="change_menu3()" {if $menu['type']=='comment'}checked{/if}>评论区
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="menu_type" value="button" onclick="change_menu4()" {if $menu['type']=='button'}checked{/if}>按钮
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="menu_type" value="shake" onclick="change_menu5()" {if $menu['type']=='shake'}checked{/if}>摇一摇
+							</label>
+						</div>
+					</div>
+					<div style="clear:both"></div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">是否显示</label>
+						<div class="col-sm-8 col-lg-10 col-xs-12">
+							<label class="radio-inline">
+								<input type="radio" name="isshow" value="1"  {if $menu['isshow'] == '1'}checked="true"{/if}>是
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="isshow" value="0"   {if 
+								$menu['isshow'] == '0'}checked="true"{/if}>否
+							</label>
+							<span class="help-block">是否显示</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">排序序号</label>
+						<div class="col-sm-8 col-lg-10 col-xs-12">
+							<input type="text" value="{$menu['displayorder']}" class="form-control" name="displayorder">
+							<span class="help-block">排序序号</span>
+						</div>
+					</div>
+					<div class="form-group">
+							  <label class="col-xs-12 col-sm-2 col-md-2  col-lg-2 control-label">菜单名称</label>
+							  <div class="col-sm-9 col-lg-10">
+										  <input type="text" name="name" value="{$menu['name']}" class="form-control">
+								  <span class="help-block">菜单名称</span>
+							  </div>
+					 </div>
+					<div class="form-group menu_html" {if $menu['type']!='html'}style="display: none"{/if}>
+							  <label class="col-xs-12 col-sm-2 col-md-2  col-lg-2 control-label">第三方直开链接地址</label>
+							  <div class="col-sm-9 col-lg-10">
+										  <input type="text" name="iframe" value="{$menu['settings']['iframe']}" class="form-control">
+								  <span class="help-block">第三方直开链接地址、本链接可以直接在直播页打开</span>
+							  </div>
+					 </div>
+					
+					
+					{if !empty($menu['settings']['button_name'])}
+						{loop $menu['settings']['button_name'] $key $val}
+						<div id="box_{$key}">
+								<div class="form-group">
+									<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">按钮名称</label>
+									<div class="col-sm-3 col-lg-3">
+										<input class="form-control" type="text" value="{$menu['settings']['button_name'][$key]}" name="button_name[]">
+										<span class="help-block">按钮名称</span>
+									</div>
+									<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">按钮链接</label>
+									<div class="col-sm-4 col-lg-3">
+										{php echo tpl_form_field_link('button_url[]',$menu['settings']['button_url'][$key]);}
+										<span class="help-block">按钮链接</span>
+									</div>
+									<div class="col-sm-2 col-lg-1">
+										<button onclick="del_box('{$key}')" type="button" class="btn btn-warning">
+											<span class="fa fa-times"></span>删除
+										</button>
+									</div>
+								</div>
+						</div>
+						{/loop}
+					{/if}
+					<span id="button_insert_flag" style="display: none"></span>
+					<div class="form-group menu_button" {if $menu['type']!='button'}style="display: none"{/if}>
+						<div class="col-sm-5"></div>
+						<div class="col-sm-7">
+							<button id="btn_add_button" type="button" class="btn btn-warning">
+								<span class="glyphicon glyphicon-plus"></span>添加按钮
+							</button>
+						</div>
+					</div>
+					<div class="form-group menu_content" {if $menu['type']!='content'}style="display: none"{/if}>
+								<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">内容详情</label>
+								<div class="col-sm-9 col-lg-10">
+									{php echo tpl_ueditor('menu_content',$menu['settings']['content'])}
+									<span class="help-block">直播详情介绍</span>
+								</div>
+					</div>	
+					<div class="form-group menu_comment" {if $menu['type']!='comment'}style="display: none"{/if}>
+							<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">点赞文字</label>
+							<div class="col-sm-9 col-lg-10">
+								<input type="text"  class="form-control" name="comment_zan" value="{$menu['settings']['comment_zan']}">
+								<span class="help-block">点赞文字</span>
+							</div>
+					</div>
+					<div class="form-group menu_comment" {if $menu['type']!='comment'}style="display: none"{/if}>
+						<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">评论文字</label>
+						<div class="col-sm-9 col-lg-10">
+							<input type="text"  class="form-control" name="comment_pinglun" value="{$menu['settings']['comment_pinglun']}"">
+							<span class="help-block">评论文字</span>
+						</div>
+					</div>
+					<div style="clear:both"></div>
+					
+					<div class="form-group menu_shake" {if $menu['type']!='shake'}style="display: none"{/if}>
+						<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">是否开启每人只能中奖一次</label>
+						<div class="col-sm-8 col-lg-10 col-xs-12">
+							<label class="radio-inline">
+								<input type="radio" name="get_one_award" value="1"  {if $menu['settings']['get_one_award'] == '1'}checked="true"{/if}>是
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="get_one_award" value="0"   {if $menu['settings']['get_one_award'] == '0'}checked="true"{/if}>否
+							</label>
+							<span class="help-block">是否开启每人只能中奖一次</span>
+						</div>
+					</div>
+					<div class="form-group menu_shake" {if $menu['type']!='shake'}style="display: none"{/if}>
+							<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">摇一摇总次数</label>
+							<div class="col-sm-9 col-lg-10">
+								<input type="text"  class="form-control" name="shake_times" value="{$menu['settings']['shake_times']}">
+								<span class="help-block">摇一摇总次数</span>
+							</div>
+					</div>	
+					
+			<div class="form-group">
+			<div class="col-sm-12">
+				<input name="submit" type="submit" value="提交" class="btn btn-primary" />
+				<input type="hidden" name="id" value="{$menu['id']}" />
+				<input type="hidden" name="listid" value="{$listid}" />
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			</div>
+			</div>
+	</div>
+	</form>
+</div>
+<div id="button_html" style="display: none">
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">按钮名称</label>
+		<div class="col-sm-3">
+			<input class="form-control" type="text" value="" name="button_name[]">
+			<span class="help-block">按钮名称</span>
+		</div>
+		<label class="col-xs-12 col-sm-2 col-md-2 control-label">按钮链接</label>
+		<div class="col-sm-4">
+			{php echo tpl_form_field_link('button_url[]','');}
+			<span class="help-block">按钮链接</span>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$('#btn_add_button').bind('click', function(){
+		var content = '<div class="menu_button">';
+		content += $("#button_html").html();
+		content += '<div class="form-group">';
+		content += '<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>';
+		content += '<div class="col-sm-9">';
+		content += '<button type="button" class="btn btn-danger btn_del_button">删除</button>';
+		content += '</div>';
+		content += '</div>';
+		content += '<hr/>';
+		content += '</div>';
+		$('#button_insert_flag').after(content);
+		$('.btn_del_button').bind('click', function(){
+			var obj = $(this).parent().parent().parent();
+			obj.slideUp(300, function() {
+				obj.remove();
+			});
+		});
+	});
+	function del_box(id){
+		 if(confirm("删除将无法恢复，确定要删除此项吗？")){
+		   if(id){
+			id = parseInt(id);
+			$("#box_"+id).remove();
+			}
+		 }
+		
+	}
+</script>
+<script>
+
+function change_menu1()
+{
+	
+	$(".menu_button").hide();
+	$(".menu_comment").hide();
+	$(".menu_shake").hide();
+	$(".menu_content").hide();
+	$(".menu_html").show();
+	
+}
+function change_menu2()
+{
+	$(".menu_button").hide();
+	$(".menu_comment").hide();
+	$(".menu_shake").hide();
+	$(".menu_html").hide();
+	$(".menu_content").show();
+	$("body").scrollTop(document.body.clientHeight);
+}
+function change_menu3()
+{
+	$(".menu_content").hide();
+	$(".menu_button").hide();
+	
+	$(".menu_shake").hide();
+	$(".menu_html").hide();
+	$(".menu_comment").show();
+}
+function change_menu4()
+{
+	$(".menu_content").hide();
+	
+	$(".menu_comment").hide();
+	$(".menu_shake").hide();
+	$(".menu_html").hide();
+	$(".menu_button").show();
+}
+function change_menu5()
+{
+	$(".menu_content").hide();
+	$(".menu_button").hide();
+	$(".menu_comment").hide();
+	$(".menu_html").hide();
+	$(".menu_shake").show();
+	
+}
+function refuse_add(){
+	$("#menus").hide();
+}
+function confirm_add(){
+	var type = $('input:radio[name="menu_type"]:checked').val();
+	if(typeof(type) != 'undefined' && type !=''){
+		$.ajax({
+		  url:"{php echo $this->createWebUrl('listmenu',array(''))}",
+		  dataType:'JSON',
+		  success:function(result){
+			$("#div1").html(result);
+		  }
+		});
+	}else{
+		alert('请先选择菜单类型');
+	}
+}
+</script>
+{/if}
+{template 'common/footer'}

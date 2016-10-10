@@ -1,0 +1,14 @@
+{template 'common/header'}
+<div class="container">
+<div class="panel panel-default">
+  <div class="panel-body">
+   请输入您的问题
+  </div>
+</div>
+<form action="" method="post">
+<textarea class="form-control" rows="5" name="textarea"></textarea><br/>
+<input type="submit" name="submit" class="btn btn-primary btn-lg" style="width:100%" value="提交"/>
+<input type="hidden" value="{$_W['token']}" name="token"/>
+</form>
+</div>
+{template 'common/footer'}

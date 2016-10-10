@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="format-detection" content="telephone=no"/>
+        <title>{$_SESSION['sitetitle']}</title>
+        <!-- 基础样式及JS -->
+        <link rel="stylesheet" href="{RES}css/cool.css">
+	</head> 
+	<body class="c-wh">
+	<div style="margin-top: 150px;">
+	<h2 style="text-align: center; font-size: 2em;">蜜思肤微收银台</h2>
+	</div>
+		<div class="box_content w8">
+            <p class="w4 area_auto mart10">
+                <span class="w10 c-wh uba ub-999 uc-a03 tx-c umh3">
+                    <input type="text" id="uname" placeholder="输入用户名" class="c-wh w9 ubnone umh3 ftz10">
+                </span>
+            </p>
+            <p class="w4 area_auto mart10">
+                <span class="w10 c-wh uba ub-999 uc-a03 tx-c umh3">
+                    <input type="password" id="pwd" placeholder="输入登陆密码" class="c-wh w9 ubnone umh3 ftz10">
+                </span>
+            </p>
+			<p class="w4 area_auto mart10"  style="line-height: 20px;">
+                    <input type="checkbox"  value="santian" id="miandeng" style="width: 20px; height: 20px;" />三天免登陆
+            </p>
+            <p class="w4 area_auto mart10 c-bla uc-a03" tapmode="op8" onClick="login()">
+                <span class="w10  tx-c t-wh umh3 uc-a03">立即登录</span>
+            </p>
+        </div>
+	</body>
+<script type="text/javascript" src="{RES}js/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" >
+function login(){
+	var uname=$('#uname').val();
+	var pwd=$('#pwd').val();
+	var santian=$('#miandeng:checked').val();
+	if(uname==''){
+		alert('用户名不能为空');
+		return false;
+	}
+	if(pwd==''){
+		alert('密码不能为空');
+		return false;
+	}
+	$.ajax({
+	    url:"{php echo $this->createMobileUrl('pclogin', array())}",// 跳转到 action    
+	    data:{uname:uname,pwd:pwd,santian:santian,rd: Math.random()},
+	    type:'post', 		  
+	    success:function(data) {
+	    	if(data=='1'){
+		    	window.location.reload();
+	    	}else{
+		    	alert(data);
+	    	}
+	     }
+	})
+}
+
+</script>
+</html>

@@ -1,0 +1,103 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+    <title>{if $gift_id!='redpack'}{$gift['name']}的赠送记录{else}打赏记录{/if}</title>
+    <link href="{MODULE_URL}template/mobile/rank/css/style.css" rel="stylesheet" type="text/css">
+    <link href="{MODULE_URL}template/mobile/rank/css/style-pop.css" rel="stylesheet" type="text/css">
+    <link href="{MODULE_URL}template/mobile/rank/css/style-list.css" rel="stylesheet" type="text/css">
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js" type="text/javascript" type="text/javascript" charset="utf-8"></script>
+    <style type="text/css">
+		.vgy_user { background-color:#ff6a00;}
+		.vgy_user .tx2 { color: #FF738F;}
+    </style>
+</head>
+<body>
+<div class="vgy_user">
+<div class="info2">
+        	<input type="hidden" id="wszlend" value="1" />
+    		<div class="Ranking">{if $gift_id!='redpack'}{$gift['name']}的赠送记录{else}打赏记录{/if}</div>
+    		<a href="{php echo $this->createMobileUrl('detail',array('categoryid'=>$categoryid,'listid'=>$listid))}">
+    			<div class="update back" style="position: fixed;z-index:9999;background:rgba(0,0,0,.5);"><img src="{MODULE_URL}template/mobile/rank/images/back.png"></div>
+    		</a>
+            <img class="touxiang" src="{php echo tomedia($gift['img'])}">
+  			<p class="name">{$gift['name']}</p>
+                <!--a id="wszl" href="javascript:;" class="tx3 leftb" onClick="wszl();">完善<br>资料</a>
+				<a href="javascript:;"  class="tx3 rightb" onClick="wdjp();" >我的<br>奖品</a-->
+    		<ul>
+      			<li>
+                	<span>{if empty($total_num)}0{else}{$total_num}{/if}</span>
+        			<p>总数目</p>
+      			</li>
+      			<li>
+                	<span>{if empty($send_gift_persons)}0{else}{$send_gift_persons}{/if}</span>
+        			<p>参与人数</p>
+      			</li>
+    		</ul>
+</div>
+</div>
+<div class="list">
+  		<ul id="rank_list">
+		{loop $gift_records $key $row}
+              	<li>
+				
+        		<div class="Head">
+        			  <img src="{$row['avatar']}" width="100%">
+        		</div>
+        		<div class="text">
+        			<div class="his">
+                    	<h1>{$row['nickname']}</h1>
+          				<h2>{php echo date('Y-m-d H:i:s',$row['createtime'])}</h2>
+        			</div>
+                    
+         			<div class="gift">
+					<p>{$row['money']}<span>元</span></p>
+					<p style="margin-top:4px;"><span>共</span>{$row['num']}<span>个</span></p>
+					</div> 
+        		</div>
+      		</li>
+      		{/loop}  		
+      		</ul>
+             <ul>
+			 {if count($gift_records)==10}
+        		<li class="more"><a href="javascript:;" id="getmore">点击查看更多...</a></li>
+			 {/if}
+        	</ul>
+        </div>
+<footer>{$settings['live_copyright']}</footer>
+<script>
+$(document).ready(function() {
+var page = 2;
+var isLoading = false;
+$('#getmore').on('click', function() {
+		if(isLoading) return;
+		isLoading = true;
+		$.ajax({
+			type : "POST",
+			url :"{php echo $this->createMobileUrl('dashang_more',array('listid'=>$listid,'gift_id'=>$gift_id))}",
+			data:{'page':page},
+			dataType : "json",
+			success : function(data) {
+				if(data.errno == '1') {
+				 if(data.message.html==''){
+				   $(".more").remove();
+				 }else{					
+					$("#rank_list").append(data.message.html);
+					isLoading = false;
+					page++;
+				 }
+				}else{
+					alert(data.message);
+				}
+				
+			},
+			timeout : 15000
+		});
+	
+});
+});
+</script>
+</body>
+</html>
